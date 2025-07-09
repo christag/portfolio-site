@@ -33,7 +33,7 @@
             "id": 3,
             "title": "Configure Tooling (ESLint, Prettier, Husky)",
             "description": "Set up code quality and formatting tools, including ESLint for linting, Prettier for code formatting, and Husky for Git hooks.",
-            "status": "pending",
+            "status": "done",
             "dependencies": [2],
             "details": "Install and configure ESLint with Astro-specific rules using 'eslint-plugin-astro'. Set up Prettier with Astro formatting support using 'prettier-plugin-astro'. Configure Husky to run linting and formatting checks on pre-commit.",
             "testStrategy": "Test ESLint and Prettier configurations with Astro files. Verify Husky pre-commit hooks correctly enforce code quality standards."
@@ -1066,7 +1066,7 @@
     ],
     "metadata": {
       "created": "2025-07-08T18:36:06.074Z",
-      "updated": "2025-07-09T00:46:25.345Z",
+      "updated": "2025-07-09T01:22:44.208Z",
       "description": "Tasks for master context"
     }
   }
