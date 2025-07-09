@@ -1,109 +1,109 @@
 {
-	"meta": {
-		"generatedAt": "2025-07-08T20:16:57.086Z",
-		"tasksAnalyzed": 12,
-		"totalTasks": 12,
-		"analysisCount": 12,
-		"thresholdScore": 5,
-		"projectName": "Taskmaster",
-		"usedResearch": true
-	},
-	"complexityAnalysis": [
-		{
-			"taskId": 1,
-			"taskTitle": "Setup Project Repository and CI/CD Pipeline",
-			"complexityScore": 7,
-			"recommendedSubtasks": 10,
-			"expansionPrompt": "Break down each configuration and integration step (repository setup, framework initialization, tooling, CI/CD, deployment, preview environments, 404/SEO, documentation) into atomic, testable subtasks. Include security, environment management, and rollback procedures.",
-			"reasoning": "This task involves multiple tool integrations, environment configurations, and automation steps. Each step (repo, framework, tooling, CI/CD, deployment, SEO, docs) has dependencies and potential failure points, increasing cyclomatic and cognitive complexity. The number of moving parts and the need for robust testing and rollback justify a higher complexity score and granular subtasking."
-		},
-		{
-			"taskId": 2,
-			"taskTitle": "Implement Core Layout and Theme Components",
-			"complexityScore": 8,
-			"recommendedSubtasks": 12,
-			"expansionPrompt": "Expand by isolating each design system element (tokens, grid, breakpoints, navigation, footer, component library, accessibility, animation, cross-browser testing) into focused subtasks. Add subtasks for design review, Storybook integration, and accessibility regression testing.",
-			"reasoning": "This task covers foundational UI architecture, responsive design, accessibility, and animation. It requires coordination between design tokens, layout, and reusable components, with high maintainability and accessibility demands. The breadth and interdependence of UI, accessibility, and testing increase both cyclomatic and cognitive complexity."
-		},
-		{
-			"taskId": 3,
-			"taskTitle": "Build Static Bio Page ('I Am')",
-			"complexityScore": 5,
-			"recommendedSubtasks": 8,
-			"expansionPrompt": "Expand by separating content creation, markdown transformation, layout design, section implementations, SEO, static generation, and responsive styling into individual subtasks. Add a subtask for accessibility review.",
-			"reasoning": "This is a moderately complex task involving static content, markdown transformation, and responsive layout. While there are several moving parts, the logic is mostly linear and the integrations are standard, keeping the complexity moderate."
-		},
-		{
-			"taskId": 4,
-			"taskTitle": "Implement Static Services Page ('I Can')",
-			"complexityScore": 6,
-			"recommendedSubtasks": 9,
-			"expansionPrompt": "Expand by isolating data modeling, card layout, component development, tiered pricing, CTA logic, structured data, responsiveness, accessibility, and SEO validation into separate subtasks.",
-			"reasoning": "This task involves structured data, reusable components, tiered pricing logic, and SEO. The need for clear data modeling and dynamic UI elements increases complexity, but the static nature of the data keeps it below the highest levels."
-		},
-		{
-			"taskId": 5,
-			"taskTitle": "Deploy Headless CMS (Strapi or WordPress)",
-			"complexityScore": 9,
-			"recommendedSubtasks": 12,
-			"expansionPrompt": "Expand by detailing each infrastructure, CMS, and security step: Terraform provisioning, CMS install, content modeling, API setup, authentication, S3 integration, backup, security, load testing, and documentation. Add subtasks for monitoring and disaster recovery.",
-			"reasoning": "This is a highly complex task involving cloud infrastructure, CMS deployment, security, API integration, and backup. Each area (infra, CMS, API, security, backup) is itself non-trivial and interdependent, with high risk and maintainability concerns."
-		},
-		{
-			"taskId": 6,
-			"taskTitle": "Develop Portfolio Grid ('I Did')",
-			"complexityScore": 8,
-			"recommendedSubtasks": 12,
-			"expansionPrompt": "Expand by breaking out grid design, API integration, filter logic, card components, lazy loading, caching, animation, responsiveness, accessibility, and performance testing into atomic subtasks. Add subtasks for error handling and analytics.",
-			"reasoning": "This task requires dynamic data fetching, filtering, responsive UI, performance optimization, and accessibility. The combination of real-time data, filtering logic, and UI complexity drives up both cyclomatic and cognitive complexity."
-		},
-		{
-			"taskId": 7,
-			"taskTitle": "Implement Dynamic Media Detail Page",
-			"complexityScore": 8,
-			"recommendedSubtasks": 11,
-			"expansionPrompt": "Expand by isolating dynamic routing, API integration, renderer components per media type, social sharing, related content, SEO, deep-linking, error handling, responsiveness, and accessibility into separate subtasks.",
-			"reasoning": "This task involves dynamic routing, multiple renderer components, API integration, SEO, and error handling. The need to support various media types and robust error handling increases both cyclomatic and cognitive complexity."
-		},
-		{
-			"taskId": 8,
-			"taskTitle": "Migrate Services to CMS",
-			"complexityScore": 7,
-			"recommendedSubtasks": 10,
-			"expansionPrompt": "Expand by detailing CMS model validation, migration planning, migration execution, API integration, tiered pricing, dynamic card updates, CTA logic, caching, SEO, and error handling as individual subtasks.",
-			"reasoning": "This task involves data migration, CMS integration, dynamic UI updates, and caching. The migration and integration steps add complexity, but the scope is narrower than full CMS deployment."
-		},
-		{
-			"taskId": 9,
-			"taskTitle": "Implement Collaboration Form ('We Could')",
-			"complexityScore": 6,
-			"recommendedSubtasks": 9,
-			"expansionPrompt": "Expand by separating Jira setup, form layout, iframe embed, fallback form, webhook integration, success flow, validation, error handling, and analytics into distinct subtasks.",
-			"reasoning": "This task involves third-party integration, fallback logic, and analytics. While there are several integration points, the logic is mostly linear and the risk is moderate."
-		},
-		{
-			"taskId": 10,
-			"taskTitle": "Implement Performance Optimizations",
-			"complexityScore": 7,
-			"recommendedSubtasks": 12,
-			"expansionPrompt": "Expand by isolating each optimization area: image optimization, JS optimization, caching, monitoring, sitemap, RSS, service worker, font loading, Lighthouse CI, offline testing, and regression validation into atomic subtasks.",
-			"reasoning": "This task covers a broad range of performance techniques, each requiring specialized knowledge and testing. The need for cross-cutting optimizations and regression testing increases complexity."
-		},
-		{
-			"taskId": 11,
-			"taskTitle": "Add Animation and Micro-interactions",
-			"complexityScore": 5,
-			"recommendedSubtasks": 8,
-			"expansionPrompt": "Expand by breaking out library setup, animation implementation by type, custom hooks, reduced motion support, lazy loading, reusable components, accessibility validation, and performance testing into separate subtasks.",
-			"reasoning": "This task is focused on UI polish and user experience. While it requires attention to detail and accessibility, the technical complexity is moderate and the risk is lower than core infrastructure tasks."
-		},
-		{
-			"taskId": 12,
-			"taskTitle": "Implement PWA Capabilities",
-			"complexityScore": 6,
-			"recommendedSubtasks": 9,
-			"expansionPrompt": "Expand by detailing manifest creation, icon generation, service worker, install prompt, push notifications, offline sync, cross-device testing, Lighthouse audit, and regression validation as separate subtasks.",
-			"reasoning": "This task involves several web platform APIs and cross-device testing. While each step is well-documented, the integration and testing requirements add moderate complexity."
-		}
-	]
+  "meta": {
+    "generatedAt": "2025-07-08T20:16:57.086Z",
+    "tasksAnalyzed": 12,
+    "totalTasks": 12,
+    "analysisCount": 12,
+    "thresholdScore": 5,
+    "projectName": "Taskmaster",
+    "usedResearch": true
+  },
+  "complexityAnalysis": [
+    {
+      "taskId": 1,
+      "taskTitle": "Setup Project Repository and CI/CD Pipeline",
+      "complexityScore": 7,
+      "recommendedSubtasks": 10,
+      "expansionPrompt": "Break down each configuration and integration step (repository setup, framework initialization, tooling, CI/CD, deployment, preview environments, 404/SEO, documentation) into atomic, testable subtasks. Include security, environment management, and rollback procedures.",
+      "reasoning": "This task involves multiple tool integrations, environment configurations, and automation steps. Each step (repo, framework, tooling, CI/CD, deployment, SEO, docs) has dependencies and potential failure points, increasing cyclomatic and cognitive complexity. The number of moving parts and the need for robust testing and rollback justify a higher complexity score and granular subtasking."
+    },
+    {
+      "taskId": 2,
+      "taskTitle": "Implement Core Layout and Theme Components",
+      "complexityScore": 8,
+      "recommendedSubtasks": 12,
+      "expansionPrompt": "Expand by isolating each design system element (tokens, grid, breakpoints, navigation, footer, component library, accessibility, animation, cross-browser testing) into focused subtasks. Add subtasks for design review, Storybook integration, and accessibility regression testing.",
+      "reasoning": "This task covers foundational UI architecture, responsive design, accessibility, and animation. It requires coordination between design tokens, layout, and reusable components, with high maintainability and accessibility demands. The breadth and interdependence of UI, accessibility, and testing increase both cyclomatic and cognitive complexity."
+    },
+    {
+      "taskId": 3,
+      "taskTitle": "Build Static Bio Page ('I Am')",
+      "complexityScore": 5,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Expand by separating content creation, markdown transformation, layout design, section implementations, SEO, static generation, and responsive styling into individual subtasks. Add a subtask for accessibility review.",
+      "reasoning": "This is a moderately complex task involving static content, markdown transformation, and responsive layout. While there are several moving parts, the logic is mostly linear and the integrations are standard, keeping the complexity moderate."
+    },
+    {
+      "taskId": 4,
+      "taskTitle": "Implement Static Services Page ('I Can')",
+      "complexityScore": 6,
+      "recommendedSubtasks": 9,
+      "expansionPrompt": "Expand by isolating data modeling, card layout, component development, tiered pricing, CTA logic, structured data, responsiveness, accessibility, and SEO validation into separate subtasks.",
+      "reasoning": "This task involves structured data, reusable components, tiered pricing logic, and SEO. The need for clear data modeling and dynamic UI elements increases complexity, but the static nature of the data keeps it below the highest levels."
+    },
+    {
+      "taskId": 5,
+      "taskTitle": "Deploy Headless CMS (Strapi or WordPress)",
+      "complexityScore": 9,
+      "recommendedSubtasks": 12,
+      "expansionPrompt": "Expand by detailing each infrastructure, CMS, and security step: Terraform provisioning, CMS install, content modeling, API setup, authentication, S3 integration, backup, security, load testing, and documentation. Add subtasks for monitoring and disaster recovery.",
+      "reasoning": "This is a highly complex task involving cloud infrastructure, CMS deployment, security, API integration, and backup. Each area (infra, CMS, API, security, backup) is itself non-trivial and interdependent, with high risk and maintainability concerns."
+    },
+    {
+      "taskId": 6,
+      "taskTitle": "Develop Portfolio Grid ('I Did')",
+      "complexityScore": 8,
+      "recommendedSubtasks": 12,
+      "expansionPrompt": "Expand by breaking out grid design, API integration, filter logic, card components, lazy loading, caching, animation, responsiveness, accessibility, and performance testing into atomic subtasks. Add subtasks for error handling and analytics.",
+      "reasoning": "This task requires dynamic data fetching, filtering, responsive UI, performance optimization, and accessibility. The combination of real-time data, filtering logic, and UI complexity drives up both cyclomatic and cognitive complexity."
+    },
+    {
+      "taskId": 7,
+      "taskTitle": "Implement Dynamic Media Detail Page",
+      "complexityScore": 8,
+      "recommendedSubtasks": 11,
+      "expansionPrompt": "Expand by isolating dynamic routing, API integration, renderer components per media type, social sharing, related content, SEO, deep-linking, error handling, responsiveness, and accessibility into separate subtasks.",
+      "reasoning": "This task involves dynamic routing, multiple renderer components, API integration, SEO, and error handling. The need to support various media types and robust error handling increases both cyclomatic and cognitive complexity."
+    },
+    {
+      "taskId": 8,
+      "taskTitle": "Migrate Services to CMS",
+      "complexityScore": 7,
+      "recommendedSubtasks": 10,
+      "expansionPrompt": "Expand by detailing CMS model validation, migration planning, migration execution, API integration, tiered pricing, dynamic card updates, CTA logic, caching, SEO, and error handling as individual subtasks.",
+      "reasoning": "This task involves data migration, CMS integration, dynamic UI updates, and caching. The migration and integration steps add complexity, but the scope is narrower than full CMS deployment."
+    },
+    {
+      "taskId": 9,
+      "taskTitle": "Implement Collaboration Form ('We Could')",
+      "complexityScore": 6,
+      "recommendedSubtasks": 9,
+      "expansionPrompt": "Expand by separating Jira setup, form layout, iframe embed, fallback form, webhook integration, success flow, validation, error handling, and analytics into distinct subtasks.",
+      "reasoning": "This task involves third-party integration, fallback logic, and analytics. While there are several integration points, the logic is mostly linear and the risk is moderate."
+    },
+    {
+      "taskId": 10,
+      "taskTitle": "Implement Performance Optimizations",
+      "complexityScore": 7,
+      "recommendedSubtasks": 12,
+      "expansionPrompt": "Expand by isolating each optimization area: image optimization, JS optimization, caching, monitoring, sitemap, RSS, service worker, font loading, Lighthouse CI, offline testing, and regression validation into atomic subtasks.",
+      "reasoning": "This task covers a broad range of performance techniques, each requiring specialized knowledge and testing. The need for cross-cutting optimizations and regression testing increases complexity."
+    },
+    {
+      "taskId": 11,
+      "taskTitle": "Add Animation and Micro-interactions",
+      "complexityScore": 5,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Expand by breaking out library setup, animation implementation by type, custom hooks, reduced motion support, lazy loading, reusable components, accessibility validation, and performance testing into separate subtasks.",
+      "reasoning": "This task is focused on UI polish and user experience. While it requires attention to detail and accessibility, the technical complexity is moderate and the risk is lower than core infrastructure tasks."
+    },
+    {
+      "taskId": 12,
+      "taskTitle": "Implement PWA Capabilities",
+      "complexityScore": 6,
+      "recommendedSubtasks": 9,
+      "expansionPrompt": "Expand by detailing manifest creation, icon generation, service worker, install prompt, push notifications, offline sync, cross-device testing, Lighthouse audit, and regression validation as separate subtasks.",
+      "reasoning": "This task involves several web platform APIs and cross-device testing. While each step is well-documented, the integration and testing requirements add moderate complexity."
+    }
+  ]
 }
