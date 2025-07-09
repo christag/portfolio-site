@@ -1,0 +1,95 @@
+---
+// MasonryGrid.astro - Pinterest-style masonry layout
+export interface Props {
+  columns?: {
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+  };
+  gap?: string;
+  class?: string;
+}
+
+const {
+  columns = { sm: 1, md: 2, lg: 3, xl: 4 },
+  gap = 'gap-6',
+  class: className = '',
+} = Astro.props;
+
+const masonryClasses = `
+  columns-${columns.sm} 
+  md:columns-${columns.md} 
+  lg:columns-${columns.lg} 
+  xl:columns-${columns.xl}
+  ${gap} 
+  ${className}
+`;
+---
+
+<div class={masonryClasses}>
+  <slot />
+</div>
+
+<style>
+  /* Masonry grid styles */
+  .masonry-container {
+    column-fill: balance;
+
+    /* Prevent items from breaking across columns */
+    & > * {
+      break-inside: avoid;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      width: 100%;
+    }
+
+    /* Add slight randomness to item positioning */
+    & > *:nth-child(3n + 1) {
+      margin-top: 0.5rem;
+    }
+
+    & > *:nth-child(5n + 2) {
+      margin-top: -0.25rem;
+    }
+
+    & > *:nth-child(7n + 3) {
+      margin-top: 0.75rem;
+    }
+  }
+</style>
+
+<script>
+  // Enhanced masonry with JavaScript for better control
+  class MasonryGrid extends HTMLElement {
+    constructor() {
+      super();
+      this.initMasonry();
+    }
+
+    initMasonry() {
+      const container = this;
+      const items = Array.from(container.children);
+
+      // Calculate optimal column heights
+      const resizeObserver = new ResizeObserver(() => {
+        this.rebalanceColumns();
+      });
+
+      items.forEach((item) => {
+        resizeObserver.observe(item);
+      });
+    }
+
+    rebalanceColumns() {
+      // Add subtle randomness to prevent too-perfect alignment
+      const items = Array.from(this.children);
+      items.forEach((item, index) => {
+        const randomOffset = Math.random() * 8 - 4; // -4px to +4px
+        item.style.transform = `translateY(${randomOffset}px)`;
+      });
+    }
+  }
+
+  customElements.define('masonry-grid', MasonryGrid);
+</script>

@@ -1,0 +1,86 @@
+---
+// AsymmetricGrid.astro - Deliberately broken grid system
+export interface Props {
+  variant?: 'standard' | 'chaos' | 'print';
+  columns?: number;
+  gap?: string;
+  class?: string;
+}
+
+const {
+  variant = 'standard',
+  columns = 12,
+  gap = 'gap-6',
+  class: className = '',
+} = Astro.props;
+
+const gridClasses = {
+  standard: 'grid-cols-12',
+  chaos:
+    'grid-cols-12 [&>*:nth-child(odd)]:col-start-2 [&>*:nth-child(3n)]:col-span-8',
+  print:
+    'grid-cols-12 [&>*:first-child]:col-span-full [&>*:nth-child(2)]:col-span-8 [&>*:nth-child(3)]:col-span-4',
+};
+
+const baseClasses = `grid ${gridClasses[variant]} ${gap} ${className}`;
+---
+
+<div class={baseClasses}>
+  <slot />
+</div>
+
+<style>
+  /* Custom asymmetric grid patterns */
+  .grid-chaos {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+
+    /* Deliberately misaligned items */
+    & > *:nth-child(4n + 1) {
+      grid-column: 1 / span 7;
+      margin-left: 2rem;
+    }
+
+    & > *:nth-child(4n + 2) {
+      grid-column: 6 / span 6;
+      margin-top: -1rem;
+    }
+
+    & > *:nth-child(4n + 3) {
+      grid-column: 2 / span 8;
+      margin-right: 1rem;
+    }
+
+    & > *:nth-child(4n + 4) {
+      grid-column: 4 / span 9;
+      margin-left: -1rem;
+    }
+  }
+
+  /* Print-style layout */
+  .grid-print {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+
+    & > *:first-child {
+      grid-column: 1 / -1;
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 2rem;
+    }
+
+    & > *:nth-child(2) {
+      grid-column: 1 / span 8;
+    }
+
+    & > *:nth-child(3) {
+      grid-column: 9 / span 4;
+      margin-top: 1rem;
+    }
+
+    & > *:nth-child(4) {
+      grid-column: 3 / span 6;
+      margin-top: -0.5rem;
+    }
+  }
+</style>

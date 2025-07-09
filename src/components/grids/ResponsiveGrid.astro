@@ -1,0 +1,88 @@
+---
+// ResponsiveGrid.astro - Mobile-first responsive grid with deliberate misalignment
+export interface Props {
+  breakpoints?: {
+    xs: string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    '2xl': string;
+    '3xl': string;
+  };
+  gap?: string;
+  class?: string;
+  misalign?: boolean;
+}
+
+const {
+  breakpoints = {
+    xs: 'grid-cols-1',
+    sm: 'sm:grid-cols-2',
+    md: 'md:grid-cols-3',
+    lg: 'lg:grid-cols-4',
+    xl: 'xl:grid-cols-5',
+    '2xl': '2xl:grid-cols-6',
+    '3xl': '3xl:grid-cols-7',
+  },
+  gap = 'gap-6',
+  misalign = false,
+  class: className = '',
+} = Astro.props;
+
+const gridClasses = [
+  'grid',
+  breakpoints.xs,
+  breakpoints.sm,
+  breakpoints.md,
+  breakpoints.lg,
+  breakpoints.xl,
+  breakpoints['2xl'],
+  breakpoints['3xl'],
+  gap,
+  misalign ? 'grid-misaligned' : '',
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<div class={gridClasses}>
+  <slot />
+</div>
+
+<style>
+  /* Deliberate misalignment for controlled chaos */
+  .grid-misaligned {
+    /* Offset every nth item for visual interest */
+    & > *:nth-child(3n + 1) {
+      margin-top: 1rem;
+    }
+
+    & > *:nth-child(5n + 2) {
+      margin-left: 0.5rem;
+    }
+
+    & > *:nth-child(7n + 3) {
+      margin-right: 0.5rem;
+    }
+
+    & > *:nth-child(11n + 4) {
+      margin-top: -0.5rem;
+    }
+
+    /* Responsive misalignment adjustments */
+    @media (max-width: 768px) {
+      & > * {
+        margin: 0; /* Remove misalignment on mobile for better UX */
+      }
+    }
+  }
+
+  /* Ensure accessibility isn't compromised */
+  @media (prefers-reduced-motion: reduce) {
+    .grid-misaligned > * {
+      margin: 0 !important;
+    }
+  }
+</style>

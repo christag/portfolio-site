@@ -1,0 +1,80 @@
+// Design tokens as CSS custom properties for theme switching
+:root {
+  // Color tokens - Light theme (default)
+  --color-bg-primary: #fafafa;
+  --color-bg-secondary: #f5f5f5;
+  --color-bg-tertiary: #e5e5e5;
+  --color-text-primary: #171717;
+  --color-text-secondary: #525252;
+  --color-text-tertiary: #737373;
+
+  // Accent colors
+  --color-accent-primary: #00d4ff;
+  --color-accent-secondary: #ff6b6b;
+  --color-accent-tertiary: #4ecdc4;
+
+  // Spacing tokens
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+
+  // Typography tokens
+  --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
+  --font-serif: 'Crimson Text', Georgia, serif;
+
+  // Animation tokens
+  --transition-fast: 0.15s ease-out;
+  --transition-normal: 0.3s ease-out;
+  --transition-slow: 0.5s ease-out;
+}
+
+// Dark theme
+[data-theme='dark'] {
+  --color-bg-primary: #171717;
+  --color-bg-secondary: #262626;
+  --color-bg-tertiary: #404040;
+  --color-text-primary: #fafafa;
+  --color-text-secondary: #d4d4d4;
+  --color-text-tertiary: #a3a3a3;
+}
+
+// Punk theme (high contrast, neon accents)
+[data-theme='punk'] {
+  --color-bg-primary: #0a0a0a;
+  --color-bg-secondary: #171717;
+  --color-bg-tertiary: #262626;
+  --color-text-primary: #ff3d71;
+  --color-text-secondary: #ffd93d;
+  --color-text-tertiary: #00d4ff;
+
+  // Punk-specific accent overrides
+  --color-accent-primary: #ff3d71;
+  --color-accent-secondary: #ffd93d;
+  --color-accent-tertiary: #00d4ff;
+}
+
+// Utility classes for design tokens
+.text-token-primary {
+  color: var(--color-text-primary);
+}
+.text-token-secondary {
+  color: var(--color-text-secondary);
+}
+.text-token-tertiary {
+  color: var(--color-text-tertiary);
+}
+.bg-token-primary {
+  background-color: var(--color-bg-primary);
+}
+.bg-token-secondary {
+  background-color: var(--color-bg-secondary);
+}
+.bg-token-tertiary {
+  background-color: var(--color-bg-tertiary);
+}

@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AsymmetricGrid from '../components/grids/AsymmetricGrid.astro';
+import MasonryGrid from '../components/grids/MasonryGrid.astro';
+import ResponsiveGrid from '../components/grids/ResponsiveGrid.astro';
+---
+
+<Layout title="Grid System Test">
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-brutal-md font-heading text-neutral-900 mb-8">
+      Grid System Test
+    </h1>
+
+    <!-- Asymmetric Grid Test -->
+    <section class="mb-16">
+      <h2 class="text-4xl font-heading mb-6">
+        Asymmetric Grid - Chaos Variant
+      </h2>
+      <AsymmetricGrid variant="chaos" gap="gap-8">
+        <div class="bg-accent-blue text-white p-6 rounded">Item 1</div>
+        <div class="bg-accent-coral text-white p-6 rounded">Item 2</div>
+        <div class="bg-accent-mint text-white p-6 rounded">Item 3</div>
+        <div class="bg-accent-magenta text-white p-6 rounded">Item 4</div>
+        <div class="bg-accent-yellow text-neutral-900 p-6 rounded">Item 5</div>
+        <div class="bg-accent-orange text-white p-6 rounded">Item 6</div>
+      </AsymmetricGrid>
+    </section>
+
+    <!-- Masonry Grid Test -->
+    <section class="mb-16">
+      <h2 class="text-4xl font-heading mb-6">Masonry Grid</h2>
+      <MasonryGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}>
+        <div class="bg-neutral-200 p-4 rounded mb-4 h-32">Short Item</div>
+        <div class="bg-neutral-200 p-4 rounded mb-4 h-48">Medium Item</div>
+        <div class="bg-neutral-200 p-4 rounded mb-4 h-64">Tall Item</div>
+        <div class="bg-neutral-200 p-4 rounded mb-4 h-40">Another Item</div>
+        <div class="bg-neutral-200 p-4 rounded mb-4 h-56">Variable Height</div>
+        <div class="bg-neutral-200 p-4 rounded mb-4 h-32">Short Again</div>
+      </MasonryGrid>
+    </section>
+
+    <!-- Responsive Grid Test -->
+    <section class="mb-16">
+      <h2 class="text-4xl font-heading mb-6">
+        Responsive Grid with Misalignment
+      </h2>
+      <ResponsiveGrid misalign={true} gap="gap-6">
+        <div class="bg-neutral-700 text-white p-6 rounded">Responsive 1</div>
+        <div class="bg-neutral-700 text-white p-6 rounded">Responsive 2</div>
+        <div class="bg-neutral-700 text-white p-6 rounded">Responsive 3</div>
+        <div class="bg-neutral-700 text-white p-6 rounded">Responsive 4</div>
+        <div class="bg-neutral-700 text-white p-6 rounded">Responsive 5</div>
+        <div class="bg-neutral-700 text-white p-6 rounded">Responsive 6</div>
+      </ResponsiveGrid>
+    </section>
+  </main>
+</Layout>

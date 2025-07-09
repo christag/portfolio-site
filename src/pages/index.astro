@@ -1,12 +1,68 @@
 ---
 '<!-- Deployed via Cloudflare Pages $(date) -->';
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 ('<!-- This is a preview deployment test -->');
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-  <Welcome />
+<Layout title="Chris Tagliaferro - Home">
+  <div class="container mx-auto px-4 py-8">
+    <h1
+      class="text-6xl font-bold mb-8"
+      style="color: var(--color-text-primary);"
+    >
+      Navigation Test
+    </h1>
+
+    <div class="space-y-8">
+      <section
+        class="p-8 rounded-lg"
+        style="background-color: var(--color-bg-secondary);"
+      >
+        <h2
+          class="text-4xl font-bold mb-4"
+          style="color: var(--color-text-primary);"
+        >
+          Theme Toggle
+        </h2>
+        <p style="color: var(--color-text-secondary);">
+          Click the theme toggle in the navigation to cycle through light → dark
+          → punk modes.
+        </p>
+      </section>
+
+      <section
+        class="p-8 rounded-lg"
+        style="background-color: var(--color-bg-secondary);"
+      >
+        <h2
+          class="text-4xl font-bold mb-4"
+          style="color: var(--color-text-primary);"
+        >
+          Mobile Menu
+        </h2>
+        <p style="color: var(--color-text-secondary);">
+          Resize your browser to mobile width to test the responsive hamburger
+          menu.
+        </p>
+      </section>
+
+      <section
+        class="p-8 rounded-lg"
+        style="background-color: var(--color-bg-secondary);"
+      >
+        <h2
+          class="text-4xl font-bold mb-4"
+          style="color: var(--color-text-primary);"
+        >
+          Punk Micro-Interactions
+        </h2>
+        <p style="color: var(--color-text-secondary);">
+          Switch to punk mode and hover over navigation items to see the
+          rebellious effects.
+        </p>
+      </section>
+    </div>
+  </div>
 </Layout>
