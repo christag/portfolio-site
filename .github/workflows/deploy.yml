@@ -1,15 +1,15 @@
-name: Build, Test, and Deploy
+name: Build and Test
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,48 +34,20 @@ jobs:
 
       - name: Test build output
         run: |
-          echo "Build completed successfully!"
+          echo "✓ Build completed successfully!"
           ls -la dist/
-          echo "Checking if index.html exists..."
-          test -f dist/index.html && echo "✓ index.html found" || echo "✗ index.html missing"
-          echo "✓ Ready for Cloudflare Pages deployment"
+          test -f dist/index.html && echo "✓ index.html found" || exit 1
+          echo "✓ Ready for deployment"
 
-      # Upload artifacts for debugging if needed
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        if: failure()
+      # Add a comment to PR with build status
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
         with:
-          name: build-artifacts
-          path: dist/
-          retention-days: 3
-
-  # Optional: Direct deployment via API (if you want more control)
-  deploy-to-cloudflare:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build Astro site
-        run: npm run build
-
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: website
-          directory: dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ Build completed successfully! Preview deployment should be available shortly on Cloudflare Pages.'
+            })
