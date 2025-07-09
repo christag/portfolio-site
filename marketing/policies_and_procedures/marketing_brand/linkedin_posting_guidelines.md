@@ -1,0 +1,8 @@
+### LinkedIn
+
+- **Content Style:** Professional yet approachable. Prioritize thought leadership, detailed technical insights, career reflections, and value-driven client stories. Mix personal anecdotes with business-focused narratives.  
+- **Trend & Viral Content:** Monitor LinkedIn’s ‘Trending’ topics and relevant hashtags (#automation, #productmanagement, #techforgood, etc.). Adapt trends with the brand’s dry, ironic humor and actionable slant, e.g., sharing a popular workflow concept with a witty, dystopian twist.  
+- **Engaging Other Brands:** Actively comment on posts from industry peers, startups, and complementary service providers. Share and add perspective to viral posts, always linking back subtly to your methodology or insights.  
+- **Hashtag Use:** Use 3–5 focused hashtags per post relevant to topic and target audience (e.g., #fractionalCTO, #workflowautomation, #ethicaltech). Keep hashtags professional and purposeful.  
+- **Communities & Groups:** Participate in LinkedIn Groups relevant to startup founders, automation, IT leadership, and product management. Contribute thoughtful posts and answers that reinforce expertise without hard selling.  
+- **Subtle Advertising:** Use success stories, lessons learned, or demonstrate unique workflows as “case studies” rather than direct promotions. For example, share “How I helped a small business reduce manual bookkeeping by 50% with automation,” inviting dialogue rather than pushing service packages.

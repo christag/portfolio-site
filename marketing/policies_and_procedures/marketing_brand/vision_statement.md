@@ -1,0 +1,3 @@
+## Vision Statement
+
+To be the trusted fractional CTO and technology advisor who transforms complex challenges into simple, human-centered solutions. By sharing personal expertise and real-world experience, I help businesses build equitable, accessible, and scalable practices that uplift people, streamline operations, and create positive, lasting impacts—while maintaining a clear boundary from exploitative capitalist norms.

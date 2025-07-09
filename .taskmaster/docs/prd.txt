@@ -1,0 +1,115 @@
+<context>
+# Overview  
+This project delivers a **personal-brand portfolio + services hub** for Chris—an IT program-manager, creative, and consultant. Today, Chris’s accomplishments and offerings are scattered across LinkedIn, GitHub, YouTube, and ad-hoc proposals. Prospects, recruiters, and collaborators struggle to get a single, authoritative snapshot of *what he’s done, what he can do, and how to start working with him*.  
+
+The site solves that by combining a lightweight CMS with a polished, tech-forward front-end:
+
+* **Audience** – SMB owners, nonprofit directors, hiring managers, creative collaborators, and casual followers.
+* **Value** – Rapid trust-building through curated proof of work (“I Did”), transparent service menus (“I Can”), a personable bio (“I Am”), and a friction-free collaboration intake (“We Could”).
+
+# Core Features
+
+| Feature                                  | What it does                                                             | Why it matters                                                     | How it works (high level)                                                                               |
+| ---------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| **Responsive, minimal UI**               | Adapts to desktop, tablet, mobile with subtle motion cues                | Delivers a premium feel without gimmicks; lowers bounce            | Tailwind/SCSS + CSS Grid/Flexbox; scroll & hover animations via GSAP/Framer Motion                      |
+| **“I Did” Portfolio Grid**               | Filterable gallery of multi-media work (code, video, blog, audio, image) | Demonstrates breadth of skill; quick credibility                   | Client-side filter bar; content pulled from CMS via REST/GraphQL; thumbnails & metadata cached in JSON  |
+| **Dynamic “media.html?media={id}” Page** | Loads the chosen asset and renders it in-place (embed, markdown, etc.)   | Deep-links for social sharing; one template covers all media types | Query param → API call → component switcher (Markdown renderer, YouTube iframe, code highlighter, etc.) |
+| **“I Can” Services Catalog**             | Lists services with tiered pricing (Accessible, Professional, Premium)   | Clear scope and cost up-front; upsell path                         | CMS collection with pricing matrix; contact CTA launches mailto or Calendly                             |
+| **“I Am” Bio Page**                      | Contextual bio, timeline, and social links                               | Humanizes the brand; SEO landing                                   | Static markdown transformed at build; embeds social badges                                              |
+| **“We Could” Collaboration Form**        | Embeds Jira Service Management request form                              | Converts interest to action; structured intake                     | Atlassian embed, pre-filled ‘Project = Collab’; responses land in Jira queue                            |
+| **Headless CMS Back-Office**             | Lets Chris add/edit media, services, and copy                            | Keeps content fresh without dev help                               | Self-hosted Strapi (MIT) or WordPress + REST, running on AWS EC2 (t3.micro)                             |
+| **Free / low-cost hosting**              | Runs on Cloudflare Pages or S3 + CloudFront                              | Zero monthly vendor fees                                           | Static front-end build; API hits routed via Cloudflare Workers proxying to CMS                          |
+
+# User Experience
+
+**Personas**
+
+1. *Startup Founder Fran* – Needs fractional CIO help, skims services first.
+2. *Recruiter Raj* – Wants portfolio proof, dives into “I Did”.
+3. *Collaborator Casey* – Already sold, jumps straight to “We Could”.
+4. *Fan Faye* – Browses media for inspiration, subscribes via RSS.
+
+**Key Flows**
+
+* Landing → Portfolio filter → Media detail → Share
+* Landing → Services → Select tier → Email inquiry
+* Blog link on LinkedIn → Media detail → “More like this” carousel → Subscribe
+
+**UI/UX Considerations**
+
+* Neutral palette (#F5F5F5, #1F1F1F) with a single accent (#00C6AE).
+* Sans-serif headings (Inter) and readable body copy (Source Sans).
+* 8-pt spacing grid, generous white space, 12-column layout.
+* Micro-interactions: fade-in cards, progress-bar on scroll, button ripple.
+* Accessibility: WCAG 2.2 AA color contrast, keyboard nav, alt text placeholders.
+
+  </context>
+
+<PRD>
+# Technical Architecture  
+
+| Layer                        | Component                                                                                                                          | Responsibility                                                                                |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **Front-End**                | Next.js (App Router) or Astro + React islands                                                                                      | Static generation for public pages; dynamic client components for filters and media rendering |
+| **Back-End CMS**             | Strapi (SQLite → PostgreSQL upgrade-ready) *or* WordPress headless                                                                 | Content models: `Media`, `Service`, `Bio`, `SiteSettings`                                     |
+| **API / Integrations**       | GraphQL (Strapi) or REST (WP)                                                                                                      | CRUD for media & services; Jira Service Management iframe; Mailgun email endpoint             |
+| **Build / Deploy**           | GitHub → GitHub Actions → Cloudflare Pages; preview branches on demand                                                             | Jamstack pipeline; invalidates CDN on publish                                                 |
+| **Infrastructure**           | AWS EC2 (t3.micro) running CMS; RDS (optional) for production DB; S3 for asset storage; Cloudflare Pages/Workers for edge delivery | All infra defined in Terraform; free-tier eligible                                            |
+| **Data Models (simplified)** | **Media**: id, title, type(enum), url, embedCode, tags\[], length, createdAt                                                       |                                                                                               |
+|                              | **Service**: id, title, category, tiers\[{name, priceLow, priceHigh, deliverables}], contactMethod                                 |                                                                                               |
+|                              | **Bio**: markdown, socialLinks\[]                                                                                                  |                                                                                               |
+|                              | **Inquiry**: id, name, email, serviceId, message, jiraIssueKey                                                                     |                                                                                               |
+
+# Development Roadmap
+
+| Phase                          | Scope (no dates—purely content)                                                                                     |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| **0 – Foundations**            | Repo setup, tooling (ESLint, Prettier, Husky), CI/CD to Cloudflare preview, basic 404/SEO config                    |
+| **1 – MVP**                    | Static pages: Home w/ nav, “I Am” bio, “I Can” services (hard-coded), style guide, responsive layout                |
+| **2 – Dynamic Portfolio**      | Integrate CMS; build “I Did” with filter & grid; implement `media.html` dynamic route; add Markdown/Embed renderers |
+| **3 – Services CMS & Tiering** | Migrate service data into CMS; add tier matrix; mailto CTA; structured data for SEO                                 |
+| **4 – Collaboration Intake**   | Embed Jira form; webhooks into CMS for logging; success/thank-you flow                                              |
+| **5 – Polish & Performance**   | Lazy-load images, Lighthouse ≥ 90, add Framer Motion micro-interactions, implement sitemap.xml & RSS                |
+| **6 – Future Enhancements**    | Authenticated admin portal, dark-mode toggle, Algolia search, PWA installability, analytics dashboard (Plausible)   |
+
+# Logical Dependency Chain
+
+1. **Tooling & CI/CD** – without it every other commit is wild-west.
+2. **Core layout & theme** – nav, footer, typography tokens.
+3. **Static service & bio pages** – immediate value, zero backend risk.
+4. **Headless CMS deployment** – content authoring foundation.
+5. **Portfolio API consumption** – first “wow” moment; visible progress.
+6. **Dynamic media detail route** – unlocks deep-link sharing.
+7. **Service CMS + tiering** – monetization live.
+8. **Jira intake integration** – closes the sales loop.
+9. **Performance, animation, PWA** – nice-to-have polish once core is solid.
+
+Each step is atomic and forward-compatible—no throwaway work.
+
+# Risks and Mitigations
+
+| Risk                                      | Impact            | Mitigation                                                          |
+| ----------------------------------------- | ----------------- | ------------------------------------------------------------------- |
+| CMS server costs creep above “free”       | Budget overrun    | Use t3.micro + free tier; auto-scale off; database snapshots weekly |
+| Content model complexity balloons         | Delivery delays   | Freeze schema at Phase 2; future fields via migrations              |
+| Front-end performance hit from animations | Poor UX on mobile | Guard with `prefers-reduced-motion`; lazy-load Framer Motion        |
+| Jira form embed breaks layout             | Lost leads        | Fallback to native HTML form → Zapier → Jira API                    |
+| Scope creep on “cool” features            | Endless beta      | Enforce roadmap phases; parking-lot enhancements for Phase 6        |
+
+# Appendix
+
+* **Framework Vetting** – Next.js vs Astro: Astro wins on baseline performance but Next.js offers built-in server actions; team comfort tips the scale.
+* **Design Tokens** – Color, typography, spacing exported as CSS variables for easy theming.
+* **Accessibility Checklist** – Aria labels, focus indicators, contrast tests, semantic landmarks.
+* **Sample Terraform Snippet** –
+
+  ```hcl
+  resource "aws_s3_bucket" "assets" {
+    bucket = "chris-site-assets"
+    versioning { enabled = true }
+    lifecycle_rule { id="cleanup" enabled=true expiration { days = 90 } }
+  }
+  ```
+* **API Schema (OpenAPI 3)** – stored in `/docs/api.yaml` for future mobile app consumption.
+
+</PRD>
