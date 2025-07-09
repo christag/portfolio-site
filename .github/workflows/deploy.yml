@@ -2,9 +2,9 @@ name: Build and Test
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 # Add permissions for GitHub Actions
 permissions:
@@ -15,7 +15,7 @@ permissions:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
