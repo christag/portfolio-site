@@ -1,7 +1,22 @@
 {
-  "name": "stale-series",
+  "name": "tags-portfolio-site",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "High-performance portfolio and technology consulting website built with Astro, featuring modern CI/CD, accessibility-first design, and SEO optimization.",
+  "keywords": [
+    "astro",
+    "portfolio",
+    "technology-consulting",
+    "typescript",
+    "accessibility",
+    "seo"
+  ],
+  "author": "Tags",
+  "homepage": "https://www.christagliaferro.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christag/portfolio-site.git"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

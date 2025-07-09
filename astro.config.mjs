@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://yourdomain.com', // Replace with your actual domain
+  site: 'https://www.christagliaferro.com', // Replace with your actual domain
   integrations: [
     sitemap({
       // Generate sitemap for all pages
