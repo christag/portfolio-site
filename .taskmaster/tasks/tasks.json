@@ -25,9 +25,7 @@
             "title": "Initialize Astro Framework",
             "description": "Initialize the Astro framework within the repository using the Astro CLI.",
             "status": "done",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Use the Astro CLI command 'npm create astro@latest' to scaffold the project structure. Select the appropriate template options for a portfolio/business website. Commit the initial codebase to the repository.",
             "testStrategy": "Verify Astro project structure is correctly initialized and runs locally with 'npm run dev'."
           },
@@ -36,9 +34,7 @@
             "title": "Configure Tooling (ESLint, Prettier, Husky)",
             "description": "Set up code quality and formatting tools, including ESLint for linting, Prettier for code formatting, and Husky for Git hooks.",
             "status": "done",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Install and configure ESLint with Astro-specific rules using 'eslint-plugin-astro'. Set up Prettier with Astro formatting support using 'prettier-plugin-astro'. Configure Husky to run linting and formatting checks on pre-commit.",
             "testStrategy": "Test ESLint and Prettier configurations with Astro files. Verify Husky pre-commit hooks correctly enforce code quality standards."
           },
@@ -47,9 +43,7 @@
             "title": "Set Up CI/CD Workflow",
             "description": "Configure continuous integration and continuous deployment workflows using GitHub Actions.",
             "status": "done",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Create .github/workflows/deploy.yml to define pipeline stages for build and deploy. Configure the workflow to use Node.js and install dependencies, build the Astro project with 'npm run build', and prepare for deployment to Cloudflare Pages. Ensure jobs are optimized for speed and reliability.",
             "testStrategy": "Verify GitHub Actions workflow runs successfully on push to the repository. Check build artifacts are correctly generated."
           },
@@ -58,9 +52,7 @@
             "title": "Configure Deployment",
             "description": "Set up deployment scripts and environment configurations for Cloudflare Pages.",
             "status": "done",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Configure Cloudflare Pages deployment using Astro's static output mode. Set the build command to 'npm run build' and the output directory to 'dist'. Manage environment variables securely through Cloudflare Pages dashboard. Ensure proper separation of development and production environments.",
             "testStrategy": "Verify successful deployment to Cloudflare Pages. Check that static assets are correctly served and the site loads properly."
           },
@@ -69,9 +61,7 @@
             "title": "Enable Preview Branch Deployments",
             "description": "Configure the CI/CD pipeline to deploy preview environments for feature or pull request branches.",
             "status": "done",
-            "dependencies": [
-              5
-            ],
+            "dependencies": [5],
             "details": "Set up Cloudflare Pages preview deployments for pull requests. Configure GitHub Actions workflow to trigger deployments for non-main branches. Ensure preview URLs are posted as comments on pull requests for easy access.",
             "testStrategy": "Create a test PR and verify a preview deployment is automatically created. Check the preview URL is accessible and displays the expected content."
           },
@@ -80,9 +70,7 @@
             "title": "Set Up 404 Page and SEO Defaults",
             "description": "Implement a custom 404 error page and configure default SEO metadata using Astro's capabilities.",
             "status": "done",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Create a 404.astro page in the pages directory. Configure default SEO metadata using Astro's built-in SEO features. Set up robots.txt and sitemap.xml using Astro integrations. Leverage Astro's static HTML output for optimal SEO performance.",
             "testStrategy": "Test 404 page by accessing non-existent routes. Verify SEO metadata is correctly included in HTML output. Check robots.txt and sitemap.xml are properly generated."
           },
@@ -91,10 +79,7 @@
             "title": "Write Documentation",
             "description": "Document the repository structure, Astro-specific setup instructions, CI/CD workflow, deployment process, and contribution guidelines.",
             "status": "done",
-            "dependencies": [
-              6,
-              7
-            ],
+            "dependencies": [6, 7],
             "details": "Create a comprehensive README.md with: project overview, Astro-specific setup instructions, development workflow, deployment process, and contribution guidelines. Include information about the performance benefits of Astro (40% faster loading, 90% less JavaScript), SEO advantages, and Strapi integration capabilities.",
             "testStrategy": "Review documentation for completeness and clarity. Verify setup instructions work for a new developer."
           }
@@ -105,9 +90,7 @@
         "title": "Implement Core Layout and Theme Components",
         "description": "Develop foundational UI components and layouts that embody a controlled collision of brutalist minimalism and expressive punk-art energy, while maintaining accessibility and brand authenticity. Ensure navigation, footer, typography, and responsive layout system reflect a bold, equity-driven, and creative design using Tailwind/SCSS with CSS Grid/Flexbox.",
         "status": "in-progress",
-        "dependencies": [
-          1
-        ],
+        "dependencies": [1],
         "priority": "high",
         "details": "1. Set up Tailwind CSS with custom configuration, prioritizing accessibility and privacy in all styles\n2. Define CSS variables for design tokens (colors, typography, spacing) supporting a 70% monochrome base (white, near-black, greys, noise grain textures) and strategic accent colors (electric blue, coral pink, mint green, neon magenta, hazard-yellow, Web3-orange) for maximum impact\n   - Typography: Oversized sans-serif headings, code brackets for tech elements, occasional serif for contrast\n   - Layouts: Generous negative space, asymmetrical blocks, print-style grids that deliberately break rules\n   - Masonry and asymmetric grid options for portfolio and content sections\n3. Create layout components:\n   - MainLayout.jsx with a print-style, asymmetric 12-column grid system for flexible, expressive content\n   - Header/Navigation with split-personality (professional/rebellious) elements, clear labeling, and responsive, accessible menu\n   - Footer with industrial overlays, transparent contact info, and punk/professional duality\n4. Implement responsive breakpoints for desktop, tablet, and mobile, ensuring usability for all users and deliberate misalignment for visual interest\n5. Create UI component library:\n   - Buttons (primary, secondary, text) with bold, direct CTAs and punk-inspired micro-interactions (flickers, overlays)\n   - Cards, section containers, and typography components supporting both structured and chaotic layouts\n   - Components must be accessible, support creative/personal content, and include theme toggles (light/dark/punk)\n6. Add GSAP or Framer Motion setup for generative hero animations (particle spelling), motion blur effects, glitch overlays, and accessible micro-interactions. All motion must respect prefers-reduced-motion and not interfere with usability.",
         "testStrategy": "1. Test responsive, asymmetric layouts across multiple device sizes (320px to 1920px+), ensuring both structure and controlled chaos\n2. Verify WCAG 2.2 AA compliance for color contrast and keyboard navigation, especially with high-impact accent colors\n3. Test all interactive elements for accessibility, including ARIA attributes, screen reader support, and theme toggles\n4. Validate component rendering and accessibility in different browsers (Chrome, Firefox, Safari)\n5. Create Storybook stories for visual regression and accessibility testing, ensuring components reflect the punk-meets-professional brand voice and values",
@@ -125,9 +108,7 @@
             "id": 2,
             "title": "Define and Document Design Tokens",
             "description": "Establish a centralized set of design tokens (colors, spacing, typography, etc.) in tailwind.config.js for consistency, accessibility, and brand alignment with brutalist minimalism and expressive punk-art energy.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Customize Tailwind configuration to include a 70% monochrome palette (white, near-black, greys, noise grain), strategic accent colors (electric blue, coral pink, mint green, neon magenta, hazard-yellow, Web3-orange), oversized sans-serif and occasional serif typography, and CSS variables for theme toggling. Document tokens for team reference, emphasizing accessibility and bold creative intent.",
             "status": "done",
             "testStrategy": ""
@@ -136,9 +117,7 @@
             "id": 3,
             "title": "Implement Asymmetric and Masonry Grid Systems",
             "description": "Create responsive, accessible grid systems using Tailwind's utility classes and custom CSS for asymmetric, print-style, and masonry layouts that support both structured and chaotic information architecture.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Utilize and extend Tailwind's grid/flex utilities for asymmetric and masonry layouts. Add custom breakpoints and columns as needed. Ensure layouts are easy to navigate, visually impactful, and accessible.",
             "status": "done",
             "testStrategy": ""
@@ -147,9 +126,7 @@
             "id": 4,
             "title": "Develop Split-Personality Navigation Component",
             "description": "Build a responsive, accessible navigation bar using Tailwind utilities, reflecting the professional/rebellious duality with bold, honest labeling and punk-inspired micro-interactions.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Include keyboard navigation, ARIA attributes, theme toggles (light/dark/punk), and clear, value-driven menu labels. Test navigation across breakpoints and with assistive technologies.\n<info added on 2025-07-09T18:11:56.728Z>\nResearch findings indicate the navigation styling issues are caused by improper integration between design tokens and Tailwind CSS v4. The solution requires implementing CSS custom properties for design tokens that work seamlessly with both Tailwind utilities and scoped styles. Theme switching should be handled through data attributes with CSS variables rather than switching between custom token classes and standard Tailwind classes. Component-specific effects should utilize Astro's scoped styles to prevent conflicts while maintaining consistency. Design tokens must be synchronized between CSS variables and Tailwind configuration to ensure a unified theming approach that leverages Tailwind's utility classes for layout and interactions while using CSS variables for dynamic theming.\n</info added on 2025-07-09T18:11:56.728Z>",
             "status": "done",
             "testStrategy": ""
@@ -158,45 +135,34 @@
             "id": 5,
             "title": "Develop Industrial/Punk Footer Component",
             "description": "Create a footer component styled with Tailwind, featuring industrial overlays, noise textures, and punk/professional duality. Ensure accessibility and transparent, empowering messaging.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Include social/community links, copyright, and any required widgets. Ensure accessibility, privacy, and mobile responsiveness. Use overlays and glitch effects for visual interest.\n<info added on 2025-07-09T18:20:50.219Z>\nLESSONS LEARNED from Navigation Component Development:\n\nKEY INSIGHTS:\n1. **CSS Variables Work Best**: Direct CSS variables (var(--color-text-primary)) work better than Tailwind theme classes for dynamic theming\n2. **Inline Styles for Theme-Aware Elements**: Use inline styles with CSS variables for elements that need to change with theme toggling\n3. **Tailwind for Layout, CSS Variables for Colors**: Tailwind utilities work great for layout/spacing, but CSS variables are more reliable for colors that need to change dynamically\n4. **Responsive Design Needs Media Queries**: Tailwind's responsive utilities work well, but some complex responsive behavior needs custom CSS media queries\n5. **Debugging Strategy**: When complex styling fails, simplify to basic HTML/CSS first, then gradually add complexity\n\nUPDATED FOOTER APPROACH:\n- Use inline CSS variables for theme-aware colors (backgrounds, text, borders)\n- Use Tailwind utilities for layout, spacing, and positioning\n- Implement industrial/punk effects with CSS variables and custom animations\n- Test with simple styling first, then add complexity\n- Ensure responsive design works across all breakpoints\n\nThis approach will prevent the styling conflicts we encountered with the navigation component.\n</info added on 2025-07-09T18:20:50.219Z>",
-            "status": "in-progress",
+            "status": "done",
             "testStrategy": ""
           },
           {
             "id": 6,
             "title": "Configure Responsive Breakpoints and Deliberate Misalignment",
             "description": "Define and document custom responsive breakpoints in tailwind.config.js to match design requirements, support asymmetric layouts, and ensure accessibility for all users.",
-            "dependencies": [
-              2
-            ],
-            "details": "Adopt a mobile-first approach, ensure all components adapt gracefully to different screen sizes, and introduce deliberate misalignment for controlled chaos. Prioritize accessibility and creative expression.",
-            "status": "pending",
+            "dependencies": [2],
+            "details": "Adopt a mobile-first approach, ensure all components adapt gracefully to different screen sizes, and introduce deliberate misalignment for controlled chaos. Prioritize accessibility and creative expression.\n<info added on 2025-07-09T21:12:05.002Z>\nUPDATED APPROACH based on navigation/footer lessons learned:\n\nKEY TECHNICAL DECISIONS:\n- Use CSS variables for ALL theme-aware colors and properties\n- Use Tailwind utilities for layout, spacing, positioning only\n- Implement responsive design with combination of Tailwind responsive utilities and custom media queries\n- Test with simple implementation first, then add complexity\n\nRESPONSIVE BREAKPOINTS to implement:\n- Mobile: 320px-768px\n- Tablet: 768px-1024px  \n- Desktop: 1024px+\n- Large desktop: 1440px+\n\nDELIBERATE MISALIGNMENT strategy:\n- Use asymmetric padding/margins\n- Offset grid items slightly\n- Vary element sizes within sections\n- Maintain accessibility while creating visual interest\n\nReady to implement with proven hybrid CSS variables + Tailwind approach.\n</info added on 2025-07-09T21:12:05.002Z>\n<info added on 2025-07-09T23:13:30.489Z>\nRESPONSIVE SYSTEM IMPLEMENTATION COMPLETE:\n\nSuccessfully built comprehensive responsive design system with deliberate misalignment features. The implementation includes:\n\nCustom Tailwind breakpoints configured for all device sizes from 320px extra small phones through 1920px ultra wide displays. Each breakpoint (xs, sm, md, lg, xl, 2xl, 3xl) has been tested and optimized.\n\nResponsive CSS variables system implemented for dynamic scaling of container padding (1rem to 3rem), section spacing (2rem to 8rem), element gaps (1rem to 4rem), and misalignment offset values that adapt to screen size.\n\nTwo primary grid layout systems created: grid-asymmetric using golden ratio columns that adapt responsively, and grid-print-style featuring a 12-column magazine-style layout with span utilities. Both follow mobile-first principles.\n\nDeliberate misalignment utilities developed including directional offsets (left/right/up/down), diagonal movements for punk aesthetic, large-screen enhanced chaos variants, and accessible versions that maintain keyboard navigation flow.\n\nResponsive typography system using CSS clamp() for fluid scaling: text-responsive scales from 1rem to 1.25rem, heading-responsive from 1.5rem to 3rem, and display-responsive from 2rem to 6rem based on viewport width.\n\nFull accessibility support integrated with prefers-reduced-motion media queries, maintained focus states despite visual offsets, and preserved logical tab order throughout misaligned elements.\n\nHomepage demonstration updated to showcase all responsive features with live breakpoint indicator and asymmetric layouts demonstrating the controlled chaos aesthetic across all screen sizes.\n\nTechnical implementation follows the proven hybrid approach using CSS variables for theme-aware properties and responsive scaling while leveraging Tailwind utilities for layout and spacing. All components verified working across light, dark, and punk theme variants.\n</info added on 2025-07-09T23:13:30.489Z>\n<info added on 2025-07-10T00:34:28.790Z>\nNAVIGATION AND WIDTH OPTIMIZATION COMPLETE:\n\nSuccessfully resolved critical navigation visibility and content width issues across all responsive breakpoints. Navigation component now implements robust CSS variable fallback system ensuring visibility in all theme states, with fallback colors defined for background (#fafafa), text (#1a1a1a), and border (#e5e5e5) properties.\n\nContent width strategy refined from previous 90rem maximum to more focused 72rem (1152px) constraint. Hero sections now utilize max-w-4xl (64rem) for optimal reading experience, while demo sections employ max-w-6xl (96rem) to showcase components effectively. This creates visual hierarchy and prevents content sprawl on large displays.\n\nPadding system standardized with base px-6 (1.5rem) horizontal padding, scaling responsively from mobile to desktop. Mobile devices receive enhanced 1.5rem padding for improved touch targets and visual breathing room. Desktop layouts benefit from constrained widths that maintain readability while preserving the punk aesthetic.\n\nTechnical implementation includes TypeScript type annotation fixes in navigation script, debug box-shadow styles for development visibility, and systematic replacement of generic container-constrained classes with specific max-width utilities. All changes validated through successful build process with no TypeScript errors.\n\nThese optimizations complement the existing responsive system while maintaining the deliberate misalignment features and accessibility standards. Navigation now remains consistently visible across all themes and viewport sizes, with content properly constrained for optimal user experience.\n</info added on 2025-07-10T00:34:28.790Z>",
+            "status": "done",
             "testStrategy": ""
           },
           {
             "id": 7,
             "title": "Build Core Component Library with Punk/Brutalist Variants",
             "description": "Develop reusable, accessible UI components (buttons, cards, containers, typography) using Tailwind and SCSS, supporting both structured and chaotic layouts, and including punk/brutalist variants.",
-            "dependencies": [
-              2,
-              6
-            ],
-            "details": "Ensure components use design tokens, are documented for usage and variants, and support technical, personal, and creative content. Include micro-interactions (flickers, overlays, slide-ins) and theme toggles. Prioritize accessibility and bold creative intent.\n<info added on 2025-07-09T18:49:56.645Z>\nUPDATED COMPONENT LIBRARY APPROACH based on Navigation lessons:\n\nSTYLING STRATEGY:\n1. **Hybrid Approach**: Use Tailwind for layout/spacing + CSS variables for theme-aware colors\n2. **Component Architecture**: \n   - Base HTML structure with Tailwind classes\n   - Theme-aware colors via inline CSS variables\n   - Custom animations/effects via CSS variables\n3. **Testing Strategy**: Build simple version first, then add complexity\n4. **Responsive Design**: Combine Tailwind responsive utilities with custom media queries when needed\n\nCOMPONENT PRIORITIES:\n- Button components (primary, secondary, text) with punk micro-interactions\n- Card components with industrial overlays\n- Typography components with theme-aware colors\n- Container components with asymmetric layouts\n\nEach component will follow the proven pattern: Tailwind for structure, CSS variables for theming, custom CSS for special effects.\n</info added on 2025-07-09T18:49:56.645Z>",
-            "status": "pending",
+            "dependencies": [2, 6],
+            "details": "Ensure components use design tokens, are documented for usage and variants, and support technical, personal, and creative content. Include micro-interactions (flickers, overlays, slide-ins) and theme toggles. Prioritize accessibility and bold creative intent.\n<info added on 2025-07-09T18:49:56.645Z>\nUPDATED COMPONENT LIBRARY APPROACH based on Navigation lessons:\n\nSTYLING STRATEGY:\n1. **Hybrid Approach**: Use Tailwind for layout/spacing + CSS variables for theme-aware colors\n2. **Component Architecture**: \n   - Base HTML structure with Tailwind classes\n   - Theme-aware colors via inline CSS variables\n   - Custom animations/effects via CSS variables\n3. **Testing Strategy**: Build simple version first, then add complexity\n4. **Responsive Design**: Combine Tailwind responsive utilities with custom media queries when needed\n\nCOMPONENT PRIORITIES:\n- Button components (primary, secondary, text) with punk micro-interactions\n- Card components with industrial overlays\n- Typography components with theme-aware colors\n- Container components with asymmetric layouts\n\nEach component will follow the proven pattern: Tailwind for structure, CSS variables for theming, custom CSS for special effects.\n</info added on 2025-07-09T18:49:56.645Z>\n<info added on 2025-07-09T23:25:32.580Z>\nCRITICAL DESIGN SYSTEM UPDATES:\n\nCOLOR SYSTEM OVERHAUL:\n- Fix header color inheritance - remove hardcoded red, ensure theme-aware styling\n- Add missing palette colors: coral pink (#FF6B6B) and mint green (#4ECDC4)\n- Punk theme complete redesign: almost black (#0A0A0A), off-white (#F5F5F0), cyan (#00D9FF), pale pink (#FFE0EC), neon pink (#FF0080), chrome (#C0C0C0)\n- Replace cyan with pale pink in accent color positions across all themes for consistency\n\nTYPOGRAPHY & NAMING:\n- Global update: \"Chris\" → \"Christopher Tagliaferro\" in all components\n- Implement case styling variants: lowercase, UPPERCASE, Title Case options\n- Research and test new font combinations for each theme\n\nLAYOUT RESTRUCTURE:\n- Mobile: Fix button overflow - implement side-by-side layout with contained widths\n- Mobile: Resolve text overflow issues with proper container constraints\n- Desktop: Center content properly - remove left/bottom alignment bias\n- Implement proper responsive containers with max-widths and auto margins\n\nNAVIGATION SIMPLIFICATION:\n- Remove footer navigation entirely\n- Consolidate to single top navigation using simplified footer-style design\n- Ensure navigation component adapts to all themes without color conflicts\n\nCOMPONENT UPDATES REQUIRED:\n- Button component: Fix mobile width issues, implement side-by-side layout pattern\n- Header component: Remove red background, implement proper theme inheritance\n- Typography component: Add name variants and case styling options\n- Theme toggle: Update with corrected color values\n- Container component: Fix alignment issues on desktop, prevent mobile overflow\n</info added on 2025-07-09T23:25:32.580Z>\n<info added on 2025-07-09T23:29:08.286Z>\nMAJOR DESIGN SYSTEM FIXES COMPLETED based on user feedback!\n\nFIXED ISSUES:\n1. Header Color Issue: Removed hardcoded red background, now fully theme-aware\n2. Missing Colors: Added coral pink (#FF6B6B) and mint green (#4ECDC4) to palette\n3. Name Update: Changed \"Chris\" to \"christopher tagliaferro\" throughout (lowercase styling)\n4. Punk Theme Overhaul: Complete redesign with almost black/off-white/cyan/pale pink/neon pink/chrome\n5. Mobile Layout: Fixed button overflow, implemented side-by-side layout with proper constraints\n6. Desktop Centering: Content now properly centered with max-width containers\n7. Navigation Simplification: Removed footer navigation, simplified to clean top-only nav\n\nTECHNICAL IMPLEMENTATION:\n- Color System: Updated CSS variables and Tailwind config with corrected color palette\n- Navigation Component: Complete rewrite with theme-aware styling, proper responsive behavior\n- Homepage Layout: Fixed centering issues, proper button layout for mobile/desktop\n- Footer Component: Simplified to copyright and social links only\n- Theme Persistence: Added localStorage support for theme switching\n\nPUNK THEME COLORS (per user spec):\n- Primary: #FFE0EC (pale pink - replaces cyan in primary positions)  \n- Secondary: #FF0080 (neon pink)\n- Tertiary: #00D9FF (cyan - tertiary only)\n- Backgrounds: #0A0A0A (almost black), #171717 (darker), #262626 (medium)\n- Text: #F5F5F0 (off-white), #C0C0C0 (chrome), #808080 (muted chrome)\n\nRESPONSIVE IMPROVEMENTS:\n- Proper container constraints prevent mobile overflow\n- Side-by-side buttons on mobile (xs:flex-row)\n- Centered content with max-width containers\n- Theme-aware navigation that adapts to all breakpoints\n\nBUILD STATUS: Successful\nReady for user testing and font experimentation!\n</info added on 2025-07-09T23:29:08.286Z>\n<info added on 2025-07-10T03:02:47.223Z>\nNAVIGATION VISIBILITY COMPLETELY FIXED!\n\nROOT CAUSE IDENTIFIED: CSS variables weren't loading properly, causing navigation to fallback to white background with plain text.\n\nSOLUTION IMPLEMENTED:\n1. **Complete Navigation Rewrite**: Removed dependency on CSS variables entirely\n2. **Hardcoded Styles**: All colors, fonts, and styling now directly in component CSS\n3. **Proper Font Loading**: Using Inter font family with system fallbacks\n4. **Theme Support**: Direct CSS for light, dark, and punk themes without variables\n5. **Professional Styling**: Clean, modern navigation with proper contrast\n\nTECHNICAL DETAILS:\n- **Background**: Light gray (#f5f5f5) instead of white for visibility\n- **Typography**: Inter font family, proper font weights (700 for logo, 500 for links)\n- **Colors**: High contrast text (#171717) on light background\n- **Theme Button**: Cyan background (#00d4ff) with white text\n- **Hover Effects**: Smooth transitions and color changes\n- **Mobile Responsive**: Proper mobile menu with hamburger icon\n\nTHEME VARIATIONS:\n- **Light**: Gray background, dark text, cyan accents\n- **Dark**: Dark background (#262626), light text (#fafafa)\n- **Punk**: Black background (#171717), off-white text, pink borders (#ff0080)\n\nVISUAL IMPROVEMENTS:\n- Clear contrast between navigation and page content\n- Professional typography with proper font weights\n- Smooth hover animations and transitions\n- Proper spacing and padding throughout\n- Box shadow for depth and definition\n\nNavigation should now be clearly visible with professional styling and proper Inter font family!\n</info added on 2025-07-10T03:02:47.223Z>\n<info added on 2025-07-10T03:04:27.635Z>\nTHEME SWITCHING NOW FULLY FUNCTIONAL!\n\nFIXED ISSUES:\n1. Navigation Theme Responsiveness: Added proper CSS transitions and theme-specific styling\n2. Force Style Recalculation: Added DOM manipulation to ensure immediate theme changes\n3. Missing Hover States: Added proper hover effects for all themes\n4. Initialization Timing: Added DOMContentLoaded event listener for proper startup\n\nTECHNICAL IMPROVEMENTS:\n- ID Targeting: Added id=\"main-nav\" for direct navigation element access\n- Enhanced Transitions: All elements now have transition: all 0.3s ease for smooth changes\n- Theme-Specific Hover Effects: Each theme now has properly defined hover states\n- DOM Reflow Trigger: Forces browser to recalculate styles immediately on theme change\n\nTHEME VARIATIONS NOW WORKING:\n- Light: Gray background (#f5f5f5), dark text (#171717), cyan accents\n- Dark: Dark background (#262626), light text (#fafafa), cyan accents  \n- Punk: Black background (#171717), off-white text (#f5f5f0), pink border (#ff0080), pale pink button\n\nVISUAL FEEDBACK:\n- Navigation bar background changes color instantly\n- Text colors adapt to maintain proper contrast\n- Theme button updates text (Light → Dark → Punk)\n- Hover effects work correctly in all themes\n- Smooth transitions between theme states\n\nNavigation should now properly cycle through all three themes with immediate visual feedback!\n</info added on 2025-07-10T03:04:27.635Z>\n<info added on 2025-07-10T03:12:06.593Z>\nNAVIGATION THEME SWITCHING FINALLY WORKING!\n\nROOT CAUSE FIXED: The navigation was using hardcoded colors instead of CSS variables that respond to theme changes.\n\nSOLUTION IMPLEMENTED:\n1. **Navigation-Specific CSS Variables**: Created dedicated variables for nav colors\n2. **Theme-Responsive Variables**: Variables change automatically with `data-theme` attribute\n3. **Simplified CSS Structure**: Removed redundant theme-specific selectors\n4. **Proper Variable Usage**: All navigation elements now use `var(--nav-*)` variables\n\nCSS VARIABLES CREATED:\n- `--nav-bg`: Background color for navigation bar\n- `--nav-border`: Border color for navigation elements  \n- `--nav-text`: Text color for links and logo\n- `--nav-accent`: Accent color for theme button and hovers\n- `--nav-hover-bg`: Background color for hover states\n- `--nav-shadow`: Box shadow color for depth\n\nTHEME VARIATIONS NOW WORKING:\n- **Light**: Gray bg (#f5f5f5), dark text (#171717), cyan accents (#00d4ff)\n- **Dark**: Dark bg (#262626), light text (#fafafa), cyan accents (#00d4ff)\n- **Punk**: Black bg (#171717), off-white text (#f5f5f0), pale pink accents (#ffe0ec), pink border (#ff0080)\n\nTECHNICAL IMPROVEMENTS:\n- CSS variables defined at component level respond to document theme changes\n- Simplified hover effects with opacity instead of complex shadows\n- Special styling for punk theme buttons with border and dark text\n- Debug logging added to confirm theme switching\n\nNavigation should now change colors instantly when theme button is clicked, synchronized with the rest of the site!\n</info added on 2025-07-10T03:12:06.593Z>\n<info added on 2025-07-10T03:14:38.261Z>\nNAVIGATION THEME SWITCHING FIXED!\n\nProblem Solved: Navigation was stuck with white background and black text regardless of theme.\n\nRoot Cause: CSS variables weren't being applied properly due to cascade/specificity issues.\n\nSolution: Complete rewrite using direct JavaScript styling:\n- Removed all CSS variables from navigation styles\n- Added themeConfigs object with hardcoded color values for each theme\n- Created applyNavTheme() function that directly sets element.style properties\n- Applied styles immediately to DOM elements, bypassing CSS cascade\n\nResults: \n- Light theme: Light gray nav (#f5f5f5) with dark text (#171717) and cyan button (#00d4ff)\n- Dark theme: Dark gray nav (#262626) with light text (#fafafa) and cyan button (#00d4ff)  \n- Punk theme: Almost black nav (#171717) with off-white text (#f5f5f0) and pale pink button (#ffe0ec)\n\nKey Lesson: Sometimes direct JavaScript styling is more reliable than CSS variables for dynamic theming, especially when dealing with complex cascade issues.\n\nNavigation component is now fully functional with proper theme switching!\n</info added on 2025-07-10T03:14:38.261Z>",
+            "status": "done",
             "testStrategy": ""
           },
           {
             "id": 8,
             "title": "Conduct Accessibility Checks for Chaotic Layouts",
             "description": "Audit all components and layouts for accessibility compliance (WCAG), including keyboard navigation, ARIA attributes, and equity-driven design, with special attention to high-contrast and chaotic layouts.",
-            "dependencies": [
-              4,
-              5,
-              7
-            ],
+            "dependencies": [4, 5, 7],
             "details": "Use automated tools and manual testing to verify accessibility standards are met. Ensure design supports empowerment, inclusion, and creative expression.",
             "status": "pending",
             "testStrategy": ""
@@ -205,23 +171,16 @@
             "id": 9,
             "title": "Set Up Animation and Glitch Utilities",
             "description": "Configure and implement animation utilities in Tailwind, extending with custom CSS or plugins for generative hero animations, motion blur, glitch overlays, and accessible micro-interactions.",
-            "dependencies": [
-              2
-            ],
-            "details": "Define custom animation tokens and transitions in tailwind.config.js or via CSS variables. Implement Framer Motion or GSAP for hero particle effects, motion blur, and glitch. Ensure all animations respect prefers-reduced-motion and do not hinder usability.",
-            "status": "pending",
+            "dependencies": [2],
+            "details": "Define custom animation tokens and transitions in tailwind.config.js or via CSS variables. Implement Framer Motion or GSAP for hero particle effects, motion blur, and glitch. Ensure all animations respect prefers-reduced-motion and do not hinder usability.\n<info added on 2025-07-10T03:29:39.756Z>\nSuccessfully implemented comprehensive animation utilities system with 20+ custom keyframes and 25+ animation utility classes in tailwind.config.mjs. Created extensive animations.scss file (400+ lines) containing punk/brutalist effects including glitch variations (basic, intense, RGB split, overlay), motion blur effects, micro-interactions (ripple, punk button hover, industrial overlays), brutal loading bars, typing animations, particle systems, and chaotic movement patterns. \n\nAll animations are theme-aware with specific RGB split colors for each theme (light: coral pink/electric blue, dark: coral pink/mint green, punk: neon pink/cyan). Full accessibility support implemented with prefers-reduced-motion media queries that disable intensive animations while maintaining functionality. Mobile-responsive with reduced complexity on smaller screens for performance.\n\nCreated AnimationDemo.astro component showcasing all utilities organized by category with interactive examples and code snippets. Integrated into homepage and global.css for site-wide availability. Build completed successfully with GPU-accelerated performance optimizations using transform and opacity properties.\n</info added on 2025-07-10T03:29:39.756Z>",
+            "status": "done",
             "testStrategy": ""
           },
           {
             "id": 10,
             "title": "Perform Cross-Browser Testing for Punk/Brutalist UI",
             "description": "Test all components and layouts across major browsers to ensure consistent appearance, accessibility, and brand-aligned functionality, including punk/brutalist effects.",
-            "dependencies": [
-              4,
-              5,
-              7,
-              9
-            ],
+            "dependencies": [4, 5, 7, 9],
             "details": "Address any browser-specific issues, leveraging Autoprefixer and polyfills where necessary. Validate accessibility, privacy, and visual fidelity of punk/brutalist effects in all environments.",
             "status": "pending",
             "testStrategy": ""
@@ -233,9 +192,7 @@
         "title": "Build Static Bio Page ('I Am')",
         "description": "Create the 'I Am' bio page with contextual biography, timeline, and social links, reflecting authentic expertise, personal/professional duality, and a bold, punk-meets-professional tone. Use static markdown transformed at build time.",
         "status": "pending",
-        "dependencies": [
-          2
-        ],
+        "dependencies": [2],
         "priority": "medium",
         "details": "1. Create a markdown file for the bio content, supporting both technical and personal storytelling\n2. Implement a markdown transformer using remark/rehype or similar, ensuring accessibility and parseability by AI and humans\n3. Design and build the bio page layout with:\n   - Hero section with generative particle animation spelling out name\n   - Header/profile section with split-personality (professional/rebellious) design, oversized sans-serif headings, and code brackets\n   - Contextual biography section highlighting honest partnership, empowerment, and creative/professional integration\n   - Timeline/experience section with print-style, asymmetric grid and punk/industrial overlays\n   - Social links with badges for community engagement and glitch effects\n4. Add SEO metadata (title, description, Open Graph tags) reflecting bold, direct brand values\n5. Implement static generation for the page\n6. Style the page according to the brutalist/punk design system, prioritizing accessibility, high contrast, and expressive micro-interactions\n7. Ensure responsive behavior, deliberate misalignment, and accessibility across device sizes",
         "testStrategy": "1. Validate markdown rendering for various content elements, including technical, personal, and creative sections\n2. Test responsive, asymmetric layout and accessibility on different devices\n3. Verify social links and community engagement features open correctly and include punk-inspired effects\n4. Check SEO metadata using tools like Lighthouse, ensuring bold, brand-aligned messaging\n5. Validate accessibility compliance and parseability by both AI and humans",
@@ -253,9 +210,7 @@
             "id": 2,
             "title": "Markdown Transformer Setup",
             "description": "Configure and integrate a markdown transformer to convert markdown files into accessible HTML or components for the static site.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Select and set up a suitable markdown transformer (e.g., remark, markdown-it) compatible with the static site generator. Ensure output is accessible and parseable by AI and humans.",
             "status": "pending",
             "testStrategy": ""
@@ -264,9 +219,7 @@
             "id": 3,
             "title": "Page Layout Design with Punk/Brutalist Elements",
             "description": "Design the overall page structure, ensuring clear separation of hero, header/profile, timeline/experience, social links, and creative/personal content sections, using asymmetric and print-style grids.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Create layout components or templates that house the transformed markdown content. Use oversized sans-serif headings, code brackets, and deliberate misalignment. Prioritize accessibility, boldness, and brand-aligned hierarchy.",
             "status": "pending",
             "testStrategy": ""
@@ -275,9 +228,7 @@
             "id": 4,
             "title": "Hero/Profile Section with Generative Animation",
             "description": "Develop the hero/profile section, including generative particle animation spelling out the name, profile image, and an authentic, split-personality introduction.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Ensure the section is visually distinct, accessible, and aligns with the brand's punk/professional duality. Use Canvas/SVG for animation and oversized typography.",
             "status": "pending",
             "testStrategy": ""
@@ -286,9 +237,7 @@
             "id": 5,
             "title": "Timeline/Experience Section with Asymmetric Grid",
             "description": "Build the timeline or experience section using a print-style, asymmetric grid and punk/industrial overlays to showcase professional and creative history.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Use lists, cards, or other visual elements to present experiences clearly, supporting both technical and personal milestones. Add glitch or noise effects for visual interest.",
             "status": "pending",
             "testStrategy": ""
@@ -297,9 +246,7 @@
             "id": 6,
             "title": "Social Links and SEO Metadata Integration with Glitch Effects",
             "description": "Add social media and community links with glitch effects, and implement SEO metadata (title, description, Open Graph tags) for discoverability and engagement.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Ensure links are accessible, support community engagement, and metadata is optimized for search engines and social sharing with bold, punk-inspired messaging.",
             "status": "pending",
             "testStrategy": ""
@@ -308,11 +255,7 @@
             "id": 7,
             "title": "Static Generation and Responsive Styling with Deliberate Misalignment",
             "description": "Configure static site generation and apply accessible, responsive CSS with deliberate misalignment and punk/brutalist styling to ensure the site displays well and is usable on all devices.",
-            "dependencies": [
-              4,
-              5,
-              6
-            ],
+            "dependencies": [4, 5, 6],
             "details": "Test the build process and verify consistent, accessible design and functionality across screen sizes and assistive technologies. Ensure all punk/brutalist effects are accessible.",
             "status": "pending",
             "testStrategy": ""
@@ -324,9 +267,7 @@
         "title": "Implement Dynamic Services Page ('I Can')",
         "description": "Build the 'I Can' services page powered by Strapi CMS, displaying all consulting services with tiered pricing, descriptions, feature highlights, and contact CTAs. The page must reflect a bold, punk-meets-professional partnership, supporting filtering, sorting, pinning/highlighting, and direct links to service detail pages.",
         "status": "pending",
-        "dependencies": [
-          2
-        ],
+        "dependencies": [2, "5"],
         "priority": "medium",
         "details": "1. Update Strapi content model for Service:\n   - Fields: id, title, category/type, description, featureHighlights[], tiers[{name, priceLow, priceHigh, deliverables}], contactMethod, isPinned, slug\n   - Ensure model supports transparent, empowering service descriptions and privacy/security best practices\n2. Remove all static/hard-coded service data from the frontend\n3. Implement a dynamic, filterable, and sortable grid/list of services\n   - Filter by service type, tier, and price range\n   - Sort by title, price, or custom order\n   - Highlight/pin services as set in CMS\n   - Ensure all controls are accessible and easy for non-technical users\n   - Use asymmetric, print-style grid with deliberate misalignment and punk/brutalist accents\n4. Each service card links to a dedicated detail page\n5. Service detail page displays full info, pricing, features, and CTA, with bold, direct messaging and punk-inspired micro-interactions\n6. Add structured data for SEO (Schema.org ServiceOffering) dynamically\n7. Ensure responsive, accessible, and privacy-respecting design throughout, with theme toggles and high-contrast color options",
         "testStrategy": "1. Verify all services display dynamically from Strapi, with accessible, bold descriptions\n2. Test filtering and sorting by type, tier, and price, ensuring controls are usable by all\n3. Validate pin/highlight logic from CMS and its accessibility\n4. Confirm each service has a working detail page with correct, transparent data\n5. Test CTA functionality (mailto, Calendly, etc.) for clarity and empowerment\n6. Check structured data using Google's Rich Results Test\n7. Test responsive, asymmetric layout and accessibility compliance, prioritizing founders and non-technical leaders",
@@ -344,9 +285,7 @@
             "id": 2,
             "title": "Design Dynamic Service Grid/List Layout with Punk/Brutalist Accents",
             "description": "Create the visual and structural layout for the dynamic service grid or list, supporting accessible filtering, sorting, pin/highlight display, and punk/brutalist visual elements.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Establish visual hierarchy, spacing, and alignment using asymmetric, print-style grids and deliberate misalignment. Plan for accessible filter and sort controls, pin/highlight indicators, and responsive adaptability. Ensure layout is approachable for non-technical users and visually bold.",
             "status": "pending",
             "testStrategy": ""
@@ -355,9 +294,7 @@
             "id": 3,
             "title": "Implement Dynamic Service Card Component with Micro-interactions",
             "description": "Develop a reusable, accessible card component that consumes CMS data and renders service information, including pin/highlight state, filter/sort integration, and punk-inspired micro-interactions.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Include header (media/title), body (description/features), footer (CTA/button), and pin/highlight badge. Add glitch, flicker, or overlay effects for visual interest. Ensure modularity for different content lengths and types, and support for bold, empowering messaging.",
             "status": "pending",
             "testStrategy": ""
@@ -366,9 +303,7 @@
             "id": 4,
             "title": "Develop Tiered Pricing and Filtering Logic with Bold UI",
             "description": "Integrate accessible tiered pricing and filtering/sorting logic into the service grid and card components, supporting user selection by type, tier, and price, with bold, punk-inspired UI.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Design for clarity and scannability, using oversized typography, high-contrast color, and asymmetric layout to highlight differences between tiers. Implement accessible filter and sort controls and logic.",
             "status": "pending",
             "testStrategy": ""
@@ -377,9 +312,7 @@
             "id": 5,
             "title": "Implement Service Detail Page Routing with Punk/Professional Duality",
             "description": "Add dynamic routing for service detail pages, accessible via direct links (e.g., /services/{slug}), displaying full service info, pricing, features, and CTA with bold, punk/professional messaging.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Ensure each service has a unique, SEO-friendly URL. Render all relevant data and CTA on the detail page, prioritizing accessibility, privacy, and punk/brutalist visual effects.",
             "status": "pending",
             "testStrategy": ""
@@ -388,11 +321,7 @@
             "id": 6,
             "title": "Add Dynamic Structured Data for SEO",
             "description": "Embed structured data (e.g., JSON-LD) for each service card and detail page, mapping CMS data to Schema.org ServiceOffering and related types, reflecting bold, punk/professional service descriptions.",
-            "dependencies": [
-              1,
-              3,
-              5
-            ],
+            "dependencies": [1, 3, 5],
             "details": "Validate structured data using testing tools. Ensure dynamic generation based on CMS content and bold, brand-aligned messaging.",
             "status": "pending",
             "testStrategy": ""
@@ -401,12 +330,7 @@
             "id": 7,
             "title": "Ensure Responsive and Accessible Design with Theme Toggles",
             "description": "Adapt the service grid/list, cards, and detail pages for optimal display, accessibility, and privacy across devices and screen sizes, with support for light/dark/punk theme toggles.",
-            "dependencies": [
-              2,
-              3,
-              4,
-              5
-            ],
+            "dependencies": [2, 3, 4, 5],
             "details": "Implement CSS or framework utilities for grid, spacing, and aspect ratio. Test on mobile, tablet, and desktop breakpoints. Audit for accessibility, privacy, and theme toggle compliance.",
             "status": "pending",
             "testStrategy": ""
@@ -415,114 +339,102 @@
       },
       {
         "id": 5,
-        "title": "Deploy Headless CMS (Strapi)",
-        "description": "Set up and deploy Strapi as the headless CMS on AWS EC2 (t3.micro) with content models for Media, Service (with tiered pricing, descriptions, feature highlights, pin/highlight, slug), Bio, and SiteSettings.",
+        "title": "Deploy Headless CMS (Strapi) on AWS with Robust Integration",
+        "description": "Set up and deploy Strapi as the headless CMS on AWS EC2 (t3.micro or higher as needed) with content models for Media, Service (with tiered pricing, descriptions, feature highlights, pin/highlight, slug, filtering, dynamic CTA), Bio, and SiteSettings. This is the highest priority task and must be completed before any dynamic services or portfolio features. The Service model must support filtering by service type and pricing tier, pin/highlight functionality, and dynamic CTA generation based on contactMethod. Performance considerations such as caching, error handling, and loading states are required.",
         "status": "pending",
-        "dependencies": [
-          1
-        ],
-        "priority": "high",
-        "details": "1. Provision AWS infrastructure using Terraform:\n   - EC2 t3.micro instance\n   - S3 bucket for asset storage\n   - Security groups and IAM roles\n2. Install and configure Strapi CMS:\n   - Set up with SQLite initially (PostgreSQL upgrade-ready)\n3. Define content models in Strapi:\n   - Media: id, title, type(enum), url, embedCode, tags[], length, createdAt\n   - Service: id, title, category/type, description, featureHighlights[], tiers[{name, priceLow, priceHigh, deliverables}], contactMethod, isPinned, slug\n   - Bio: markdown, socialLinks[]\n   - SiteSettings: various configuration options\n4. Configure API endpoints (GraphQL and REST, as supported by Strapi)\n5. Set up user authentication and permissions in Strapi\n6. Configure S3 for media uploads via Strapi's upload provider\n7. Implement weekly database snapshots for backup",
-        "testStrategy": "1. Verify Strapi installation and accessibility\n2. Test content model creation and validation in Strapi\n3. Validate Strapi API endpoints (REST/GraphQL) return expected data\n4. Test media upload functionality to S3 via Strapi\n5. Verify backup system works correctly\n6. Load test to ensure t3.micro performance is adequate\n7. Check security configurations and access controls in Strapi",
+        "dependencies": [1],
+        "priority": "highest",
+        "details": "1. Provision AWS infrastructure using Terraform:\n   - EC2 t3.micro (or higher if required for performance)\n   - S3 bucket for asset storage\n   - Security groups and IAM roles\n2. Install and configure Strapi CMS:\n   - Set up with SQLite initially (PostgreSQL upgrade-ready)\n   - Use pre-configured AMI or manual setup as appropriate[1][3][5]\n3. Define content models in Strapi:\n   - Media: id, title, type(enum), url, embedCode, tags[], length, createdAt\n   - Service: id, title, category/type, description, featureHighlights[], tiers[{name (Basic/Standard/Premium), priceLow, priceHigh, deliverables}], contactMethod, isPinned, slug\n   - Service model must support filtering by service type and pricing tier, pin/highlight functionality, and dynamic CTA generation based on contactMethod\n   - Bio: markdown, socialLinks[]\n   - SiteSettings: various configuration options\n4. Configure API endpoints (GraphQL and REST, as supported by Strapi)\n   - Ensure endpoints support filtering, sorting, and dynamic CTA logic for Service\n5. Set up user authentication and permissions in Strapi\n6. Configure S3 for media uploads via Strapi's upload provider\n7. Implement weekly database snapshots for backup\n8. Integrate caching strategies for all CMS API endpoints\n9. Implement robust error handling for API failures and loading states for all dynamic content\n10. Use CSS variables + Tailwind hybrid approach for all CMS-driven UI components\n\nCRITICAL: This CMS deployment blocks all dynamic content functionality and should be prioritized over other tasks.",
+        "testStrategy": "1. Verify Strapi installation and accessibility\n2. Test content model creation and validation in Strapi, especially Service model fields (title, description, category/type, tiered pricing, feature highlights, contactMethod, isPinned, slug)\n3. Validate Strapi API endpoints (REST/GraphQL) return expected data, including filtering by service type and pricing tier, and dynamic CTA logic\n4. Test media upload functionality to S3 via Strapi\n5. Verify backup system works correctly\n6. Load test to ensure t3.micro (or chosen instance) performance is adequate\n7. Check security configurations and access controls in Strapi\n8. Test caching and error handling for all API endpoints\n9. Validate loading states for all dynamic content\n10. Review CSS variable and Tailwind integration in CMS-driven UI",
         "subtasks": [
           {
             "id": 1,
             "title": "Provision AWS Infrastructure with Terraform",
             "description": "Set up and configure AWS resources using Terraform, following best practices for modularity, security, and remote state management.",
-            "dependencies": [],
-            "details": "Install Terraform CLI, configure AWS provider, define infrastructure resources (VPC, EC2, RDS, etc.), and apply configurations.",
             "status": "pending",
+            "dependencies": [],
+            "details": "Install Terraform CLI, configure AWS provider, define infrastructure resources (VPC, EC2, RDS, S3, etc.), and apply configurations. Ensure security groups and IAM roles are set for Strapi and S3 integration.",
             "testStrategy": ""
           },
           {
             "id": 2,
             "title": "Install and Configure Strapi CMS",
-            "description": "Deploy Strapi on provisioned AWS infrastructure and perform initial configuration.",
-            "dependencies": [
-              1
-            ],
-            "details": "Install Strapi on EC2 or container, configure database connections (SQLite initially), and verify operational status.",
+            "description": "Deploy Strapi on provisioned AWS infrastructure and perform initial configuration. Use pre-configured AMI or manual setup as appropriate.",
             "status": "pending",
+            "dependencies": [1],
+            "details": "Install Strapi on EC2 or container, configure database connections (SQLite initially, RDS/PostgreSQL upgrade-ready), and verify operational status. Ensure Node.js and dependencies are installed per Strapi requirements[1][2][3].",
             "testStrategy": ""
           },
           {
             "id": 3,
             "title": "Define Content Model in Strapi",
-            "description": "Design and implement the content model within Strapi, specifying content types, fields, and relationships. Ensure the Service model supports tiered pricing, feature highlights, pin/highlight, and slug.",
-            "dependencies": [
-              2
-            ],
-            "details": "Create Strapi content types (Media, Service, Bio, SiteSettings), define fields (text, images, references, booleans, slugs), and set up relationships as needed.",
+            "description": "Design and implement the content model within Strapi, specifying content types, fields, and relationships. Ensure the Service model supports tiered pricing (Basic/Standard/Premium), feature highlights, pin/highlight, slug, filtering by service type and pricing tier, and dynamic CTAs based on contactMethod.",
             "status": "pending",
+            "dependencies": [2],
+            "details": "Create Strapi content types (Media, Service, Bio, SiteSettings). For Service: define fields for title, description, category/type, featureHighlights[], tiers[{name (Basic/Standard/Premium), priceLow, priceHigh, deliverables}], contactMethod, isPinned, slug. Implement filtering by service type and pricing tier, pin/highlight functionality, and dynamic CTA logic based on contactMethod. Confirm Service model supports all required business logic.",
             "testStrategy": ""
           },
           {
             "id": 4,
             "title": "Configure Strapi API Endpoints",
-            "description": "Set up and document Strapi API endpoints (REST/GraphQL) for content access and management, ensuring alignment with the content model.",
-            "dependencies": [
-              3
-            ],
-            "details": "Enable REST and GraphQL APIs in Strapi, configure endpoint routes, and test API responses for all content types.",
+            "description": "Set up and document Strapi API endpoints (REST/GraphQL) for content access and management, ensuring alignment with the content model. Integrate caching, error handling, and support for filtering and dynamic CTAs.",
             "status": "pending",
+            "dependencies": [3],
+            "details": "Enable REST and GraphQL APIs in Strapi, configure endpoint routes, and test API responses for all content types. Ensure Service endpoints support filtering by type and pricing tier, and dynamic CTA logic. Implement caching strategies and robust error handling for API failures and loading states.",
             "testStrategy": ""
           },
           {
             "id": 5,
             "title": "Implement Authentication and Permissions in Strapi",
             "description": "Configure authentication mechanisms and define user roles and permissions within Strapi and its API.",
-            "dependencies": [
-              4
-            ],
-            "details": "Set up user authentication (e.g., JWT), create roles (admin, editor, viewer), and assign permissions for content operations in Strapi.",
             "status": "pending",
+            "dependencies": [4],
+            "details": "Set up user authentication (e.g., JWT), create roles (admin, editor, viewer), and assign permissions for content operations in Strapi.",
             "testStrategy": ""
           },
           {
             "id": 6,
             "title": "Integrate Strapi with AWS S3",
             "description": "Connect Strapi to AWS S3 for media storage and retrieval, ensuring secure access and proper bucket configuration.",
-            "dependencies": [
-              5
-            ],
-            "details": "Configure S3 buckets, set up IAM roles/policies, and update Strapi settings for S3 integration using the upload provider.",
             "status": "pending",
+            "dependencies": [5],
+            "details": "Configure S3 buckets, set up IAM roles/policies, and update Strapi settings for S3 integration using the upload provider.",
             "testStrategy": ""
           },
           {
             "id": 7,
             "title": "Set Up Backup and Recovery",
             "description": "Implement automated backup strategies for Strapi databases, CMS data, and S3 buckets, with recovery procedures.",
+            "status": "pending",
             "dependencies": [],
             "details": "Schedule regular backups, store snapshots securely, and document recovery steps for disaster scenarios.",
-            "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 8,
             "title": "Configure Security Settings",
             "description": "Apply security best practices across infrastructure, Strapi, API, and storage, including encryption, firewall rules, and access controls.",
+            "status": "pending",
             "dependencies": [],
             "details": "Enable encryption at rest and in transit, configure security groups, set up WAF, and audit IAM policies.",
-            "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 9,
             "title": "Conduct Performance and Load Testing",
             "description": "Test system performance and scalability under expected and peak loads, identifying and addressing bottlenecks.",
+            "status": "pending",
             "dependencies": [],
             "details": "Use load testing tools to simulate traffic, monitor resource utilization, and optimize configurations as needed.",
-            "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 10,
             "title": "Create Comprehensive Documentation",
             "description": "Document AWS infrastructure setup, Strapi configuration, API usage, security measures, backup procedures, and operational guidelines.",
+            "status": "pending",
             "dependencies": [],
             "details": "Prepare user guides, architecture diagrams, Strapi API references, and runbooks for maintenance and troubleshooting.",
-            "status": "pending",
             "testStrategy": ""
           }
         ]
@@ -532,10 +444,7 @@
         "title": "Develop Portfolio Grid ('I Did')",
         "description": "Create a filterable, accessible gallery of multi-media work that pulls content from Strapi and allows filtering by media type and tags. The grid must use a masonry, deliberately misaligned layout with punk/brutalist visual energy, and support theme toggles and expressive micro-interactions.",
         "status": "pending",
-        "dependencies": [
-          2,
-          5
-        ],
+        "dependencies": [2, 5],
         "priority": "high",
         "details": "1. Design and implement a masonry, asymmetric portfolio grid layout with deliberate misalignment and punk/industrial overlays\n2. Create API service to fetch media items from Strapi, ensuring privacy and security\n3. Implement accessible client-side filter bar with:\n   - Media type filter (code, video, blog, audio, image)\n   - Tag-based filtering\n   - Sort options (date, popularity)\n   - Controls must be usable by all, including non-technical users\n   - Bold, oversized typography and punk-inspired accents\n4. Create media card components for different content types, supporting creative/personal integration and micro-interactions (flickers, overlays, slide-ins)\n5. Implement grid layout with CSS Grid/Flexbox, prioritizing accessibility, clarity, and controlled chaos\n6. Add lazy loading for images and thumbnails\n7. Implement caching strategy for API responses, respecting privacy\n8. Add animation for card appearance using GSAP/Framer Motion (motion blur, glitch, slide-in), ensuring accessibility\n9. Ensure filtering and grid logic are consistent with the services page for a cohesive, empowering UX",
         "testStrategy": "1. Test Strapi API integration with mock data, ensuring privacy and security\n2. Verify accessible filter functionality works correctly for all users\n3. Test responsive, asymmetric grid layout and accessibility across device sizes\n4. Validate performance with large number of items\n5. Test accessible animations and transitions (motion blur, glitch, flicker)\n6. Verify accessibility of filter controls and content parseability by AI/humans\n7. Test cache invalidation when content updates",
@@ -553,9 +462,7 @@
             "id": 2,
             "title": "Integrate Strapi API",
             "description": "Set up integration with the Strapi API to fetch dynamic content for the grid, ensuring privacy and security best practices.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Implement API calls and data fetching logic to retrieve content from Strapi that will populate the grid layout. Ensure all data handling respects privacy and accessibility.",
             "status": "pending",
             "testStrategy": ""
@@ -564,9 +471,7 @@
             "id": 3,
             "title": "Implement Punk/Brutalist Filter Bar",
             "description": "Develop an accessible filter bar component with bold, oversized typography and punk-inspired accents to allow users to filter grid items based on categories or tags.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Connect filter bar state to grid data and ensure seamless, accessible filtering of content. Match filter UX with the services grid for consistency and boldness.",
             "status": "pending",
             "testStrategy": ""
@@ -575,9 +480,7 @@
             "id": 4,
             "title": "Create Media Card Components with Micro-interactions",
             "description": "Build reusable, accessible media card components to display individual content items within the grid, supporting technical, personal, and creative content, with punk-inspired micro-interactions.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Design cards to display images, titles, descriptions, and other relevant metadata. Add flicker, glitch, or overlay effects for visual interest. Ensure accessibility and support for diverse content types.",
             "status": "pending",
             "testStrategy": ""
@@ -586,9 +489,7 @@
             "id": 5,
             "title": "Implement Lazy Loading",
             "description": "Add lazy loading functionality to load grid items as they enter the viewport, optimizing performance and accessibility.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Optimize initial load time and improve performance by only rendering visible items. Ensure lazy loading is accessible and does not hinder usability.",
             "status": "pending",
             "testStrategy": ""
@@ -597,9 +498,7 @@
             "id": 6,
             "title": "Develop Caching Strategy",
             "description": "Implement a caching mechanism for Strapi API responses and grid data to reduce redundant network requests, respecting privacy and security.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Use browser storage or in-memory caching to store fetched data and improve user experience. Ensure all caching strategies respect user privacy.",
             "status": "pending",
             "testStrategy": ""
@@ -608,9 +507,7 @@
             "id": 7,
             "title": "Set Up Animations with Motion Blur and Glitch Effects",
             "description": "Add accessible animations for grid item transitions, filtering, and loading states, using GSAP/Framer Motion for motion blur, glitch, and slide-in effects.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Ensure smooth and visually impactful transitions when items are added, removed, or filtered. All animations must respect prefers-reduced-motion and accessibility guidelines.",
             "status": "pending",
             "testStrategy": ""
@@ -619,10 +516,7 @@
             "id": 8,
             "title": "Ensure Responsive Design with Deliberate Misalignment",
             "description": "Test and refine the grid layout and components to ensure optimal, accessible display on all device sizes, with deliberate misalignment for punk/brutalist energy.",
-            "dependencies": [
-              1,
-              4
-            ],
+            "dependencies": [1, 4],
             "details": "Adjust breakpoints, spacing, and component sizing for mobile, tablet, and desktop views. Prioritize accessibility, clarity, and bold creative intent.",
             "status": "pending",
             "testStrategy": ""
@@ -631,10 +525,7 @@
             "id": 9,
             "title": "Implement Accessibility Features for Chaotic Layouts",
             "description": "Enhance accessibility by adding ARIA attributes, keyboard navigation, and screen reader support to all grid and filter components, with special attention to high-contrast and chaotic layouts.",
-            "dependencies": [
-              4,
-              8
-            ],
+            "dependencies": [4, 8],
             "details": "Ensure all interactive elements are accessible and comply with WCAG guidelines. Prioritize equity-driven design and empowerment.",
             "status": "pending",
             "testStrategy": ""
@@ -643,13 +534,7 @@
             "id": 10,
             "title": "Conduct Performance Testing",
             "description": "Test the application for performance bottlenecks, including rendering speed, memory usage, and responsiveness, ensuring accessibility and privacy are not compromised.",
-            "dependencies": [
-              5,
-              6,
-              7,
-              8,
-              9
-            ],
+            "dependencies": [5, 6, 7, 8, 9],
             "details": "Use profiling tools to identify and address any issues affecting user experience, accessibility, or privacy.",
             "status": "pending",
             "testStrategy": ""
@@ -661,9 +546,7 @@
         "title": "Implement Dynamic Media Detail Page",
         "description": "Create a dynamic media.html?media={id} page that loads the chosen asset from Strapi and renders it appropriately based on media type (embed, markdown, etc.).",
         "status": "pending",
-        "dependencies": [
-          6
-        ],
+        "dependencies": [6],
         "priority": "high",
         "details": "1. Create a dynamic route handler for media detail pages\n2. Implement API service to fetch single media item by ID from Strapi\n3. Build a component switcher based on media type:\n```javascript\nfunction MediaRenderer({ media }) {\n  switch(media.type) {\n    case 'markdown':\n      return <MarkdownRenderer content={media.content} />;\n    case 'youtube':\n      return <YouTubeEmbed embedCode={media.embedCode} />;\n    case 'code':\n      return <CodeHighlighter code={media.content} language={media.language} />;\n    case 'image':\n      return <ImageViewer url={media.url} alt={media.title} />;\n    case 'audio':\n      return <AudioPlayer url={media.url} />;\n    default:\n      return <GenericRenderer media={media} />;\n  }\n}\n```\n4. Implement each renderer component\n5. Add social sharing functionality\n6. Create \"More like this\" carousel for related content\n7. Implement SEO metadata based on media content\n8. Add deep-linking support for sharing specific media",
         "testStrategy": "1. Test route handling with various media IDs\n2. Verify each renderer component works correctly\n3. Test social sharing functionality\n4. Validate SEO metadata generation\n5. Test responsive layout for different media types\n6. Verify deep-linking works correctly\n7. Test error handling for invalid media IDs",
@@ -681,9 +564,7 @@
             "id": 2,
             "title": "Integrate Single Media API from Strapi",
             "description": "Connect to the Strapi media API to fetch content details for individual media items.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Research Strapi API endpoints, authentication, response formats, and error handling mechanisms. Implement API calls and handle responses according to best practices.",
             "status": "pending",
             "testStrategy": ""
@@ -692,9 +573,7 @@
             "id": 3,
             "title": "Develop Renderer Components by Media Type",
             "description": "Create modular renderer components that display content based on the media type (e.g., video, image, audio, article).",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Design each renderer to handle its specific data structure and presentation needs. Ensure components are reusable and maintainable.",
             "status": "pending",
             "testStrategy": ""
@@ -703,9 +582,7 @@
             "id": 4,
             "title": "Implement Social Sharing Functionality",
             "description": "Add social sharing buttons and logic to allow users to share media content on various platforms.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Integrate with popular social APIs and ensure shared links support deep-linking to the specific media item.",
             "status": "pending",
             "testStrategy": ""
@@ -714,9 +591,7 @@
             "id": 5,
             "title": "Build Related Content Carousel",
             "description": "Develop a carousel component that displays related media items based on the current content.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Fetch related content from Strapi API and design the carousel for smooth navigation and accessibility.",
             "status": "pending",
             "testStrategy": ""
@@ -725,9 +600,7 @@
             "id": 6,
             "title": "Implement SEO Metadata Handling",
             "description": "Dynamically generate and inject SEO metadata (title, description, Open Graph tags) for each media route.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Ensure metadata reflects the current media content and supports social sharing previews.",
             "status": "pending",
             "testStrategy": ""
@@ -736,10 +609,7 @@
             "id": 7,
             "title": "Enable Deep-Linking Support",
             "description": "Ensure that each media item can be accessed directly via a unique URL, supporting navigation and sharing.",
-            "dependencies": [
-              1,
-              6
-            ],
+            "dependencies": [1, 6],
             "details": "Test deep-linking across devices and platforms to verify correct content loading and metadata rendering.",
             "status": "pending",
             "testStrategy": ""
@@ -748,10 +618,7 @@
             "id": 8,
             "title": "Implement Robust Error Handling",
             "description": "Add standardized error handling for Strapi API failures, invalid routes, and rendering issues.",
-            "dependencies": [
-              2,
-              3
-            ],
+            "dependencies": [2, 3],
             "details": "Display user-friendly error messages and log errors for debugging. Follow best practices for consistent error formats.",
             "status": "pending",
             "testStrategy": ""
@@ -760,10 +627,7 @@
             "id": 9,
             "title": "Ensure Responsive Design",
             "description": "Adapt all components and layouts to provide an optimal experience across devices and screen sizes.",
-            "dependencies": [
-              3,
-              5
-            ],
+            "dependencies": [3, 5],
             "details": "Test UI elements, carousels, and renderers on multiple devices and browsers. Address accessibility and usability concerns.",
             "status": "pending",
             "testStrategy": ""
@@ -772,21 +636,18 @@
       },
       {
         "id": 8,
-        "title": "Migrate Services to Strapi CMS",
-        "description": "Migrate all consulting service data (Virtual CIO, IT Support, Consulting, Project Management, Automation, Data Analysis, Cloud Migration, Cybersecurity, Website Development, Training, etc.) into Strapi, implement the tiered pricing matrix, pin/highlight logic, and connect the front-end to the Strapi API for dynamic, filterable, and sortable service display and detail pages.",
+        "title": "Migrate Services Data to Strapi CMS with Structured Mapping",
+        "description": "Migrate all consulting service data (Virtual CIO, IT Support, Consulting, Project Management, Automation, Data Analysis, Cloud Migration, Cybersecurity, Website Development, Training, etc.) from services.md into Strapi, implement the tiered pricing matrix, pin/highlight logic, and connect the front-end to the Strapi API for dynamic, filterable, and sortable service display and detail pages. This task should begin immediately after Strapi CMS deployment.",
         "status": "pending",
-        "dependencies": [
-          4,
-          5
-        ],
-        "priority": "medium",
-        "details": "1. Ensure Service content model is properly configured in Strapi (fields for title, description, type, feature highlights, tiers, contactMethod, isPinned, slug)\n2. Migrate all static service data to Strapi\n3. Update front-end to fetch services from Strapi API and remove all static data\n4. Implement tiered pricing display and filtering logic\n5. Update service cards and detail pages to use dynamic data\n6. Add contact CTAs (mailto or Calendly) based on contactMethod field\n7. Implement caching strategy for service data\n8. Update structured data for SEO with dynamic content\n9. Ensure pin/highlight logic is respected in the UI",
-        "testStrategy": "1. Verify Strapi API integration works correctly\n2. Test service rendering with various tier configurations\n3. Validate CTA functionality based on contactMethod\n4. Test caching and revalidation\n5. Verify structured data generation\n6. Test responsive layout with dynamic content\n7. Validate error handling for API failures\n8. Confirm pin/highlight logic is reflected in the UI",
+        "dependencies": [5],
+        "priority": "high",
+        "details": "1. Ensure Service content model is properly configured in Strapi (fields for title, description, type, feature highlights, tiers, contactMethod, isPinned, slug, filtering, sorting, highlighting)\n2. Migrate all static service data from services.md to Strapi, mapping fields and transforming as needed\n3. Update front-end to fetch services from Strapi API and remove all static data\n4. Implement tiered pricing display and filtering logic\n5. Update service cards and detail pages to use dynamic data\n6. Add contact CTAs (mailto or Calendly) based on contactMethod field\n7. Implement caching strategy for service data\n8. Update structured data for SEO with dynamic content\n9. Ensure pin/highlight logic is respected in the UI\n10. Integrate robust error handling and loading states for all dynamic content\n11. Use CSS variables + Tailwind hybrid approach for all service UI components",
+        "testStrategy": "1. Verify Strapi API integration works correctly\n2. Test service rendering with various tier configurations\n3. Validate CTA functionality based on contactMethod\n4. Test caching and revalidation\n5. Verify structured data generation\n6. Test responsive layout with dynamic content\n7. Validate error handling and loading states for API failures\n8. Confirm pin/highlight logic is reflected in the UI\n9. Review CSS variable and Tailwind integration in service UI",
         "subtasks": [
           {
             "id": 1,
             "title": "Strapi Model Validation",
-            "description": "Validate the Strapi model's input, calculation, and output components to ensure data integrity and compliance with business rules. Confirm support for tiered pricing, feature highlights, pin/highlight, and slug.",
+            "description": "Validate the Strapi model's input, calculation, and output components to ensure data integrity and compliance with business rules. Confirm support for tiered pricing, feature highlights, pin/highlight, slug, filtering, sorting, and dynamic CTAs.",
             "dependencies": [],
             "details": "Perform input validation (length, type, range, syntax), calculation logic checks (sensitivity testing, dynamic validation), and output verification (format, clarity, consistency with historical data).",
             "status": "pending",
@@ -795,64 +656,54 @@
           {
             "id": 2,
             "title": "Data Migration Planning",
-            "description": "Plan and document the migration of all existing service data to the new Strapi structure, ensuring data mapping and transformation requirements are defined.",
-            "dependencies": [
-              1
-            ],
-            "details": "Identify data sources, define mapping rules, and outline transformation logic needed for compatibility with the new Strapi schema.",
+            "description": "Plan and document the migration of all existing service data from services.md to the new Strapi structure, ensuring data mapping and transformation requirements are defined.",
+            "dependencies": [1],
+            "details": "Identify data sources, define mapping rules, and outline transformation logic needed for compatibility with the new Strapi schema. Prepare for structured migration from markdown to CMS fields.",
             "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 3,
             "title": "Data Migration Execution",
-            "description": "Execute the migration of all service data into Strapi, applying validation and transformation rules as defined in the planning phase.",
-            "dependencies": [
-              2
-            ],
-            "details": "Migrate data in batches, validate migrated records for accuracy, and resolve any data integrity issues encountered.",
+            "description": "Execute the migration of all service data from services.md into Strapi, applying validation and transformation rules as defined in the planning phase.",
+            "dependencies": [2],
+            "details": "Migrate data in batches, validate migrated records for accuracy, and resolve any data integrity issues encountered. Ensure all required fields are mapped and transformed correctly.",
             "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 4,
             "title": "Strapi API Integration Implementation",
-            "description": "Integrate external or internal APIs with Strapi to enable dynamic data exchange and service connectivity. Remove all static service data from the frontend.",
-            "dependencies": [
-              3
-            ],
-            "details": "Develop and test Strapi API endpoints, handle authentication, and ensure data flows correctly between systems. Refactor frontend to consume only CMS-driven service data.",
+            "description": "Integrate external or internal APIs with Strapi to enable dynamic data exchange and service connectivity. Remove all static service data from the frontend. Implement caching, error handling, and loading states.",
+            "dependencies": [3],
+            "details": "Develop and test Strapi API endpoints, handle authentication, and ensure data flows correctly between systems. Refactor frontend to consume only CMS-driven service data. Add caching, robust error handling, and loading indicators for all dynamic content.",
             "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 5,
             "title": "Tiered Pricing and Filtering Component Development",
-            "description": "Design and implement tiered pricing and filtering components within the frontend to support multiple pricing levels, business rules, and user-driven filtering/sorting.",
-            "dependencies": [
-              4
-            ],
-            "details": "Define pricing tiers, implement logic for tier assignment, filtering, and sorting. Ensure integration with product/service data and UI.",
+            "description": "Design and implement tiered pricing and filtering components within the frontend to support multiple pricing levels, business rules, user-driven filtering/sorting, and dynamic CTAs.",
+            "dependencies": [4],
+            "details": "Define pricing tiers, implement logic for tier assignment, filtering, sorting, and dynamic CTAs based on contactMethod. Ensure integration with product/service data and UI. Use CSS variables + Tailwind hybrid approach.",
             "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 6,
             "title": "Dynamic Service Card and Detail Page Update",
-            "description": "Enable dynamic updates to service cards and detail pages in the CMS UI based on real-time data and user interactions, including pin/highlight logic.",
-            "dependencies": [
-              5
-            ],
-            "details": "Implement frontend logic to fetch and display updated service information from Strapi, ensuring responsiveness, accuracy, and pin/highlight display.",
+            "description": "Enable dynamic updates to service cards and detail pages in the CMS UI based on real-time data and user interactions, including pin/highlight logic, error handling, and loading states.",
+            "dependencies": [5],
+            "details": "Implement frontend logic to fetch and display updated service information from Strapi, ensuring responsiveness, accuracy, pin/highlight display, error handling, and loading indicators.",
             "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 7,
             "title": "CTA Logic Implementation",
-            "description": "Develop and integrate call-to-action (CTA) logic that adapts based on user behavior, service availability, and pricing tiers.",
+            "description": "Develop and integrate call-to-action (CTA) logic that adapts based on user behavior, service availability, pricing tiers, and contactMethod field.",
             "dependencies": [],
-            "details": "Define CTA triggers, implement conditional logic, and test for correct behavior across user scenarios.",
+            "details": "Define CTA triggers, implement conditional logic, and test for correct behavior across user scenarios. Ensure dynamic CTAs are driven by CMS data.",
             "status": "pending",
             "testStrategy": ""
           },
@@ -861,7 +712,7 @@
             "title": "Caching and SEO Structured Data Update",
             "description": "Implement caching strategies for performance and update SEO structured data to reflect dynamic content changes from Strapi.",
             "dependencies": [],
-            "details": "Configure server/client-side caching, update structured data tags for SEO, and validate with search engine tools.",
+            "details": "Configure server/client-side caching, update structured data tags for SEO, and validate with search engine tools. Ensure caching does not interfere with data freshness.",
             "status": "pending",
             "testStrategy": ""
           }
@@ -874,9 +725,7 @@
         "details": "1. Set up Jira Service Management project for collaboration requests\n2. Create a form page with appropriate layout and instructions\n3. Implement Jira Service Management iframe embed:\n```html\n<iframe \n  src=\"https://[account].atlassian.net/servicedesk/customer/portal/[portal]/[form]?projectKey=Collab\" \n  width=\"100%\" \n  height=\"600px\"\n  title=\"Collaboration Request Form\"\n></iframe>\n```\n4. Create fallback HTML form for cases where iframe fails:\n```html\n<form id=\"fallback-form\" class=\"hidden\">\n  <!-- Form fields matching Jira requirements -->\n</form>\n```\n5. Implement Zapier or custom webhook to connect fallback form to Jira API\n6. Create success/thank-you page with next steps\n7. Add form validation and error handling\n8. Implement analytics tracking for form submissions",
         "testStrategy": "1. Test Jira iframe embedding\n2. Verify form submissions create Jira tickets correctly\n3. Test fallback form functionality\n4. Validate form across different browsers and devices\n5. Test error handling and validation\n6. Verify success flow and redirects\n7. Test analytics tracking for conversions",
         "priority": "medium",
-        "dependencies": [
-          2
-        ],
+        "dependencies": [2],
         "status": "pending",
         "subtasks": [
           {
@@ -892,9 +741,7 @@
             "id": 2,
             "title": "Form Page Layout Design",
             "description": "Design the layout for the form page, ensuring a user-friendly interface and clear structure for form fields and instructions.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Create wireframes or mockups, define field placements, and ensure accessibility and responsiveness.",
             "status": "pending",
             "testStrategy": ""
@@ -903,9 +750,7 @@
             "id": 3,
             "title": "Jira Iframe Embed Implementation",
             "description": "Integrate the Jira form into the page using an iframe, ensuring seamless embedding and compatibility with the page layout.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Configure iframe settings, test cross-origin policies, and ensure the embedded form displays correctly within the designed layout.",
             "status": "pending",
             "testStrategy": ""
@@ -914,9 +759,7 @@
             "id": 4,
             "title": "Fallback Form Implementation",
             "description": "Develop a fallback form to be used if the Jira iframe fails to load or is unsupported, ensuring uninterrupted user experience.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Implement logic to detect iframe issues and display the fallback form, mirroring the fields and validation of the embedded form.",
             "status": "pending",
             "testStrategy": ""
@@ -925,9 +768,7 @@
             "id": 5,
             "title": "Webhook Integration",
             "description": "Set up webhooks to connect Jira form submissions with external systems or services as needed.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Configure Jira webhooks to trigger on form submission, define payload structure, and test integration with target endpoints.",
             "status": "pending",
             "testStrategy": ""
@@ -936,9 +777,7 @@
             "id": 6,
             "title": "Success/Thank-You Flow Implementation",
             "description": "Design and implement the user flow for successful form submission, including thank-you messaging and any follow-up actions.",
-            "dependencies": [
-              5
-            ],
+            "dependencies": [5],
             "details": "Display confirmation messages, provide next steps or links, and ensure consistent experience for both embedded and fallback forms.",
             "status": "pending",
             "testStrategy": ""
@@ -970,14 +809,7 @@
         "details": "1. Implement image optimization:\n   - Use next/image or astro:assets for automatic optimization\n   - Configure responsive image sizes\n   - Implement lazy loading for off-screen images\n2. Add performance monitoring:\n   - Configure Core Web Vitals measurement\n   - Set up Lighthouse CI in GitHub Actions\n3. Optimize JavaScript:\n   - Code splitting for large components\n   - Defer non-critical JavaScript\n4. Implement caching strategies:\n   - Static generation where possible\n   - Incremental Static Regeneration for dynamic content\n   - Browser caching headers\n5. Create sitemap.xml generator\n6. Implement RSS feed for content updates\n7. Add service worker for offline capability\n8. Optimize font loading with font-display: swap",
         "testStrategy": "1. Run Lighthouse audits targeting score ≥90 in all categories\n2. Test performance on low-end devices and slow connections\n3. Verify Core Web Vitals metrics (LCP, FID, CLS)\n4. Validate sitemap.xml format and content\n5. Test RSS feed in feed readers\n6. Measure and verify load time improvements\n7. Test offline functionality with service worker",
         "priority": "medium",
-        "dependencies": [
-          3,
-          4,
-          6,
-          7,
-          8,
-          9
-        ],
+        "dependencies": [3, 4, 6, 7, 8, 9],
         "status": "pending",
         "subtasks": [
           {
@@ -1038,9 +870,7 @@
             "id": 7,
             "title": "Service Worker Setup",
             "description": "Implement a service worker to enable offline capabilities and advanced caching strategies.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Register a service worker that caches key assets and enables offline access. Test for correct cache invalidation and updates.",
             "status": "pending",
             "testStrategy": ""
@@ -1058,9 +888,7 @@
             "id": 9,
             "title": "Lighthouse CI Integration",
             "description": "Integrate Lighthouse CI into the development workflow for automated performance audits.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Set up Lighthouse CI to run on pull requests or deployments, generating reports and enforcing performance budgets.",
             "status": "pending",
             "testStrategy": ""
@@ -1083,9 +911,7 @@
         "details": "1. Configure Framer Motion or GSAP library\n2. Implement the following animations:\n   - Fade-in cards on scroll\n   - Progress bar on scroll\n   - Button ripple effects\n   - Page transitions\n   - Hover state animations\n3. Create custom hooks for animation control:\n```javascript\nfunction useScrollAnimation(ref) {\n  // Logic to trigger animations based on scroll position\n}\n```\n4. Implement `prefers-reduced-motion` media query support:\n```css\n@media (prefers-reduced-motion: reduce) {\n  * {\n    animation-duration: 0.01ms !important;\n    transition-duration: 0.01ms !important;\n  }\n}\n```\n5. Lazy-load animation libraries to reduce initial bundle size\n6. Create reusable animation components\n7. Ensure animations don't interfere with accessibility",
         "testStrategy": "1. Test animations across different browsers and devices\n2. Verify prefers-reduced-motion support\n3. Measure performance impact of animations\n4. Test accessibility with animations enabled/disabled\n5. Validate animations don't cause layout shifts\n6. Test with throttled CPU to ensure smooth performance",
         "priority": "low",
-        "dependencies": [
-          10
-        ],
+        "dependencies": [10],
         "status": "pending",
         "subtasks": [
           {
@@ -1101,9 +927,7 @@
             "id": 2,
             "title": "Implement Animations by Type",
             "description": "Develop and integrate animations for various UI elements (e.g., enter/exit transitions, hover effects, page transitions) using the chosen library.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Use the library's API to implement different animation types as required by the UI/UX design.",
             "status": "pending",
             "testStrategy": ""
@@ -1112,9 +936,7 @@
             "id": 3,
             "title": "Create Custom Animation Hooks",
             "description": "Develop reusable custom React hooks to encapsulate animation logic and simplify usage across components.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Abstract common animation patterns into hooks for consistency and maintainability.",
             "status": "pending",
             "testStrategy": ""
@@ -1123,9 +945,7 @@
             "id": 4,
             "title": "Support Prefers-Reduced-Motion",
             "description": "Implement logic to detect and respect the user's 'prefers-reduced-motion' system setting, disabling or simplifying animations as needed.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Use CSS media queries or JavaScript APIs to check for reduced motion preferences and adjust animation behavior accordingly.",
             "status": "pending",
             "testStrategy": ""
@@ -1134,9 +954,7 @@
             "id": 5,
             "title": "Lazy-Load Animation Libraries",
             "description": "Optimize performance by configuring the application to lazy-load animation libraries only when animations are needed.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Implement dynamic imports or code-splitting strategies to reduce initial bundle size and improve load times.",
             "status": "pending",
             "testStrategy": ""
@@ -1145,10 +963,7 @@
             "id": 6,
             "title": "Build Reusable Animation Components",
             "description": "Develop modular, reusable animation components that can be easily integrated and customized throughout the application.",
-            "dependencies": [
-              2,
-              3
-            ],
+            "dependencies": [2, 3],
             "details": "Encapsulate animation logic and props in well-documented components for consistent use.",
             "status": "pending",
             "testStrategy": ""
@@ -1157,10 +972,7 @@
             "id": 7,
             "title": "Accessibility Validation",
             "description": "Test and validate that all animations meet accessibility standards, including keyboard navigation, screen reader compatibility, and reduced motion support.",
-            "dependencies": [
-              4,
-              6
-            ],
+            "dependencies": [4, 6],
             "details": "Conduct manual and automated accessibility testing to ensure compliance and a positive user experience for all users.",
             "status": "pending",
             "testStrategy": ""
@@ -1174,9 +986,7 @@
         "details": "1. Create manifest.json file:\n```json\n{\n  \"name\": \"Chris's Portfolio & Services\",\n  \"short_name\": \"Portfolio\",\n  \"start_url\": \"/\",\n  \"display\": \"standalone\",\n  \"background_color\": \"#F5F5F5\",\n  \"theme_color\": \"#00C6AE\",\n  \"icons\": [\n    {\n      \"src\": \"/icons/icon-192.png\",\n      \"sizes\": \"192x192\",\n      \"type\": \"image/png\"\n    },\n    {\n      \"src\": \"/icons/icon-512.png\",\n      \"sizes\": \"512x512\",\n      \"type\": \"image/png\"\n    }\n  ]\n}\n```\n2. Implement comprehensive service worker:\n   - Cache static assets\n   - Implement offline fallback pages\n   - Cache API responses\n3. Create app icons in various sizes\n4. Add install prompt handling\n5. Implement basic push notification support\n6. Add offline content sync\n7. Test installability across devices",
         "testStrategy": "1. Verify PWA installability on desktop and mobile\n2. Test offline functionality by disabling network\n3. Validate service worker registration and updates\n4. Test push notification functionality\n5. Verify manifest.json is correctly configured\n6. Test on various browsers and devices\n7. Validate Lighthouse PWA score",
         "priority": "low",
-        "dependencies": [
-          10
-        ],
+        "dependencies": [10],
         "status": "pending",
         "subtasks": [
           {
@@ -1192,9 +1002,7 @@
             "id": 2,
             "title": "Generate App Icons",
             "description": "Design and export app icons in various required sizes (e.g., 512x512px, 192x192px) in PNG format and reference them in the manifest.json.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Ensure icons are optimized for different devices and platforms, and verify their inclusion in the manifest file.",
             "status": "pending",
             "testStrategy": ""
@@ -1203,9 +1011,7 @@
             "id": 3,
             "title": "Implement Service Worker",
             "description": "Develop and register a service worker script to enable offline capabilities, caching, and background processes.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Implement caching strategies for static assets and fallback mechanisms for offline access.",
             "status": "pending",
             "testStrategy": ""
@@ -1214,10 +1020,7 @@
             "id": 4,
             "title": "Handle Install Prompt",
             "description": "Implement logic to detect and display the PWA install prompt to users, ensuring a smooth installation experience.",
-            "dependencies": [
-              1,
-              3
-            ],
+            "dependencies": [1, 3],
             "details": "Listen for the 'beforeinstallprompt' event and provide a custom UI to encourage installation.",
             "status": "pending",
             "testStrategy": ""
@@ -1226,9 +1029,7 @@
             "id": 5,
             "title": "Set Up Push Notifications",
             "description": "Configure push notification support using the service worker, including subscription management and notification display.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Integrate with a push service, request user permission, and handle incoming push events in the service worker.",
             "status": "pending",
             "testStrategy": ""
@@ -1237,9 +1038,7 @@
             "id": 6,
             "title": "Implement Offline Content Sync",
             "description": "Enable background sync and offline content updates using the service worker to ensure data consistency when connectivity is restored.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Use Background Sync API or similar mechanisms to queue and synchronize data changes made while offline.",
             "status": "pending",
             "testStrategy": ""
@@ -1248,14 +1047,7 @@
             "id": 7,
             "title": "Conduct Cross-Device Testing",
             "description": "Test the PWA across various devices, browsers, and operating systems to ensure consistent behavior and appearance.",
-            "dependencies": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ],
+            "dependencies": [1, 2, 3, 4, 5, 6],
             "details": "Verify installation, offline functionality, push notifications, and UI responsiveness on multiple platforms.",
             "status": "pending",
             "testStrategy": ""
@@ -1274,7 +1066,7 @@
     ],
     "metadata": {
       "created": "2025-07-08T18:36:06.074Z",
-      "updated": "2025-07-09T18:53:59.669Z",
+      "updated": "2025-07-10T04:01:45.150Z",
       "description": "Tasks for master context"
     }
   }

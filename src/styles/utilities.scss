@@ -1,0 +1,209 @@
+// Responsive Layout Utilities for Punk/Brutalist Design
+// Using CSS variables + Tailwind hybrid approach
+
+// ========================================
+// RESPONSIVE CONTAINERS
+// ========================================
+
+.container-fluid {
+  width: 100%;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.container-constrained {
+  @extend .container-fluid;
+  max-width: 72rem; // 1152px - More constrained than 90rem
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container-narrow {
+  @extend .container-fluid;
+  max-width: 42rem; // 672px - Narrower for focused content
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// ========================================
+// ASYMMETRIC GRID LAYOUTS
+// ========================================
+
+.grid-asymmetric {
+  display: grid;
+  gap: var(--element-gap);
+
+  // Mobile: single column
+  grid-template-columns: 1fr;
+
+  // Tablet: golden ratio
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1.618fr;
+  }
+
+  // Desktop: more complex asymmetry
+  @media (min-width: 1024px) {
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+}
+
+.grid-print-style {
+  display: grid;
+  gap: var(--element-gap);
+
+  // Base: single column
+  grid-template-columns: 1fr;
+
+  // Tablet and up: 12-column grid
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+
+// Grid span utilities for print-style layout
+.span-full {
+  grid-column: 1 / -1;
+}
+.span-half {
+  grid-column: 1 / -1;
+  @media (min-width: 768px) {
+    grid-column: span 6;
+  }
+}
+.span-third {
+  grid-column: 1 / -1;
+  @media (min-width: 768px) {
+    grid-column: span 4;
+  }
+}
+.span-two-thirds {
+  grid-column: 1 / -1;
+  @media (min-width: 768px) {
+    grid-column: span 8;
+  }
+}
+.span-quarter {
+  grid-column: 1 / -1;
+  @media (min-width: 768px) {
+    grid-column: span 3;
+  }
+}
+
+// Grid offset utilities
+.offset-1 {
+  @media (min-width: 768px) {
+    grid-column-start: 2;
+  }
+}
+.offset-2 {
+  @media (min-width: 768px) {
+    grid-column-start: 3;
+  }
+}
+
+// ========================================
+// DELIBERATE MISALIGNMENT
+// ========================================
+
+.misalign-left {
+  transform: translateX(calc(-1 * var(--offset-small)));
+}
+
+.misalign-right {
+  transform: translateX(var(--offset-small));
+}
+
+.misalign-up {
+  transform: translateY(calc(-1 * var(--offset-small)));
+}
+
+.misalign-down {
+  transform: translateY(var(--offset-small));
+}
+
+.misalign-diagonal {
+  transform: translate(var(--offset-small), var(--offset-small));
+}
+
+.misalign-reverse-diagonal {
+  transform: translate(
+    calc(-1 * var(--offset-small)),
+    calc(-1 * var(--offset-small))
+  );
+}
+
+.misalign-large-diagonal {
+  transform: translate(var(--offset-large), var(--offset-large));
+}
+
+.misalign-chaos {
+  transform: translate(var(--offset-medium), calc(-1 * var(--offset-medium)))
+    rotate(1deg);
+}
+
+// Accessible misalignment (respects reduced motion)
+.misalign-accessible {
+  @media (prefers-reduced-motion: no-preference) {
+    transform: translateX(var(--offset-small));
+  }
+}
+
+// ========================================
+// RESPONSIVE TYPOGRAPHY
+// ========================================
+
+.display-responsive {
+  font-size: 2.5rem;
+  line-height: 1.1;
+
+  @media (min-width: 480px) {
+    font-size: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 4rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 5rem;
+  }
+}
+
+.heading-responsive {
+  font-size: 1.5rem;
+  line-height: 1.2;
+
+  @media (min-width: 480px) {
+    font-size: 1.75rem;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 2.5rem;
+  }
+}
+
+.text-responsive {
+  font-size: 1rem;
+  line-height: 1.6;
+
+  @media (min-width: 480px) {
+    font-size: 1.125rem;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 1.25rem;
+  }
+}
+
+// ========================================
+// SPACING UTILITIES
+// ========================================
+
+.section-padding {
+  padding-top: var(--section-spacing);
+  padding-bottom: var(--section-spacing);
+}

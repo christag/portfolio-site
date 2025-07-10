@@ -1,68 +1,267 @@
 ---
-'<!-- Deployed via Cloudflare Pages $(date) -->';
 import Layout from '../layouts/Layout.astro';
-('<!-- This is a preview deployment test -->');
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import AnimationDemo from '../components/demo/AnimationDemo.astro';
 ---
 
-<Layout title="Chris Tagliaferro - Home">
-  <div class="container mx-auto px-4 py-8">
-    <h1
-      class="text-6xl font-bold mb-8"
-      style="color: var(--color-text-primary);"
-    >
-      Navigation Test
-    </h1>
-
-    <div class="space-y-8">
-      <section
-        class="p-8 rounded-lg"
-        style="background-color: var(--color-bg-secondary);"
-      >
-        <h2
-          class="text-4xl font-bold mb-4"
-          style="color: var(--color-text-primary);"
+<Layout title="Christopher Tagliaferro - Technology Consultant & Virtual CIO">
+  <!-- Hero Section with Proper Centering -->
+  <section
+    class="min-h-screen flex items-center justify-center pt-20"
+    style="background-color: var(--color-bg-primary);"
+  >
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center">
+        <!-- Main heading with misalignment -->
+        <h1
+          class="display-responsive font-bold mb-8 misalign-accessible misalign-right"
+          style="color: var(--color-text-primary); font-family: var(--font-heading);"
         >
-          Theme Toggle
-        </h2>
-        <p style="color: var(--color-text-secondary);">
-          Click the theme toggle in the navigation to cycle through light → dark
-          → punk modes.
-        </p>
-      </section>
+          christopher<span style="color: var(--color-accent-primary);">.</span>
+        </h1>
 
-      <section
-        class="p-8 rounded-lg"
-        style="background-color: var(--color-bg-secondary);"
-      >
         <h2
-          class="text-4xl font-bold mb-4"
-          style="color: var(--color-text-primary);"
+          class="heading-responsive mb-8 misalign-left"
+          style="color: var(--color-text-secondary);"
         >
-          Mobile Menu
+          Technology Consultant & Virtual CIO
         </h2>
-        <p style="color: var(--color-text-secondary);">
-          Resize your browser to mobile width to test the responsive hamburger
-          menu.
-        </p>
-      </section>
 
-      <section
-        class="p-8 rounded-lg"
-        style="background-color: var(--color-bg-secondary);"
-      >
-        <h2
-          class="text-4xl font-bold mb-4"
-          style="color: var(--color-text-primary);"
+        <p
+          class="text-responsive mb-12 max-w-2xl mx-auto misalign-diagonal"
+          style="color: var(--color-text-secondary);"
         >
-          Punk Micro-Interactions
-        </h2>
-        <p style="color: var(--color-text-secondary);">
-          Switch to punk mode and hover over navigation items to see the
-          rebellious effects.
+          Empowering founders through honest tech partnership. Building systems
+          that scale with your vision.
         </p>
-      </section>
+
+        <!-- Fixed button layout for mobile and desktop -->
+        <div
+          class="button-container flex flex-col sm:flex-row justify-center items-center max-w-lg mx-auto"
+        >
+          <a
+            href="/services"
+            class="hero-button button-primary w-full sm:w-auto px-8 py-4 text-center text-base font-semibold rounded-lg transition-all duration-300 hover:transform hover:translateY(-2px) hover:shadow-lg"
+            style="background-color: var(--color-accent-primary); color: var(--color-bg-primary); border: 2px solid var(--color-accent-primary);"
+          >
+            Explore Services
+          </a>
+          <a
+            href="/contact"
+            class="hero-button button-secondary w-full sm:w-auto px-8 py-4 text-center text-base font-semibold rounded-lg transition-all duration-300 border-2 hover:transform hover:translateY(-2px) hover:shadow-lg"
+            style="border-color: var(--color-accent-primary); color: var(--color-accent-primary); background-color: transparent;"
+          >
+            Let's Talk
+          </a>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <!-- Animation Demo Section -->
+  <AnimationDemo title="Punk/Brutalist Animation Utilities" />
+
+  <!-- Demonstration Section for Responsive Layouts -->
+  <section
+    class="section-padding"
+    style="background-color: var(--color-bg-secondary);"
+  >
+    <div class="max-w-6xl mx-auto px-6">
+      <h2
+        class="heading-responsive text-center mb-12 misalign-left"
+        style="color: var(--color-text-primary);"
+      >
+        Responsive Design in Action
+      </h2>
+
+      <!-- Print-style Grid Demo -->
+      <div class="grid-print-style mb-16">
+        <div class="span-full lg:span-two-thirds offset-1 lg:offset-2">
+          <h3
+            class="text-2xl font-bold mb-4"
+            style="color: var(--color-text-primary);"
+          >
+            Asymmetric Layouts
+          </h3>
+          <p
+            class="text-responsive misalign-right"
+            style="color: var(--color-text-secondary);"
+          >
+            Our layout system adapts beautifully across all screen sizes while
+            maintaining the punk/brutalist aesthetic through deliberate
+            misalignment.
+          </p>
+        </div>
+
+        <div class="span-full lg:span-third">
+          <div
+            class="p-6 rounded-lg misalign-down"
+            style="background-color: var(--color-bg-tertiary);"
+          >
+            <h4
+              class="text-lg font-bold mb-2"
+              style="color: var(--color-accent-primary);"
+            >
+              Mobile First
+            </h4>
+            <p class="text-sm" style="color: var(--color-text-secondary);">
+              Clean single column on mobile
+            </p>
+          </div>
+        </div>
+
+        <div class="span-full lg:span-half offset-1">
+          <div
+            class="p-6 rounded-lg misalign-up"
+            style="background-color: var(--color-bg-tertiary);"
+          >
+            <h4
+              class="text-lg font-bold mb-2"
+              style="color: var(--color-accent-secondary);"
+            >
+              Tablet Adaptation
+            </h4>
+            <p class="text-sm" style="color: var(--color-text-secondary);">
+              Golden ratio columns for visual harmony
+            </p>
+          </div>
+        </div>
+
+        <div class="span-full lg:span-quarter">
+          <div
+            class="p-6 rounded-lg misalign-reverse-diagonal"
+            style="background-color: var(--color-bg-tertiary);"
+          >
+            <h4
+              class="text-lg font-bold mb-2"
+              style="color: var(--color-accent-tertiary);"
+            >
+              Desktop Chaos
+            </h4>
+            <p class="text-sm" style="color: var(--color-text-secondary);">
+              Controlled misalignment for punk energy
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Breakpoint Demonstration -->
+      <div class="text-center">
+        <div
+          class="inline-block p-4 rounded-lg"
+          style="background-color: var(--color-bg-tertiary);"
+        >
+          <p
+            class="text-sm font-mono"
+            style="color: var(--color-text-secondary);"
+          >
+            Current breakpoint:
+            <span class="xs:hidden">XS (320px+)</span>
+            <span class="hidden xs:inline sm:hidden">SM (480px+)</span>
+            <span class="hidden sm:inline md:hidden">MD (768px+)</span>
+            <span class="hidden md:inline lg:hidden">LG (1024px+)</span>
+            <span class="hidden lg:inline xl:hidden">XL (1280px+)</span>
+            <span class="hidden xl:inline 2xl:hidden">2XL (1440px+)</span>
+            <span class="hidden 2xl:inline">3XL (1920px+)</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  /* Button container spacing - explicit CSS to override any conflicts */
+  .button-container {
+    gap: 1.5rem !important; /* 24px spacing */
+  }
+
+  /* Mobile: Stack vertically with spacing */
+  .button-primary {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Desktop: Side-by-side, centered, remove individual margins */
+  @media (min-width: 640px) {
+    .button-primary {
+      margin-bottom: 0 !important;
+      margin-right: 0;
+    }
+
+    .button-secondary {
+      margin-left: 0;
+    }
+
+    /* Ensure buttons are smaller on desktop */
+    .hero-button {
+      min-width: 160px;
+      max-width: 200px;
+    }
+
+    /* Force horizontal layout on desktop */
+    .button-container {
+      flex-direction: row !important;
+    }
+  }
+
+  /* Enhanced button styling for consistency */
+  .hero-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .hero-button:active {
+    transform: translateY(-1px);
+  }
+
+  /* Punk theme button effects */
+  [data-theme='punk'] .hero-button:hover {
+    box-shadow:
+      0 0 20px var(--color-accent-primary),
+      0 8px 25px rgba(255, 0, 128, 0.3);
+    animation: subtle-glitch 0.3s ease-in-out;
+  }
+
+  @keyframes subtle-glitch {
+    0%,
+    100% {
+      transform: translateY(-2px);
+    }
+    25% {
+      transform: translateY(-2px) translateX(1px);
+    }
+    75% {
+      transform: translateY(-2px) translateX(-1px);
+    }
+  }
+
+  /* Button hover effects for punk theme */
+  [data-theme='punk'] a:hover {
+    box-shadow: 0 0 20px var(--color-accent-primary);
+  }
+
+  /* Enhanced punk theme effects */
+  [data-theme='punk'] .misalign-chaos {
+    animation: glitch 0.3s ease-in-out infinite alternate;
+  }
+
+  /* Ensure buttons don't overflow on mobile */
+  @media (max-width: 479px) {
+    .max-w-4xl,
+    .max-w-6xl {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+</style>

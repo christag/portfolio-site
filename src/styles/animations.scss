@@ -1,0 +1,462 @@
+/**
+ * Animation Utilities for Punk/Brutalist Design
+ * Includes glitch effects, motion blur, micro-interactions, and accessibility support
+ */
+
+/* ==========================================================================
+   ACCESSIBILITY FIRST - Reduced Motion Support
+   ========================================================================== */
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Disable specific punk animations for accessibility */
+  .animate-glitch,
+  .animate-glitch-fast,
+  .animate-glitch-slow,
+  .animate-glitch-intense,
+  .animate-glitch-rgb,
+  .animate-glitch-infinite,
+  .animate-glitch-intense-infinite,
+  .animate-flicker,
+  .animate-flicker-fast,
+  .animate-flicker-slow,
+  .animate-flicker-intense,
+  .animate-flicker-infinite,
+  .animate-flash,
+  .animate-slide-chaotic,
+  .animate-bounce-brutal,
+  .animate-shake,
+  .animate-shake-infinite,
+  .animate-skew-brutal,
+  .animate-zoom-glitch,
+  .animate-float-chaotic {
+    animation: none !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  /* Keep essential animations but make them instant */
+  .animate-slide-offset,
+  .animate-pulse-brutal,
+  .animate-float,
+  .animate-loading-brutal,
+  .animate-loading-jagged,
+  .animate-typing,
+  .animate-cursor-blink {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ==========================================================================
+   GLITCH EFFECTS
+   ========================================================================== */
+
+/* Glitch hover effects */
+.glitch-hover {
+  position: relative;
+
+  &:hover {
+    animation: glitch 0.3s ease-in-out;
+  }
+}
+
+/* RGB Split Text Effect */
+.glitch-rgb-text {
+  position: relative;
+  display: inline-block;
+
+  &::before,
+  &::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  &::before {
+    color: #ff0080;
+    animation: glitch-rgb 0.4s ease-in-out infinite;
+    z-index: -1;
+  }
+
+  &::after {
+    color: #00d9ff;
+    animation: glitch-rgb 0.4s ease-in-out infinite reverse;
+    z-index: -2;
+  }
+}
+
+/* Glitch overlay effect */
+.glitch-overlay {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 0, 128, 0.1) 25%,
+      rgba(0, 217, 255, 0.1) 50%,
+      rgba(255, 224, 236, 0.1) 75%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+
+  &:hover::before {
+    transform: translateX(100%);
+  }
+}
+
+/* ==========================================================================
+   MOTION BLUR EFFECTS
+   ========================================================================== */
+
+/* Motion blur on hover */
+.motion-blur-hover {
+  transition: filter 0.3s ease;
+
+  &:hover {
+    filter: blur(2px);
+  }
+}
+
+/* Motion blur with movement */
+.motion-blur-move {
+  transition: all 0.3s ease;
+
+  &:hover {
+    filter: blur(2px);
+    transform: translateX(5px);
+  }
+}
+
+/* ==========================================================================
+   MICRO-INTERACTIONS
+   ========================================================================== */
+
+/* Button ripple effect */
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition:
+      width 0.3s ease,
+      height 0.3s ease;
+    pointer-events: none;
+  }
+
+  &:active::before {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+/* Punk button hover effect */
+.punk-button {
+  position: relative;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0 var(--color-accent-primary);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 2px 2px 0 var(--color-accent-primary);
+  }
+}
+
+/* Industrial overlay effect */
+.industrial-overlay {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.05) 2px,
+      rgba(255, 255, 255, 0.05) 4px
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   LOADING AND PROGRESS EFFECTS
+   ========================================================================== */
+
+/* Brutal loading bar */
+.loading-brutal {
+  position: relative;
+  background: var(--color-bg-tertiary);
+  height: 4px;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--color-accent-primary);
+    animation: loading-brutal 2s ease-out forwards;
+  }
+}
+
+/* Jagged progress bar */
+.progress-jagged {
+  position: relative;
+  background: var(--color-bg-tertiary);
+  height: 6px;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--color-accent-primary);
+    animation: loading-jagged 3s ease-out forwards;
+  }
+}
+
+/* ==========================================================================
+   TEXT EFFECTS
+   ========================================================================== */
+
+/* Typing effect */
+.typing-effect {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--color-accent-primary);
+  animation:
+    typing 2s steps(40) forwards,
+    cursor-blink 1s infinite;
+}
+
+/* Glitch text on hover */
+.text-glitch-hover {
+  position: relative;
+
+  &:hover {
+    animation: glitch-rgb 0.4s ease-in-out;
+  }
+}
+
+/* ==========================================================================
+   PARTICLE EFFECTS
+   ========================================================================== */
+
+/* Floating particles */
+.particles-container {
+  position: relative;
+
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--color-accent-primary);
+    border-radius: 50%;
+    animation: float-chaotic 4s linear infinite;
+
+    &:nth-child(1) {
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+    &:nth-child(2) {
+      top: 20%;
+      left: 80%;
+      animation-delay: 0.5s;
+    }
+    &:nth-child(3) {
+      top: 60%;
+      left: 30%;
+      animation-delay: 1s;
+    }
+    &:nth-child(4) {
+      top: 80%;
+      left: 70%;
+      animation-delay: 1.5s;
+    }
+    &:nth-child(5) {
+      top: 40%;
+      left: 90%;
+      animation-delay: 2s;
+    }
+  }
+}
+
+/* Geometric particles */
+.particles-geometric {
+  .particle {
+    border-radius: 0;
+
+    &:nth-child(odd) {
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    &:nth-child(even) {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+  }
+}
+
+/* ==========================================================================
+   UTILITY CLASSES
+   ========================================================================== */
+
+/* Animation triggers */
+.animate-on-hover:hover {
+  animation: glitch 0.3s ease-in-out;
+}
+
+.animate-on-click:active {
+  animation: flash 0.1s ease-in-out;
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+
+  &.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Performance optimization */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-filter {
+  will-change: filter;
+}
+
+/* ==========================================================================
+   THEME-SPECIFIC ANIMATIONS
+   ========================================================================== */
+
+/* Light theme animations */
+[data-theme='light'] {
+  .glitch-rgb-text::before {
+    color: #ff6b6b;
+  }
+
+  .glitch-rgb-text::after {
+    color: #00d4ff;
+  }
+}
+
+/* Dark theme animations */
+[data-theme='dark'] {
+  .glitch-rgb-text::before {
+    color: #ff6b6b;
+  }
+
+  .glitch-rgb-text::after {
+    color: #4ecdc4;
+  }
+}
+
+/* Punk theme animations */
+[data-theme='punk'] {
+  .glitch-rgb-text::before {
+    color: #ff0080;
+  }
+
+  .glitch-rgb-text::after {
+    color: #00d9ff;
+  }
+
+  .punk-button:hover {
+    box-shadow: 4px 4px 0 #ffe0ec;
+  }
+
+  .punk-button:active {
+    box-shadow: 2px 2px 0 #ffe0ec;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE ANIMATIONS
+   ========================================================================== */
+
+/* Reduce animations on mobile for performance */
+@media (max-width: 768px) {
+  .animate-glitch-intense,
+  .animate-glitch-intense-infinite,
+  .animate-float-chaotic,
+  .animate-slide-chaotic {
+    animation: none;
+  }
+
+  .particles-container {
+    display: none;
+  }
+}
+
+/* Enhanced animations on larger screens */
+@media (min-width: 1024px) {
+  .glitch-hover:hover {
+    animation: glitch-intense 0.5s ease-in-out;
+  }
+
+  .motion-blur-hover:hover {
+    filter: blur(3px);
+  }
+}

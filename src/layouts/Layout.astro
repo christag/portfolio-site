@@ -1,6 +1,6 @@
 ---
-import '../styles/global.css';
 import Navigation from '../components/navigation/Navigation.astro';
+import Footer from '../components/footer/Footer.astro';
 
 export interface Props {
   title: string;
@@ -9,7 +9,7 @@ export interface Props {
 
 const {
   title,
-  description = 'Chris Tagliaferro - Technology Consultant & Virtual CIO',
+  description = 'Christopher Tagliaferro - Technology Consultant & Virtual CIO',
 } = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
@@ -22,11 +22,25 @@ const currentPath = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <!-- Import styles in correct order -->
+    <style>
+      @import '../styles/variables.scss';
+    </style>
   </head>
-  <body>
+  <body
+    class="min-h-screen"
+    style="background-color: var(--color-bg-primary, #fafafa); color: var(--color-text-primary, #171717);"
+  >
     <Navigation currentPath={currentPath} />
-    <main class="pt-16">
+    <main class="pt-20 pb-32">
       <slot />
     </main>
+    <Footer />
   </body>
 </html>
+
+<style is:global>
+  @import '../styles/variables.scss';
+  @import '../styles/global.css';
+  @import '../styles/utilities.scss';
+</style>

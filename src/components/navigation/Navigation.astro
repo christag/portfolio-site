@@ -1,5 +1,5 @@
 ---
-// Navigation.astro - Fixed responsive layout
+// Navigation.astro - Theme-aware responsive navigation
 export interface Props {
   currentPath?: string;
 }
@@ -7,125 +7,368 @@ export interface Props {
 const { currentPath = '/' } = Astro.props;
 ---
 
-<!-- Fixed responsive navigation -->
-<nav
-  style="background: red; color: white; padding: 1rem; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; box-sizing: border-box;"
->
-  <div
-    style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;"
-  >
-    <div>
-      <a
-        href="/"
-        style="color: white; text-decoration: none; font-size: 1.5rem; font-weight: bold;"
-      >
-        Chris
-      </a>
-    </div>
+<!-- Theme-aware responsive navigation -->
+<nav class="nav-bar" id="main-nav">
+  <div class="nav-container">
+    <div class="nav-content">
+      <!-- Logo/Name -->
+      <div>
+        <a href="/" class="nav-logo" id="nav-logo"> christopher tagliaferro </a>
+      </div>
 
-    <!-- Desktop navigation -->
-    <div style="display: flex; gap: 2rem;" class="desktop-nav">
-      <a href="/" style="color: white; text-decoration: none;">I Am</a>
-      <a href="/services" style="color: white; text-decoration: none;">I Can</a>
-      <a href="/portfolio" style="color: white; text-decoration: none;">I Did</a
-      >
-      <a href="/contact" style="color: white; text-decoration: none;"
-        >Let's Talk</a
-      >
-    </div>
+      <!-- Desktop navigation -->
+      <div class="nav-desktop">
+        <a href="/" class="nav-link">About</a>
+        <a href="/services" class="nav-link">Services</a>
+        <a href="/portfolio" class="nav-link">Portfolio</a>
+        <a href="/contact" class="nav-link">Contact</a>
 
-    <!-- Buttons container -->
-    <div style="display: flex; gap: 0.5rem; align-items: center;">
-      <button
-        id="theme-toggle"
-        style="background: blue; color: white; border: none; padding: 0.5rem 1rem; cursor: pointer; border-radius: 4px; font-size: 0.875rem;"
-      >
-        Light
-      </button>
+        <!-- Theme toggle -->
+        <button id="theme-toggle" class="theme-button"> Light </button>
+      </div>
+
+      <!-- Mobile menu button -->
       <button
         id="mobile-menu-toggle"
-        style="background: green; color: white; border: none; padding: 0.5rem 1rem; cursor: pointer; border-radius: 4px; font-size: 0.875rem;"
-        class="mobile-only"
+        class="mobile-toggle"
+        aria-label="Toggle mobile menu"
       >
-        Menu
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
       </button>
     </div>
-  </div>
 
-  <!-- Mobile menu -->
-  <div
-    id="mobile-menu"
-    style="display: none; background: yellow; color: black; padding: 1rem; margin-top: 1rem; border-radius: 4px;"
-  >
-    <a
-      href="/"
-      style="display: block; color: black; text-decoration: none; padding: 0.5rem 0; border-bottom: 1px solid #ccc;"
-      >I Am</a
-    >
-    <a
-      href="/services"
-      style="display: block; color: black; text-decoration: none; padding: 0.5rem 0; border-bottom: 1px solid #ccc;"
-      >I Can</a
-    >
-    <a
-      href="/portfolio"
-      style="display: block; color: black; text-decoration: none; padding: 0.5rem 0; border-bottom: 1px solid #ccc;"
-      >I Did</a
-    >
-    <a
-      href="/contact"
-      style="display: block; color: black; text-decoration: none; padding: 0.5rem 0;"
-      >Let's Talk</a
-    >
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="mobile-menu hidden">
+      <div class="mobile-menu-content">
+        <a href="/" class="mobile-link">About</a>
+        <a href="/services" class="mobile-link">Services</a>
+        <a href="/portfolio" class="mobile-link">Portfolio</a>
+        <a href="/contact" class="mobile-link">Contact</a>
+
+        <!-- Mobile theme toggle -->
+        <button id="mobile-theme-toggle" class="mobile-theme-button">
+          Theme: Light
+        </button>
+      </div>
+    </div>
   </div>
 </nav>
 
 <style>
-  /* Responsive styles */
-  @media (max-width: 768px) {
-    .desktop-nav {
-      display: none !important;
-    }
-    .mobile-only {
-      display: block !important;
+  /* Base navigation styles without colors */
+  .nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    min-height: 64px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  .nav-container {
+    max-width: 96rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+  }
+
+  /* Logo Styles */
+  .nav-logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+    font-family:
+      'Inter',
+      system-ui,
+      -apple-system,
+      sans-serif;
+    transition: all 0.3s ease;
+  }
+
+  .nav-logo:hover {
+    opacity: 0.8;
+  }
+
+  /* Desktop Navigation */
+  .nav-desktop {
+    display: none;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .nav-desktop {
+      display: flex;
     }
   }
 
-  @media (min-width: 769px) {
-    .mobile-only {
+  .nav-link {
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-family:
+      'Inter',
+      system-ui,
+      -apple-system,
+      sans-serif;
+  }
+
+  /* Theme Button */
+  .theme-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family:
+      'Inter',
+      system-ui,
+      -apple-system,
+      sans-serif;
+  }
+
+  .theme-button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+
+  /* Mobile Toggle */
+  .mobile-toggle {
+    display: block;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-toggle {
+      display: none;
+    }
+  }
+
+  /* Mobile Menu */
+  .mobile-menu {
+    transition: all 0.3s ease;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-menu {
       display: none !important;
     }
+  }
+
+  .mobile-menu-content {
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .mobile-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+    font-family:
+      'Inter',
+      system-ui,
+      -apple-system,
+      sans-serif;
+  }
+
+  .mobile-theme-button {
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family:
+      'Inter',
+      system-ui,
+      -apple-system,
+      sans-serif;
+  }
+
+  .mobile-theme-button:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
+  }
+
+  /* Utility */
+  .hidden {
+    display: none;
   }
 </style>
 
 <script>
-  // Theme toggle with proper text updates
+  // Theme management with direct style application
   const themeToggle = document.getElementById('theme-toggle');
+  const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
   const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
   const mobileMenu = document.getElementById('mobile-menu');
+  const nav = document.getElementById('main-nav');
 
-  let currentTheme = 'light';
+  // Initialize theme from localStorage or default to light
+  let currentTheme = localStorage.getItem('theme') || 'light';
 
-  themeToggle?.addEventListener('click', () => {
-    if (currentTheme === 'light') {
-      currentTheme = 'dark';
-      document.documentElement.setAttribute('data-theme', 'dark');
-      themeToggle.textContent = 'Dark';
-    } else if (currentTheme === 'dark') {
-      currentTheme = 'punk';
-      document.documentElement.setAttribute('data-theme', 'punk');
-      themeToggle.textContent = 'Punk';
-    } else {
-      currentTheme = 'light';
+  // Theme configurations
+  const themeConfigs = {
+    light: {
+      navBg: '#f5f5f5',
+      navBorder: '#e5e5e5',
+      navText: '#171717',
+      navAccent: '#00d4ff',
+      navAccentText: '#fafafa',
+      navShadow: 'rgba(0, 0, 0, 0.1)',
+      hoverBg: '#e5e5e5',
+    },
+    dark: {
+      navBg: '#262626',
+      navBorder: '#404040',
+      navText: '#fafafa',
+      navAccent: '#00d4ff',
+      navAccentText: '#262626',
+      navShadow: 'rgba(0, 0, 0, 0.3)',
+      hoverBg: '#404040',
+    },
+    punk: {
+      navBg: '#171717',
+      navBorder: '#ff0080',
+      navText: '#f5f5f0',
+      navAccent: '#ffe0ec',
+      navAccentText: '#0a0a0a',
+      navShadow: 'rgba(255, 224, 236, 0.3)',
+      hoverBg: '#262626',
+    },
+  };
+
+  function applyNavTheme(theme: string) {
+    const config = themeConfigs[theme as keyof typeof themeConfigs];
+    if (!config || !nav) return;
+
+    // Apply navigation styles directly
+    nav.style.backgroundColor = config.navBg;
+    nav.style.borderBottom = `2px solid ${config.navBorder}`;
+    nav.style.boxShadow = `0 2px 8px ${config.navShadow}`;
+
+    // Apply text colors to all nav links and logo
+    const navLinks = nav.querySelectorAll(
+      '.nav-link, .nav-logo, .mobile-toggle, .mobile-link'
+    );
+    navLinks.forEach((link) => {
+      (link as HTMLElement).style.color = config.navText;
+    });
+
+    // Apply theme button styles
+    const themeButtons = nav.querySelectorAll(
+      '.theme-button, .mobile-theme-button'
+    );
+    themeButtons.forEach((button) => {
+      (button as HTMLElement).style.backgroundColor = config.navAccent;
+      (button as HTMLElement).style.color = config.navAccentText;
+      if (theme === 'punk') {
+        (button as HTMLElement).style.border = `2px solid ${config.navBorder}`;
+      } else {
+        (button as HTMLElement).style.border = '2px solid transparent';
+      }
+    });
+
+    // Apply mobile menu styles
+    if (mobileMenu) {
+      mobileMenu.style.backgroundColor = config.navBg;
+      mobileMenu.style.borderTopColor = config.navBorder;
+    }
+
+    console.log(`Navigation theme applied: ${theme}`, config);
+  }
+
+  function updateTheme(theme: string) {
+    currentTheme = theme;
+    localStorage.setItem('theme', theme);
+
+    // Update document attribute for other components
+    if (theme === 'light') {
       document.documentElement.removeAttribute('data-theme');
-      themeToggle.textContent = 'Light';
+    } else {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+
+    // Apply navigation theme directly
+    applyNavTheme(theme);
+
+    // Update button text
+    const themeNames: { [key: string]: string } = {
+      light: 'Light',
+      dark: 'Dark',
+      punk: 'Punk',
+    };
+    if (themeToggle) themeToggle.textContent = themeNames[theme];
+    if (mobileThemeToggle)
+      mobileThemeToggle.textContent = `Theme: ${themeNames[theme]}`;
+
+    console.log(`Theme switched to: ${theme}`);
+  }
+
+  function cycleTheme() {
+    const themes = ['light', 'dark', 'punk'];
+    const currentIndex = themes.indexOf(currentTheme);
+    const nextIndex = (currentIndex + 1) % themes.length;
+    updateTheme(themes[nextIndex]);
+  }
+
+  // Initialize theme on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    updateTheme(currentTheme);
+  });
+
+  // Theme toggle event listeners
+  themeToggle?.addEventListener('click', cycleTheme);
+  mobileThemeToggle?.addEventListener('click', cycleTheme);
+
+  // Mobile menu toggle
+  mobileMenuToggle?.addEventListener('click', () => {
+    if (mobileMenu) {
+      mobileMenu.classList.toggle('hidden');
     }
   });
 
-  mobileMenuToggle?.addEventListener('click', () => {
-    if (mobileMenu) {
-      mobileMenu.style.display =
-        mobileMenu.style.display === 'none' ? 'block' : 'none';
-    }
+  // Close mobile menu when clicking on links
+  const mobileLinks = document.querySelectorAll('#mobile-menu a');
+  mobileLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      if (mobileMenu) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
   });
 </script>

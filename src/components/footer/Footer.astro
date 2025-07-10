@@ -1,0 +1,75 @@
+---
+// Footer.astro - Simplified Footer without Navigation
+export interface Props {
+  currentYear?: number;
+}
+
+const { currentYear = new Date().getFullYear() } = Astro.props;
+
+// Social links with icons
+const socialLinks = [
+  { name: 'GitHub', url: 'https://github.com', icon: 'G' },
+  { name: 'LinkedIn', url: 'https://linkedin.com', icon: 'L' },
+  { name: 'Twitter', url: 'https://twitter.com', icon: 'T' },
+];
+---
+
+<footer
+  style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; background-color: var(--color-bg-tertiary); border-top: 1px solid var(--color-bg-secondary); padding: 0.75rem; backdrop-filter: blur(8px);"
+>
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <!-- Simplified single row layout -->
+    <div
+      style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;"
+    >
+      <!-- Left: Copyright -->
+      <div style="text-align: left;">
+        <p
+          style="font-size: 0.75rem; margin: 0; color: var(--color-text-tertiary);"
+        >
+          © {currentYear} christopher tagliaferro
+        </p>
+        <p
+          style="font-size: 0.75rem; margin: 0; color: var(--color-text-secondary);"
+        >
+          Technology Consultant & Virtual CIO
+        </p>
+      </div>
+
+      <!-- Right: Social links -->
+      <div style="display: flex; gap: 0.5rem;">
+        {
+          socialLinks.map((social) => (
+            <a
+              href={social.url}
+              class="social-link"
+              style="display: flex; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; background-color: var(--color-bg-secondary); color: var(--color-text-tertiary); border-radius: 0.25rem; font-size: 0.75rem; text-decoration: none; transition: all 0.3s ease;"
+              aria-label={social.name}
+            >
+              {social.icon}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Social link hover effects */
+  .social-link:hover {
+    background-color: var(--color-accent-primary) !important;
+    color: var(--color-bg-primary) !important;
+    transform: translateY(-1px);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 479px) {
+    footer > div > div {
+      flex-direction: column;
+      text-align: center;
+      gap: 0.5rem;
+    }
+  }
+</style>
+

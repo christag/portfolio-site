@@ -1,0 +1,945 @@
+---
+// AnimationDemo.astro - Showcase of punk/brutalist animation utilities
+export interface Props {
+  title?: string;
+}
+
+const { title = 'Animation Utilities Demo' } = Astro.props;
+---
+
+<!-- Simple test animation first -->
+<div
+  class="test-animation-container mb-8 p-4 bg-red-500 text-white text-center"
+>
+  <h3>ANIMATION TEST - This should be pulsing red</h3>
+  <div class="test-pulse">If this isn't pulsing, animations are broken</div>
+</div>
+
+<section class="animation-demo py-12 px-4">
+  <div class="container-constrained">
+    <h2 class="text-3xl font-bold mb-8 text-center">{title}</h2>
+
+    <!-- Glitch Effects -->
+    <div class="demo-section mb-12">
+      <h3 class="text-2xl font-semibold mb-6">Glitch Effects</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Basic Glitch -->
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">Basic Glitch</h4>
+          <button
+            class="glitch-hover px-4 py-2 bg-theme-accent text-white rounded"
+          >
+            Hover for Glitch
+          </button>
+        </div>
+
+        <!-- RGB Split Text -->
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">RGB Split Text</h4>
+          <div class="glitch-rgb-text text-2xl font-bold" data-text="PUNK TEXT">
+            PUNK TEXT
+          </div>
+        </div>
+
+        <!-- Glitch Overlay -->
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">Glitch Overlay</h4>
+          <div class="glitch-overlay p-4 bg-theme-bg-tertiary rounded">
+            <p>Hover for overlay effect</p>
+          </div>
+        </div>
+
+        <!-- Tailwind Glitch Effects -->
+        <div class="demo-card">
+          <h3 class="text-lg font-semibold mb-4">Tailwind Glitch Effects</h3>
+          <div class="space-y-4">
+            <button
+              class="animate-glitch bg-accent-primary text-white px-4 py-2 rounded hover:bg-accent-secondary transition-colors"
+            >
+              Glitch Button
+            </button>
+            <button
+              class="animate-glitch-intense bg-accent-primary text-white px-4 py-2 rounded hover:bg-accent-secondary transition-colors"
+            >
+              Intense Glitch
+            </button>
+            <p class="text-sm text-text-secondary">
+              Classes: <code>animate-glitch</code>, <code
+                >animate-glitch-intense</code
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Motion Blur Effects -->
+    <div class="demo-section mb-12">
+      <h3 class="text-2xl font-semibold mb-6">Motion Blur Effects</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">Motion Blur Hover</h4>
+          <div
+            class="motion-blur-hover p-4 bg-theme-accent text-white rounded cursor-pointer"
+          >
+            Hover for blur effect
+          </div>
+        </div>
+
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">Motion Blur + Movement</h4>
+          <div
+            class="motion-blur-move p-4 bg-theme-accent-secondary text-white rounded cursor-pointer"
+          >
+            Hover for blur + movement
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Micro-interactions -->
+    <div class="demo-section mb-12">
+      <h3 class="text-2xl font-semibold mb-6">Micro-interactions</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">Ripple Effect</h4>
+          <button
+            class="ripple-effect px-6 py-3 bg-theme-accent text-white rounded"
+          >
+            Click Me
+          </button>
+        </div>
+
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">Punk Button</h4>
+          <button
+            class="punk-button px-6 py-3 bg-theme-accent text-white rounded"
+          >
+            Punk Style
+          </button>
+        </div>
+
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">Industrial Overlay</h4>
+          <div
+            class="industrial-overlay p-4 bg-theme-bg-tertiary rounded cursor-pointer"
+          >
+            <p>Hover for industrial effect</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Effects -->
+    <div class="demo-section mb-12">
+      <h3 class="text-2xl font-semibold mb-6">Loading & Progress</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">Brutal Loading</h4>
+          <div class="loading-brutal mb-4"></div>
+          <button
+            onclick="this.previousElementSibling.firstElementChild.style.animation = 'loading-brutal 2s ease-out forwards'"
+            class="px-4 py-2 bg-theme-accent text-white rounded"
+          >
+            Restart Animation
+          </button>
+        </div>
+
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">Jagged Progress</h4>
+          <div class="progress-jagged mb-4"></div>
+          <button
+            onclick="this.previousElementSibling.firstElementChild.style.animation = 'loading-jagged 3s ease-out forwards'"
+            class="px-4 py-2 bg-theme-accent text-white rounded"
+          >
+            Restart Animation
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text Effects -->
+    <div class="demo-section mb-12">
+      <h3 class="text-2xl font-semibold mb-6">Text Effects</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">Typing Effect</h4>
+          <div class="typing-effect font-mono">
+            This text types itself out...
+          </div>
+        </div>
+
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">Glitch Text Hover</h4>
+          <div class="text-glitch-hover text-2xl font-bold cursor-pointer">
+            HOVER ME
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tailwind Animations -->
+    <div class="demo-section mb-12">
+      <h3 class="text-2xl font-semibold mb-6">Tailwind Animation Classes</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="demo-card p-4 bg-theme-bg-secondary rounded-lg text-center">
+          <div
+            class="animate-flicker-infinite p-3 bg-theme-accent text-white rounded mb-2"
+          >
+            Flicker
+          </div>
+          <code class="text-xs">animate-flicker-infinite</code>
+        </div>
+
+        <div class="demo-card p-4 bg-theme-bg-secondary rounded-lg text-center">
+          <div
+            class="animate-shake-infinite p-3 bg-theme-accent text-white rounded mb-2"
+          >
+            Shake
+          </div>
+          <code class="text-xs">animate-shake-infinite</code>
+        </div>
+
+        <div class="demo-card p-4 bg-theme-bg-secondary rounded-lg text-center">
+          <div
+            class="animate-pulse-brutal p-3 bg-theme-accent text-white rounded mb-2"
+          >
+            Pulse
+          </div>
+          <code class="text-xs">animate-pulse-brutal</code>
+        </div>
+
+        <div class="demo-card p-4 bg-theme-bg-secondary rounded-lg text-center">
+          <div
+            class="animate-bounce-brutal p-3 bg-theme-accent text-white rounded mb-2"
+          >
+            Bounce
+          </div>
+          <code class="text-xs">animate-bounce-brutal</code>
+        </div>
+
+        <div class="demo-card p-4 bg-theme-bg-secondary rounded-lg text-center">
+          <div
+            class="animate-float p-3 bg-theme-accent text-white rounded mb-2"
+          >
+            Float
+          </div>
+          <code class="text-xs">animate-float</code>
+        </div>
+
+        <div class="demo-card p-4 bg-theme-bg-secondary rounded-lg text-center">
+          <div
+            class="animate-slide-chaotic p-3 bg-theme-accent text-white rounded mb-2"
+          >
+            Chaotic
+          </div>
+          <code class="text-xs">animate-slide-chaotic</code>
+        </div>
+
+        <div class="demo-card p-4 bg-theme-bg-secondary rounded-lg text-center">
+          <div
+            class="animate-float-chaotic p-3 bg-theme-accent text-white rounded mb-2"
+          >
+            Float Chaos
+          </div>
+          <code class="text-xs">animate-float-chaotic</code>
+        </div>
+
+        <div class="demo-card p-4 bg-theme-bg-secondary rounded-lg text-center">
+          <div
+            class="animate-on-hover p-3 bg-theme-accent text-white rounded mb-2 cursor-pointer"
+          >
+            Hover Me
+          </div>
+          <code class="text-xs">animate-on-hover</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- Particle Effects -->
+    <div class="demo-section mb-12">
+      <h3 class="text-2xl font-semibold mb-6">Particle Effects</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">Floating Particles</h4>
+          <div
+            class="particles-container h-32 bg-theme-bg-tertiary rounded relative overflow-hidden"
+          >
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+          </div>
+        </div>
+
+        <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
+          <h4 class="text-lg font-semibold mb-3">Geometric Particles</h4>
+          <div
+            class="particles-container particles-geometric h-32 bg-theme-bg-tertiary rounded relative overflow-hidden"
+          >
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accessibility Notice -->
+    <div class="demo-section">
+      <div class="p-6 bg-theme-accent-secondary text-white rounded-lg">
+        <h3 class="text-xl font-semibold mb-3">♿ Accessibility Notice</h3>
+        <p class="mb-2">
+          All animations respect the <code
+            class="bg-black bg-opacity-20 px-1 rounded"
+            >prefers-reduced-motion</code
+          > setting.
+        </p>
+        <p class="text-sm opacity-90">
+          Users who have enabled reduced motion in their system settings will
+          see simplified or disabled animations for better accessibility.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* CRITICAL TEST - Simple animation to see if ANY animations work */
+  @keyframes test-pulse {
+    0%,
+    100% {
+      background-color: #ef4444;
+      transform: scale(1);
+    }
+    50% {
+      background-color: #dc2626;
+      transform: scale(1.05);
+    }
+  }
+
+  .test-pulse {
+    animation: test-pulse 1s ease-in-out infinite;
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+
+  /* ESSENTIAL KEYFRAMES - Moving from global.css to component */
+  @keyframes glitch {
+    0%,
+    100% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-2px, 2px);
+    }
+    40% {
+      transform: translate(-2px, -2px);
+    }
+    60% {
+      transform: translate(2px, 2px);
+    }
+    80% {
+      transform: translate(2px, -2px);
+    }
+  }
+
+  @keyframes glitch-intense {
+    0%,
+    100% {
+      transform: translate(0) skew(0deg);
+      filter: hue-rotate(0deg);
+    }
+    10% {
+      transform: translate(-5px, 2px) skew(-2deg);
+      filter: hue-rotate(90deg);
+    }
+    20% {
+      transform: translate(-10px, -2px) skew(2deg);
+      filter: hue-rotate(180deg);
+    }
+    30% {
+      transform: translate(10px, 2px) skew(-1deg);
+      filter: hue-rotate(270deg);
+    }
+    40% {
+      transform: translate(5px, -2px) skew(1deg);
+      filter: hue-rotate(360deg);
+    }
+    50% {
+      transform: translate(-2px, 2px) skew(-3deg);
+      filter: hue-rotate(45deg);
+    }
+    60% {
+      transform: translate(2px, 5px) skew(2deg);
+      filter: hue-rotate(135deg);
+    }
+    70% {
+      transform: translate(-3px, -5px) skew(-1deg);
+      filter: hue-rotate(225deg);
+    }
+    80% {
+      transform: translate(3px, -2px) skew(1deg);
+      filter: hue-rotate(315deg);
+    }
+    90% {
+      transform: translate(-1px, 2px) skew(-2deg);
+      filter: hue-rotate(180deg);
+    }
+  }
+
+  @keyframes glitch-rgb {
+    0%,
+    100% {
+      transform: translate(0);
+      text-shadow:
+        0 0 0 red,
+        0 0 0 blue;
+    }
+    25% {
+      transform: translate(-2px, 0);
+      text-shadow:
+        2px 0 0 red,
+        -2px 0 0 blue;
+    }
+    50% {
+      transform: translate(2px, 0);
+      text-shadow:
+        -2px 0 0 red,
+        2px 0 0 blue;
+    }
+    75% {
+      transform: translate(-1px, 0);
+      text-shadow:
+        1px 0 0 red,
+        -1px 0 0 blue;
+    }
+  }
+
+  @keyframes flicker {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  @keyframes flash {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes float-chaotic {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+      transform: translate(10px, -15px) rotate(90deg);
+    }
+    50% {
+      transform: translate(-5px, -30px) rotate(180deg);
+    }
+    75% {
+      transform: translate(-15px, -10px) rotate(270deg);
+    }
+    100% {
+      transform: translate(0, 0) rotate(360deg);
+    }
+  }
+
+  @keyframes loading-brutal {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
+  @keyframes loading-jagged {
+    0% {
+      width: 0;
+      clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    }
+    25% {
+      width: 25%;
+      clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+    }
+    50% {
+      width: 50%;
+      clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
+    }
+    75% {
+      width: 75%;
+      clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+    }
+    100% {
+      width: 100%;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+  }
+
+  @keyframes typing {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
+  @keyframes cursor-blink {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    51%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* ANIMATION CLASSES - Now they can use the keyframes above */
+  .glitch-hover:hover {
+    animation: glitch 0.3s ease-in-out;
+  }
+
+  /* TAILWIND ANIMATION CLASSES */
+  .animate-glitch {
+    animation: glitch 0.5s ease-in-out infinite;
+  }
+
+  .animate-glitch-intense {
+    animation: glitch-intense 0.8s ease-in-out infinite;
+  }
+
+  .glitch-rgb-text {
+    position: relative;
+    display: inline-block;
+  }
+
+  .glitch-rgb-text::before,
+  .glitch-rgb-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  .glitch-rgb-text::before {
+    color: #ff0080;
+    animation: glitch-rgb 0.4s ease-in-out infinite;
+    z-index: -1;
+  }
+
+  .glitch-rgb-text::after {
+    color: #00d9ff;
+    animation: glitch-rgb 0.4s ease-in-out infinite reverse;
+    z-index: -2;
+  }
+
+  .glitch-overlay {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glitch-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 0, 128, 0.1) 25%,
+      rgba(0, 217, 255, 0.1) 50%,
+      rgba(255, 224, 236, 0.1) 75%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+
+  .glitch-overlay:hover::before {
+    transform: translateX(100%);
+  }
+
+  .motion-blur-hover {
+    transition: filter 0.3s ease;
+  }
+
+  .motion-blur-hover:hover {
+    filter: blur(2px);
+  }
+
+  .motion-blur-move {
+    transition: all 0.3s ease;
+  }
+
+  .motion-blur-move:hover {
+    filter: blur(2px);
+    transform: translateX(5px);
+  }
+
+  .ripple-effect {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ripple-effect::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition:
+      width 0.3s ease,
+      height 0.3s ease;
+    pointer-events: none;
+  }
+
+  .ripple-effect:active::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .punk-button {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .punk-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0 var(--color-accent-primary);
+  }
+
+  .punk-button:active {
+    transform: translateY(0);
+    box-shadow: 2px 2px 0 var(--color-accent-primary);
+  }
+
+  .industrial-overlay {
+    position: relative;
+    background: var(--color-bg-secondary);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .industrial-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.1) 2px,
+      rgba(255, 255, 255, 0.1) 4px
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    border-radius: 0.5rem;
+  }
+
+  .industrial-overlay:hover::before {
+    opacity: 1;
+  }
+
+  .loading-brutal {
+    position: relative;
+    background: var(--color-bg-tertiary);
+    height: 8px;
+    overflow: hidden;
+    border-radius: 2px;
+    width: 100%;
+  }
+
+  .loading-brutal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background: var(--color-accent-primary);
+    animation: loading-brutal 3s ease-out infinite;
+    border-radius: 2px;
+  }
+
+  .progress-jagged {
+    position: relative;
+    background: var(--color-bg-tertiary);
+    height: 10px;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .progress-jagged::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background: var(--color-accent-primary);
+    animation: loading-jagged 4s ease-out infinite;
+  }
+
+  .typing-effect {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--color-accent-primary);
+    animation:
+      typing 2s steps(40) forwards,
+      cursor-blink 1s infinite;
+  }
+
+  .text-glitch-hover:hover {
+    animation: glitch-rgb 0.4s ease-in-out;
+  }
+
+  .particles-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background: #f3f4f6;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .particles-container .particle {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #ff6b6b !important;
+    border-radius: 50%;
+    animation: float-chaotic 4s linear infinite;
+    opacity: 1;
+    z-index: 10;
+    border: 2px solid #000;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .particles-container .particle:nth-child(1) {
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+    background: #ff6b6b !important;
+  }
+
+  .particles-container .particle:nth-child(2) {
+    top: 20%;
+    left: 80%;
+    animation-delay: 0.5s;
+    background: #4ecdc4 !important;
+  }
+
+  .particles-container .particle:nth-child(3) {
+    top: 60%;
+    left: 30%;
+    animation-delay: 1s;
+    background: #45b7d1 !important;
+  }
+
+  .particles-container .particle:nth-child(4) {
+    top: 80%;
+    left: 70%;
+    animation-delay: 1.5s;
+    background: #f9ca24 !important;
+  }
+
+  .particles-container .particle:nth-child(5) {
+    top: 40%;
+    left: 90%;
+    animation-delay: 2s;
+    background: #6c5ce7 !important;
+  }
+
+  .particles-geometric {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background: #f3f4f6;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .particles-geometric .particle {
+    border-radius: 0;
+    width: 14px;
+    height: 14px;
+    background: #ff6b6b !important;
+    opacity: 1;
+    z-index: 10;
+    border: 2px solid #000;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .particles-geometric .particle:nth-child(odd) {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    background: #4ecdc4 !important;
+  }
+
+  .particles-geometric .particle:nth-child(even) {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    background: #45b7d1 !important;
+  }
+
+  .animate-on-hover:hover {
+    animation: glitch 0.3s ease-in-out;
+  }
+
+  .animate-on-click:active {
+    animation: flash 0.1s ease-in-out;
+  }
+
+  .demo-card {
+    transition: all 0.3s ease;
+  }
+
+  .demo-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Ensure code elements are readable */
+  code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+  }
+
+  /* Make sure animations restart properly */
+  .loading-brutal::before,
+  .progress-jagged::before {
+    animation-fill-mode: both;
+  }
+</style>
+
+<script>
+  // Add proper TypeScript typing for DOM elements
+  function createParticles() {
+    const containers = document.querySelectorAll(
+      '.particles-container, .particles-geometric'
+    );
+
+    containers.forEach((container) => {
+      // Don't clear existing particles - they're already there from HTML
+      const particles = container.querySelectorAll('.particle');
+
+      // Just make sure they're visible and animated
+      particles.forEach((particle, index) => {
+        const el = particle as HTMLElement;
+
+        // Apply strong styling to ensure visibility
+        el.style.cssText = `
+          position: absolute;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          border: 1px solid rgba(0,0,0,0.2);
+          z-index: 10;
+          animation: float-chaotic 4s linear infinite;
+          animation-delay: ${index * 0.5}s;
+          opacity: 1;
+        `;
+
+        // Set colors based on container type and index
+        if (container.classList.contains('particles-geometric')) {
+          // Geometric shapes
+          el.style.borderRadius = '0';
+          el.style.width = '14px';
+          el.style.height = '14px';
+
+          if (index % 2 === 0) {
+            // Even = squares
+            el.style.background = '#45b7d1';
+            el.style.clipPath = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)';
+          } else {
+            // Odd = triangles
+            el.style.background = '#4ecdc4';
+            el.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
+          }
+        } else {
+          // Regular circles with different colors
+          const colors = [
+            '#ff6b6b',
+            '#4ecdc4',
+            '#45b7d1',
+            '#f9ca24',
+            '#6c5ce7',
+          ];
+          el.style.background = colors[index] || '#ff6b6b';
+        }
+      });
+    });
+  }
+
+  function debugParticles() {
+    const particles = document.querySelectorAll('.particle');
+    console.log('Total particles found:', particles.length);
+
+    const containers = document.querySelectorAll(
+      '.particles-container, .particles-geometric'
+    );
+    containers.forEach((container, containerIndex) => {
+      const containerParticles = container.querySelectorAll('.particle');
+      console.log(
+        `Container ${containerIndex} has ${containerParticles.length} particles`
+      );
+    });
+  }
+
+  function restartTypingAnimation() {
+    const typingElements = document.querySelectorAll('.typing-effect');
+
+    typingElements.forEach((element) => {
+      const el = element as HTMLElement;
+      el.style.animation = 'none';
+      el.offsetHeight; // Trigger reflow
+      el.style.animation =
+        'typing 2s steps(40) forwards, cursor-blink 1s infinite';
+    });
+  }
+
+  // Initialize when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, enhancing particles...');
+    createParticles();
+
+    // Debug after a short delay
+    setTimeout(debugParticles, 100);
+
+    // Restart typing animation periodically
+    setInterval(restartTypingAnimation, 4000);
+  });
+</script>
+
