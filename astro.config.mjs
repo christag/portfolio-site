@@ -4,12 +4,10 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://www.christagliaferro.com',
-  integrations: [
-    sitemap()
-  ],
+  integrations: [sitemap()],
   vite: {
     plugins: [
       tailwindcss(), // Native Tailwind v4 Vite plugin handles everything
-    ]
-  }
+    ],
+  },
 });
