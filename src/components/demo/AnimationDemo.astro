@@ -1,5 +1,5 @@
 ---
-// AnimationDemo.astro - Showcase of punk/brutalist animation utilities
+// AnimationDemo.astro - Showcase of brutalist animation utilities
 export interface Props {
   title?: string;
 }
@@ -36,8 +36,8 @@ const { title = 'Animation Utilities Demo' } = Astro.props;
         <!-- RGB Split Text -->
         <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
           <h4 class="text-lg font-semibold mb-3">RGB Split Text</h4>
-          <div class="glitch-rgb-text text-2xl font-bold" data-text="PUNK TEXT">
-            PUNK TEXT
+          <div class="glitch-rgb-text text-2xl font-bold" data-text="BRUTALIST">
+            BRUTALIST
           </div>
         </div>
 
@@ -111,11 +111,11 @@ const { title = 'Animation Utilities Demo' } = Astro.props;
         </div>
 
         <div class="demo-card p-6 bg-theme-bg-secondary rounded-lg">
-          <h4 class="text-lg font-semibold mb-3">Punk Button</h4>
+          <h4 class="text-lg font-semibold mb-3">Brutalist Button</h4>
           <button
-            class="punk-button px-6 py-3 bg-theme-accent text-white rounded"
+            class="brutalist-button px-6 py-3 bg-theme-accent text-white rounded"
           >
-            Punk Style
+            Brutalist Style
           </button>
         </div>
 
@@ -541,13 +541,13 @@ const { title = 'Animation Utilities Demo' } = Astro.props;
   }
 
   .glitch-rgb-text::before {
-    color: #ff0080;
+    color: #b8869a; /* Darker dusty pink */
     animation: glitch-rgb 0.4s ease-in-out infinite;
     z-index: -1;
   }
 
   .glitch-rgb-text::after {
-    color: #00d9ff;
+    color: #00d4ff; /* Electric blue/cyan */
     animation: glitch-rgb 0.4s ease-in-out infinite reverse;
     z-index: -2;
   }
@@ -567,9 +567,9 @@ const { title = 'Animation Utilities Demo' } = Astro.props;
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(255, 0, 128, 0.1) 25%,
-      rgba(0, 217, 255, 0.1) 50%,
-      rgba(255, 224, 236, 0.1) 75%,
+      rgba(184, 134, 154, 0.1) 25%,
+      rgba(0, 212, 255, 0.1) 50%,
+      rgba(76, 205, 196, 0.1) 75%,
       transparent 100%
     );
     transform: translateX(-100%);
@@ -624,17 +624,17 @@ const { title = 'Animation Utilities Demo' } = Astro.props;
     height: 300px;
   }
 
-  .punk-button {
+  .brutalist-button {
     position: relative;
     transition: all 0.3s ease;
   }
 
-  .punk-button:hover {
+  .brutalist-button:hover {
     transform: translateY(-2px);
     box-shadow: 4px 4px 0 var(--color-accent-primary);
   }
 
-  .punk-button:active {
+  .brutalist-button:active {
     transform: translateY(0);
     box-shadow: 2px 2px 0 var(--color-accent-primary);
   }
@@ -942,4 +942,3 @@ const { title = 'Animation Utilities Demo' } = Astro.props;
     setInterval(restartTypingAnimation, 4000);
   });
 </script>
-

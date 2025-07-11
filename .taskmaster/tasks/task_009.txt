@@ -1,0 +1,87 @@
+# Task ID: 9
+# Title: Implement Collaboration Form ('We Could')
+# Status: pending
+# Dependencies: 2
+# Priority: medium
+# Description: Create the 'We Could' collaboration form by embedding Jira Service Management request form and implementing the success/thank-you flow.
+# Details:
+1. Set up Jira Service Management project for collaboration requests
+2. Create a form page with appropriate layout and instructions
+3. Implement Jira Service Management iframe embed:
+```html
+<iframe 
+  src="https://[account].atlassian.net/servicedesk/customer/portal/[portal]/[form]?projectKey=Collab" 
+  width="100%" 
+  height="600px"
+  title="Collaboration Request Form"
+></iframe>
+```
+4. Create fallback HTML form for cases where iframe fails:
+```html
+<form id="fallback-form" class="hidden">
+  <!-- Form fields matching Jira requirements -->
+</form>
+```
+5. Implement Zapier or custom webhook to connect fallback form to Jira API
+6. Create success/thank-you page with next steps
+7. Add form validation and error handling
+8. Implement analytics tracking for form submissions
+
+# Test Strategy:
+1. Test Jira iframe embedding
+2. Verify form submissions create Jira tickets correctly
+3. Test fallback form functionality
+4. Validate form across different browsers and devices
+5. Test error handling and validation
+6. Verify success flow and redirects
+7. Test analytics tracking for conversions
+
+# Subtasks:
+## 1. Jira Project Setup [pending]
+### Dependencies: None
+### Description: Establish a new Jira project, select appropriate templates, configure project keys and naming conventions, and set up initial workflows.
+### Details:
+Decide on project structure (by team, product, or department), choose the Jira Classic template for flexibility, and define project goals and user roles.
+
+## 2. Form Page Layout Design [pending]
+### Dependencies: 9.1
+### Description: Design the layout for the form page, ensuring a user-friendly interface and clear structure for form fields and instructions.
+### Details:
+Create wireframes or mockups, define field placements, and ensure accessibility and responsiveness.
+
+## 3. Jira Iframe Embed Implementation [pending]
+### Dependencies: 9.2
+### Description: Integrate the Jira form into the page using an iframe, ensuring seamless embedding and compatibility with the page layout.
+### Details:
+Configure iframe settings, test cross-origin policies, and ensure the embedded form displays correctly within the designed layout.
+
+## 4. Fallback Form Implementation [pending]
+### Dependencies: 9.3
+### Description: Develop a fallback form to be used if the Jira iframe fails to load or is unsupported, ensuring uninterrupted user experience.
+### Details:
+Implement logic to detect iframe issues and display the fallback form, mirroring the fields and validation of the embedded form.
+
+## 5. Webhook Integration [pending]
+### Dependencies: 9.4
+### Description: Set up webhooks to connect Jira form submissions with external systems or services as needed.
+### Details:
+Configure Jira webhooks to trigger on form submission, define payload structure, and test integration with target endpoints.
+
+## 6. Success/Thank-You Flow Implementation [pending]
+### Dependencies: 9.5
+### Description: Design and implement the user flow for successful form submission, including thank-you messaging and any follow-up actions.
+### Details:
+Display confirmation messages, provide next steps or links, and ensure consistent experience for both embedded and fallback forms.
+
+## 7. Validation and Error Handling [pending]
+### Dependencies: None
+### Description: Implement robust validation for form inputs and comprehensive error handling for both embedded and fallback forms.
+### Details:
+Define validation rules, display user-friendly error messages, and handle submission failures gracefully.
+
+## 8. Analytics Tracking Integration [pending]
+### Dependencies: None
+### Description: Integrate analytics tracking to monitor form usage, submission rates, errors, and user interactions.
+### Details:
+Set up tracking for key events (form load, submission, errors), configure analytics tools, and ensure data privacy compliance.
+

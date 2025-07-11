@@ -1,17 +1,77 @@
 // Design tokens as CSS custom properties for theme switching
 :root {
-  // Color tokens - Light theme (default)
-  --color-bg-primary: #fafafa;
-  --color-bg-secondary: #f5f5f5;
-  --color-bg-tertiary: #e5e5e5;
-  --color-text-primary: #171717;
-  --color-text-secondary: #525252;
-  --color-text-tertiary: #737373;
+  // Enhanced monochrome palette - Light theme
+  --color-bg-primary: #fafafa; // Pure background
+  --color-bg-secondary: #f5f5f5; // Subtle sections
+  --color-bg-tertiary: #e5e5e5; // Cards/containers
+  --color-bg-quaternary: #d4d4d4; // Deeper containers
+  --color-text-primary: #171717; // High contrast text
+  --color-text-secondary: #404040; // Medium contrast text
+  --color-text-tertiary: #737373; // Low contrast text
+  --color-text-muted: #a3a3a3; // Very subtle text
 
-  // Accent colors - Light theme
-  --color-accent-primary: #00d4ff; // Electric blue
-  --color-accent-secondary: #ff6b6b; // Coral pink
-  --color-accent-tertiary: #4ecdc4; // Mint green
+  // Strategic accent colors - SELECTIVE usage for maximum impact
+  --color-accent-primary: #b8869a; // Darker dusty pink - PRIMARY ONLY for CTAs and key interactions
+  --color-accent-secondary: #00d4ff; // Electric blue/cyan - RESERVED for special highlights
+  --color-accent-tertiary: #4ecdc4; // Mint green - MINIMAL usage, special cases only
+
+  // Brutalist elements integrated into light theme
+  --color-brutalist-accent: #000000; // Pure black for contrast
+  --color-brutalist-highlight: #b8869a; // Darker dusty pink for energy
+
+  // Apple Liquid Glass Material System - Light Theme (FIXED FOR PROPER TRANSPARENCY)
+  // Reduced opacity for true glassmorphism effect - background should show through
+  --glass-bg-primary: rgba(
+    255,
+    255,
+    255,
+    0.25
+  ); // 25% opacity - much more transparent
+  --glass-bg-secondary: rgba(255, 255, 255, 0.35); // 35% opacity - medium glass
+  --glass-bg-tertiary: rgba(
+    255,
+    255,
+    255,
+    0.45
+  ); // 45% opacity - strongest glass
+  --glass-border-light: rgba(
+    255,
+    255,
+    255,
+    0.5
+  ); // Visible but not overpowering borders
+  --glass-border-medium: rgba(255, 255, 255, 0.3); // Subtle borders
+  --glass-tint: rgba(255, 255, 255, 0.02); // Minimal neutral tinting
+
+  // Performance-optimized blur values (research-based)
+  --glass-blur-minimal: 8px; // For low-end devices
+  --glass-blur-button: 16px; // Buttons and small controls
+  --glass-blur-container: 24px; // Cards and containers
+  --glass-blur-navigation: 32px; // Navigation and large surfaces
+
+  // Reduced blur values for performance mode
+  --glass-blur-performance: 12px; // Universal fallback for low-end devices
+
+  // Proper shadows and highlights for spatial depth
+  --glass-shadow-light: rgba(
+    0,
+    0,
+    0,
+    0.1
+  ); // Slightly stronger for better definition
+  --glass-shadow-medium: rgba(0, 0, 0, 0.15); // Medium depth
+  --glass-shadow-heavy: rgba(0, 0, 0, 0.2); // Strong depth
+  --glass-inner-highlight: rgba(
+    255,
+    255,
+    255,
+    0.6
+  ); // Reduced highlight intensity
+
+  // Apple standard glass radius
+  --glass-radius: 24px;
+  --glass-radius-small: 16px; // For smaller elements
+  --glass-radius-large: 32px; // For large containers
 
   // Base spacing tokens
   --space-xs: 0.5rem;
@@ -27,33 +87,56 @@
   --section-spacing: 2rem;
   --element-gap: 1rem;
 
-  // Deliberate misalignment variables
-  --offset-small: 0.25rem;
-  --offset-medium: 0.5rem;
-  --offset-large: 1rem;
-  --slide-distance: 0.5rem;
+  // Enhanced deliberate misalignment for brutalist aesthetic
+  --offset-small: 0.5rem;
+  --offset-medium: 1rem;
+  --offset-large: 2rem;
+  --slide-distance: 1rem;
+  --chaos-factor: 0.75rem; // For controlled chaos elements
 
-  // Typography tokens
+  // Typography tokens - Bold, striking fonts
   --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
   --font-serif: 'Crimson Text', Georgia, serif;
+  --font-display:
+    'Inter', system-ui, -apple-system, sans-serif; // For striking headlines
 
   // Animation tokens
   --transition-fast: 0.15s ease-out;
   --transition-normal: 0.3s ease-out;
   --transition-slow: 0.5s ease-out;
+  --transition-brutal: 0.1s ease-out; // Sharp, immediate transitions
+
+  // Performance-optimized glass transitions
+  --transition-glass: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-glass-hover: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Subtle theme-appropriate background colors - USING ORIGINAL GREY PALETTE
+  --glassmorphism-bg-light: linear-gradient(
+    135deg,
+    #fafafa 0%,
+    #f5f5f5 50%,
+    #e5e5e5 100%
+  );
+  --glassmorphism-bg-accent: rgba(
+    184,
+    134,
+    154,
+    0.03
+  ); // Very subtle accent tint
 }
 
-// Responsive spacing adjustments
+// Responsive spacing adjustments with enhanced chaos
 @media (min-width: 480px) {
   :root {
     --container-padding: 1.5rem;
     --section-spacing: 3rem;
     --element-gap: 1.5rem;
-    --offset-small: 0.375rem;
-    --offset-medium: 0.75rem;
-    --offset-large: 1.5rem;
+    --offset-small: 0.75rem;
+    --offset-medium: 1.5rem;
+    --offset-large: 3rem;
+    --chaos-factor: 1rem;
   }
 }
 
@@ -62,10 +145,11 @@
     --container-padding: 2rem;
     --section-spacing: 4rem;
     --element-gap: 2rem;
-    --offset-small: 0.5rem;
-    --offset-medium: 1rem;
-    --offset-large: 2rem;
-    --slide-distance: 1rem;
+    --offset-small: 1rem;
+    --offset-medium: 2rem;
+    --offset-large: 4rem;
+    --slide-distance: 1.5rem;
+    --chaos-factor: 1.5rem;
   }
 }
 
@@ -74,7 +158,8 @@
     --container-padding: 2.5rem;
     --section-spacing: 6rem;
     --element-gap: 3rem;
-    --offset-large: 3rem;
+    --offset-large: 5rem;
+    --chaos-factor: 2rem;
   }
 }
 
@@ -83,47 +168,131 @@
     --container-padding: 3rem;
     --section-spacing: 8rem;
     --element-gap: 4rem;
-    --slide-distance: 1.5rem;
+    --slide-distance: 2rem;
+    --chaos-factor: 2.5rem;
   }
 }
 
-// Dark theme
+// Apple Liquid Glass Material System - Dark Theme (PROPER STANDARDS)
 [data-theme='dark'] {
-  --color-bg-primary: #171717;
-  --color-bg-secondary: #262626;
-  --color-bg-tertiary: #404040;
-  --color-text-primary: #fafafa;
-  --color-text-secondary: #d4d4d4;
-  --color-text-tertiary: #a3a3a3;
+  --color-bg-primary: #0a0a0a; // Almost black for dramatic contrast
+  --color-bg-secondary: #171717; // Deep black sections
+  --color-bg-tertiary: #262626; // Medium dark containers
+  --color-bg-quaternary: #404040; // Lighter dark containers
+  --color-text-primary: #f5f5f0; // Off-white high contrast
+  --color-text-secondary: #e0e0e0; // Light medium contrast
+  --color-text-tertiary: #a3a3a3; // Muted light
+  --color-text-muted: #737373; // Very subtle text
 
-  // Keep same accent colors as light theme
-  --color-accent-primary: #00d4ff; // Electric blue
-  --color-accent-secondary: #ff6b6b; // Coral pink
-  --color-accent-tertiary: #4ecdc4; // Mint green
+  // Strategic accent colors - CONSISTENT with light theme
+  --color-accent-primary: #b8869a; // Darker dusty pink - PRIMARY ONLY for CTAs and key interactions
+  --color-accent-secondary: #00d4ff; // Electric blue/cyan - RESERVED for special highlights
+  --color-accent-tertiary: #4ecdc4; // Mint green - MINIMAL usage, special cases only
+
+  // Brutalist elements integrated into dark theme
+  --color-brutalist-accent: #ffffff; // Pure white for contrast
+  --color-brutalist-highlight: #b8869a; // Darker dusty pink for energy
+
+  // Apple Liquid Glass Material System - Dark Theme (FIXED FOR PROPER TRANSPARENCY)
+  // Much lower opacity to allow dark background to show through properly
+  --glass-bg-primary: rgba(
+    255,
+    255,
+    255,
+    0.08
+  ); // 8% - subtle glass on dark (much more transparent)
+  --glass-bg-secondary: rgba(255, 255, 255, 0.12); // 12% - medium glass on dark
+  --glass-bg-tertiary: rgba(
+    255,
+    255,
+    255,
+    0.16
+  ); // 16% - strongest glass on dark
+  --glass-border-light: rgba(255, 255, 255, 0.2); // Visible borders on dark
+  --glass-border-medium: rgba(255, 255, 255, 0.15); // Medium borders on dark
+  --glass-tint: rgba(255, 255, 255, 0.02); // Very subtle neutral tinting
+
+  // Enhanced shadows for dark theme depth
+  --glass-shadow-light: rgba(0, 0, 0, 0.4); // Stronger shadows needed on dark
+  --glass-shadow-medium: rgba(0, 0, 0, 0.5); // Medium depth shadows
+  --glass-shadow-heavy: rgba(0, 0, 0, 0.6); // Heavy depth shadows
+  --glass-inner-highlight: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); // Very subtle inner highlights
+
+  // Dark theme background - FIXED TO USE PROPER BLACK/GREY GRADIENTS
+  --glassmorphism-bg-light: linear-gradient(
+    135deg,
+    #0a0a0a 0%,
+    #171717 50%,
+    #262626 100%
+  );
+  --glassmorphism-bg-accent: rgba(
+    184,
+    134,
+    154,
+    0.05
+  ); // Slightly more accent for dark
+
+  // Enhanced chaos for dark theme
+  --chaos-factor: calc(
+    var(--chaos-factor) * 1.2
+  ); // 20% more chaos in dark mode
 }
 
-// Punk theme - Complete redesign per user feedback
-[data-theme='punk'] {
-  --color-bg-primary: #0a0a0a; // Almost black
-  --color-bg-secondary: #171717; // Darker black
-  --color-bg-tertiary: #262626; // Medium dark
-  --color-text-primary: #f5f5f0; // Off-white
-  --color-text-secondary: #c0c0c0; // Chrome/silver
-  --color-text-tertiary: #808080; // Muted chrome
+// PERFORMANCE OPTIMIZATIONS - Based on 2025 Research
 
-  // Punk-specific accent colors (use pale pink instead of cyan in primary positions)
-  --color-accent-primary: #ffe0ec; // Pale pink (replaces cyan)
-  --color-accent-secondary: #ff0080; // Neon pink
-  --color-accent-tertiary: #00d9ff; // Cyan (tertiary only)
+// Device capability detection for performance optimization
+@media (max-device-memory: 2GB) {
+  :root {
+    // Reduce blur values for low-memory devices
+    --glass-blur-button: var(--glass-blur-performance);
+    --glass-blur-container: var(--glass-blur-performance);
+    --glass-blur-navigation: var(--glass-blur-performance);
 
-  // Enhanced offsets for punk chaos
-  --offset-small: 0.5rem;
-  --offset-medium: 1rem;
-  --offset-large: 2rem;
-  --slide-distance: 2rem;
+    // Simplified backgrounds for low-end devices
+    --glass-bg-primary: rgba(
+      255,
+      255,
+      255,
+      0.8
+    ); // More opaque, less blur needed
+    --glass-bg-secondary: rgba(255, 255, 255, 0.85);
+    --glass-bg-tertiary: rgba(255, 255, 255, 0.9);
+  }
+
+  [data-theme='dark'] {
+    --glass-bg-primary: rgba(255, 255, 255, 0.15);
+    --glass-bg-secondary: rgba(255, 255, 255, 0.2);
+    --glass-bg-tertiary: rgba(255, 255, 255, 0.25);
+  }
 }
 
-// Utility classes for design tokens
+// Reduce animations on low-end devices
+@media (max-device-memory: 2GB),
+  (pointer: coarse) and (max-device-width: 768px) {
+  :root {
+    --transition-glass: 0.15s ease-out; // Faster, simpler transitions
+    --transition-glass-hover: 0.1s ease-out;
+  }
+}
+
+// CPU-based rendering detection (when GPU acceleration is unavailable)
+@media (prefers-reduced-motion: reduce), (update: slow) {
+  :root {
+    // Fallback to minimal effects
+    --glass-blur-button: 4px;
+    --glass-blur-container: 6px;
+    --glass-blur-navigation: 8px;
+    --transition-glass: none;
+    --transition-glass-hover: none;
+  }
+}
+
+// Enhanced utility classes for design tokens
 .text-token-primary {
   color: var(--color-text-primary);
 }
@@ -133,6 +302,9 @@
 .text-token-tertiary {
   color: var(--color-text-tertiary);
 }
+.text-token-muted {
+  color: var(--color-text-muted);
+}
 .bg-token-primary {
   background-color: var(--color-bg-primary);
 }
@@ -141,6 +313,486 @@
 }
 .bg-token-tertiary {
   background-color: var(--color-bg-tertiary);
+}
+.bg-token-quaternary {
+  background-color: var(--color-bg-quaternary);
+}
+
+// Strategic accent utilities - USE SPARINGLY
+.text-accent-primary {
+  color: var(--color-accent-primary);
+}
+.bg-accent-primary {
+  background-color: var(--color-accent-primary);
+}
+.border-accent-primary {
+  border-color: var(--color-accent-primary);
+}
+
+// Apple Liquid Glass Material Utilities - Performance-Optimized
+.glass-primary {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-primary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
+  border: 1px solid var(--glass-border-medium);
+  border-radius: 24px !important;
+  padding: var(--space-lg);
+  box-shadow:
+    0 8px 32px var(--glass-shadow-light),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transition: all var(--transition-glass);
+
+  // Performance optimizations
+  will-change: transform; // GPU acceleration hint
+  transform: translateZ(0); // Force hardware acceleration
+  isolation: isolate; // Create stacking context to prevent compositing issues
+}
+
+.glass-secondary {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-secondary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-container)) saturate(200%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-container)) saturate(200%);
+  border: 1px solid var(--glass-border-light);
+  border-radius: 24px !important;
+  padding: var(--space-xl);
+  box-shadow:
+    0 12px 40px var(--glass-shadow-medium),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transition: all var(--transition-glass);
+
+  // Performance optimizations
+  will-change: transform;
+  transform: translateZ(0);
+  isolation: isolate;
+}
+
+.glass-tertiary {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-tertiary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-navigation)) saturate(220%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-navigation)) saturate(220%);
+  border: 1px solid var(--glass-border-light);
+  border-radius: 24px !important;
+  padding: var(--space-2xl);
+  box-shadow:
+    0 16px 48px var(--glass-shadow-heavy),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transition: all var(--transition-glass);
+
+  // Performance optimizations
+  will-change: transform;
+  transform: translateZ(0);
+  isolation: isolate;
+}
+
+// Button-specific glass materials (optimized for performance)
+.glass-button {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-primary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
+  border: 1px solid var(--glass-border-medium);
+  border-radius: 16px !important;
+  padding: var(--space-sm) var(--space-md);
+  box-shadow:
+    0 4px 16px var(--glass-shadow-light),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transition: all var(--transition-glass-hover);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: 600;
+
+  // Optimized for frequent interactions
+  will-change: transform, box-shadow;
+  transform: translateZ(0);
+  contain: layout style; // Contain layout changes
+}
+
+.glass-button-strong {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-secondary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-button)) saturate(200%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-button)) saturate(200%);
+  border: 1px solid var(--glass-border-light);
+  border-radius: 16px !important;
+  padding: var(--space-sm) var(--space-md);
+  box-shadow:
+    0 6px 24px var(--glass-shadow-medium),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transition: all var(--transition-glass-hover);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: 600;
+
+  // Optimized for frequent interactions
+  will-change: transform, box-shadow;
+  transform: translateZ(0);
+  contain: layout style;
+}
+
+// Clear glass button - transparent with subtle tints
+.glass-button-clear {
+  background: rgba(255, 255, 255, 0.05); // Very subtle background
+  backdrop-filter: blur(var(--glass-blur-button)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-button)) saturate(150%);
+  border: 2px solid var(--color-accent-primary);
+  border-radius: 24px !important; /* Larger radius for oval shape */
+  padding: var(--space-sm) var(--space-lg); // More horizontal padding for oval
+  box-shadow:
+    0 4px 20px rgba(184, 134, 154, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all var(--transition-glass-hover);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--color-accent-primary);
+}
+
+// Clear glass button hover - enhanced visibility
+.glass-button-clear:hover {
+  background: rgba(184, 134, 154, 0.15); // Stronger tint on hover
+  backdrop-filter: blur(calc(var(--glass-blur-button) + 4px)) saturate(180%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur-button) + 4px))
+    saturate(180%);
+  border-color: var(--color-accent-primary);
+  color: var(--color-text-primary); // Change text to primary for visibility
+  box-shadow:
+    0 6px 28px rgba(184, 134, 154, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 0 1px rgba(184, 134, 154, 0.3); // Subtle outer glow
+  transform: translateY(-2px);
+}
+
+// Navigation-specific glass (optimized for performance)
+.glass-navigation {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-secondary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-navigation)) saturate(200%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-navigation)) saturate(200%);
+  border-bottom: 1px solid var(--glass-border-light);
+  padding: var(--space-sm) 0;
+  box-shadow:
+    0 8px 32px var(--glass-shadow-light),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transition: all var(--transition-glass);
+
+  // Navigation-specific optimizations
+  will-change: backdrop-filter; // Only animate what changes
+  transform: translateZ(0);
+  position: fixed; // Promote to own layer
+  isolation: isolate;
+  contain: layout style; // Prevent layout thrashing
+}
+
+// Glass containers without default padding (performance optimized)
+.glass-primary-no-padding {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-primary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
+  border: 1px solid var(--glass-border-medium);
+  border-radius: 24px !important;
+  box-shadow:
+    0 8px 32px var(--glass-shadow-light),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transition: all var(--transition-glass);
+
+  // Performance optimizations
+  will-change: transform;
+  transform: translateZ(0);
+  isolation: isolate;
+}
+
+.glass-secondary-no-padding {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-secondary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-container)) saturate(200%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-container)) saturate(200%);
+  border: 1px solid var(--glass-border-light);
+  border-radius: 24px !important;
+  box-shadow:
+    0 12px 40px var(--glass-shadow-medium),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transition: all var(--transition-glass);
+
+  // Performance optimizations
+  will-change: transform;
+  transform: translateZ(0);
+  isolation: isolate;
+}
+
+// Interactive Glass States with performance optimization
+.glass-hover:hover {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-secondary),
+    var(--glass-tint)
+  );
+  box-shadow:
+    0 12px 40px var(--glass-shadow-medium),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transform: translateY(-2px) translateZ(0); // Maintain GPU acceleration
+  border-color: var(--glass-border-light);
+}
+
+.glass-active:active {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-tertiary),
+    var(--glass-tint)
+  );
+  box-shadow:
+    0 6px 20px var(--glass-shadow-light),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transform: translateY(0) translateZ(0); // Maintain GPU acceleration
+}
+
+// Blending effects for adjacent glass elements (Apple standard)
+.glass-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg); // 2rem gap between glass elements
+}
+
+.glass-container > .glass-primary + .glass-primary,
+.glass-container > .glass-secondary + .glass-secondary {
+  margin-left: -1px; // Overlap borders for blending effect
+}
+
+// Spacing Utility Classes for Modern Layout
+.space-xs {
+  margin: var(--space-xs);
+}
+.space-sm {
+  margin: var(--space-sm);
+}
+.space-md {
+  margin: var(--space-md);
+}
+.space-lg {
+  margin: var(--space-lg);
+}
+.space-xl {
+  margin: var(--space-xl);
+}
+.space-2xl {
+  margin: var(--space-2xl);
+}
+.space-3xl {
+  margin: var(--space-3xl);
+}
+
+.space-y-xs > * + * {
+  margin-top: var(--space-xs);
+}
+.space-y-sm > * + * {
+  margin-top: var(--space-sm);
+}
+.space-y-md > * + * {
+  margin-top: var(--space-md);
+}
+.space-y-lg > * + * {
+  margin-top: var(--space-lg);
+}
+.space-y-xl > * + * {
+  margin-top: var(--space-xl);
+}
+.space-y-2xl > * + * {
+  margin-top: var(--space-2xl);
+}
+.space-y-3xl > * + * {
+  margin-top: var(--space-3xl);
+}
+
+.space-x-xs > * + * {
+  margin-left: var(--space-xs);
+}
+.space-x-sm > * + * {
+  margin-left: var(--space-sm);
+}
+.space-x-md > * + * {
+  margin-left: var(--space-md);
+}
+.space-x-lg > * + * {
+  margin-left: var(--space-lg);
+}
+.space-x-xl > * + * {
+  margin-left: var(--space-xl);
+}
+
+.gap-xs {
+  gap: var(--space-xs);
+}
+.gap-sm {
+  gap: var(--space-sm);
+}
+.gap-md {
+  gap: var(--space-md);
+}
+.gap-lg {
+  gap: var(--space-lg);
+}
+.gap-xl {
+  gap: var(--space-xl);
+}
+.gap-2xl {
+  gap: var(--space-2xl);
+}
+
+// Padding Utility Classes
+.p-xs {
+  padding: var(--space-xs);
+}
+.p-sm {
+  padding: var(--space-sm);
+}
+.p-md {
+  padding: var(--space-md);
+}
+.p-lg {
+  padding: var(--space-lg);
+}
+.p-xl {
+  padding: var(--space-xl);
+}
+.p-2xl {
+  padding: var(--space-2xl);
+}
+.p-3xl {
+  padding: var(--space-3xl);
+}
+
+.px-xs {
+  padding-left: var(--space-xs);
+  padding-right: var(--space-xs);
+}
+.px-sm {
+  padding-left: var(--space-sm);
+  padding-right: var(--space-sm);
+}
+.px-md {
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+}
+.px-lg {
+  padding-left: var(--space-lg);
+  padding-right: var(--space-lg);
+}
+.px-xl {
+  padding-left: var(--space-xl);
+  padding-right: var(--space-xl);
+}
+
+.py-xs {
+  padding-top: var(--space-xs);
+  padding-bottom: var(--space-xs);
+}
+.py-sm {
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-sm);
+}
+.py-md {
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-md);
+}
+.py-lg {
+  padding-top: var(--space-lg);
+  padding-bottom: var(--space-lg);
+}
+.py-xl {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+// REMOVED body padding to fix fixed positioning issues
+// Content spacing is now handled by containers
+
+// Clean nav-bar styling without negative margins
+.nav-bar {
+  // Full width without margin hacks
+  width: 100%;
+}
+
+// Layout Wrapper Classes for Proper Spacing
+.content-wrapper {
+  max-width: 72rem; // 1152px
+  margin: 0 auto;
+  padding: 0 2rem; // Clean horizontal padding for all content
+}
+
+.section-wrapper {
+  padding: var(--section-spacing) 0;
+}
+
+.hero-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3xl) 2rem; // Added horizontal padding
+}
+
+// Motion Preferences Support (Accessibility First)
+@media (prefers-reduced-motion: reduce) {
+  .glass-primary,
+  .glass-secondary,
+  .glass-tertiary,
+  .glass-button,
+  .glass-button-strong,
+  .glass-navigation,
+  .glass-hover,
+  .glass-active {
+    transition: none;
+    transform: none;
+  }
+
+  .glass-hover:hover {
+    transform: none;
+  }
+}
+
+// Enhanced brutalist utility classes
+.text-brutalist-accent {
+  color: var(--color-brutalist-accent);
+}
+.text-brutalist-highlight {
+  color: var(--color-brutalist-highlight);
+}
+.bg-brutalist-accent {
+  background-color: var(--color-brutalist-accent);
 }
 
 // Container utilities for responsive layout
@@ -152,13 +804,27 @@
   padding-right: var(--container-padding);
 }
 
-// Deliberate misalignment utilities
+// Enhanced deliberate misalignment utilities for controlled chaos
 .offset-element {
   transform: translateX(var(--offset-small));
 }
 
 .offset-element-reverse {
   transform: translateX(calc(-1 * var(--offset-small)));
+}
+
+.offset-chaos {
+  transform: translate(
+    var(--chaos-factor),
+    calc(-1 * var(--chaos-factor) * 0.5)
+  );
+}
+
+.offset-chaos-reverse {
+  transform: translate(
+    calc(-1 * var(--chaos-factor)),
+    calc(var(--chaos-factor) * 0.5)
+  );
 }
 
 .section-spacing {
@@ -168,4 +834,442 @@
 
 .element-gap {
   gap: var(--element-gap);
+}
+
+// Brutalist animation utilities
+.transition-brutal {
+  transition: all var(--transition-brutal);
+}
+
+.hover-chaos:hover {
+  transform: translate(var(--offset-small), calc(-1 * var(--offset-small)));
+}
+
+// Typography utilities for striking text
+.text-striking {
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+}
+
+.text-minimal {
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}
+
+.text-important {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+// True Glassmorphism Implementation (Performance Optimized)
+
+// Neutral background for glassmorphism effect (optimized for proper contrast)
+.glassmorphism-background {
+  background: var(--glassmorphism-bg-light);
+  position: relative;
+
+  // Performance optimizations
+  will-change: auto; // No animation needed
+  transform: translateZ(0); // GPU acceleration
+  contain: layout style; // Prevent layout overflow
+}
+
+// Add subtle accent overlay for visual interest
+.glassmorphism-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      var(--glassmorphism-bg-accent) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      var(--glassmorphism-bg-accent) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+// Conditional performance for background animation
+@media (max-device-memory: 2GB), (prefers-reduced-motion: reduce) {
+  .glassmorphism-background::before {
+    display: none; // Remove accent overlays on low-end devices
+  }
+}
+
+// Performance-aware glassmorphism utilities
+.glass-performance-mode {
+  // Fallback for low-end devices - disable blur, use solid background
+  background: var(--color-bg-tertiary) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid var(--color-bg-quaternary) !important;
+
+  // Maintain visual hierarchy with opacity and shadows
+  opacity: 0.95;
+  box-shadow:
+    0 4px 16px var(--glass-shadow-light),
+    inset 0 1px 0 var(--glass-inner-highlight);
+}
+
+// Optimized glass lazy loading (for viewport intersection)
+.glass-lazy {
+  // Start with simplified version
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-bg-tertiary);
+  transition: all 0.3s ease;
+}
+
+.glass-lazy.loaded {
+  // Activate full glass effect when in viewport
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-primary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
+  border: 1px solid var(--glass-border-medium);
+  box-shadow:
+    0 8px 32px var(--glass-shadow-light),
+    inset 0 1px 0 var(--glass-inner-highlight);
+}
+
+// Unified glassmorphism panel - using CSS variables for consistency
+.glassmorphism-panel {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-primary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
+  border: 1px solid var(--glass-border-medium);
+  border-radius: var(--glass-radius);
+  box-shadow:
+    0 8px 32px var(--glass-shadow-light),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transform: translateZ(0);
+  transition: all var(--transition-glass);
+
+  // Performance optimizations
+  will-change: transform;
+  isolation: isolate;
+}
+
+// Special content panel with enhanced readability - CLEAN VERSION
+.glassmorphism-content-panel {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-secondary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-container)) saturate(200%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-container)) saturate(200%);
+  border: 1px solid var(--glass-border-medium);
+  border-radius: var(--glass-radius);
+  box-shadow:
+    0 12px 40px var(--glass-shadow-medium),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transition: all var(--transition-glass);
+
+  // Clean properties without stacking context issues
+  isolation: isolate;
+}
+
+// Unified Glassmorphism Navigation - using CSS variables
+.glassmorphism-nav {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-secondary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-navigation)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-navigation)) saturate(180%);
+  border-bottom: 1px solid var(--glass-border-light);
+  box-shadow:
+    0 4px 24px var(--glass-shadow-light),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transition: all var(--transition-glass);
+
+  // CLEAN positioning without transform conflicts
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  width: 100% !important;
+}
+
+// Enhanced glass effect on scroll
+.glassmorphism-nav.scrolled {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-tertiary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(calc(var(--glass-blur-navigation) + 8px)) saturate(220%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur-navigation) + 8px))
+    saturate(220%);
+  box-shadow:
+    0 8px 32px var(--glass-shadow-medium),
+    inset 0 1px 0 var(--glass-inner-highlight);
+}
+
+// Glassmorphism Button - Primary CTA Style (CLEAN - no problematic transforms)
+.glassmorphism-button {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-primary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
+  border: 2px solid var(--color-accent-primary);
+  border-radius: 24px;
+  padding: 0.75rem 1.5rem; // Fixed padding instead of variables
+  box-shadow:
+    0 4px 20px rgba(184, 134, 154, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all var(--transition-glass-hover);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--color-accent-primary);
+
+  // Clean styling without problematic properties
+  min-height: 48px;
+  isolation: isolate;
+}
+
+// Glassmorphism Button Hover - Enhanced visibility
+.glassmorphism-button:hover,
+.glassmorphism-hover:hover {
+  background: rgba(184, 134, 154, 0.15);
+  backdrop-filter: blur(calc(var(--glass-blur-button) + 4px)) saturate(180%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur-button) + 4px))
+    saturate(180%);
+  border-color: var(--color-accent-primary);
+  color: var(--color-text-primary);
+  box-shadow:
+    0 6px 28px rgba(184, 134, 154, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 0 1px rgba(184, 134, 154, 0.3);
+  transform: translateY(-2px);
+}
+
+// Glassmorphism orbs - using CSS variables for consistency
+.glassmorphism-orb {
+  background: var(--glass-bg-primary);
+  backdrop-filter: blur(var(--glass-blur-minimal)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-minimal)) saturate(150%);
+  border: 1px solid var(--glass-border-medium);
+  box-shadow:
+    0 4px 16px var(--glass-shadow-light),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transform: translateZ(0);
+}
+
+// Glassmorphism background container
+.glassmorphism-bg {
+  position: relative;
+  background: var(--glassmorphism-bg-light); // Use CSS variable fallback
+}
+
+// Unified glassmorphism navigation links
+.glassmorphism-nav-link {
+  color: var(--color-text-primary);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--glass-radius-small);
+  transition: all var(--transition-glass-hover);
+  border: 1px solid transparent;
+}
+
+.glassmorphism-nav-link:hover {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-primary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
+  border: 1px solid var(--glass-border-medium);
+  color: var(--color-text-primary);
+  box-shadow:
+    0 4px 16px var(--glass-shadow-light),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transform: translateY(-1px);
+}
+
+// Unified small glassmorphism button for mobile toggle
+.glassmorphism-button-small {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-primary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
+  border: 1px solid var(--glass-border-medium);
+  border-radius: var(--glass-radius-small);
+  padding: var(--space-xs);
+  color: var(--color-text-primary);
+  transition: all var(--transition-glass-hover);
+}
+
+.glassmorphism-button-small:hover {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-secondary),
+    var(--glass-tint)
+  );
+  border-color: var(--glass-border-light);
+  transform: translateY(-1px);
+}
+
+// Unified glassmorphism mobile menu
+.glassmorphism-mobile-menu {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-tertiary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-navigation)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-navigation)) saturate(180%);
+  border: 1px solid var(--glass-border-light);
+  border-radius: 0 0 var(--glass-radius) var(--glass-radius);
+  box-shadow:
+    0 8px 32px var(--glass-shadow-medium),
+    inset 0 1px 0 var(--glass-inner-highlight);
+}
+
+// Unified glassmorphism mobile links
+.glassmorphism-mobile-link {
+  color: var(--color-text-primary);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--glass-radius-small);
+  transition: all var(--transition-glass-hover);
+  display: block;
+  text-align: left;
+  border: 1px solid transparent;
+  background: none;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.glassmorphism-mobile-link:hover {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-primary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
+  border: 1px solid var(--glass-border-medium);
+  color: var(--color-text-primary);
+  box-shadow:
+    0 4px 16px var(--glass-shadow-light),
+    inset 0 1px 0 var(--glass-inner-highlight);
+}
+
+// Unified glassmorphism separators
+.glassmorphism-separator {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--glass-border-medium) 50%,
+    transparent 100%
+  );
+  margin: var(--space-xs) 0;
+}
+
+// Performance monitoring class for development
+.glass-performance-debug {
+  position: relative;
+}
+
+.glass-performance-debug::after {
+  content: 'GPU Layer';
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgba(255, 0, 0, 0.5);
+  color: white;
+  font-size: 10px;
+  padding: 2px 4px;
+  pointer-events: none;
+  z-index: 1000;
+  display: none; // Only show in dev mode
+}
+
+// Development mode indicator
+@media screen and (min-width: 1px) {
+  .development .glass-performance-debug::after {
+    display: block;
+  }
+}
+
+// Graceful degradation for browsers without backdrop-filter support
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-primary,
+  .glass-secondary,
+  .glass-tertiary,
+  .glass-button,
+  .glass-button-strong,
+  .glass-navigation,
+  .glassmorphism-panel,
+  .glassmorphism-button,
+  .glassmorphism-nav,
+  .glassmorphism-nav-link:hover,
+  .glassmorphism-mobile-menu,
+  .glassmorphism-mobile-link:hover {
+    background: var(--color-bg-tertiary) !important;
+    border: 1px solid var(--color-bg-quaternary) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+
+    // Maintain visual depth with enhanced shadows
+    box-shadow:
+      0 8px 24px var(--glass-shadow-medium),
+      inset 0 1px 0 var(--glass-inner-highlight) !important;
+  }
+}
+
+// Glassmorphism Footer - Clean positioning
+.glassmorphism-footer {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-secondary),
+    var(--glass-tint)
+  );
+  backdrop-filter: blur(var(--glass-blur-navigation)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-navigation)) saturate(180%);
+  border-top: 1px solid var(--glass-border-light);
+  box-shadow:
+    0 -4px 24px var(--glass-shadow-light),
+    inset 0 1px 0 var(--glass-inner-highlight);
+  transition: all var(--transition-glass);
+  padding: 0.75rem;
+
+  // Clean positioning
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  width: 100% !important;
 }

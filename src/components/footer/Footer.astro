@@ -14,38 +14,23 @@ const socialLinks = [
 ];
 ---
 
-<footer
-  style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; background-color: var(--color-bg-tertiary); border-top: 1px solid var(--color-bg-secondary); padding: 0.75rem; backdrop-filter: blur(8px);"
->
-  <div style="max-width: 1200px; margin: 0 auto;">
+<footer id="main-footer" class="footer-glassmorphism">
+  <div class="footer-inner">
     <!-- Simplified single row layout -->
-    <div
-      style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;"
-    >
+    <div class="footer-content">
       <!-- Left: Copyright -->
-      <div style="text-align: left;">
-        <p
-          style="font-size: 0.75rem; margin: 0; color: var(--color-text-tertiary);"
-        >
+      <div class="footer-info">
+        <p class="footer-text">
           © {currentYear} christopher tagliaferro
         </p>
-        <p
-          style="font-size: 0.75rem; margin: 0; color: var(--color-text-secondary);"
-        >
-          Technology Consultant & Virtual CIO
-        </p>
+        <p class="footer-subtitle">Technology Consultant & Virtual CIO</p>
       </div>
 
       <!-- Right: Social links -->
-      <div style="display: flex; gap: 0.5rem;">
+      <div class="social-links">
         {
           socialLinks.map((social) => (
-            <a
-              href={social.url}
-              class="social-link"
-              style="display: flex; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; background-color: var(--color-bg-secondary); color: var(--color-text-tertiary); border-radius: 0.25rem; font-size: 0.75rem; text-decoration: none; transition: all 0.3s ease;"
-              aria-label={social.name}
-            >
+            <a href={social.url} class="social-link" aria-label={social.name}>
               {social.icon}
             </a>
           ))
@@ -56,20 +41,110 @@ const socialLinks = [
 </footer>
 
 <style>
-  /* Social link hover effects */
+  /* Beautiful Glassmorphism Footer - CLEAN IMPLEMENTATION */
+  .footer-glassmorphism {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 9999;
+
+    /* Beautiful glassmorphism for light theme */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Dark theme glassmorphism */
+  [data-theme='dark'] .footer-glassmorphism {
+    background: rgba(18, 18, 18, 0.85);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Inner container for proper spacing */
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    flex-wrap: wrap;
+  }
+
+  /* Footer text styling */
+  .footer-info {
+    text-align: left;
+  }
+
+  .footer-text {
+    font-size: 0.875rem;
+    margin: 0;
+    color: var(--color-text-primary);
+    font-weight: 500;
+  }
+
+  .footer-subtitle {
+    font-size: 0.75rem;
+    margin: 0;
+    color: var(--color-text-secondary);
+    opacity: 0.8;
+  }
+
+  /* Social links with glassmorphism */
+  .social-links {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  [data-theme='dark'] .social-link {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
   .social-link:hover {
-    background-color: var(--color-accent-primary) !important;
-    color: var(--color-bg-primary) !important;
-    transform: translateY(-1px);
+    background: rgba(184, 134, 154, 0.2);
+    border-color: var(--color-accent-primary);
+    color: var(--color-accent-primary);
+    transform: translateY(-2px);
   }
 
   /* Responsive adjustments */
   @media (max-width: 479px) {
-    footer > div > div {
+    .footer-content {
       flex-direction: column;
       text-align: center;
-      gap: 0.5rem;
+      gap: 1rem;
+    }
+
+    .footer-info {
+      text-align: center;
     }
   }
 </style>
-

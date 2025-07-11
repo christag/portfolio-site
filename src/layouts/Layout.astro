@@ -29,13 +29,52 @@ const currentPath = Astro.url.pathname;
   </head>
   <body
     class="min-h-screen"
-    style="background-color: var(--color-bg-primary, #fafafa); color: var(--color-text-primary, #171717);"
+    style="background: var(--glassmorphism-bg-light); color: var(--color-text-primary, #171717);"
   >
     <Navigation currentPath={currentPath} />
     <main class="pt-20 pb-32">
       <slot />
     </main>
     <Footer />
+
+    <!-- Glassmorphism Performance Manager -->
+    <script>
+      import {
+        GlassPerformanceManager,
+        glassUtils,
+      } from '../components/utils/performance.js';
+
+      // Initialize performance manager
+      const initPerformance = () => {
+        const manager = new GlassPerformanceManager();
+
+        // DISABLED: This adds transforms that break fixed positioning
+        // glassUtils.optimizeElements();
+
+        // Log performance recommendations in development
+        if (import.meta.env.DEV) {
+          const recommendations = manager.getRecommendations();
+          if (recommendations.length > 0) {
+            console.group('🔍 Glass Performance Recommendations');
+            recommendations.forEach((rec) => console.log(`• ${rec}`));
+            console.groupEnd();
+          }
+        }
+
+        // Make manager available globally for debugging
+        if (import.meta.env.DEV) {
+          window.glassPerformance = manager;
+          window.glassUtils = glassUtils;
+        }
+      };
+
+      // Initialize when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPerformance);
+      } else {
+        initPerformance();
+      }
+    </script>
   </body>
 </html>
 

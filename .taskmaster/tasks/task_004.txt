@@ -1,0 +1,74 @@
+# Task ID: 4
+# Title: Implement Dynamic Services Page ('I Can')
+# Status: pending
+# Dependencies: 2, 5
+# Priority: medium
+# Description: Build the 'I Can' services page powered by Strapi CMS, displaying all consulting services with tiered pricing, descriptions, feature highlights, and contact CTAs. The page must reflect a bold, punk-meets-professional partnership, supporting filtering, sorting, pinning/highlighting, and direct links to service detail pages.
+# Details:
+1. Update Strapi content model for Service:
+   - Fields: id, title, category/type, description, featureHighlights[], tiers[{name, priceLow, priceHigh, deliverables}], contactMethod, isPinned, slug
+   - Ensure model supports transparent, empowering service descriptions and privacy/security best practices
+2. Remove all static/hard-coded service data from the frontend
+3. Implement a dynamic, filterable, and sortable grid/list of services
+   - Filter by service type, tier, and price range
+   - Sort by title, price, or custom order
+   - Highlight/pin services as set in CMS
+   - Ensure all controls are accessible and easy for non-technical users
+   - Use asymmetric, print-style grid with deliberate misalignment and punk/brutalist accents
+4. Each service card links to a dedicated detail page
+5. Service detail page displays full info, pricing, features, and CTA, with bold, direct messaging and punk-inspired micro-interactions
+6. Add structured data for SEO (Schema.org ServiceOffering) dynamically
+7. Ensure responsive, accessible, and privacy-respecting design throughout, with theme toggles and high-contrast color options
+
+# Test Strategy:
+1. Verify all services display dynamically from Strapi, with accessible, bold descriptions
+2. Test filtering and sorting by type, tier, and price, ensuring controls are usable by all
+3. Validate pin/highlight logic from CMS and its accessibility
+4. Confirm each service has a working detail page with correct, transparent data
+5. Test CTA functionality (mailto, Calendly, etc.) for clarity and empowerment
+6. Check structured data using Google's Rich Results Test
+7. Test responsive, asymmetric layout and accessibility compliance, prioritizing founders and non-technical leaders
+
+# Subtasks:
+## 1. Define Strapi Service Content Model [pending]
+### Dependencies: None
+### Description: Design and document the Strapi CMS schema for services, including fields for title, description, category/type, tiered pricing, feature highlights, CTA details, pin/highlight, and slug for routing. Ensure model supports bold, punk/professional service descriptions.
+### Details:
+Specify data types, required fields, and example data for each service. Ensure the structure supports tiered pricing, filtering, pinning, direct linking, and privacy/security best practices.
+
+## 2. Design Dynamic Service Grid/List Layout with Punk/Brutalist Accents [pending]
+### Dependencies: 4.1
+### Description: Create the visual and structural layout for the dynamic service grid or list, supporting accessible filtering, sorting, pin/highlight display, and punk/brutalist visual elements.
+### Details:
+Establish visual hierarchy, spacing, and alignment using asymmetric, print-style grids and deliberate misalignment. Plan for accessible filter and sort controls, pin/highlight indicators, and responsive adaptability. Ensure layout is approachable for non-technical users and visually bold.
+
+## 3. Implement Dynamic Service Card Component with Micro-interactions [pending]
+### Dependencies: 4.2
+### Description: Develop a reusable, accessible card component that consumes CMS data and renders service information, including pin/highlight state, filter/sort integration, and punk-inspired micro-interactions.
+### Details:
+Include header (media/title), body (description/features), footer (CTA/button), and pin/highlight badge. Add glitch, flicker, or overlay effects for visual interest. Ensure modularity for different content lengths and types, and support for bold, empowering messaging.
+
+## 4. Develop Tiered Pricing and Filtering Logic with Bold UI [pending]
+### Dependencies: 4.3
+### Description: Integrate accessible tiered pricing and filtering/sorting logic into the service grid and card components, supporting user selection by type, tier, and price, with bold, punk-inspired UI.
+### Details:
+Design for clarity and scannability, using oversized typography, high-contrast color, and asymmetric layout to highlight differences between tiers. Implement accessible filter and sort controls and logic.
+
+## 5. Implement Service Detail Page Routing with Punk/Professional Duality [pending]
+### Dependencies: 4.4
+### Description: Add dynamic routing for service detail pages, accessible via direct links (e.g., /services/{slug}), displaying full service info, pricing, features, and CTA with bold, punk/professional messaging.
+### Details:
+Ensure each service has a unique, SEO-friendly URL. Render all relevant data and CTA on the detail page, prioritizing accessibility, privacy, and punk/brutalist visual effects.
+
+## 6. Add Dynamic Structured Data for SEO [pending]
+### Dependencies: 4.1, 4.3, 4.5
+### Description: Embed structured data (e.g., JSON-LD) for each service card and detail page, mapping CMS data to Schema.org ServiceOffering and related types, reflecting bold, punk/professional service descriptions.
+### Details:
+Validate structured data using testing tools. Ensure dynamic generation based on CMS content and bold, brand-aligned messaging.
+
+## 7. Ensure Responsive and Accessible Design with Theme Toggles [pending]
+### Dependencies: 4.2, 4.3, 4.4, 4.5
+### Description: Adapt the service grid/list, cards, and detail pages for optimal display, accessibility, and privacy across devices and screen sizes, with support for light/dark/punk theme toggles.
+### Details:
+Implement CSS or framework utilities for grid, spacing, and aspect ratio. Test on mobile, tablet, and desktop breakpoints. Audit for accessibility, privacy, and theme toggle compliance.
+

@@ -4,52 +4,64 @@ import AnimationDemo from '../components/demo/AnimationDemo.astro';
 ---
 
 <Layout title="Christopher Tagliaferro - Technology Consultant & Virtual CIO">
-  <!-- Hero Section with Proper Centering -->
+  <!-- Hero Section with Glassmorphism Background -->
   <section
-    class="min-h-screen flex items-center justify-center pt-20"
-    style="background-color: var(--color-bg-primary);"
+    class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden glassmorphism-bg"
   >
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="text-center">
-        <!-- Main heading with misalignment -->
-        <h1
-          class="display-responsive font-bold mb-8 misalign-accessible misalign-right"
-          style="color: var(--color-text-primary); font-family: var(--font-heading);"
-        >
-          christopher<span style="color: var(--color-accent-primary);">.</span>
-        </h1>
+    <!-- Vibrant Glassmorphism Background -->
+    <div class="absolute inset-0 glassmorphism-background"></div>
 
-        <h2
-          class="heading-responsive mb-8 misalign-left"
-          style="color: var(--color-text-secondary);"
-        >
-          Technology Consultant & Virtual CIO
-        </h2>
+    <!-- Floating Glass Orbs for Visual Interest -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div
+        class="glassmorphism-orb absolute top-1/4 left-1/4 w-32 h-32 rounded-full opacity-60 animate-pulse"
+      >
+      </div>
+      <div
+        class="glassmorphism-orb absolute top-3/4 right-1/3 w-24 h-24 rounded-full opacity-40 animate-pulse"
+        style="animation-delay: 1s;"
+      >
+      </div>
+      <div
+        class="glassmorphism-orb absolute bottom-1/4 left-1/2 w-20 h-20 rounded-full opacity-30 animate-pulse"
+        style="animation-delay: 2s;"
+      >
+      </div>
+    </div>
 
-        <p
-          class="text-responsive mb-12 max-w-2xl mx-auto misalign-diagonal"
-          style="color: var(--color-text-secondary);"
-        >
-          Empowering founders through honest tech partnership. Building systems
-          that scale with your vision.
-        </p>
-
-        <!-- Fixed button layout for mobile and desktop -->
-        <div
-          class="button-container flex flex-col sm:flex-row justify-center items-center max-w-lg mx-auto"
-        >
-          <a
-            href="/services"
-            class="hero-button button-primary w-full sm:w-auto px-8 py-4 text-center text-base font-semibold rounded-lg transition-all duration-300 hover:transform hover:translateY(-2px) hover:shadow-lg"
-            style="background-color: var(--color-accent-primary); color: var(--color-bg-primary); border: 2px solid var(--color-accent-primary);"
+    <div class="content-wrapper relative z-10">
+      <!-- Main Content Container - Enhanced Glassmorphism Panel for Text Content -->
+      <div class="text-center glassmorphism-content-panel p-2xl space-y-lg">
+        <!-- Main heading with proper spacing and subtle text shadows -->
+        <div class="space-y-md">
+          <h1
+            class="display-responsive font-bold misalign-accessible misalign-right"
+            style="color: var(--color-text-primary); font-family: var(--font-heading); text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);"
           >
-            Explore Services
-          </a>
-          <a
-            href="/contact"
-            class="hero-button button-secondary w-full sm:w-auto px-8 py-4 text-center text-base font-semibold rounded-lg transition-all duration-300 border-2 hover:transform hover:translateY(-2px) hover:shadow-lg"
-            style="border-color: var(--color-accent-primary); color: var(--color-accent-primary); background-color: transparent;"
+            christopher<span style="color: var(--color-accent-primary);">.</span
+            >
+          </h1>
+
+          <h2
+            class="heading-responsive misalign-left"
+            style="color: var(--color-text-secondary); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);"
           >
+            Technology Consultant & Virtual CIO
+          </h2>
+
+          <p
+            class="text-responsive max-w-2xl mx-auto misalign-diagonal"
+            style="color: var(--color-text-secondary); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);"
+          >
+            Empowering founders through honest tech partnership. Building
+            systems that scale with your vision.
+          </p>
+        </div>
+
+        <!-- Button Container - BEAUTIFUL GLASSMORPHISM -->
+        <div class="button-container">
+          <a href="/services" class="glass-button"> Explore Services </a>
+          <a href="/contact" class="glass-button glass-button-secondary">
             Let's Talk
           </a>
         </div>
@@ -57,46 +69,139 @@ import AnimationDemo from '../components/demo/AnimationDemo.astro';
     </div>
   </section>
 
+  <style>
+    /* Beautiful Glassmorphism Buttons */
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      max-width: 28rem;
+      margin: 2rem auto 0;
+    }
+
+    @media (min-width: 640px) {
+      .button-container {
+        flex-direction: row;
+      }
+    }
+
+    .glass-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.875rem 2rem;
+      min-height: 3rem;
+      width: 100%;
+
+      /* Beautiful glassmorphism */
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 2px solid var(--color-accent-primary);
+      border-radius: 24px;
+      box-shadow: 0 4px 20px rgba(184, 134, 154, 0.15);
+
+      /* Typography */
+      color: var(--color-accent-primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+
+      /* Transitions */
+      transition: all 0.3s ease;
+    }
+
+    @media (min-width: 640px) {
+      .glass-button {
+        width: auto;
+        min-width: 160px;
+      }
+    }
+
+    /* Primary button hover */
+    .glass-button:hover {
+      background: rgba(184, 134, 154, 0.2);
+      transform: translateY(-2px);
+      box-shadow:
+        0 6px 28px rgba(184, 134, 154, 0.25),
+        0 0 0 1px rgba(184, 134, 154, 0.3);
+    }
+
+    /* Secondary button variant */
+    .glass-button-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      color: var(--color-text-primary);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .glass-button-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: var(--color-accent-primary);
+      color: var(--color-accent-primary);
+    }
+
+    /* Dark theme adjustments */
+    [data-theme='dark'] .glass-button {
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme='dark'] .glass-button:hover {
+      background: rgba(184, 134, 154, 0.3);
+      box-shadow:
+        0 6px 28px rgba(184, 134, 154, 0.4),
+        0 0 0 1px rgba(184, 134, 154, 0.5);
+    }
+
+    [data-theme='dark'] .glass-button-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    [data-theme='dark'] .glass-button-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  </style>
+
   <!-- Animation Demo Section -->
-  <AnimationDemo title="Punk/Brutalist Animation Utilities" />
+  <AnimationDemo title="Brutalist Animation Utilities" />
 
   <!-- Demonstration Section for Responsive Layouts -->
-  <section
-    class="section-padding"
-    style="background-color: var(--color-bg-secondary);"
-  >
-    <div class="max-w-6xl mx-auto px-6">
+  <section class="section-wrapper glass-primary-no-padding">
+    <div class="content-wrapper space-y-2xl">
       <h2
-        class="heading-responsive text-center mb-12 misalign-left"
+        class="heading-responsive text-center misalign-left"
         style="color: var(--color-text-primary);"
       >
         Responsive Design in Action
       </h2>
 
-      <!-- Print-style Grid Demo -->
-      <div class="grid-print-style mb-16">
+      <!-- Print-style Grid Demo with Proper Spacing -->
+      <div class="grid-print-style space-y-lg">
         <div class="span-full lg:span-two-thirds offset-1 lg:offset-2">
-          <h3
-            class="text-2xl font-bold mb-4"
-            style="color: var(--color-text-primary);"
-          >
-            Asymmetric Layouts
-          </h3>
-          <p
-            class="text-responsive misalign-right"
-            style="color: var(--color-text-secondary);"
-          >
-            Our layout system adapts beautifully across all screen sizes while
-            maintaining the punk/brutalist aesthetic through deliberate
-            misalignment.
-          </p>
+          <div class="space-y-md">
+            <h3
+              class="text-2xl font-bold"
+              style="color: var(--color-text-primary);"
+            >
+              Asymmetric Layouts
+            </h3>
+            <p
+              class="text-responsive misalign-right"
+              style="color: var(--color-text-secondary);"
+            >
+              Our layout system adapts beautifully across all screen sizes while
+              maintaining the brutalist aesthetic through deliberate
+              misalignment.
+            </p>
+          </div>
         </div>
 
         <div class="span-full lg:span-third">
-          <div
-            class="p-6 rounded-lg misalign-down"
-            style="background-color: var(--color-bg-tertiary);"
-          >
+          <div class="glass-secondary glass-hover misalign-down">
             <h4
               class="text-lg font-bold mb-2"
               style="color: var(--color-accent-primary);"
@@ -110,13 +215,10 @@ import AnimationDemo from '../components/demo/AnimationDemo.astro';
         </div>
 
         <div class="span-full lg:span-half offset-1">
-          <div
-            class="p-6 rounded-lg misalign-up"
-            style="background-color: var(--color-bg-tertiary);"
-          >
+          <div class="glass-secondary glass-hover misalign-up">
             <h4
               class="text-lg font-bold mb-2"
-              style="color: var(--color-accent-secondary);"
+              style="color: var(--color-text-primary);"
             >
               Tablet Adaptation
             </h4>
@@ -127,29 +229,23 @@ import AnimationDemo from '../components/demo/AnimationDemo.astro';
         </div>
 
         <div class="span-full lg:span-quarter">
-          <div
-            class="p-6 rounded-lg misalign-reverse-diagonal"
-            style="background-color: var(--color-bg-tertiary);"
-          >
+          <div class="glass-secondary glass-hover misalign-reverse-diagonal">
             <h4
               class="text-lg font-bold mb-2"
-              style="color: var(--color-accent-tertiary);"
+              style="color: var(--color-text-primary);"
             >
               Desktop Chaos
             </h4>
             <p class="text-sm" style="color: var(--color-text-secondary);">
-              Controlled misalignment for punk energy
+              Controlled misalignment for brutalist energy
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Breakpoint Demonstration -->
+      <!-- Breakpoint Demonstration with Proper Spacing -->
       <div class="text-center">
-        <div
-          class="inline-block p-4 rounded-lg"
-          style="background-color: var(--color-bg-tertiary);"
-        >
+        <div class="glass-primary p-md inline-block">
           <p
             class="text-sm font-mono"
             style="color: var(--color-text-secondary);"
@@ -168,100 +264,3 @@ import AnimationDemo from '../components/demo/AnimationDemo.astro';
     </div>
   </section>
 </Layout>
-
-<style>
-  /* Button container spacing - explicit CSS to override any conflicts */
-  .button-container {
-    gap: 1.5rem !important; /* 24px spacing */
-  }
-
-  /* Mobile: Stack vertically with spacing */
-  .button-primary {
-    margin-bottom: 1.5rem;
-  }
-
-  /* Desktop: Side-by-side, centered, remove individual margins */
-  @media (min-width: 640px) {
-    .button-primary {
-      margin-bottom: 0 !important;
-      margin-right: 0;
-    }
-
-    .button-secondary {
-      margin-left: 0;
-    }
-
-    /* Ensure buttons are smaller on desktop */
-    .hero-button {
-      min-width: 160px;
-      max-width: 200px;
-    }
-
-    /* Force horizontal layout on desktop */
-    .button-container {
-      flex-direction: row !important;
-    }
-  }
-
-  /* Enhanced button styling for consistency */
-  .hero-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    border-radius: 0.5rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  }
-
-  .hero-button:active {
-    transform: translateY(-1px);
-  }
-
-  /* Punk theme button effects */
-  [data-theme='punk'] .hero-button:hover {
-    box-shadow:
-      0 0 20px var(--color-accent-primary),
-      0 8px 25px rgba(255, 0, 128, 0.3);
-    animation: subtle-glitch 0.3s ease-in-out;
-  }
-
-  @keyframes subtle-glitch {
-    0%,
-    100% {
-      transform: translateY(-2px);
-    }
-    25% {
-      transform: translateY(-2px) translateX(1px);
-    }
-    75% {
-      transform: translateY(-2px) translateX(-1px);
-    }
-  }
-
-  /* Button hover effects for punk theme */
-  [data-theme='punk'] a:hover {
-    box-shadow: 0 0 20px var(--color-accent-primary);
-  }
-
-  /* Enhanced punk theme effects */
-  [data-theme='punk'] .misalign-chaos {
-    animation: glitch 0.3s ease-in-out infinite alternate;
-  }
-
-  /* Ensure buttons don't overflow on mobile */
-  @media (max-width: 479px) {
-    .max-w-4xl,
-    .max-w-6xl {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
-  }
-</style>

@@ -1,0 +1,98 @@
+# Task ID: 7
+# Title: Implement Dynamic Media Detail Page
+# Status: pending
+# Dependencies: 6
+# Priority: high
+# Description: Create a dynamic media.html?media={id} page that loads the chosen asset from Strapi and renders it appropriately based on media type (embed, markdown, etc.).
+# Details:
+1. Create a dynamic route handler for media detail pages
+2. Implement API service to fetch single media item by ID from Strapi
+3. Build a component switcher based on media type:
+```javascript
+function MediaRenderer({ media }) {
+  switch(media.type) {
+    case 'markdown':
+      return <MarkdownRenderer content={media.content} />;
+    case 'youtube':
+      return <YouTubeEmbed embedCode={media.embedCode} />;
+    case 'code':
+      return <CodeHighlighter code={media.content} language={media.language} />;
+    case 'image':
+      return <ImageViewer url={media.url} alt={media.title} />;
+    case 'audio':
+      return <AudioPlayer url={media.url} />;
+    default:
+      return <GenericRenderer media={media} />;
+  }
+}
+```
+4. Implement each renderer component
+5. Add social sharing functionality
+6. Create "More like this" carousel for related content
+7. Implement SEO metadata based on media content
+8. Add deep-linking support for sharing specific media
+
+# Test Strategy:
+1. Test route handling with various media IDs
+2. Verify each renderer component works correctly
+3. Test social sharing functionality
+4. Validate SEO metadata generation
+5. Test responsive layout for different media types
+6. Verify deep-linking works correctly
+7. Test error handling for invalid media IDs
+
+# Subtasks:
+## 1. Set Up Dynamic Routing [pending]
+### Dependencies: None
+### Description: Implement a routing system that dynamically generates routes based on media content identifiers or slugs.
+### Details:
+Ensure the routing logic supports deep-linking and can handle various media types. Test with sample data to verify route generation.
+
+## 2. Integrate Single Media API from Strapi [pending]
+### Dependencies: 7.1
+### Description: Connect to the Strapi media API to fetch content details for individual media items.
+### Details:
+Research Strapi API endpoints, authentication, response formats, and error handling mechanisms. Implement API calls and handle responses according to best practices.
+
+## 3. Develop Renderer Components by Media Type [pending]
+### Dependencies: 7.2
+### Description: Create modular renderer components that display content based on the media type (e.g., video, image, audio, article).
+### Details:
+Design each renderer to handle its specific data structure and presentation needs. Ensure components are reusable and maintainable.
+
+## 4. Implement Social Sharing Functionality [pending]
+### Dependencies: 7.3
+### Description: Add social sharing buttons and logic to allow users to share media content on various platforms.
+### Details:
+Integrate with popular social APIs and ensure shared links support deep-linking to the specific media item.
+
+## 5. Build Related Content Carousel [pending]
+### Dependencies: 7.2
+### Description: Develop a carousel component that displays related media items based on the current content.
+### Details:
+Fetch related content from Strapi API and design the carousel for smooth navigation and accessibility.
+
+## 6. Implement SEO Metadata Handling [pending]
+### Dependencies: 7.2
+### Description: Dynamically generate and inject SEO metadata (title, description, Open Graph tags) for each media route.
+### Details:
+Ensure metadata reflects the current media content and supports social sharing previews.
+
+## 7. Enable Deep-Linking Support [pending]
+### Dependencies: 7.1, 7.6
+### Description: Ensure that each media item can be accessed directly via a unique URL, supporting navigation and sharing.
+### Details:
+Test deep-linking across devices and platforms to verify correct content loading and metadata rendering.
+
+## 8. Implement Robust Error Handling [pending]
+### Dependencies: 7.2, 7.3
+### Description: Add standardized error handling for Strapi API failures, invalid routes, and rendering issues.
+### Details:
+Display user-friendly error messages and log errors for debugging. Follow best practices for consistent error formats.
+
+## 9. Ensure Responsive Design [pending]
+### Dependencies: 7.3, 7.5
+### Description: Adapt all components and layouts to provide an optimal experience across devices and screen sizes.
+### Details:
+Test UI elements, carousels, and renderers on multiple devices and browsers. Address accessibility and usability concerns.
+

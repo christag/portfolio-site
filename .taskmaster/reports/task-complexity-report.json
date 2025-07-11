@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generatedAt": "2025-07-08T20:16:57.086Z",
-    "tasksAnalyzed": 12,
+    "generatedAt": "2025-07-10T23:21:05.679Z",
+    "tasksAnalyzed": 11,
     "totalTasks": 12,
     "analysisCount": 12,
     "thresholdScore": 5,
@@ -20,90 +20,90 @@
     {
       "taskId": 2,
       "taskTitle": "Implement Core Layout and Theme Components",
-      "complexityScore": 8,
+      "complexityScore": 10,
       "recommendedSubtasks": 12,
-      "expansionPrompt": "Expand by isolating each design system element (tokens, grid, breakpoints, navigation, footer, component library, accessibility, animation, cross-browser testing) into focused subtasks. Add subtasks for design review, Storybook integration, and accessibility regression testing.",
-      "reasoning": "This task covers foundational UI architecture, responsive design, accessibility, and animation. It requires coordination between design tokens, layout, and reusable components, with high maintainability and accessibility demands. The breadth and interdependence of UI, accessibility, and testing increase both cyclomatic and cognitive complexity."
+      "expansionPrompt": "Break down the implementation of core layout and theme components into granular subtasks covering: Tailwind CSS configuration for Liquid Glass, CSS variable setup for design tokens, creation of layout and navigation components, responsive breakpoints, UI component library (buttons, cards, containers), animation integration, dynamic background generation, performance optimization, accessibility, cross-browser testing, and visual QA.",
+      "reasoning": "This task is extremely complex due to the need to deeply integrate Apple's Liquid Glass principles—requiring advanced CSS (opacity, blur, adaptive tinting), spatial depth, dynamic backgrounds, and a strict no-solid-backgrounds policy. It spans foundational layout, theming, component library, animation, and accessibility, all while maintaining a high visual and technical standard. The scope is broad, with many interdependent requirements and a need for iterative refinement and cross-discipline expertise. The detailed requirements and iterative user feedback cycles further increase complexity."
     },
     {
       "taskId": 3,
       "taskTitle": "Build Static Bio Page ('I Am')",
-      "complexityScore": 5,
+      "complexityScore": 7,
       "recommendedSubtasks": 8,
-      "expansionPrompt": "Expand by separating content creation, markdown transformation, layout design, section implementations, SEO, static generation, and responsive styling into individual subtasks. Add a subtask for accessibility review.",
-      "reasoning": "This is a moderately complex task involving static content, markdown transformation, and responsive layout. While there are several moving parts, the logic is mostly linear and the integrations are standard, keeping the complexity moderate."
+      "expansionPrompt": "Expand the static bio page task into subtasks for: markdown content authoring, markdown transformer setup, layout design, hero/profile section with animation, timeline/experience grid, social links and SEO metadata, static generation, responsive and accessible styling, and QA.",
+      "reasoning": "This task is moderately complex, involving both content and technical implementation. It requires integrating markdown transformation, generative animation, asymmetric layouts, and accessibility, all within a bold, expressive design system. The need for both technical and personal storytelling, SEO, and spatial adaptation adds to the challenge, but the static nature of the page keeps it below the highest complexity."
     },
     {
       "taskId": 4,
-      "taskTitle": "Implement Static Services Page ('I Can')",
-      "complexityScore": 6,
+      "taskTitle": "Implement Dynamic Services Page ('I Can')",
+      "complexityScore": 8,
       "recommendedSubtasks": 9,
-      "expansionPrompt": "Expand by isolating data modeling, card layout, component development, tiered pricing, CTA logic, structured data, responsiveness, accessibility, and SEO validation into separate subtasks.",
-      "reasoning": "This task involves structured data, reusable components, tiered pricing logic, and SEO. The need for clear data modeling and dynamic UI elements increases complexity, but the static nature of the data keeps it below the highest levels."
+      "expansionPrompt": "Decompose the dynamic services page into subtasks for: Strapi content model definition, dynamic grid/list layout, service card component, tiered pricing/filtering logic, detail page routing, structured data for SEO, responsive and accessible design, caching, and error handling.",
+      "reasoning": "This task is highly complex due to dynamic data integration with Strapi, tiered pricing logic, filtering/sorting, pin/highlight features, and the need for bold, accessible, and responsive UI. It also requires SEO structured data and robust error handling. The dynamic, filterable, and CMS-driven nature increases both technical and UX complexity."
     },
     {
       "taskId": 5,
-      "taskTitle": "Deploy Headless CMS (Strapi or WordPress)",
+      "taskTitle": "Deploy Headless CMS (Strapi) on AWS with Robust Integration",
       "complexityScore": 9,
-      "recommendedSubtasks": 12,
-      "expansionPrompt": "Expand by detailing each infrastructure, CMS, and security step: Terraform provisioning, CMS install, content modeling, API setup, authentication, S3 integration, backup, security, load testing, and documentation. Add subtasks for monitoring and disaster recovery.",
-      "reasoning": "This is a highly complex task involving cloud infrastructure, CMS deployment, security, API integration, and backup. Each area (infra, CMS, API, security, backup) is itself non-trivial and interdependent, with high risk and maintainability concerns."
+      "recommendedSubtasks": 10,
+      "expansionPrompt": "Expand the CMS deployment into subtasks for: AWS infrastructure provisioning, Strapi installation/configuration, content model definition, API endpoint setup, authentication/permissions, S3 integration, backup/recovery, security, performance/load testing, and documentation.",
+      "reasoning": "This is a foundational infrastructure and backend task with high complexity. It involves cloud provisioning, secure deployment, content modeling, API setup, authentication, media storage, backup, caching, and documentation. The need for robust, production-grade integration and the fact that it blocks all dynamic content increases its criticality and complexity."
     },
     {
       "taskId": 6,
       "taskTitle": "Develop Portfolio Grid ('I Did')",
       "complexityScore": 8,
-      "recommendedSubtasks": 12,
-      "expansionPrompt": "Expand by breaking out grid design, API integration, filter logic, card components, lazy loading, caching, animation, responsiveness, accessibility, and performance testing into atomic subtasks. Add subtasks for error handling and analytics.",
-      "reasoning": "This task requires dynamic data fetching, filtering, responsive UI, performance optimization, and accessibility. The combination of real-time data, filtering logic, and UI complexity drives up both cyclomatic and cognitive complexity."
+      "recommendedSubtasks": 10,
+      "expansionPrompt": "Break down the portfolio grid into subtasks for: grid layout design, Strapi API integration, filter bar, media card components, lazy loading, caching, animation/micro-interactions, responsive design, accessibility, and performance testing.",
+      "reasoning": "This task is complex due to the need for a dynamic, filterable, and accessible grid layout with deliberate misalignment, punk/brutalist styling, and micro-interactions. It requires integration with Strapi, advanced CSS/JS for layout and animation, and strong accessibility and performance considerations."
     },
     {
       "taskId": 7,
       "taskTitle": "Implement Dynamic Media Detail Page",
-      "complexityScore": 8,
-      "recommendedSubtasks": 11,
-      "expansionPrompt": "Expand by isolating dynamic routing, API integration, renderer components per media type, social sharing, related content, SEO, deep-linking, error handling, responsiveness, and accessibility into separate subtasks.",
-      "reasoning": "This task involves dynamic routing, multiple renderer components, API integration, SEO, and error handling. The need to support various media types and robust error handling increases both cyclomatic and cognitive complexity."
+      "complexityScore": 7,
+      "recommendedSubtasks": 9,
+      "expansionPrompt": "Expand the media detail page into subtasks for: dynamic routing, Strapi API integration, renderer components by media type, social sharing, related content carousel, SEO metadata, deep-linking, error handling, and responsive design.",
+      "reasoning": "This task is moderately complex, involving dynamic routing, content fetching, multiple renderer components, social features, SEO, and error handling. The need to support various media types and ensure accessibility and responsiveness adds to the challenge, but the scope is more contained than the core layout or CMS deployment."
     },
     {
       "taskId": 8,
-      "taskTitle": "Migrate Services to CMS",
+      "taskTitle": "Migrate Services Data to Strapi CMS with Structured Mapping",
       "complexityScore": 7,
-      "recommendedSubtasks": 10,
-      "expansionPrompt": "Expand by detailing CMS model validation, migration planning, migration execution, API integration, tiered pricing, dynamic card updates, CTA logic, caching, SEO, and error handling as individual subtasks.",
-      "reasoning": "This task involves data migration, CMS integration, dynamic UI updates, and caching. The migration and integration steps add complexity, but the scope is narrower than full CMS deployment."
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Decompose the migration into subtasks for: model validation, migration planning, migration execution, API integration, tiered pricing/filtering component, dynamic card/detail updates, CTA logic, and caching/SEO updates.",
+      "reasoning": "This task is moderately complex, requiring careful data mapping, migration, validation, and integration with the frontend. It also involves updating UI components, implementing dynamic logic, and ensuring SEO and caching. The complexity is elevated by the need for data integrity and seamless transition from static to dynamic content."
     },
     {
       "taskId": 9,
       "taskTitle": "Implement Collaboration Form ('We Could')",
       "complexityScore": 6,
-      "recommendedSubtasks": 9,
-      "expansionPrompt": "Expand by separating Jira setup, form layout, iframe embed, fallback form, webhook integration, success flow, validation, error handling, and analytics into distinct subtasks.",
-      "reasoning": "This task involves third-party integration, fallback logic, and analytics. While there are several integration points, the logic is mostly linear and the risk is moderate."
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Expand the collaboration form into subtasks for: Jira project setup, form page layout, Jira iframe embed, fallback form, webhook integration, success flow, validation/error handling, and analytics tracking.",
+      "reasoning": "This task is of moderate complexity, involving integration with Jira, fallback mechanisms, webhooks, validation, and analytics. While it requires careful handling of external systems and error states, the scope is more focused and less technically demanding than the core layout or CMS tasks."
     },
     {
       "taskId": 10,
       "taskTitle": "Implement Performance Optimizations",
       "complexityScore": 7,
-      "recommendedSubtasks": 12,
-      "expansionPrompt": "Expand by isolating each optimization area: image optimization, JS optimization, caching, monitoring, sitemap, RSS, service worker, font loading, Lighthouse CI, offline testing, and regression validation into atomic subtasks.",
-      "reasoning": "This task covers a broad range of performance techniques, each requiring specialized knowledge and testing. The need for cross-cutting optimizations and regression testing increases complexity."
+      "recommendedSubtasks": 10,
+      "expansionPrompt": "Break down performance optimization into subtasks for: image optimization, JS optimization, caching, performance monitoring, sitemap.xml, RSS feed, service worker, font loading, Lighthouse CI, and offline testing.",
+      "reasoning": "This task is moderately complex, requiring a broad set of optimizations across images, JS, caching, monitoring, and PWA features. Each area is well-understood but requires careful coordination and testing to achieve high performance and accessibility standards."
     },
     {
       "taskId": 11,
       "taskTitle": "Add Animation and Micro-interactions",
-      "complexityScore": 5,
-      "recommendedSubtasks": 8,
-      "expansionPrompt": "Expand by breaking out library setup, animation implementation by type, custom hooks, reduced motion support, lazy loading, reusable components, accessibility validation, and performance testing into separate subtasks.",
-      "reasoning": "This task is focused on UI polish and user experience. While it requires attention to detail and accessibility, the technical complexity is moderate and the risk is lower than core infrastructure tasks."
+      "complexityScore": 6,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "Expand animation/micro-interactions into subtasks for: animation library setup, implementing animations by type, custom hooks, prefers-reduced-motion support, lazy-loading libraries, reusable components, and accessibility validation.",
+      "reasoning": "This task is of moderate complexity, involving integration of animation libraries, custom hooks, accessibility, and performance considerations. While important for UX, the technical scope is narrower and more modular than foundational layout or backend tasks."
     },
     {
       "taskId": 12,
       "taskTitle": "Implement PWA Capabilities",
       "complexityScore": 6,
-      "recommendedSubtasks": 9,
-      "expansionPrompt": "Expand by detailing manifest creation, icon generation, service worker, install prompt, push notifications, offline sync, cross-device testing, Lighthouse audit, and regression validation as separate subtasks.",
-      "reasoning": "This task involves several web platform APIs and cross-device testing. While each step is well-documented, the integration and testing requirements add moderate complexity."
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Decompose PWA implementation into subtasks for: manifest.json, app icons, service worker, install prompt, push notifications, offline sync, cross-device testing, and Lighthouse PWA audit.",
+      "reasoning": "This task is moderately complex, involving standard PWA features such as manifest, service worker, offline support, and push notifications. While requiring attention to detail and cross-device testing, the implementation is well-documented and less complex than core layout or CMS tasks."
     }
   ]
 }

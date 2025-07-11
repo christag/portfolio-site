@@ -1,0 +1,92 @@
+# Task ID: 6
+# Title: Develop Portfolio Grid ('I Did')
+# Status: pending
+# Dependencies: 2, 5
+# Priority: high
+# Description: Create a filterable, accessible gallery of multi-media work that pulls content from Strapi and allows filtering by media type and tags. The grid must use a masonry, deliberately misaligned layout with punk/brutalist visual energy, and support theme toggles and expressive micro-interactions.
+# Details:
+1. Design and implement a masonry, asymmetric portfolio grid layout with deliberate misalignment and punk/industrial overlays
+2. Create API service to fetch media items from Strapi, ensuring privacy and security
+3. Implement accessible client-side filter bar with:
+   - Media type filter (code, video, blog, audio, image)
+   - Tag-based filtering
+   - Sort options (date, popularity)
+   - Controls must be usable by all, including non-technical users
+   - Bold, oversized typography and punk-inspired accents
+4. Create media card components for different content types, supporting creative/personal integration and micro-interactions (flickers, overlays, slide-ins)
+5. Implement grid layout with CSS Grid/Flexbox, prioritizing accessibility, clarity, and controlled chaos
+6. Add lazy loading for images and thumbnails
+7. Implement caching strategy for API responses, respecting privacy
+8. Add animation for card appearance using GSAP/Framer Motion (motion blur, glitch, slide-in), ensuring accessibility
+9. Ensure filtering and grid logic are consistent with the services page for a cohesive, empowering UX
+
+# Test Strategy:
+1. Test Strapi API integration with mock data, ensuring privacy and security
+2. Verify accessible filter functionality works correctly for all users
+3. Test responsive, asymmetric grid layout and accessibility across device sizes
+4. Validate performance with large number of items
+5. Test accessible animations and transitions (motion blur, glitch, flicker)
+6. Verify accessibility of filter controls and content parseability by AI/humans
+7. Test cache invalidation when content updates
+
+# Subtasks:
+## 1. Design Masonry/Asymmetric Grid Layout Structure [pending]
+### Dependencies: None
+### Description: Define the overall grid layout structure, including breakpoints, column counts, spacing, and deliberate misalignment for accessibility and punk/brutalist visual energy.
+### Details:
+Plan how grid items will be arranged across different screen sizes, using CSS Grid/Flexbox for controlled chaos. Align with the services grid for a unified, bold look.
+
+## 2. Integrate Strapi API [pending]
+### Dependencies: 6.1
+### Description: Set up integration with the Strapi API to fetch dynamic content for the grid, ensuring privacy and security best practices.
+### Details:
+Implement API calls and data fetching logic to retrieve content from Strapi that will populate the grid layout. Ensure all data handling respects privacy and accessibility.
+
+## 3. Implement Punk/Brutalist Filter Bar [pending]
+### Dependencies: 6.2
+### Description: Develop an accessible filter bar component with bold, oversized typography and punk-inspired accents to allow users to filter grid items based on categories or tags.
+### Details:
+Connect filter bar state to grid data and ensure seamless, accessible filtering of content. Match filter UX with the services grid for consistency and boldness.
+
+## 4. Create Media Card Components with Micro-interactions [pending]
+### Dependencies: 6.2
+### Description: Build reusable, accessible media card components to display individual content items within the grid, supporting technical, personal, and creative content, with punk-inspired micro-interactions.
+### Details:
+Design cards to display images, titles, descriptions, and other relevant metadata. Add flicker, glitch, or overlay effects for visual interest. Ensure accessibility and support for diverse content types.
+
+## 5. Implement Lazy Loading [pending]
+### Dependencies: 6.4
+### Description: Add lazy loading functionality to load grid items as they enter the viewport, optimizing performance and accessibility.
+### Details:
+Optimize initial load time and improve performance by only rendering visible items. Ensure lazy loading is accessible and does not hinder usability.
+
+## 6. Develop Caching Strategy [pending]
+### Dependencies: 6.2
+### Description: Implement a caching mechanism for Strapi API responses and grid data to reduce redundant network requests, respecting privacy and security.
+### Details:
+Use browser storage or in-memory caching to store fetched data and improve user experience. Ensure all caching strategies respect user privacy.
+
+## 7. Set Up Animations with Motion Blur and Glitch Effects [pending]
+### Dependencies: 6.4
+### Description: Add accessible animations for grid item transitions, filtering, and loading states, using GSAP/Framer Motion for motion blur, glitch, and slide-in effects.
+### Details:
+Ensure smooth and visually impactful transitions when items are added, removed, or filtered. All animations must respect prefers-reduced-motion and accessibility guidelines.
+
+## 8. Ensure Responsive Design with Deliberate Misalignment [pending]
+### Dependencies: 6.1, 6.4
+### Description: Test and refine the grid layout and components to ensure optimal, accessible display on all device sizes, with deliberate misalignment for punk/brutalist energy.
+### Details:
+Adjust breakpoints, spacing, and component sizing for mobile, tablet, and desktop views. Prioritize accessibility, clarity, and bold creative intent.
+
+## 9. Implement Accessibility Features for Chaotic Layouts [pending]
+### Dependencies: 6.4, 6.8
+### Description: Enhance accessibility by adding ARIA attributes, keyboard navigation, and screen reader support to all grid and filter components, with special attention to high-contrast and chaotic layouts.
+### Details:
+Ensure all interactive elements are accessible and comply with WCAG guidelines. Prioritize equity-driven design and empowerment.
+
+## 10. Conduct Performance Testing [pending]
+### Dependencies: 6.5, 6.6, 6.7, 6.8, 6.9
+### Description: Test the application for performance bottlenecks, including rendering speed, memory usage, and responsiveness, ensuring accessibility and privacy are not compromised.
+### Details:
+Use profiling tools to identify and address any issues affecting user experience, accessibility, or privacy.
+

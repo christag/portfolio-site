@@ -1,0 +1,104 @@
+# Task ID: 5
+# Title: Deploy Headless CMS (Strapi) on AWS with Robust Integration
+# Status: pending
+# Dependencies: 1
+# Priority: highest
+# Description: Set up and deploy Strapi as the headless CMS on AWS EC2 (t3.micro or higher as needed) with content models for Media, Service (with tiered pricing, descriptions, feature highlights, pin/highlight, slug, filtering, dynamic CTA), Bio, and SiteSettings. This is the highest priority task and must be completed before any dynamic services or portfolio features. The Service model must support filtering by service type and pricing tier, pin/highlight functionality, and dynamic CTA generation based on contactMethod. Performance considerations such as caching, error handling, and loading states are required.
+# Details:
+1. Provision AWS infrastructure using Terraform:
+   - EC2 t3.micro (or higher if required for performance)
+   - S3 bucket for asset storage
+   - Security groups and IAM roles
+2. Install and configure Strapi CMS:
+   - Set up with SQLite initially (PostgreSQL upgrade-ready)
+   - Use pre-configured AMI or manual setup as appropriate[1][3][5]
+3. Define content models in Strapi:
+   - Media: id, title, type(enum), url, embedCode, tags[], length, createdAt
+   - Service: id, title, category/type, description, featureHighlights[], tiers[{name (Basic/Standard/Premium), priceLow, priceHigh, deliverables}], contactMethod, isPinned, slug
+   - Service model must support filtering by service type and pricing tier, pin/highlight functionality, and dynamic CTA generation based on contactMethod
+   - Bio: markdown, socialLinks[]
+   - SiteSettings: various configuration options
+4. Configure API endpoints (GraphQL and REST, as supported by Strapi)
+   - Ensure endpoints support filtering, sorting, and dynamic CTA logic for Service
+5. Set up user authentication and permissions in Strapi
+6. Configure S3 for media uploads via Strapi's upload provider
+7. Implement weekly database snapshots for backup
+8. Integrate caching strategies for all CMS API endpoints
+9. Implement robust error handling for API failures and loading states for all dynamic content
+10. Use CSS variables + Tailwind hybrid approach for all CMS-driven UI components
+
+CRITICAL: This CMS deployment blocks all dynamic content functionality and should be prioritized over other tasks.
+
+# Test Strategy:
+1. Verify Strapi installation and accessibility
+2. Test content model creation and validation in Strapi, especially Service model fields (title, description, category/type, tiered pricing, feature highlights, contactMethod, isPinned, slug)
+3. Validate Strapi API endpoints (REST/GraphQL) return expected data, including filtering by service type and pricing tier, and dynamic CTA logic
+4. Test media upload functionality to S3 via Strapi
+5. Verify backup system works correctly
+6. Load test to ensure t3.micro (or chosen instance) performance is adequate
+7. Check security configurations and access controls in Strapi
+8. Test caching and error handling for all API endpoints
+9. Validate loading states for all dynamic content
+10. Review CSS variable and Tailwind integration in CMS-driven UI
+
+# Subtasks:
+## 1. Provision AWS Infrastructure with Terraform [pending]
+### Dependencies: None
+### Description: Set up and configure AWS resources using Terraform, following best practices for modularity, security, and remote state management.
+### Details:
+Install Terraform CLI, configure AWS provider, define infrastructure resources (VPC, EC2, RDS, S3, etc.), and apply configurations. Ensure security groups and IAM roles are set for Strapi and S3 integration.
+
+## 2. Install and Configure Strapi CMS [pending]
+### Dependencies: 5.1
+### Description: Deploy Strapi on provisioned AWS infrastructure and perform initial configuration. Use pre-configured AMI or manual setup as appropriate.
+### Details:
+Install Strapi on EC2 or container, configure database connections (SQLite initially, RDS/PostgreSQL upgrade-ready), and verify operational status. Ensure Node.js and dependencies are installed per Strapi requirements[1][2][3].
+
+## 3. Define Content Model in Strapi [pending]
+### Dependencies: 5.2
+### Description: Design and implement the content model within Strapi, specifying content types, fields, and relationships. Ensure the Service model supports tiered pricing (Basic/Standard/Premium), feature highlights, pin/highlight, slug, filtering by service type and pricing tier, and dynamic CTAs based on contactMethod.
+### Details:
+Create Strapi content types (Media, Service, Bio, SiteSettings). For Service: define fields for title, description, category/type, featureHighlights[], tiers[{name (Basic/Standard/Premium), priceLow, priceHigh, deliverables}], contactMethod, isPinned, slug. Implement filtering by service type and pricing tier, pin/highlight functionality, and dynamic CTA logic based on contactMethod. Confirm Service model supports all required business logic.
+
+## 4. Configure Strapi API Endpoints [pending]
+### Dependencies: 5.3
+### Description: Set up and document Strapi API endpoints (REST/GraphQL) for content access and management, ensuring alignment with the content model. Integrate caching, error handling, and support for filtering and dynamic CTAs.
+### Details:
+Enable REST and GraphQL APIs in Strapi, configure endpoint routes, and test API responses for all content types. Ensure Service endpoints support filtering by type and pricing tier, and dynamic CTA logic. Implement caching strategies and robust error handling for API failures and loading states.
+
+## 5. Implement Authentication and Permissions in Strapi [pending]
+### Dependencies: 5.4
+### Description: Configure authentication mechanisms and define user roles and permissions within Strapi and its API.
+### Details:
+Set up user authentication (e.g., JWT), create roles (admin, editor, viewer), and assign permissions for content operations in Strapi.
+
+## 6. Integrate Strapi with AWS S3 [pending]
+### Dependencies: 5.5
+### Description: Connect Strapi to AWS S3 for media storage and retrieval, ensuring secure access and proper bucket configuration.
+### Details:
+Configure S3 buckets, set up IAM roles/policies, and update Strapi settings for S3 integration using the upload provider.
+
+## 7. Set Up Backup and Recovery [pending]
+### Dependencies: None
+### Description: Implement automated backup strategies for Strapi databases, CMS data, and S3 buckets, with recovery procedures.
+### Details:
+Schedule regular backups, store snapshots securely, and document recovery steps for disaster scenarios.
+
+## 8. Configure Security Settings [pending]
+### Dependencies: None
+### Description: Apply security best practices across infrastructure, Strapi, API, and storage, including encryption, firewall rules, and access controls.
+### Details:
+Enable encryption at rest and in transit, configure security groups, set up WAF, and audit IAM policies.
+
+## 9. Conduct Performance and Load Testing [pending]
+### Dependencies: None
+### Description: Test system performance and scalability under expected and peak loads, identifying and addressing bottlenecks.
+### Details:
+Use load testing tools to simulate traffic, monitor resource utilization, and optimize configurations as needed.
+
+## 10. Create Comprehensive Documentation [pending]
+### Dependencies: None
+### Description: Document AWS infrastructure setup, Strapi configuration, API usage, security measures, backup procedures, and operational guidelines.
+### Details:
+Prepare user guides, architecture diagrams, Strapi API references, and runbooks for maintenance and troubleshooting.
+

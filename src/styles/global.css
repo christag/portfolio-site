@@ -202,13 +202,19 @@
     scroll-behavior: smooth;
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
+    /* REMOVED position: relative to fix fixed positioning */
+    height: 100%;
   }
 
-  /* Ensure body has proper background */
+  /* Ensure body has proper background and layout */
   body {
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
     min-height: 100vh;
+    /* Reset any margins/padding that might interfere with fixed positioning */
+    margin: 0 !important;
+    padding: 0 !important;
+    /* REMOVED position: relative to fix fixed positioning */
   }
 
   /* Brutalist heading styles */
@@ -259,24 +265,29 @@
     -webkit-backdrop-filter: blur(8px);
   }
 
-  /* Punk theme specific styles */
-  [data-theme='punk'] body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><filter id="noiseFilter"><feTurbulence baseFrequency="0.9" numOctaves="1" result="noise"/><feColorMatrix in="noise" type="saturate" values="0"/><feComponentTransfer in="noise" result="opacity"><feFuncA type="discrete" tableValues="0 0.1 0.2 0.05"/></feComponentTransfer></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.4"/></svg>')
-      repeat;
-    pointer-events: none;
-    z-index: -1;
+  /* Force proper flex behavior for responsive layouts */
+  .flex {
+    display: flex !important;
+  }
+
+  .flex-col {
+    flex-direction: column !important;
+  }
+
+  @media (min-width: 640px) {
+    .sm\:flex-row {
+      flex-direction: row !important;
+    }
+
+    .sm\:w-auto {
+      width: auto !important;
+    }
   }
 }
 
 @layer components {
   /* ==========================================================================
-     PUNK/BRUTALIST ANIMATION UTILITIES
+     BRUTALIST ANIMATION UTILITIES
      ========================================================================== */
 
   /* Glitch hover effects */
@@ -307,13 +318,13 @@
   }
 
   .glitch-rgb-text::before {
-    color: #ff0080;
+    color: #b8869a; /* Darker dusty pink */
     animation: glitch-rgb 0.4s ease-in-out infinite;
     z-index: -1;
   }
 
   .glitch-rgb-text::after {
-    color: #00d9ff;
+    color: #00d4ff; /* Electric blue/cyan */
     animation: glitch-rgb 0.4s ease-in-out infinite reverse;
     z-index: -2;
   }
@@ -334,9 +345,9 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(255, 0, 128, 0.1) 25%,
-      rgba(0, 217, 255, 0.1) 50%,
-      rgba(255, 224, 236, 0.1) 75%,
+      rgba(184, 134, 154, 0.1) 25%,
+      rgba(0, 212, 255, 0.1) 50%,
+      rgba(76, 205, 196, 0.1) 75%,
       transparent 100%
     );
     transform: translateX(-100%);
@@ -394,18 +405,18 @@
     height: 300px;
   }
 
-  /* Punk button hover effect */
-  .punk-button {
+  /* Brutalist button hover effect */
+  .brutalist-button {
     position: relative;
     transition: all 0.3s ease;
   }
 
-  .punk-button:hover {
+  .brutalist-button:hover {
     transform: translateY(-2px);
     box-shadow: 4px 4px 0 var(--color-accent-primary);
   }
 
-  .punk-button:active {
+  .brutalist-button:active {
     transform: translateY(0);
     box-shadow: 2px 2px 0 var(--color-accent-primary);
   }
@@ -559,37 +570,30 @@
     animation: flash 0.1s ease-in-out;
   }
 
-  /* Theme-specific animations */
+  /* Theme-specific animations - Light and Dark themes only */
   [data-theme='light'] .glitch-rgb-text::before {
-    color: #ff6b6b;
+    color: #b8869a; /* Darker dusty pink */
   }
 
   [data-theme='light'] .glitch-rgb-text::after {
-    color: #00d4ff;
+    color: #00d4ff; /* Electric blue/cyan */
   }
 
   [data-theme='dark'] .glitch-rgb-text::before {
-    color: #ff6b6b;
+    color: #b8869a; /* Darker dusty pink */
   }
 
   [data-theme='dark'] .glitch-rgb-text::after {
-    color: #4ecdc4;
+    color: #00d4ff; /* Electric blue/cyan */
   }
 
-  [data-theme='punk'] .glitch-rgb-text::before {
-    color: #ff0080;
+  /* Enhanced dark theme brutalist effects */
+  [data-theme='dark'] .brutalist-button:hover {
+    box-shadow: 4px 4px 0 var(--color-brutalist-highlight);
   }
 
-  [data-theme='punk'] .glitch-rgb-text::after {
-    color: #00d9ff;
-  }
-
-  [data-theme='punk'] .punk-button:hover {
-    box-shadow: 4px 4px 0 #ffe0ec;
-  }
-
-  [data-theme='punk'] .punk-button:active {
-    box-shadow: 2px 2px 0 #ffe0ec;
+  [data-theme='dark'] .brutalist-button:active {
+    box-shadow: 2px 2px 0 var(--color-brutalist-highlight);
   }
 
   /* Essential responsive utilities */
@@ -748,11 +752,6 @@
     }
   }
 
-  /* Punk theme animations */
-  [data-theme='punk'] .misalign-chaos {
-    animation: glitch 0.3s ease-in-out infinite alternate;
-  }
-
   /* Reduced motion support */
   @media (prefers-reduced-motion: reduce) {
     .misalign-chaos {
@@ -781,5 +780,91 @@
     .progress-jagged::before {
       animation: none !important;
     }
+  }
+
+  /* ==========================================================================
+     RESPONSIVE SPACING AND LAYOUT UTILITIES
+     ========================================================================== */
+
+  /* Gap utilities using our design tokens */
+  .gap-xs {
+    gap: var(--space-xs);
+  }
+  .gap-sm {
+    gap: var(--space-sm);
+  }
+  .gap-md {
+    gap: var(--space-md);
+  }
+  .gap-lg {
+    gap: var(--space-lg);
+  }
+  .gap-xl {
+    gap: var(--space-xl);
+  }
+  .gap-2xl {
+    gap: var(--space-2xl);
+  }
+  .gap-3xl {
+    gap: var(--space-3xl);
+  }
+
+  /* Padding utilities using our design tokens */
+  .p-xs {
+    padding: var(--space-xs);
+  }
+  .p-sm {
+    padding: var(--space-sm);
+  }
+  .p-md {
+    padding: var(--space-md);
+  }
+  .p-lg {
+    padding: var(--space-lg);
+  }
+  .p-xl {
+    padding: var(--space-xl);
+  }
+  .p-2xl {
+    padding: var(--space-2xl);
+  }
+  .p-3xl {
+    padding: var(--space-3xl);
+  }
+
+  /* Margin utilities using our design tokens */
+  .m-xs {
+    margin: var(--space-xs);
+  }
+  .m-sm {
+    margin: var(--space-sm);
+  }
+  .m-md {
+    margin: var(--space-md);
+  }
+  .m-lg {
+    margin: var(--space-lg);
+  }
+  .m-xl {
+    margin: var(--space-xl);
+  }
+  .m-2xl {
+    margin: var(--space-2xl);
+  }
+  .m-3xl {
+    margin: var(--space-3xl);
+  }
+
+  /* Content wrapper utility for consistent max-width */
+  .content-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  /* Section wrapper for consistent spacing */
+  .section-wrapper {
+    padding: var(--section-spacing) 0;
   }
 }

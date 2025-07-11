@@ -7,9 +7,9 @@ export interface Props {
 const { currentPath = '/' } = Astro.props;
 ---
 
-<!-- Theme-aware responsive navigation -->
-<nav class="nav-bar" id="main-nav">
-  <div class="nav-container">
+<!-- Theme-aware responsive navigation - CLEAN GLASSMORPHISM -->
+<nav id="main-nav" class="nav-glassmorphism">
+  <div class="nav-inner">
     <div class="nav-content">
       <!-- Logo/Name -->
       <div>
@@ -17,14 +17,14 @@ const { currentPath = '/' } = Astro.props;
       </div>
 
       <!-- Desktop navigation -->
-      <div class="nav-desktop">
+      <div class="nav-desktop gap-4">
         <a href="/" class="nav-link">About</a>
         <a href="/services" class="nav-link">Services</a>
         <a href="/portfolio" class="nav-link">Portfolio</a>
         <a href="/contact" class="nav-link">Contact</a>
 
-        <!-- Theme toggle -->
-        <button id="theme-toggle" class="theme-button"> Light </button>
+        <!-- Theme toggle - styled like nav links -->
+        <button id="theme-toggle" class="nav-link theme-button"> Light </button>
       </div>
 
       <!-- Mobile menu button -->
@@ -48,7 +48,7 @@ const { currentPath = '/' } = Astro.props;
       </button>
     </div>
 
-    <!-- Mobile menu -->
+    <!-- Mobile menu with glassmorphism -->
     <div id="mobile-menu" class="mobile-menu hidden">
       <div class="mobile-menu-content">
         <a href="/" class="mobile-link">About</a>
@@ -57,7 +57,10 @@ const { currentPath = '/' } = Astro.props;
         <a href="/contact" class="mobile-link">Contact</a>
 
         <!-- Mobile theme toggle -->
-        <button id="mobile-theme-toggle" class="mobile-theme-button">
+        <button
+          id="mobile-theme-toggle"
+          class="mobile-link mobile-theme-button"
+        >
           Theme: Light
         </button>
       </div>
@@ -66,23 +69,35 @@ const { currentPath = '/' } = Astro.props;
 </nav>
 
 <style>
-  /* Base navigation styles without colors */
-  .nav-bar {
+  /* Beautiful Glassmorphism Navigation - CLEAN IMPLEMENTATION */
+  .nav-glassmorphism {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     width: 100%;
-    z-index: 50;
-    min-height: 64px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
+    z-index: 9999;
+
+    /* Beautiful glassmorphism for light theme */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
 
-  .nav-container {
-    max-width: 96rem;
+  /* Dark theme glassmorphism */
+  [data-theme='dark'] .nav-glassmorphism {
+    background: rgba(18, 18, 18, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Inner container for proper spacing */
+  .nav-inner {
+    max-width: 1280px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 2rem;
   }
 
   .nav-content {
@@ -90,6 +105,7 @@ const { currentPath = '/' } = Astro.props;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
+    min-height: 64px;
   }
 
   /* Logo Styles */
@@ -97,12 +113,9 @@ const { currentPath = '/' } = Astro.props;
     font-size: 1.25rem;
     font-weight: 700;
     text-decoration: none;
-    font-family:
-      'Inter',
-      system-ui,
-      -apple-system,
-      sans-serif;
-    transition: all 0.3s ease;
+    color: var(--color-text-primary);
+    font-family: var(--font-heading);
+    transition: opacity 0.3s ease;
   }
 
   .nav-logo:hover {
@@ -112,7 +125,6 @@ const { currentPath = '/' } = Astro.props;
   /* Desktop Navigation */
   .nav-desktop {
     display: none;
-    gap: 2rem;
     align-items: center;
   }
 
@@ -122,47 +134,57 @@ const { currentPath = '/' } = Astro.props;
     }
   }
 
+  /* Navigation Links with Glassmorphism Hover */
   .nav-link {
     font-weight: 500;
     text-decoration: none;
-    transition: all 0.3s ease;
-    font-family:
-      'Inter',
-      system-ui,
-      -apple-system,
-      sans-serif;
-  }
-
-  /* Theme Button */
-  .theme-button {
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
     padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    font-weight: 700;
-    border-radius: 0.5rem;
-    border: 2px solid transparent;
-    cursor: pointer;
+    border-radius: 12px;
     transition: all 0.3s ease;
-    font-family:
-      'Inter',
-      system-ui,
-      -apple-system,
-      sans-serif;
+    position: relative;
+    overflow: hidden;
   }
 
-  .theme-button:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
+  .nav-link:hover {
+    background: rgba(184, 134, 154, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--color-accent-primary);
+  }
+
+  /* Theme button styling */
+  .theme-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
   }
 
   /* Mobile Toggle */
   .mobile-toggle {
     display: block;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
     padding: 0.5rem;
-    border-radius: 0.25rem;
-    background: transparent;
-    border: none;
     cursor: pointer;
+    color: var(--color-text-primary);
     transition: all 0.3s ease;
+  }
+
+  .mobile-toggle:hover {
+    background: rgba(184, 134, 154, 0.1);
+    border-color: var(--color-accent-primary);
+  }
+
+  .mobile-toggle svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    stroke: currentColor;
   }
 
   @media (min-width: 768px) {
@@ -171,19 +193,24 @@ const { currentPath = '/' } = Astro.props;
     }
   }
 
-  /* Mobile Menu */
+  /* Mobile Menu - Beautiful Glassmorphism */
   .mobile-menu {
-    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
 
-  @media (min-width: 768px) {
-    .mobile-menu {
-      display: none !important;
-    }
+  [data-theme='dark'] .mobile-menu {
+    background: rgba(18, 18, 18, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
   }
 
   .mobile-menu-content {
-    padding: 1rem 0;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -194,34 +221,24 @@ const { currentPath = '/' } = Astro.props;
     padding: 0.75rem 1rem;
     font-weight: 500;
     text-decoration: none;
-    border-radius: 0.25rem;
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    border-radius: 8px;
     transition: all 0.3s ease;
-    font-family:
-      'Inter',
-      system-ui,
-      -apple-system,
-      sans-serif;
+    background: none;
+    border: none;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .mobile-link:hover {
+    background: rgba(184, 134, 154, 0.1);
+    color: var(--color-accent-primary);
   }
 
   .mobile-theme-button {
-    width: 100%;
-    text-align: left;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family:
-      'Inter',
-      system-ui,
-      -apple-system,
-      sans-serif;
-  }
-
-  .mobile-theme-button:hover {
-    transform: scale(1.02);
-    opacity: 0.9;
+    font-size: inherit;
   }
 
   /* Utility */
@@ -231,7 +248,7 @@ const { currentPath = '/' } = Astro.props;
 </style>
 
 <script>
-  // Theme management with direct style application
+  // Theme management with glass material support
   const themeToggle = document.getElementById('theme-toggle');
   const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
   const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
@@ -241,106 +258,48 @@ const { currentPath = '/' } = Astro.props;
   // Initialize theme from localStorage or default to light
   let currentTheme = localStorage.getItem('theme') || 'light';
 
-  // Theme configurations
-  const themeConfigs = {
-    light: {
-      navBg: '#f5f5f5',
-      navBorder: '#e5e5e5',
-      navText: '#171717',
-      navAccent: '#00d4ff',
-      navAccentText: '#fafafa',
-      navShadow: 'rgba(0, 0, 0, 0.1)',
-      hoverBg: '#e5e5e5',
-    },
-    dark: {
-      navBg: '#262626',
-      navBorder: '#404040',
-      navText: '#fafafa',
-      navAccent: '#00d4ff',
-      navAccentText: '#262626',
-      navShadow: 'rgba(0, 0, 0, 0.3)',
-      hoverBg: '#404040',
-    },
-    punk: {
-      navBg: '#171717',
-      navBorder: '#ff0080',
-      navText: '#f5f5f0',
-      navAccent: '#ffe0ec',
-      navAccentText: '#0a0a0a',
-      navShadow: 'rgba(255, 224, 236, 0.3)',
-      hoverBg: '#262626',
-    },
-  };
-
-  function applyNavTheme(theme: string) {
-    const config = themeConfigs[theme as keyof typeof themeConfigs];
-    if (!config || !nav) return;
-
-    // Apply navigation styles directly
-    nav.style.backgroundColor = config.navBg;
-    nav.style.borderBottom = `2px solid ${config.navBorder}`;
-    nav.style.boxShadow = `0 2px 8px ${config.navShadow}`;
-
-    // Apply text colors to all nav links and logo
-    const navLinks = nav.querySelectorAll(
-      '.nav-link, .nav-logo, .mobile-toggle, .mobile-link'
-    );
-    navLinks.forEach((link) => {
-      (link as HTMLElement).style.color = config.navText;
-    });
-
-    // Apply theme button styles
-    const themeButtons = nav.querySelectorAll(
-      '.theme-button, .mobile-theme-button'
-    );
-    themeButtons.forEach((button) => {
-      (button as HTMLElement).style.backgroundColor = config.navAccent;
-      (button as HTMLElement).style.color = config.navAccentText;
-      if (theme === 'punk') {
-        (button as HTMLElement).style.border = `2px solid ${config.navBorder}`;
-      } else {
-        (button as HTMLElement).style.border = '2px solid transparent';
-      }
-    });
-
-    // Apply mobile menu styles
-    if (mobileMenu) {
-      mobileMenu.style.backgroundColor = config.navBg;
-      mobileMenu.style.borderTopColor = config.navBorder;
+  function updateTheme(theme: string) {
+    // Ensure theme is valid (only light or dark)
+    if (theme !== 'light' && theme !== 'dark') {
+      theme = 'light';
     }
 
-    console.log(`Navigation theme applied: ${theme}`, config);
-  }
-
-  function updateTheme(theme: string) {
     currentTheme = theme;
     localStorage.setItem('theme', theme);
 
-    // Update document attribute for other components
+    // Update document attribute for CSS variables
     if (theme === 'light') {
       document.documentElement.removeAttribute('data-theme');
     } else {
       document.documentElement.setAttribute('data-theme', theme);
     }
 
-    // Apply navigation theme directly
-    applyNavTheme(theme);
-
-    // Update button text
+    // Update button text - Only Light and Dark
     const themeNames: { [key: string]: string } = {
       light: 'Light',
       dark: 'Dark',
-      punk: 'Punk',
     };
     if (themeToggle) themeToggle.textContent = themeNames[theme];
     if (mobileThemeToggle)
       mobileThemeToggle.textContent = `Theme: ${themeNames[theme]}`;
 
+    // Debug logging
     console.log(`Theme switched to: ${theme}`);
+    console.log(
+      `Document data-theme attribute:`,
+      document.documentElement.getAttribute('data-theme')
+    );
+    console.log(
+      `Current background color:`,
+      getComputedStyle(document.documentElement).getPropertyValue(
+        '--glassmorphism-bg-light'
+      )
+    );
   }
 
   function cycleTheme() {
-    const themes = ['light', 'dark', 'punk'];
+    // Only cycle between light and dark
+    const themes = ['light', 'dark'];
     const currentIndex = themes.indexOf(currentTheme);
     const nextIndex = (currentIndex + 1) % themes.length;
     updateTheme(themes[nextIndex]);
@@ -349,6 +308,17 @@ const { currentPath = '/' } = Astro.props;
   // Initialize theme on page load
   document.addEventListener('DOMContentLoaded', () => {
     updateTheme(currentTheme);
+
+    // Add scroll effect for enhanced glass
+    window.addEventListener('scroll', () => {
+      if (nav) {
+        if (window.scrollY > 50) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      }
+    });
   });
 
   // Theme toggle event listeners

@@ -26,7 +26,7 @@ export default {
         'theme-accent-secondary': 'var(--color-accent-secondary)',
         'theme-accent-tertiary': 'var(--color-accent-tertiary)',
         
-        // Brutalist palette
+        // Brutalist palette - integrated into both themes
         'brutal': {
           'white': '#FAFAFA',
           'black': '#171717',
@@ -43,22 +43,30 @@ export default {
           },
         },
         
-        // Updated accent colors (now properly included)
-        'electric': '#00D4FF',    // Electric blue
-        'coral': '#FF6B6B',       // Coral pink
-        'mint': '#4ECDC4',        // Mint green
+        // Strategic accent colors - used selectively for maximum impact
+        'dusty-pink': '#b8869a',  // Primary accent - darker dusty pink
+        'electric': '#00d4ff',    // Secondary accent - electric blue/cyan
+        'coral': '#ff6b6b',       // Legacy coral pink (kept for compatibility)
+        'mint': '#4ecdc4',        // Tertiary accent - mint green
         
-        // Punk theme specific colors
-        'punk': {
-          'black': '#0A0A0A',      // Almost black
-          'dark': '#171717',       // Darker black  
-          'medium': '#262626',     // Medium dark
-          'off-white': '#F5F5F0',  // Off-white
-          'chrome': '#C0C0C0',     // Chrome/silver
-          'muted': '#808080',      // Muted chrome
-          'pale-pink': '#FFE0EC',  // Pale pink
-          'neon-pink': '#FF0080',  // Neon pink
-          'cyan': '#00D9FF',       // Cyan
+        // Brutalist accent colors
+        'brutalist': {
+          'accent': 'var(--color-brutalist-accent)',      // Pure black/white for contrast
+          'highlight': 'var(--color-brutalist-highlight)', // Neon pink/pale pink for energy
+        },
+
+        // Glass material colors using CSS variables
+        'glass': {
+          'bg-light': 'var(--glass-bg-primary)',
+          'bg-medium': 'var(--glass-bg-secondary)', 
+          'bg-heavy': 'var(--glass-bg-tertiary)',
+          'border-light': 'var(--glass-border-light)',
+          'border-medium': 'var(--glass-border-medium)',
+          'tint': 'var(--glass-tint)',
+          'shadow-light': 'var(--glass-shadow-light)',
+          'shadow-medium': 'var(--glass-shadow-medium)',
+          'shadow-heavy': 'var(--glass-shadow-heavy)',
+          'highlight': 'var(--glass-inner-highlight)',
         },
       },
       
@@ -87,7 +95,7 @@ export default {
         'brutal-9xl': ['8rem', { lineHeight: '0.9', letterSpacing: '-0.025em' }],
       },
       
-      // Spacing tokens
+      // Spacing tokens using CSS variables
       spacing: {
         'xs': 'var(--space-xs)',
         'sm': 'var(--space-sm)',
@@ -115,6 +123,36 @@ export default {
         'asym-5': '1.8125rem',   // 29px
         'asym-6': '2.1875rem',   // 35px
       },
+
+      // Glass-specific spacing and sizing
+      borderRadius: {
+        'glass': 'var(--glass-radius)',
+        'glass-sm': 'var(--glass-radius-small)',
+        'glass-lg': 'var(--glass-radius-large)',
+      },
+
+      // Enhanced backdrop blur values for glassmorphism
+      backdropBlur: {
+        'glass-button': 'var(--glass-blur-button)',
+        'glass-container': 'var(--glass-blur-container)', 
+        'glass-nav': 'var(--glass-blur-navigation)',
+        'glass-xs': '8px',
+        'glass-sm': '12px',
+        'glass-md': '16px',
+        'glass-lg': '20px',
+        'glass-xl': '24px',
+        'glass-2xl': '28px',
+        'glass-3xl': '32px',
+      },
+
+      // Glass-specific box shadows
+      boxShadow: {
+        'glass-light': '0 8px 32px var(--glass-shadow-light), inset 0 1px 0 var(--glass-inner-highlight)',
+        'glass-medium': '0 12px 40px var(--glass-shadow-medium), inset 0 1px 0 var(--glass-inner-highlight)',
+        'glass-heavy': '0 16px 48px var(--glass-shadow-heavy), inset 0 1px 0 var(--glass-inner-highlight)',
+        'glass-float': '0 8px 32px rgba(31, 38, 135, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+        'glass-button': '0 4px 16px var(--glass-shadow-light), inset 0 1px 0 var(--glass-inner-highlight)',
+      },
       
       // Grid utilities for asymmetric layouts
       gridTemplateColumns: {
@@ -122,7 +160,6 @@ export default {
         'asym-3': '1fr 1.618fr 1fr',    // Golden ratio middle
         'asym-4': '1fr 2fr 1fr 1.5fr',  // Varied columns
         'asym-5': '1fr 1.5fr 2fr 1fr 1.2fr',
-        'punk-grid': '0.8fr 1.2fr 1fr 1.4fr', // Punk asymmetry
       },
       
       // Container max widths for different breakpoints
@@ -136,15 +173,43 @@ export default {
         '3xl': '120rem',  // 1920px
       },
       
-      // Transition tokens
+      // Transition tokens using CSS variables
       transitionDuration: {
         'fast': 'var(--transition-fast)',
-        'normal': 'var(--transition-normal)',
+        'normal': 'var(--transition-normal)', 
         'slow': 'var(--transition-slow)',
+        'glass': '300ms',
+        'glass-hover': '200ms',
+      },
+
+      // Glass-specific transitions
+      transitionTimingFunction: {
+        'glass': 'cubic-bezier(0.4, 0, 0.2, 1)',
+        'glass-hover': 'cubic-bezier(0.4, 0, 0.2, 1)',
       },
       
-      // Extended animation keyframes for punk/brutalist effects
+      // Extended animation keyframes for brutalist effects
       keyframes: {
+        // Glass-specific animations
+        'glass-shimmer': {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
+        'glass-float': {
+          '0%, 100%': { transform: 'translateY(0) translateZ(0)' },
+          '50%': { transform: 'translateY(-8px) translateZ(0)' },
+        },
+        'glass-pulse': {
+          '0%, 100%': { 
+            backdropFilter: 'blur(var(--glass-blur-container)) saturate(180%)',
+            borderColor: 'var(--glass-border-medium)'
+          },
+          '50%': { 
+            backdropFilter: 'blur(calc(var(--glass-blur-container) + 4px)) saturate(200%)',
+            borderColor: 'var(--glass-border-light)'
+          },
+        },
+
         // Glitch Effects
         'glitch': {
           '0%, 100%': { transform: 'translate(0)' },
@@ -334,6 +399,11 @@ export default {
       
       // Animation utilities
       animation: {
+        // Glass animations
+        'glass-shimmer': 'glass-shimmer 2s ease-in-out infinite',
+        'glass-float': 'glass-float 3s ease-in-out infinite',
+        'glass-pulse': 'glass-pulse 2s ease-in-out infinite',
+        
         // Glitch animations
         'glitch': 'glitch 0.3s ease-in-out',
         'glitch-fast': 'glitch 0.1s ease-in-out',
@@ -389,5 +459,60 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // Custom Glassmorphism Plugin
+    function({ addUtilities, addComponents, theme }) {
+      // Add glass utility classes
+      addUtilities({
+        '.glass-surface': {
+          backdropFilter: 'blur(var(--glass-blur-container)) saturate(180%)',
+          '-webkit-backdrop-filter': 'blur(var(--glass-blur-container)) saturate(180%)',
+        },
+        '.glass-surface-strong': {
+          backdropFilter: 'blur(var(--glass-blur-navigation)) saturate(200%)',
+          '-webkit-backdrop-filter': 'blur(var(--glass-blur-navigation)) saturate(200%)',
+        },
+        '.glass-surface-subtle': {
+          backdropFilter: 'blur(var(--glass-blur-button)) saturate(150%)',
+          '-webkit-backdrop-filter': 'blur(var(--glass-blur-button)) saturate(150%)',
+        },
+      });
+
+      // Add glass component classes
+      addComponents({
+        '.glass-card': {
+          background: 'linear-gradient(135deg, var(--glass-bg-primary), var(--glass-tint))',
+          backdropFilter: 'blur(var(--glass-blur-container)) saturate(180%)',
+          '-webkit-backdrop-filter': 'blur(var(--glass-blur-container)) saturate(180%)',
+          border: '1px solid var(--glass-border-medium)',
+          borderRadius: 'var(--glass-radius)',
+          boxShadow: '0 8px 32px var(--glass-shadow-light), inset 0 1px 0 var(--glass-inner-highlight)',
+          transition: 'all var(--transition-glass)',
+        },
+        '.glass-button': {
+          background: 'linear-gradient(135deg, var(--glass-bg-primary), var(--glass-tint))',
+          backdropFilter: 'blur(var(--glass-blur-button)) saturate(180%)',
+          '-webkit-backdrop-filter': 'blur(var(--glass-blur-button)) saturate(180%)',
+          border: '1px solid var(--glass-border-medium)',
+          borderRadius: 'var(--glass-radius-small)',
+          padding: 'var(--space-sm) var(--space-md)',
+          boxShadow: '0 4px 16px var(--glass-shadow-light), inset 0 1px 0 var(--glass-inner-highlight)',
+          transition: 'all var(--transition-glass-hover)',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textDecoration: 'none',
+          fontWeight: '600',
+        },
+        '.glass-nav': {
+          background: 'linear-gradient(135deg, var(--glass-bg-secondary), var(--glass-tint))',
+          backdropFilter: 'blur(var(--glass-blur-navigation)) saturate(200%)',
+          '-webkit-backdrop-filter': 'blur(var(--glass-blur-navigation)) saturate(200%)',
+          borderBottom: '1px solid var(--glass-border-light)',
+          boxShadow: '0 8px 32px var(--glass-shadow-light), inset 0 1px 0 var(--glass-inner-highlight)',
+          transition: 'all var(--transition-glass)',
+        },
+      });
+    }
+  ],
 }

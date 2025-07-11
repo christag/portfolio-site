@@ -1,0 +1,79 @@
+# Task ID: 8
+# Title: Migrate Services Data to Strapi CMS with Structured Mapping
+# Status: pending
+# Dependencies: 5
+# Priority: high
+# Description: Migrate all consulting service data (Virtual CIO, IT Support, Consulting, Project Management, Automation, Data Analysis, Cloud Migration, Cybersecurity, Website Development, Training, etc.) from services.md into Strapi, implement the tiered pricing matrix, pin/highlight logic, and connect the front-end to the Strapi API for dynamic, filterable, and sortable service display and detail pages. This task should begin immediately after Strapi CMS deployment.
+# Details:
+1. Ensure Service content model is properly configured in Strapi (fields for title, description, type, feature highlights, tiers, contactMethod, isPinned, slug, filtering, sorting, highlighting)
+2. Migrate all static service data from services.md to Strapi, mapping fields and transforming as needed
+3. Update front-end to fetch services from Strapi API and remove all static data
+4. Implement tiered pricing display and filtering logic
+5. Update service cards and detail pages to use dynamic data
+6. Add contact CTAs (mailto or Calendly) based on contactMethod field
+7. Implement caching strategy for service data
+8. Update structured data for SEO with dynamic content
+9. Ensure pin/highlight logic is respected in the UI
+10. Integrate robust error handling and loading states for all dynamic content
+11. Use CSS variables + Tailwind hybrid approach for all service UI components
+
+# Test Strategy:
+1. Verify Strapi API integration works correctly
+2. Test service rendering with various tier configurations
+3. Validate CTA functionality based on contactMethod
+4. Test caching and revalidation
+5. Verify structured data generation
+6. Test responsive layout with dynamic content
+7. Validate error handling and loading states for API failures
+8. Confirm pin/highlight logic is reflected in the UI
+9. Review CSS variable and Tailwind integration in service UI
+
+# Subtasks:
+## 1. Strapi Model Validation [pending]
+### Dependencies: None
+### Description: Validate the Strapi model's input, calculation, and output components to ensure data integrity and compliance with business rules. Confirm support for tiered pricing, feature highlights, pin/highlight, slug, filtering, sorting, and dynamic CTAs.
+### Details:
+Perform input validation (length, type, range, syntax), calculation logic checks (sensitivity testing, dynamic validation), and output verification (format, clarity, consistency with historical data).
+
+## 2. Data Migration Planning [pending]
+### Dependencies: 8.1
+### Description: Plan and document the migration of all existing service data from services.md to the new Strapi structure, ensuring data mapping and transformation requirements are defined.
+### Details:
+Identify data sources, define mapping rules, and outline transformation logic needed for compatibility with the new Strapi schema. Prepare for structured migration from markdown to CMS fields.
+
+## 3. Data Migration Execution [pending]
+### Dependencies: 8.2
+### Description: Execute the migration of all service data from services.md into Strapi, applying validation and transformation rules as defined in the planning phase.
+### Details:
+Migrate data in batches, validate migrated records for accuracy, and resolve any data integrity issues encountered. Ensure all required fields are mapped and transformed correctly.
+
+## 4. Strapi API Integration Implementation [pending]
+### Dependencies: 8.3
+### Description: Integrate external or internal APIs with Strapi to enable dynamic data exchange and service connectivity. Remove all static service data from the frontend. Implement caching, error handling, and loading states.
+### Details:
+Develop and test Strapi API endpoints, handle authentication, and ensure data flows correctly between systems. Refactor frontend to consume only CMS-driven service data. Add caching, robust error handling, and loading indicators for all dynamic content.
+
+## 5. Tiered Pricing and Filtering Component Development [pending]
+### Dependencies: 8.4
+### Description: Design and implement tiered pricing and filtering components within the frontend to support multiple pricing levels, business rules, user-driven filtering/sorting, and dynamic CTAs.
+### Details:
+Define pricing tiers, implement logic for tier assignment, filtering, sorting, and dynamic CTAs based on contactMethod. Ensure integration with product/service data and UI. Use CSS variables + Tailwind hybrid approach.
+
+## 6. Dynamic Service Card and Detail Page Update [pending]
+### Dependencies: 8.5
+### Description: Enable dynamic updates to service cards and detail pages in the CMS UI based on real-time data and user interactions, including pin/highlight logic, error handling, and loading states.
+### Details:
+Implement frontend logic to fetch and display updated service information from Strapi, ensuring responsiveness, accuracy, pin/highlight display, error handling, and loading indicators.
+
+## 7. CTA Logic Implementation [pending]
+### Dependencies: None
+### Description: Develop and integrate call-to-action (CTA) logic that adapts based on user behavior, service availability, pricing tiers, and contactMethod field.
+### Details:
+Define CTA triggers, implement conditional logic, and test for correct behavior across user scenarios. Ensure dynamic CTAs are driven by CMS data.
+
+## 8. Caching and SEO Structured Data Update [pending]
+### Dependencies: None
+### Description: Implement caching strategies for performance and update SEO structured data to reflect dynamic content changes from Strapi.
+### Details:
+Configure server/client-side caching, update structured data tags for SEO, and validate with search engine tools. Ensure caching does not interfere with data freshness.
+

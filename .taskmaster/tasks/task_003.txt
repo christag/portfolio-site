@@ -1,0 +1,70 @@
+# Task ID: 3
+# Title: Build Static Bio Page ('I Am')
+# Status: pending
+# Dependencies: 2
+# Priority: medium
+# Description: Create the 'I Am' bio page with contextual biography, timeline, and social links, reflecting authentic expertise, personal/professional duality, bold punk-meets-professional tone, and next-generation Liquid Glass interface principles. Use static markdown transformed at build time.
+# Details:
+1. Create a markdown file for the bio content, supporting both technical and personal storytelling
+2. Implement a markdown transformer using remark/rehype or similar, ensuring accessibility and parseability by AI and humans
+3. Design and build the bio page layout with:
+   - Hero section with generative particle animation spelling out name, layered over glass material backgrounds
+   - Header/profile section with split-personality (professional/rebellious) design, oversized sans-serif headings, code brackets, and floating glass panels
+   - Contextual biography section highlighting honest partnership, empowerment, creative/professional integration, and spatial depth
+   - Timeline/experience section with print-style, asymmetric grid, punk/industrial overlays, and glass/translucent layers
+   - Social links with badges for community engagement, glitch effects, and glass backgrounds
+4. Add SEO metadata (title, description, Open Graph tags) reflecting bold, direct brand values and spatial UI
+5. Implement static generation for the page
+6. Style the page according to the brutalist/punk and Liquid Glass design system, prioritizing accessibility, high contrast, expressive micro-interactions, and spatial adaptation
+7. Ensure responsive behavior, deliberate misalignment, spatial depth, and accessibility across device sizes and AR/VR contexts
+
+# Test Strategy:
+1. Validate markdown rendering for various content elements, including technical, personal, and creative sections
+2. Test responsive, asymmetric, and spatial layout and accessibility on different devices and AR/VR contexts
+3. Verify social links and community engagement features open correctly and include punk/glass-inspired effects
+4. Check SEO metadata using tools like Lighthouse, ensuring bold, brand-aligned, and spatial messaging
+5. Validate accessibility compliance and parseability by both AI and humans
+
+# Subtasks:
+## 1. Markdown Content Creation [pending]
+### Dependencies: None
+### Description: Draft and organize all content in markdown format, including headers, profile, timeline/experience, social links, and personal/creative stories.
+### Details:
+Ensure content is structured for easy transformation, future updates, and supports both technical and personal storytelling.
+
+## 2. Markdown Transformer Setup [pending]
+### Dependencies: 3.1
+### Description: Configure and integrate a markdown transformer to convert markdown files into accessible HTML or components for the static site.
+### Details:
+Select and set up a suitable markdown transformer (e.g., remark, markdown-it) compatible with the static site generator. Ensure output is accessible and parseable by AI and humans.
+
+## 3. Page Layout Design with Punk/Brutalist Elements [pending]
+### Dependencies: 3.2
+### Description: Design the overall page structure, ensuring clear separation of hero, header/profile, timeline/experience, social links, and creative/personal content sections, using asymmetric, print-style grids, and layered glass materials.
+### Details:
+Create layout components or templates that house the transformed markdown content. Use oversized sans-serif headings, code brackets, deliberate misalignment, and floating glass panels. Prioritize accessibility, boldness, spatial depth, and brand-aligned hierarchy.
+
+## 4. Hero/Profile Section with Generative Animation [pending]
+### Dependencies: 3.3
+### Description: Develop the hero/profile section, including generative particle animation spelling out the name, profile image, and an authentic, split-personality introduction, all layered over glass material backgrounds.
+### Details:
+Ensure the section is visually distinct, accessible, and aligns with the brand's punk/professional duality and Liquid Glass spatial principles. Use Canvas/SVG for animation, oversized typography, and glass layering.
+
+## 5. Timeline/Experience Section with Asymmetric Grid [pending]
+### Dependencies: 3.3
+### Description: Build the timeline or experience section using a print-style, asymmetric grid, punk/industrial overlays, and glass/translucent layers to showcase professional and creative history.
+### Details:
+Use lists, cards, or other visual elements to present experiences clearly, supporting both technical and personal milestones. Add glitch, noise, and glass effects for visual interest and spatial depth.
+
+## 6. Social Links and SEO Metadata Integration with Glitch Effects [pending]
+### Dependencies: 3.3
+### Description: Add social media and community links with glitch and glass effects, and implement SEO metadata (title, description, Open Graph tags) for discoverability and engagement.
+### Details:
+Ensure links are accessible, support community engagement, and metadata is optimized for search engines and social sharing with bold, punk/glass-inspired messaging.
+
+## 7. Static Generation and Responsive Styling with Deliberate Misalignment [pending]
+### Dependencies: 3.4, 3.5, 3.6
+### Description: Configure static site generation and apply accessible, responsive CSS with deliberate misalignment, punk/brutalist, and Liquid Glass styling to ensure the site displays well and is usable on all devices and spatial contexts.
+### Details:
+Test the build process and verify consistent, accessible design and functionality across screen sizes, AR/VR, and assistive technologies. Ensure all punk/brutalist and glass effects are accessible.
+
