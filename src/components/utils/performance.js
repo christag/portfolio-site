@@ -141,10 +141,12 @@ export class GlassPerformanceManager {
 
       if (currentTime - lastTime >= 1000) {
         const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+        // eslint-disable-next-line no-console
         console.log(`Glass FPS: ${fps}`);
 
         // Warn if FPS is low
         if (fps < 30) {
+          // eslint-disable-next-line no-console
           console.warn('Low FPS detected. Consider reducing glass effects.');
         }
 
