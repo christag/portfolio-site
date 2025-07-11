@@ -22,6 +22,18 @@ const currentPath = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+
+    <!-- Early theme initialization to prevent flash -->
+    <script is:inline>
+      // Initialize theme before any rendering
+      (function () {
+        const theme = localStorage.getItem('theme') || 'light';
+        if (theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
     <!-- Import styles in correct order -->
     <style>
       @import '../styles/variables.scss';

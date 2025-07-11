@@ -58,11 +58,19 @@ const socialLinks = [
     box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.1);
   }
 
-  /* Dark theme glassmorphism - DARKER to match nav */
-  [data-theme='dark'] .footer-glassmorphism {
-    background: rgba(0, 0, 0, 0.85);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.8);
+  /* Dark theme glassmorphism - WORKING TRANSPARENT GLASS */
+  html[data-theme='dark'] footer.footer-glassmorphism {
+    /* TRUE transparent glass - background shows through */
+    background: rgba(0, 0, 0, 0.15) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  /* Remove test styles */
+  [data-theme='dark'] footer {
+    outline: none !important;
   }
 
   /* Inner container for proper spacing */

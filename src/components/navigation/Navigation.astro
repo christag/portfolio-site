@@ -86,11 +86,14 @@ const { currentPath = '/' } = Astro.props;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
 
-  /* Dark theme glassmorphism - DARKER */
-  [data-theme='dark'] .nav-glassmorphism {
-    background: rgba(0, 0, 0, 0.85);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+  /* Dark theme glassmorphism - TRUE TRANSPARENT GLASS */
+  html[data-theme='dark'] nav#main-nav.nav-glassmorphism {
+    /* TRUE transparent glass - background shows through */
+    background: rgba(0, 0, 0, 0.15) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5) !important;
   }
 
   /* Inner container for proper spacing */
@@ -154,10 +157,11 @@ const { currentPath = '/' } = Astro.props;
     color: var(--color-accent-primary);
   }
 
-  /* Theme button styling - MAKE IT VISIBLE */
+  /* Theme button styling - VISIBLE IN BOTH MODES */
   .theme-button {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    /* Light mode: Use darker colors for visibility against light background */
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.15);
     cursor: pointer;
     font-size: inherit;
     border-radius: 12px;
@@ -167,6 +171,7 @@ const { currentPath = '/' } = Astro.props;
   }
 
   [data-theme='dark'] .theme-button {
+    /* Dark mode: Use light colors for visibility against dark background */
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.1);
   }
@@ -209,23 +214,29 @@ const { currentPath = '/' } = Astro.props;
 
   /* Mobile Menu - Beautiful Glassmorphism with proper dark mode */
   .mobile-menu {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    margin: 0.5rem 1rem;
+    border-radius: 16px;
+    overflow: hidden;
   }
 
-  /* FIXED: Dark theme mobile menu */
-  [data-theme='dark'] .mobile-menu {
-    background: rgba(0, 0, 0, 0.9);
-    border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+  /* Dark theme mobile menu - TRUE TRANSPARENT GLASS */
+  html[data-theme='dark'] .mobile-menu {
+    /* TRANSPARENT glass with better text readability */
+    background: rgba(0, 0, 0, 0.25) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.6) !important;
   }
 
   .mobile-menu-content {
-    padding: 1rem;
+    padding: 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -233,18 +244,25 @@ const { currentPath = '/' } = Astro.props;
 
   .mobile-link {
     display: block;
-    padding: 0.75rem 1rem;
+    padding: 0.875rem 1rem;
     font-weight: 500;
     text-decoration: none;
     color: var(--color-text-primary);
     font-family: var(--font-body);
-    border-radius: 8px;
+    border-radius: 12px;
     transition: all 0.3s ease;
     background: none;
     border: none;
     text-align: left;
     width: 100%;
     cursor: pointer;
+    margin: 0.125rem 0;
+    position: relative;
+  }
+
+  /* Ensure text is visible in dark mode - soft white instead of pure white */
+  [data-theme='dark'] .mobile-link {
+    color: #f5f5f0 !important;
   }
 
   .mobile-link:hover {
@@ -252,13 +270,23 @@ const { currentPath = '/' } = Astro.props;
     color: var(--color-accent-primary);
   }
 
-  /* Menu separators */
-  .mobile-link:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  [data-theme='dark'] .mobile-link:hover {
+    background: rgba(184, 134, 154, 0.15);
   }
 
-  [data-theme='dark'] .mobile-link:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  /* Menu separators - make them more visible */
+  .mobile-link:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -0.125rem;
+    left: 1rem;
+    right: 1rem;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  [data-theme='dark'] .mobile-link:not(:last-child)::after {
+    background: rgba(255, 255, 255, 0.1);
   }
 
   .mobile-theme-button {
@@ -266,11 +294,14 @@ const { currentPath = '/' } = Astro.props;
     font-weight: 500;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 0.25rem;
+    color: var(--color-text-primary);
   }
 
   [data-theme='dark'] .mobile-theme-button {
-    background: rgba(255, 255, 255, 0.02);
-    border-color: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: #f5f5f0 !important;
   }
 
   /* Utility */
@@ -306,27 +337,14 @@ const { currentPath = '/' } = Astro.props;
       document.documentElement.setAttribute('data-theme', theme);
     }
 
-    // Update button text - Only Light and Dark
+    // Update button text - Show what mode we're switching TO
     const themeNames: { [key: string]: string } = {
-      light: 'Light',
-      dark: 'Dark',
+      light: 'Dark', // Show what it will switch TO
+      dark: 'Light', // Show what it will switch TO
     };
     if (themeToggle) themeToggle.textContent = themeNames[theme];
     if (mobileThemeToggle)
       mobileThemeToggle.textContent = `Theme: ${themeNames[theme]}`;
-
-    // Debug logging
-    console.log(`Theme switched to: ${theme}`);
-    console.log(
-      `Document data-theme attribute:`,
-      document.documentElement.getAttribute('data-theme')
-    );
-    console.log(
-      `Current background color:`,
-      getComputedStyle(document.documentElement).getPropertyValue(
-        '--glassmorphism-bg-light'
-      )
-    );
   }
 
   function cycleTheme() {
@@ -372,5 +390,24 @@ const { currentPath = '/' } = Astro.props;
         mobileMenu.classList.add('hidden');
       }
     });
+  });
+
+  // Close mobile menu when window is resized to desktop size
+  let resizeTimer: NodeJS.Timeout;
+  window.addEventListener('resize', () => {
+    // Close immediately when resizing to desktop size
+    if (
+      window.innerWidth >= 768 &&
+      mobileMenu &&
+      !mobileMenu.classList.contains('hidden')
+    ) {
+      mobileMenu.classList.add('hidden');
+    }
+
+    // Optional: Clear any pending timers
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      // Additional cleanup if needed
+    }, 100);
   });
 </script>
