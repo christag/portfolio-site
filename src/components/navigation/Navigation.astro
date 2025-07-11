@@ -86,11 +86,11 @@ const { currentPath = '/' } = Astro.props;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
 
-  /* Dark theme glassmorphism */
+  /* Dark theme glassmorphism - DARKER */
   [data-theme='dark'] .nav-glassmorphism {
-    background: rgba(18, 18, 18, 0.85);
+    background: rgba(0, 0, 0, 0.85);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
   }
 
   /* Inner container for proper spacing */
@@ -154,12 +154,26 @@ const { currentPath = '/' } = Astro.props;
     color: var(--color-accent-primary);
   }
 
-  /* Theme button styling */
+  /* Theme button styling - MAKE IT VISIBLE */
   .theme-button {
-    background: none;
-    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
     font-size: inherit;
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  [data-theme='dark'] .theme-button {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .theme-button:hover {
+    background: rgba(184, 134, 154, 0.2);
+    border-color: var(--color-accent-primary);
   }
 
   /* Mobile Toggle */
@@ -193,9 +207,9 @@ const { currentPath = '/' } = Astro.props;
     }
   }
 
-  /* Mobile Menu - Beautiful Glassmorphism */
+  /* Mobile Menu - Beautiful Glassmorphism with proper dark mode */
   .mobile-menu {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-top: 1px solid rgba(255, 255, 255, 0.2);
@@ -203,17 +217,18 @@ const { currentPath = '/' } = Astro.props;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
 
+  /* FIXED: Dark theme mobile menu */
   [data-theme='dark'] .mobile-menu {
-    background: rgba(18, 18, 18, 0.95);
+    background: rgba(0, 0, 0, 0.9);
     border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
   }
 
   .mobile-menu-content {
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0;
   }
 
   .mobile-link {
@@ -237,8 +252,25 @@ const { currentPath = '/' } = Astro.props;
     color: var(--color-accent-primary);
   }
 
+  /* Menu separators */
+  .mobile-link:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  [data-theme='dark'] .mobile-link:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
   .mobile-theme-button {
     font-size: inherit;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  [data-theme='dark'] .mobile-theme-button {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.05);
   }
 
   /* Utility */
