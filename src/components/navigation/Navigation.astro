@@ -109,6 +109,23 @@ const { currentPath = '/' } = Astro.props;
     align-items: center;
     padding: 1rem 0;
     min-height: 64px;
+    /* MOBILE FIX: Reduce height on mobile */
+  }
+
+  /* Mobile-specific height reduction */
+  @media (max-width: 767px) {
+    .nav-content {
+      padding: 0.75rem 0;
+      min-height: 56px;
+    }
+
+    .nav-inner {
+      padding: 0 1rem; /* Reduce horizontal padding on mobile */
+    }
+
+    .nav-logo {
+      font-size: 1.125rem; /* Slightly smaller on mobile */
+    }
   }
 
   /* Logo Styles */
@@ -223,6 +240,12 @@ const { currentPath = '/' } = Astro.props;
     margin: 0.5rem 1rem;
     border-radius: 16px;
     overflow: hidden;
+    /* MOBILE FIX: Ensure proper containment and remove conflicting borders */
+    border-left: none;
+    border-right: none;
+    max-width: calc(100vw - 2rem);
+    /* Improve touch interactions */
+    touch-action: manipulation;
   }
 
   /* Dark theme mobile menu - TRUE TRANSPARENT GLASS */
@@ -233,6 +256,9 @@ const { currentPath = '/' } = Astro.props;
     -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.6) !important;
+    /* MOBILE FIX: Remove any additional borders that cause grey appearance */
+    border-left: none !important;
+    border-right: none !important;
   }
 
   .mobile-menu-content {

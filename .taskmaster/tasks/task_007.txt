@@ -32,6 +32,13 @@ function MediaRenderer({ media }) {
 7. Implement SEO metadata based on media content
 8. Add deep-linking support for sharing specific media
 
+Implementation follows complexity-based ordering:
+- Infrastructure & Routing (Foundation): URL structure and data pipeline
+- Content Rendering (Core): Display components and SEO foundation
+- Enhanced Features (UX): Social connectivity and content discovery
+- Advanced Functionality: Navigation enhancement and reliability
+- Final Optimization: Cross-device performance
+
 # Test Strategy:
 1. Test route handling with various media IDs
 2. Verify each renderer component works correctly
@@ -40,59 +47,60 @@ function MediaRenderer({ media }) {
 5. Test responsive layout for different media types
 6. Verify deep-linking works correctly
 7. Test error handling for invalid media IDs
+8. Validate complexity-based implementation order ensures stable foundation before advanced features
 
 # Subtasks:
-## 1. Set Up Dynamic Routing [pending]
+## 1. Dynamic Routing Setup for Media Detail Pages [pending]
 ### Dependencies: None
-### Description: Implement a routing system that dynamically generates routes based on media content identifiers or slugs.
+### Description: Implement dynamic routing in Astro to generate a unique detail page for each media item, supporting deep-linking and SEO-friendly URLs.
 ### Details:
-Ensure the routing logic supports deep-linking and can handle various media types. Test with sample data to verify route generation.
+Use Astro's file-based routing with dynamic parameters (e.g., `[slug].astro`). Integrate with Strapi 5 to fetch available media slugs/IDs at build time for static generation or on-demand for SSR. Ensure routes are accessible via direct links and support fallback/error states for non-existent media. Test by navigating to various media detail URLs and verifying correct data loads and 404s are handled.
 
-## 2. Integrate Single Media API from Strapi [pending]
+## 2. Single Media API Integration with Strapi 5 [pending]
 ### Dependencies: 7.1
-### Description: Connect to the Strapi media API to fetch content details for individual media items.
+### Description: Fetch detailed data for a single media item from Strapi 5, including all relevant fields and relations (e.g., author, tags, related media).
 ### Details:
-Research Strapi API endpoints, authentication, response formats, and error handling mechanisms. Implement API calls and handle responses according to best practices.
+Use Astro's server-side code to call Strapi's REST or GraphQL API for the specific media item based on the route parameter. Ensure secure API access, handle authentication if required, and structure queries to minimize over-fetching. Validate and sanitize all received data. Test by mocking API responses and verifying correct data mapping.
 
-## 3. Develop Renderer Components by Media Type [pending]
+## 3. Renderer Components by Media Type [pending]
 ### Dependencies: 7.2
-### Description: Create modular renderer components that display content based on the media type (e.g., video, image, audio, article).
+### Description: Develop modular Astro components to render different media types (image, video, audio, document, etc.) with glassmorphism styling and accessibility compliance.
 ### Details:
-Design each renderer to handle its specific data structure and presentation needs. Ensure components are reusable and maintainable.
+Create a block renderer that maps Strapi media types to Astro components (e.g., ImageRenderer, VideoRenderer). Use modern CSS (e.g., CSS variables, clamp, container queries) and glassmorphism effects (backdrop-filter, semi-transparent backgrounds). Ensure all media is keyboard-accessible, supports alt text/captions, and is responsive. Test each renderer with sample data and accessibility tools.
 
-## 4. Implement Social Sharing Functionality [pending]
+## 4. SEO Metadata Handling [pending]
+### Dependencies: 7.2
+### Description: Dynamically generate and inject SEO metadata (title, description, Open Graph, Twitter Card, canonical URL) for each media detail page.
+### Details:
+Extract SEO fields from Strapi or derive them from media content. Use Astro's <head> injection to set meta tags, structured data (JSON-LD), and canonical links. Ensure Open Graph and Twitter Card images are optimized and accessible. Test with SEO tools (e.g., Lighthouse, Google Rich Results Test) and validate metadata correctness.
+
+## 5. Social Sharing Integration [pending]
+### Dependencies: 7.3, 7.4
+### Description: Add social sharing buttons for major platforms (Twitter/X, Facebook, LinkedIn, etc.) with dynamic metadata and accessible controls.
+### Details:
+Implement share buttons using accessible HTML and SVG icons. Dynamically generate share URLs and metadata (title, description, image) from the media data. Use the Web Share API for supported devices. Ensure buttons are keyboard-navigable and screen-reader friendly. Test sharing functionality on all platforms and with accessibility tools.
+
+## 6. Related Content Carousel [pending]
 ### Dependencies: 7.3
-### Description: Add social sharing buttons and logic to allow users to share media content on various platforms.
+### Description: Display a carousel of related media items, fetched from Strapi based on tags, categories, or editorial curation.
 ### Details:
-Integrate with popular social APIs and ensure shared links support deep-linking to the specific media item.
+Query Strapi for related items using relevant fields. Build a performant, accessible carousel component (e.g., using Swiper.js or custom implementation) with keyboard navigation, ARIA roles, and lazy loading. Apply glassmorphism and punk-meets-professional styling. Test with various numbers of related items and on different devices.
 
-## 5. Build Related Content Carousel [pending]
-### Dependencies: 7.2
-### Description: Develop a carousel component that displays related media items based on the current content.
-### Details:
-Fetch related content from Strapi API and design the carousel for smooth navigation and accessibility.
-
-## 6. Implement SEO Metadata Handling [pending]
-### Dependencies: 7.2
-### Description: Dynamically generate and inject SEO metadata (title, description, Open Graph tags) for each media route.
-### Details:
-Ensure metadata reflects the current media content and supports social sharing previews.
-
-## 7. Enable Deep-Linking Support [pending]
+## 7. Deep-Linking and State Preservation [pending]
 ### Dependencies: 7.1, 7.6
-### Description: Ensure that each media item can be accessed directly via a unique URL, supporting navigation and sharing.
+### Description: Ensure all interactive elements (e.g., carousels, tabs, modals) support deep-linking and preserve state via URL parameters or hashes.
 ### Details:
-Test deep-linking across devices and platforms to verify correct content loading and metadata rendering.
+Implement logic to update the URL when users interact with components (e.g., selecting a carousel slide). On page load, parse URL parameters to restore state. Use the History API for smooth navigation. Test by sharing links to specific states and verifying correct restoration.
 
-## 8. Implement Robust Error Handling [pending]
+## 8. Error Handling and Fallback UI [pending]
 ### Dependencies: 7.2, 7.3
-### Description: Add standardized error handling for Strapi API failures, invalid routes, and rendering issues.
+### Description: Provide robust error handling for API failures, missing media, and invalid routes, with user-friendly fallback UI and logging.
 ### Details:
-Display user-friendly error messages and log errors for debugging. Follow best practices for consistent error formats.
+Implement try/catch blocks around all API calls. Show clear error messages or fallback components (e.g., 'Media not found', skeleton loaders) as needed. Log errors for monitoring (e.g., Sentry). Ensure error states are accessible and styled consistently. Test by simulating API failures and invalid URLs.
 
-## 9. Ensure Responsive Design [pending]
-### Dependencies: 7.3, 7.5
-### Description: Adapt all components and layouts to provide an optimal experience across devices and screen sizes.
+## 9. Responsive and Performance-Optimized Design [pending]
+### Dependencies: 7.3, 7.5, 7.6, 7.7, 7.8
+### Description: Ensure the media detail page is fully responsive, fast-loading, and visually consistent across devices, with modern CSS and image optimization.
 ### Details:
-Test UI elements, carousels, and renderers on multiple devices and browsers. Address accessibility and usability concerns.
+Use CSS grid/flexbox, container queries, and fluid typography for layout. Optimize images with Astro's built-in image component and Strapi's media transformations. Implement lazy loading for media and carousels. Test with device emulators, Lighthouse, and real devices for layout, performance, and accessibility.
 

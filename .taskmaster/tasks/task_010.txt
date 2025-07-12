@@ -3,26 +3,34 @@
 # Status: pending
 # Dependencies: 3, 4, 6, 7, 8, 9
 # Priority: medium
-# Description: Optimize the site for performance with lazy-loading images, Lighthouse score improvements, and implementation of sitemap.xml and RSS feed.
+# Description: Optimize the site for performance with lazy-loading images, Lighthouse score improvements, and implementation of sitemap.xml and RSS feed. Subtasks are organized by complexity from foundational optimizations to advanced monitoring.
 # Details:
+CORE OPTIMIZATION (Foundation):
 1. Implement image optimization:
    - Use next/image or astro:assets for automatic optimization
    - Configure responsive image sizes
    - Implement lazy loading for off-screen images
-2. Add performance monitoring:
-   - Configure Core Web Vitals measurement
-   - Set up Lighthouse CI in GitHub Actions
-3. Optimize JavaScript:
+2. Optimize JavaScript:
    - Code splitting for large components
    - Defer non-critical JavaScript
+3. Optimize font loading with font-display: swap
+
+CACHING & INFRASTRUCTURE:
 4. Implement caching strategies:
    - Static generation where possible
    - Incremental Static Regeneration for dynamic content
    - Browser caching headers
-5. Create sitemap.xml generator
-6. Implement RSS feed for content updates
-7. Add service worker for offline capability
-8. Optimize font loading with font-display: swap
+5. Add service worker for offline capability
+
+SEO & CONTENT:
+6. Create sitemap.xml generator
+7. Implement RSS feed for content updates
+
+MONITORING & VALIDATION:
+8. Add performance monitoring:
+   - Configure Core Web Vitals measurement
+   - Set up Lighthouse CI in GitHub Actions
+9. Comprehensive offline testing and validation
 
 # Test Strategy:
 1. Run Lighthouse audits targeting score ≥90 in all categories
@@ -34,63 +42,63 @@
 7. Test offline functionality with service worker
 
 # Subtasks:
-## 1. Image Optimization [pending]
+## 1. Image Optimization Implementation [pending]
 ### Dependencies: None
-### Description: Compress, resize, and convert images to appropriate formats (JPEG, PNG, SVG, WebP) and implement responsive and lazy-loaded images.
+### Description: Integrate automated image optimization for all assets, ensuring modern formats (WebP/AVIF), responsive sizing, and lazy loading. Use Astro's built-in image component and CDN delivery for all images sourced from Strapi 5.
 ### Details:
-Use tools like TinyPNG or Compressor.io for compression. Ensure images are served in optimal formats and sizes for different devices. Implement lazy loading for offscreen images.
+Configure Astro's image optimization pipeline to convert images to WebP/AVIF, generate multiple sizes for responsive loading, and implement lazy loading for below-the-fold images. Ensure Strapi 5 media endpoints deliver optimized images and set up CDN caching for static assets. Validate with Lighthouse and Core Web Vitals.
 
-## 2. JavaScript Optimization [pending]
+## 2. JavaScript Optimization and Code Splitting [pending]
 ### Dependencies: None
-### Description: Minify, combine, and defer JavaScript files to reduce load times and improve execution efficiency.
+### Description: Reduce JavaScript bundle size and execution time using code splitting, tree-shaking, and deferred loading. Ensure only critical scripts are loaded initially.
 ### Details:
-Remove unnecessary characters and comments, combine scripts where possible, and defer non-critical scripts. Use tools like Webpack, Grunt, or Gulp for automation.
+Leverage Astro's partial hydration and code splitting features to minimize client-side JS. Defer non-critical scripts using the 'defer' attribute. Remove unused dependencies and polyfills. Measure bundle size and TTI (Time to Interactive) before and after optimization.
 
-## 3. Caching Strategies Implementation [pending]
+## 3. Font Loading Optimization [pending]
 ### Dependencies: None
-### Description: Configure browser and server caching for static assets to reduce load times for repeat visitors.
+### Description: Optimize font loading using modern CSS techniques: preload, font-display: swap, and subset fonts for minimal layout shift.
 ### Details:
-Set appropriate cache-control and expires headers for images, CSS, and JS. Consider using a CDN for distributed caching.
+Preload critical fonts using <link rel='preload'>, set font-display: swap in @font-face, and subset fonts to required glyphs. Test for FOIT/FOUT and CLS (Cumulative Layout Shift) impact. Validate with Lighthouse and Chrome DevTools.
 
-## 4. Performance Monitoring Setup [pending]
-### Dependencies: None
-### Description: Integrate tools to continuously monitor site performance and identify bottlenecks.
+## 4. Caching Strategies for Static and Dynamic Content [pending]
+### Dependencies: 10.1, 10.2, 10.3
+### Description: Implement multi-layered caching: CDN, browser, and API-level for both static assets and Strapi 5 dynamic content. Set cache-control headers and validate cache hit rates.
 ### Details:
-Set up tools like Google Lighthouse, WebPageTest, or New Relic. Configure alerts for performance regressions.
+Configure AWS CloudFront (or similar CDN) for static assets and API endpoints. Set long-lived cache headers for immutable assets, and short-lived or revalidation strategies for dynamic content. Use Strapi middleware for HTTP caching and compression. Test with cache inspection tools and monitor cache hit/miss ratios.
 
-## 5. Sitemap.xml Generation [pending]
-### Dependencies: None
-### Description: Create and maintain a sitemap.xml file to improve search engine indexing and crawl efficiency.
-### Details:
-Generate a sitemap.xml reflecting all important site URLs. Automate updates as site structure changes.
-
-## 6. RSS Feed Implementation [pending]
-### Dependencies: None
-### Description: Develop and expose an RSS feed for site content to support syndication and user subscriptions.
-### Details:
-Generate an RSS feed that updates automatically with new content. Validate feed for compatibility.
-
-## 7. Service Worker Setup [pending]
-### Dependencies: 10.3
-### Description: Implement a service worker to enable offline capabilities and advanced caching strategies.
-### Details:
-Register a service worker that caches key assets and enables offline access. Test for correct cache invalidation and updates.
-
-## 8. Font Loading Optimization [pending]
-### Dependencies: None
-### Description: Optimize web font loading to minimize render-blocking and improve perceived performance.
-### Details:
-Use font-display: swap, preload key fonts, and subset font files to reduce size and loading time.
-
-## 9. Lighthouse CI Integration [pending]
+## 5. Service Worker Setup for Offline Support [pending]
 ### Dependencies: 10.4
-### Description: Integrate Lighthouse CI into the development workflow for automated performance audits.
+### Description: Implement a service worker to enable offline access, asset caching, and background sync for key site features.
 ### Details:
-Set up Lighthouse CI to run on pull requests or deployments, generating reports and enforcing performance budgets.
+Use Astro's PWA integration or Workbox to register a service worker. Cache static assets, critical API responses, and fallback pages. Test offline navigation and background sync. Measure repeat-visit load times and offline reliability.
 
-## 10. Offline Testing [pending]
+## 6. Sitemap.xml Generation and Validation [pending]
 ### Dependencies: None
-### Description: Test site functionality and user experience in offline and poor network conditions.
+### Description: Automate sitemap.xml generation reflecting all public routes and Strapi 5 content. Ensure compliance with SEO best practices and accessibility standards.
 ### Details:
-Simulate offline scenarios using browser DevTools and verify that critical features and pages remain accessible.
+Use Astro's sitemap integration or a custom script to generate sitemap.xml on build, including dynamic routes from Strapi. Validate with Google Search Console and ensure all pages are crawlable and accessible. Test for correct lastmod, priority, and hreflang attributes.
+
+## 7. RSS Feed Implementation [pending]
+### Dependencies: None
+### Description: Provide an RSS feed for blog and news content sourced from Strapi 5, ensuring fast generation and standards compliance.
+### Details:
+Implement RSS feed generation in Astro, pulling structured content from Strapi's API. Validate feed with W3C Feed Validator. Ensure feed updates within 5 minutes of new content publication. Test with popular RSS readers.
+
+## 8. Performance Monitoring and Alerting Setup [pending]
+### Dependencies: 10.1, 10.2, 10.3
+### Description: Integrate real-time performance monitoring using Lighthouse CI, Google PageSpeed Insights, and AWS CloudWatch. Set up alerts for performance regressions.
+### Details:
+Automate Lighthouse CI runs on every deployment. Connect Google Search Console and PageSpeed Insights for ongoing Core Web Vitals tracking. Use AWS CloudWatch for backend/API monitoring. Define alert thresholds for FCP, LCP, TTI, and server response times.
+
+## 9. Lighthouse CI Integration and Automated Auditing [pending]
+### Dependencies: 10.8
+### Description: Integrate Lighthouse CI into the CI/CD pipeline for automated performance, accessibility, and SEO audits on every deployment.
+### Details:
+Set up Lighthouse CI with custom thresholds for performance, accessibility, and SEO. Block deployments on regressions. Store audit reports for historical tracking. Ensure audits cover both desktop and mobile profiles.
+
+## 10. Comprehensive Offline Testing and Validation [pending]
+### Dependencies: 10.5, 10.9
+### Description: Conduct thorough offline testing to ensure all critical features and content are accessible without network connectivity.
+### Details:
+Simulate offline scenarios using Chrome DevTools. Verify navigation, cached content, and fallback messaging. Test across devices and browsers. Document gaps and iterate on service worker caching strategies.
 

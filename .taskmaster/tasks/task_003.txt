@@ -28,43 +28,49 @@
 # Subtasks:
 ## 1. Markdown Content Creation [pending]
 ### Dependencies: None
-### Description: Draft and organize all content in markdown format, including headers, profile, timeline/experience, social links, and personal/creative stories.
+### Description: Author and structure the bio page content in Markdown, ensuring clarity, brand tone, and compatibility with Astro Content Collections. Include sections for hero, timeline/experience, and social links.
 ### Details:
-Ensure content is structured for easy transformation, future updates, and supports both technical and personal storytelling.
+Deliverables: Complete Markdown file(s) with frontmatter for metadata, headings, and content blocks. Technical Specs: Use Astro's content collections schema for type safety and validation. Testing: Validate Markdown structure, check for broken links, and preview rendering in Astro dev environment.
 
 ## 2. Markdown Transformer Setup [pending]
 ### Dependencies: 3.1
-### Description: Configure and integrate a markdown transformer to convert markdown files into accessible HTML or components for the static site.
+### Description: Configure Astro to parse and transform Markdown content using Content Collections, enabling type-safe access and integration with Strapi if dynamic updates are needed.
 ### Details:
-Select and set up a suitable markdown transformer (e.g., remark, markdown-it) compatible with the static site generator. Ensure output is accessible and parseable by AI and humans.
+Deliverables: Astro config files for content collections, schema definitions, and Markdown transformer plugins. Technical Specs: Use Astro's built-in Markdown/MDX support, enable frontmatter parsing, and set up schema validation. Testing: Ensure Markdown files are correctly parsed, types are enforced, and content is accessible in page components.
 
 ## 3. Page Layout Design with Punk/Brutalist Elements [pending]
 ### Dependencies: 3.2
-### Description: Design the overall page structure, ensuring clear separation of hero, header/profile, timeline/experience, social links, and creative/personal content sections, using asymmetric, print-style grids, and layered glass materials.
+### Description: Create a responsive, asymmetric page layout using modern CSS (CSS Grid, Flexbox, custom properties) and glassmorphism effects, incorporating punk/brutalist design cues.
 ### Details:
-Create layout components or templates that house the transformed markdown content. Use oversized sans-serif headings, code brackets, deliberate misalignment, and floating glass panels. Prioritize accessibility, boldness, spatial depth, and brand-aligned hierarchy.
+Deliverables: Astro layout component(s) with reusable CSS modules or utility classes. Technical Specs: Use CSS Grid for spatial layout, glassmorphism (backdrop-filter, transparency), and bold, contrasting elements. Testing: Cross-browser rendering, layout consistency, and visual regression tests.
 
 ## 4. Hero/Profile Section with Generative Animation [pending]
 ### Dependencies: 3.3
-### Description: Develop the hero/profile section, including generative particle animation spelling out the name, profile image, and an authentic, split-personality introduction, all layered over glass material backgrounds.
+### Description: Design and implement a hero/profile section featuring a generative animation that reflects the punk/brutalist and glassmorphism aesthetic, ensuring accessibility and performance.
 ### Details:
-Ensure the section is visually distinct, accessible, and aligns with the brand's punk/professional duality and Liquid Glass spatial principles. Use Canvas/SVG for animation, oversized typography, and glass layering.
+Deliverables: Astro component for hero section, generative animation (e.g., SVG, Canvas, or WebGL), and accessible markup. Technical Specs: Use semantic HTML, ARIA labels, prefers-reduced-motion support, and optimize animation for minimal JS. Testing: Check animation performance, accessibility (screen reader, keyboard navigation), and fallback for reduced motion.
 
-## 5. Timeline/Experience Section with Asymmetric Grid [pending]
-### Dependencies: 3.3
-### Description: Build the timeline or experience section using a print-style, asymmetric grid, punk/industrial overlays, and glass/translucent layers to showcase professional and creative history.
+## 5. Timeline/Experience Section Implementation [pending]
+### Dependencies: 3.4
+### Description: Develop a timeline or experience section that visually communicates career milestones, using accessible markup and interactive or animated elements where appropriate.
 ### Details:
-Use lists, cards, or other visual elements to present experiences clearly, supporting both technical and personal milestones. Add glitch, noise, and glass effects for visual interest and spatial depth.
+Deliverables: Astro component for timeline/experience, styled to match the overall aesthetic. Technical Specs: Use semantic HTML (e.g., <section>, <ul>, <li>), ARIA roles, and CSS for visual hierarchy. Testing: Accessibility audit (screen reader, keyboard), responsive behavior, and animation performance.
 
-## 6. Social Links and SEO Metadata Integration with Glitch Effects [pending]
-### Dependencies: 3.3
-### Description: Add social media and community links with glitch and glass effects, and implement SEO metadata (title, description, Open Graph tags) for discoverability and engagement.
+## 6. Social Links and SEO Metadata Integration [pending]
+### Dependencies: 3.5
+### Description: Integrate social media links with accessible icons and implement SEO metadata (title, description, Open Graph, Twitter cards, structured data) following 2025 best practices for headless CMS and static sites.
 ### Details:
-Ensure links are accessible, support community engagement, and metadata is optimized for search engines and social sharing with bold, punk/glass-inspired messaging.
+Deliverables: Social links component, SEO metadata in Astro page frontmatter or head injection. Technical Specs: Use accessible SVG icons, rel attributes, and Astro's <SEO> or custom head injection. Testing: Validate metadata with Google Rich Results Test, check social previews, and ensure links are keyboard accessible.
 
-## 7. Static Generation and Responsive Styling with Deliberate Misalignment [pending]
-### Dependencies: 3.4, 3.5, 3.6
-### Description: Configure static site generation and apply accessible, responsive CSS with deliberate misalignment, punk/brutalist, and Liquid Glass styling to ensure the site displays well and is usable on all devices and spatial contexts.
+## 7. Static Generation and AWS Deployment Configuration [pending]
+### Dependencies: 3.6
+### Description: Configure Astro for static site generation, integrate with Strapi v5 for content updates, and set up AWS deployment (e.g., S3 + CloudFront) with automated build triggers and CDN caching.
 ### Details:
-Test the build process and verify consistent, accessible design and functionality across screen sizes, AR/VR, and assistive technologies. Ensure all punk/brutalist and glass effects are accessible.
+Deliverables: Astro build config, Strapi webhook for incremental builds, AWS deployment scripts or CI/CD pipeline. Technical Specs: Use Astro's static output, Strapi REST/GraphQL API, AWS CLI or GitHub Actions for deployment, and configure cache headers. Testing: Test build process, content update propagation, and deployment to AWS with cache invalidation.
+
+## 8. Responsive Styling and Accessibility Checks [pending]
+### Dependencies: 3.7
+### Description: Apply responsive CSS (fluid layouts, breakpoints, clamp, container queries) and conduct comprehensive accessibility audits to meet WCAG 2.2 AA standards.
+### Details:
+Deliverables: Final CSS with responsive and accessible design, accessibility report. Technical Specs: Use modern CSS techniques (container queries, prefers-color-scheme), test with axe-core, Lighthouse, and manual keyboard/screen reader checks. Testing: Validate on multiple devices, run automated and manual accessibility tests, and fix any issues found.
 

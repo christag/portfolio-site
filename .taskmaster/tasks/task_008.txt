@@ -3,7 +3,7 @@
 # Status: pending
 # Dependencies: 5
 # Priority: high
-# Description: Migrate all consulting service data (Virtual CIO, IT Support, Consulting, Project Management, Automation, Data Analysis, Cloud Migration, Cybersecurity, Website Development, Training, etc.) from services.md into Strapi, implement the tiered pricing matrix, pin/highlight logic, and connect the front-end to the Strapi API for dynamic, filterable, and sortable service display and detail pages. This task should begin immediately after Strapi CMS deployment.
+# Description: Migrate all consulting service data (Virtual CIO, IT Support, Consulting, Project Management, Automation, Data Analysis, Cloud Migration, Cybersecurity, Website Development, Training, etc.) from services.md into Strapi, implement the tiered pricing matrix, pin/highlight logic, and connect the front-end to the Strapi API for dynamic, filterable, and sortable service display and detail pages. This task follows a complexity-based approach: Validation → Planning → Migration → API → CTA Logic → UI Components → UI Integration → Optimization.
 # Details:
 1. Ensure Service content model is properly configured in Strapi (fields for title, description, type, feature highlights, tiers, contactMethod, isPinned, slug, filtering, sorting, highlighting)
 2. Migrate all static service data from services.md to Strapi, mapping fields and transforming as needed
@@ -16,6 +16,7 @@
 9. Ensure pin/highlight logic is respected in the UI
 10. Integrate robust error handling and loading states for all dynamic content
 11. Use CSS variables + Tailwind hybrid approach for all service UI components
+12. Follow complexity-based execution order for risk mitigation and optimal implementation flow
 
 # Test Strategy:
 1. Verify Strapi API integration works correctly
@@ -27,53 +28,99 @@
 7. Validate error handling and loading states for API failures
 8. Confirm pin/highlight logic is reflected in the UI
 9. Review CSS variable and Tailwind integration in service UI
+10. Validate execution order dependencies and parallel task completion
 
 # Subtasks:
-## 1. Strapi Model Validation [pending]
+## 1. Strapi Model Validation and Schema Alignment [pending]
 ### Dependencies: None
-### Description: Validate the Strapi model's input, calculation, and output components to ensure data integrity and compliance with business rules. Confirm support for tiered pricing, feature highlights, pin/highlight, slug, filtering, sorting, and dynamic CTAs.
+### Description: Audit and update all Strapi models to ensure strict schema matching between source and destination instances, following Strapi 5 conventions. Validate field types, relations, and naming conventions. Prepare for glassmorphism and punk-meets-professional design requirements. [PREPARATION & VALIDATION - Foundation integrity]
 ### Details:
-Perform input validation (length, type, range, syntax), calculation logic checks (sensitivity testing, dynamic validation), and output verification (format, clarity, consistency with historical data).
+• Review all content types and components in both source and target Strapi instances.
+• Use Strapi admin UI and codebase to compare schemas.
+• Update models to match exactly, including field types, required/optional status, and relations.
+• Validate with Strapi's built-in model validation tools and custom scripts.
+• Ensure accessibility metadata is included where relevant.
+• Deliverable: Schema diff report and updated models.
+• Testing: Run Strapi's schema validation, and test model creation via API.
+• Priority: Execute first to establish foundation integrity
 
-## 2. Data Migration Planning [pending]
+## 2. Migration Planning and Backup Strategy [pending]
 ### Dependencies: 8.1
-### Description: Plan and document the migration of all existing service data from services.md to the new Strapi structure, ensuring data mapping and transformation requirements are defined.
+### Description: Develop a comprehensive migration plan, including backup, rollback, and testing strategies. Document all steps and risks, referencing Strapi 5 and AWS best practices. [PREPARATION & VALIDATION - Risk management]
 ### Details:
-Identify data sources, define mapping rules, and outline transformation logic needed for compatibility with the new Strapi schema. Prepare for structured migration from markdown to CMS fields.
+• Create a full backup of the database and media assets.
+• Document migration steps, including use of `strapi transfer` and manual migration scripts.
+• Plan for downtime, rollback, and post-migration verification.
+• Prepare AWS deployment scripts for staging and production.
+• Deliverable: Migration plan document and backup archives.
+• Testing: Restore backup in a staging environment and verify data integrity.
+• Priority: Execute second for risk mitigation
 
-## 3. Data Migration Execution [pending]
+## 3. Migration Execution and Data Integrity Validation [pending]
 ### Dependencies: 8.2
-### Description: Execute the migration of all service data from services.md into Strapi, applying validation and transformation rules as defined in the planning phase.
+### Description: Execute the migration using Strapi 5's transfer tools and/or custom migration scripts. Validate data integrity, relations, and media assets post-migration. [DATA MIGRATION - Core data transfer on critical path]
 ### Details:
-Migrate data in batches, validate migrated records for accuracy, and resolve any data integrity issues encountered. Ensure all required fields are mapped and transformed correctly.
+• Use `strapi transfer` CLI for content, files, and configuration migration.
+• Address schema conflicts and index issues as per Strapi 5 migration guides.
+• Validate all migrated data, including relations and assets.
+• Run automated and manual tests to check for missing or corrupted data.
+• Deliverable: Migration logs and data integrity report.
+• Testing: Automated data comparison scripts and manual spot checks.
+• Priority: Execute third as critical path item
 
-## 4. Strapi API Integration Implementation [pending]
+## 4. API Integration and Endpoint Validation [pending]
 ### Dependencies: 8.3
-### Description: Integrate external or internal APIs with Strapi to enable dynamic data exchange and service connectivity. Remove all static service data from the frontend. Implement caching, error handling, and loading states.
+### Description: Update Astro frontend to consume new Strapi 5 APIs. Ensure all endpoints are correctly integrated, authenticated, and returning expected data structures. [INTEGRATION & API - Connection layer]
 ### Details:
-Develop and test Strapi API endpoints, handle authentication, and ensure data flows correctly between systems. Refactor frontend to consume only CMS-driven service data. Add caching, robust error handling, and loading indicators for all dynamic content.
+• Refactor API calls in Astro to match Strapi 5 endpoints and authentication flows.
+• Use modern fetch patterns and error handling.
+• Validate API responses for all content types, including tiered pricing and filtering data.
+• Deliverable: Updated API integration code and endpoint documentation.
+• Testing: Automated API contract tests and manual endpoint verification.
+• Priority: Execute fourth to establish connection layer
 
-## 5. Tiered Pricing and Filtering Component Development [pending]
-### Dependencies: 8.4
-### Description: Design and implement tiered pricing and filtering components within the frontend to support multiple pricing levels, business rules, user-driven filtering/sorting, and dynamic CTAs.
+## 5. CTA Logic Implementation and Validation [pending]
+### Dependencies: 8.3
+### Description: Implement dynamic call-to-action logic based on user state, service tier, and context. Ensure accessibility and performance. [INTEGRATION & API - Business logic, can run parallel with API integration]
 ### Details:
-Define pricing tiers, implement logic for tier assignment, filtering, sorting, and dynamic CTAs based on contactMethod. Ensure integration with product/service data and UI. Use CSS variables + Tailwind hybrid approach.
+• Define CTA logic in Astro, using state management and conditional rendering.
+• Ensure CTAs are accessible (focusable, ARIA labels) and visually distinct.
+• Integrate analytics tracking for CTA interactions.
+• Deliverable: Modular CTA logic and tracking scripts.
+• Testing: User flow tests, accessibility checks, and analytics event validation.
+• Priority: Execute in parallel with API integration (subtask 4)
 
-## 6. Dynamic Service Card and Detail Page Update [pending]
-### Dependencies: 8.5
-### Description: Enable dynamic updates to service cards and detail pages in the CMS UI based on real-time data and user interactions, including pin/highlight logic, error handling, and loading states.
+## 6. Tiered Pricing and Filtering Component Development [pending]
+### Dependencies: 8.4, 8.5
+### Description: Develop accessible, performant tiered pricing and filtering UI components using modern CSS (glassmorphism), Astro best practices, and ARIA standards. [FRONTEND IMPLEMENTATION - UI components]
 ### Details:
-Implement frontend logic to fetch and display updated service information from Strapi, ensuring responsiveness, accuracy, pin/highlight display, error handling, and loading indicators.
+• Design and implement pricing/filtering components with glassmorphism effects using CSS variables, backdrop-filter, and color contrast checks.
+• Ensure keyboard navigation and screen reader compatibility.
+• Integrate with API for dynamic data.
+• Deliverable: Reusable Astro components and style sheets.
+• Testing: Accessibility audits (axe, Lighthouse), cross-browser rendering, and unit tests.
+• Priority: Execute sixth after API and CTA logic are complete
 
-## 7. CTA Logic Implementation [pending]
-### Dependencies: None
-### Description: Develop and integrate call-to-action (CTA) logic that adapts based on user behavior, service availability, pricing tiers, and contactMethod field.
+## 7. Dynamic Service Card and Detail Page Update [pending]
+### Dependencies: 8.6
+### Description: Update service cards and detail pages to dynamically render content from Strapi, supporting punk-meets-professional branding and responsive design. [FRONTEND IMPLEMENTATION - UI integration]
 ### Details:
-Define CTA triggers, implement conditional logic, and test for correct behavior across user scenarios. Ensure dynamic CTAs are driven by CMS data.
+• Refactor Astro components to fetch and display service data dynamically.
+• Apply glassmorphism and punk-inspired visual cues using CSS custom properties.
+• Ensure responsive layouts and mobile-first design.
+• Deliverable: Updated service card/detail page components.
+• Testing: Visual regression tests, responsive checks, and content validation.
+• Priority: Execute seventh to integrate UI components
 
-## 8. Caching and SEO Structured Data Update [pending]
-### Dependencies: None
-### Description: Implement caching strategies for performance and update SEO structured data to reflect dynamic content changes from Strapi.
+## 8. Caching, SEO Structured Data, and Performance Optimization [pending]
+### Dependencies: 8.7
+### Description: Implement caching strategies (SSR, ISR, CDN) and update SEO structured data for all dynamic pages. Optimize for Core Web Vitals and accessibility. [OPTIMIZATION - Final polish]
 ### Details:
-Configure server/client-side caching, update structured data tags for SEO, and validate with search engine tools. Ensure caching does not interfere with data freshness.
+• Configure Astro's SSR/ISR and AWS CloudFront caching for dynamic content.
+• Add and validate JSON-LD structured data for services, pricing, and CTAs.
+• Optimize images, fonts, and CSS for performance.
+• Run Lighthouse and axe audits for SEO and accessibility.
+• Deliverable: Caching configs, structured data snippets, and performance reports.
+• Testing: Automated SEO tests, cache hit/miss validation, and Core Web Vitals monitoring.
+• Priority: Execute last for final optimization
 

@@ -87,6 +87,7 @@ const socialLinks = [
     gap: 1rem;
     padding: 1rem 0;
     flex-wrap: wrap;
+    /* MOBILE FIX: Reduce padding on mobile */
   }
 
   /* Footer text styling */
@@ -112,6 +113,7 @@ const socialLinks = [
   .social-links {
     display: flex;
     gap: 0.75rem;
+    /* MOBILE FIX: Reduce gap on mobile */
   }
 
   .social-link {
@@ -129,6 +131,9 @@ const socialLinks = [
     font-size: 0.875rem;
     text-decoration: none;
     transition: all 0.3s ease;
+    /* MOBILE FIX: Improve touch interaction */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   [data-theme='dark'] .social-link {
@@ -148,11 +153,39 @@ const socialLinks = [
     .footer-content {
       flex-direction: column;
       text-align: center;
-      gap: 1rem;
+      gap: 0.5rem; /* Reduced gap */
+      padding: 0.75rem 0; /* Reduced padding */
     }
 
     .footer-info {
       text-align: center;
+    }
+
+    /* MOBILE FIX: Make social links smaller and more compact */
+    .social-links {
+      gap: 0.5rem;
+    }
+
+    .social-link {
+      width: 1.75rem;
+      height: 1.75rem;
+      font-size: 0.75rem;
+    }
+
+    .footer-text {
+      font-size: 0.8rem;
+    }
+
+    .footer-subtitle {
+      font-size: 0.7rem;
+    }
+  }
+
+  /* Additional mobile optimization for very small screens */
+  @media (max-width: 320px) {
+    .footer-content {
+      padding: 0.5rem 0;
+      gap: 0.25rem;
     }
   }
 </style>

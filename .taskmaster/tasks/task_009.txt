@@ -39,49 +39,122 @@
 # Subtasks:
 ## 1. Jira Project Setup [pending]
 ### Dependencies: None
-### Description: Establish a new Jira project, select appropriate templates, configure project keys and naming conventions, and set up initial workflows.
+### Description: Establish a dedicated Jira Service Management project for form submissions, configure custom fields, request types, and permissions. Integrate with Strapi 5 and AWS deployment pipeline.
 ### Details:
-Decide on project structure (by team, product, or department), choose the Jira Classic template for flexibility, and define project goals and user roles.
+Acceptance Criteria:
+- Jira project is created and accessible to relevant team members.
+- Custom fields for form data are defined and mapped to Jira fields.
+- Request types are configured for the collaboration form.
+- Permissions are set to allow API-based issue creation.
+- Strapi 5 and AWS deployment integration points are documented.
 
-## 2. Form Page Layout Design [pending]
+Test Cases:
+- Verify project visibility and access for all stakeholders.
+- Submit a test issue via API and confirm field mapping.
+- Check that only authorized users can create/view issues.
+
+## 2. Analytics Tracking [pending]
+### Dependencies: None
+### Description: Integrate privacy-compliant analytics (e.g., Plausible, Google Analytics 4) to track form interactions, submission rates, errors, and user flows.
+### Details:
+Acceptance Criteria:
+- Analytics events are triggered for form view, field interaction, submission, error, and success.
+- Data is anonymized and GDPR/CCPA compliant.
+- Dashboard/reporting is set up for monitoring key metrics.
+- Performance impact is minimal (deferred loading, async scripts).
+
+Test Cases:
+- Verify analytics events fire on all tracked actions.
+- Check data in analytics dashboard matches expected flows.
+- Audit site for privacy compliance and performance.
+
+## 3. Form Page Layout Design [pending]
 ### Dependencies: 9.1
-### Description: Design the layout for the form page, ensuring a user-friendly interface and clear structure for form fields and instructions.
+### Description: Design the collaboration form page using Astro, implementing glassmorphism and punk-meets-professional aesthetics. Ensure accessibility, responsive design, and performance optimization.
 ### Details:
-Create wireframes or mockups, define field placements, and ensure accessibility and responsiveness.
+Acceptance Criteria:
+- Layout uses modern CSS (e.g., CSS Grid, Flexbox, clamp, prefers-color-scheme).
+- Glassmorphism effects (blur, transparency, layered gradients) are implemented.
+- WCAG 2.2 AA accessibility standards are met (color contrast, keyboard navigation, ARIA labels).
+- Page is responsive across devices and loads in under 2 seconds on 3G.
 
-## 3. Jira Iframe Embed Implementation [pending]
-### Dependencies: 9.2
-### Description: Integrate the Jira form into the page using an iframe, ensuring seamless embedding and compatibility with the page layout.
-### Details:
-Configure iframe settings, test cross-origin policies, and ensure the embedded form displays correctly within the designed layout.
+Test Cases:
+- Validate layout on Chrome, Firefox, Safari, Edge, and mobile browsers.
+- Run Lighthouse accessibility and performance audits.
+- Test keyboard navigation and screen reader compatibility.
 
-## 4. Fallback Form Implementation [pending]
+## 4. Validation and Error Handling [pending]
 ### Dependencies: 9.3
-### Description: Develop a fallback form to be used if the Jira iframe fails to load or is unsupported, ensuring uninterrupted user experience.
+### Description: Implement robust client- and server-side validation for all form fields, with clear, accessible error messages and retry logic.
 ### Details:
-Implement logic to detect iframe issues and display the fallback form, mirroring the fields and validation of the embedded form.
+Acceptance Criteria:
+- All required fields are validated (format, length, custom rules).
+- Errors are displayed inline with accessible ARIA attributes.
+- Server-side validation mirrors client logic and handles edge cases.
+- Retry logic for transient errors (network, Jira API).
 
-## 5. Webhook Integration [pending]
-### Dependencies: 9.4
-### Description: Set up webhooks to connect Jira form submissions with external systems or services as needed.
+Test Cases:
+- Submit invalid data and verify error messages.
+- Test ARIA live regions for error announcements.
+- Simulate server errors and test retry/rollback.
+
+## 5. Jira Iframe Embed [pending]
+### Dependencies: 9.3, 9.4
+### Description: Embed the Jira form or issue creation interface within the Astro site using a secure iframe, ensuring seamless user experience and style consistency.
 ### Details:
-Configure Jira webhooks to trigger on form submission, define payload structure, and test integration with target endpoints.
+Acceptance Criteria:
+- Jira form is embedded via iframe or custom API integration.
+- Styles are overridden or matched to site branding (glassmorphism, punk/professional).
+- Iframe is responsive and accessible (focus management, ARIA roles).
+- Cross-origin security and CSP headers are configured.
 
-## 6. Success/Thank-You Flow Implementation [pending]
+Test Cases:
+- Submit a form through the iframe and verify issue creation in Jira.
+- Test iframe resizing and responsiveness.
+- Check for CSP and X-Frame-Options compliance.
+
+## 6. Fallback Form Implementation [pending]
 ### Dependencies: 9.5
-### Description: Design and implement the user flow for successful form submission, including thank-you messaging and any follow-up actions.
+### Description: Develop a custom fallback form in Astro/Strapi 5 for cases where Jira integration fails. Ensure data is stored securely and can be resubmitted to Jira later.
 ### Details:
-Display confirmation messages, provide next steps or links, and ensure consistent experience for both embedded and fallback forms.
+Acceptance Criteria:
+- Fallback form matches main form design and validation.
+- Data is stored in Strapi 5 with audit logging.
+- Admin interface allows manual or automated resubmission to Jira.
+- User is notified of fallback and next steps.
 
-## 7. Validation and Error Handling [pending]
-### Dependencies: None
-### Description: Implement robust validation for form inputs and comprehensive error handling for both embedded and fallback forms.
-### Details:
-Define validation rules, display user-friendly error messages, and handle submission failures gracefully.
+Test Cases:
+- Simulate Jira outage and verify fallback triggers.
+- Confirm data persistence in Strapi and successful later resubmission.
+- Test user notification and error messaging.
 
-## 8. Analytics Tracking Integration [pending]
-### Dependencies: None
-### Description: Integrate analytics tracking to monitor form usage, submission rates, errors, and user interactions.
+## 7. Webhook Integration [pending]
+### Dependencies: 9.6
+### Description: Integrate Jira webhooks to notify the Astro/Strapi backend of issue status changes, enabling real-time updates and automation.
 ### Details:
-Set up tracking for key events (form load, submission, errors), configure analytics tools, and ensure data privacy compliance.
+Acceptance Criteria:
+- Jira webhooks are configured for issue creation, update, and resolution events.
+- Astro/Strapi backend receives and processes webhook payloads securely.
+- Updates are reflected in the user dashboard or admin panel.
+- Webhook failures are logged and alerted.
+
+Test Cases:
+- Create and update issues in Jira, verify webhook delivery and processing.
+- Test webhook security (secret/token validation).
+- Simulate webhook failure and check logging/alerting.
+
+## 8. Success/Thank-You Flow [pending]
+### Dependencies: 9.7
+### Description: Design and implement a success/thank-you page or modal with glassmorphism styling, confirming submission and providing next steps or contact info.
+### Details:
+Acceptance Criteria:
+- Success state is shown after form submission (Jira or fallback).
+- Page/modal uses consistent glassmorphism and punk/professional design.
+- Accessibility: focus is managed, screen readers announce success.
+- Option to return to homepage or submit another request.
+
+Test Cases:
+- Submit form and verify success flow triggers.
+- Test accessibility with screen readers and keyboard navigation.
+- Check design consistency across devices.
 

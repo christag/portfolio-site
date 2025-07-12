@@ -44,10 +44,36 @@ const currentPath = Astro.url.pathname;
     style="background: var(--glassmorphism-bg-light); color: var(--color-text-primary, #171717);"
   >
     <Navigation currentPath={currentPath} />
-    <main class="pt-20 pb-32">
+    <main class="pt-20 pb-32 mobile-main">
       <slot />
     </main>
     <Footer />
+
+    <!-- Mobile-specific layout fixes -->
+    <style>
+      /* MOBILE FIX: Adjust main content spacing for mobile */
+      @media (max-width: 767px) {
+        .mobile-main {
+          padding-top: 4rem; /* Reduced for smaller mobile nav */
+          padding-bottom: 6rem; /* Reduced for smaller mobile footer */
+        }
+      }
+
+      @media (max-width: 479px) {
+        .mobile-main {
+          padding-top: 3.5rem;
+          padding-bottom: 5rem; /* Further reduced for very compact footer */
+        }
+      }
+
+      /* Ensure all content containers respect mobile boundaries */
+      .content-wrapper,
+      .container-fluid,
+      .container-constrained {
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+    </style>
 
     <!-- Glassmorphism Performance Manager -->
     <script>

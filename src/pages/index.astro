@@ -111,6 +111,17 @@ import AnimationDemo from '../components/demo/AnimationDemo.astro';
 
       /* Transitions */
       transition: all 0.3s ease;
+
+      /* MOBILE FIX: Ensure proper touch interactions */
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+      /* Improve mobile tap area */
+      min-width: 44px;
+      min-height: 44px;
     }
 
     @media (min-width: 640px) {

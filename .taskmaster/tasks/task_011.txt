@@ -3,22 +3,23 @@
 # Status: pending
 # Dependencies: 10
 # Priority: low
-# Description: Implement subtle motion cues and micro-interactions using GSAP or Framer Motion to enhance the user experience.
+# Description: Implement subtle motion cues and micro-interactions using GSAP or Framer Motion to enhance the user experience, following a complexity-based approach from foundation to validation.
 # Details:
-1. Configure Framer Motion or GSAP library
-2. Implement the following animations:
+1. Configure Framer Motion or GSAP library with accessibility-first approach
+2. Implement prefers-reduced-motion support as foundation before animations
+3. Implement the following animations:
    - Fade-in cards on scroll
    - Progress bar on scroll
    - Button ripple effects
    - Page transitions
    - Hover state animations
-3. Create custom hooks for animation control:
+4. Create custom hooks for animation control:
 ```javascript
 function useScrollAnimation(ref) {
   // Logic to trigger animations based on scroll position
 }
 ```
-4. Implement `prefers-reduced-motion` media query support:
+5. Implement `prefers-reduced-motion` media query support:
 ```css
 @media (prefers-reduced-motion: reduce) {
   * {
@@ -27,58 +28,60 @@ function useScrollAnimation(ref) {
   }
 }
 ```
-5. Lazy-load animation libraries to reduce initial bundle size
-6. Create reusable animation components
-7. Ensure animations don't interfere with accessibility
+6. Lazy-load animation libraries to reduce initial bundle size
+7. Create reusable animation components
+8. Ensure animations don't interfere with accessibility
+9. Follow complexity-based order: Setup → Accessibility → Implementation → Tools → Performance → Components → Validation
 
 # Test Strategy:
 1. Test animations across different browsers and devices
-2. Verify prefers-reduced-motion support
+2. Verify prefers-reduced-motion support early in development
 3. Measure performance impact of animations
 4. Test accessibility with animations enabled/disabled
 5. Validate animations don't cause layout shifts
 6. Test with throttled CPU to ensure smooth performance
+7. Validate each phase before moving to the next complexity level
 
 # Subtasks:
-## 1. Animation Library Setup [pending]
+## 1. Animation Library Setup and Configuration [pending]
 ### Dependencies: None
-### Description: Select and install a suitable React animation library (e.g., Framer Motion) based on project requirements, performance, compatibility, and developer experience.
+### Description: Research, select, and integrate animation libraries (e.g., GSAP, Framer Motion) into the Astro 5 project, ensuring compatibility with Strapi 5 content and AWS deployment. Configure libraries for optimal performance and accessibility, including tree-shaking and modular imports.
 ### Details:
-Evaluate libraries for GPU acceleration, SSR support, documentation, and ease of integration. Install the chosen library using npm or yarn.
+Deliverables: Installed and configured animation libraries; documentation of setup steps. Technical specs: Use Astro's component model, ensure libraries are loaded only where needed, and support both SSR and client-side rendering. Performance: Minimize bundle size, enable code splitting, and lazy-load libraries. Accessibility: Ensure libraries support ARIA roles and keyboard navigation.
 
-## 2. Implement Animations by Type [pending]
+## 2. Implement Prefers-Reduced-Motion and Motion Accessibility Support [pending]
 ### Dependencies: 11.1
-### Description: Develop and integrate animations for various UI elements (e.g., enter/exit transitions, hover effects, page transitions) using the chosen library.
+### Description: Detect and respect user motion preferences using CSS and JS, providing fallbacks or disabling non-essential animations for users with prefers-reduced-motion enabled. This forms the accessibility foundation before implementing any animations.
 ### Details:
-Use the library's API to implement different animation types as required by the UI/UX design.
+Deliverables: Global and component-level motion preference checks; documentation of accessible animation patterns. Technical specs: Use CSS media queries and JS APIs to detect preferences. Performance: Avoid loading heavy animation code when motion is reduced. Accessibility: All non-essential animations must be suppressible; provide clear focus indicators and avoid triggering vestibular disorders.
 
-## 3. Create Custom Animation Hooks [pending]
-### Dependencies: 11.2
-### Description: Develop reusable custom React hooks to encapsulate animation logic and simplify usage across components.
+## 3. Implement Animations by Type (Page, Element, Micro-interactions) [pending]
+### Dependencies: 11.1, 11.2
+### Description: Define and implement animation patterns for page transitions, UI elements (buttons, cards), and micro-interactions (hover, focus, active states) using modern CSS (e.g., prefers-reduced-motion, CSS custom properties) and animation libraries.
 ### Details:
-Abstract common animation patterns into hooks for consistency and maintainability.
+Deliverables: Animation specs for each type; implemented animations in Astro components. Technical specs: Use Astro's transition directives for page transitions[3], CSS for simple effects, and JS libraries for complex sequences. Performance: Use hardware-accelerated properties (transform, opacity), avoid layout thrashing. Accessibility: All animations must respect user motion preferences and not interfere with content readability.
 
-## 4. Support Prefers-Reduced-Motion [pending]
+## 4. Develop Custom Animation Hooks and Utilities [pending]
 ### Dependencies: 11.3
-### Description: Implement logic to detect and respect the user's 'prefers-reduced-motion' system setting, disabling or simplifying animations as needed.
+### Description: Create reusable custom hooks/utilities for managing animation state, sequencing, and event triggers in Astro/React components, with TypeScript typings and documentation.
 ### Details:
-Use CSS media queries or JavaScript APIs to check for reduced motion preferences and adjust animation behavior accordingly.
+Deliverables: Custom hooks/utilities with tests and usage docs. Technical specs: Hooks should abstract animation logic, support dependency injection, and expose imperative controls. Performance: Ensure hooks do not cause unnecessary re-renders. Accessibility: Hooks must expose APIs for pausing/stopping animations based on accessibility settings.
 
-## 5. Lazy-Load Animation Libraries [pending]
-### Dependencies: 11.1
-### Description: Optimize performance by configuring the application to lazy-load animation libraries only when animations are needed.
+## 5. Lazy-Load Animation Libraries and Assets [pending]
+### Dependencies: 11.3, 11.4
+### Description: Implement lazy-loading for animation libraries and assets, ensuring they are only loaded when required (e.g., on interaction or in view), using Astro's code-splitting and dynamic import features.
 ### Details:
-Implement dynamic imports or code-splitting strategies to reduce initial bundle size and improve load times.
+Deliverables: Code demonstrating lazy-loading of animation libraries; performance benchmarks. Technical specs: Use dynamic imports and Astro's partial hydration. Performance: Measure and document impact on initial load and interaction latency. Accessibility: Ensure lazy-loading does not delay essential UI feedback or accessibility features.
 
-## 6. Build Reusable Animation Components [pending]
-### Dependencies: 11.2, 11.3
-### Description: Develop modular, reusable animation components that can be easily integrated and customized throughout the application.
+## 6. Build Reusable Animation Components for Glassmorphism UI [pending]
+### Dependencies: 11.4, 11.5
+### Description: Develop a library of reusable, accessible animation components (e.g., animated cards, modals, buttons) that align with the glassmorphism and punk-meets-professional design, using modern CSS and animation best practices.
 ### Details:
-Encapsulate animation logic and props in well-documented components for consistent use.
+Deliverables: Component library with usage examples and Storybook documentation. Technical specs: Components must be themeable, composable, and support both CSS and JS-driven animations. Performance: Components should be lightweight and avoid unnecessary reflows. Accessibility: All components must be keyboard navigable, screen reader friendly, and respect motion preferences.
 
-## 7. Accessibility Validation [pending]
-### Dependencies: 11.4, 11.6
-### Description: Test and validate that all animations meet accessibility standards, including keyboard navigation, screen reader compatibility, and reduced motion support.
+## 7. Accessibility and Performance Validation of Animations [pending]
+### Dependencies: 11.6
+### Description: Conduct comprehensive accessibility and performance testing of all animations and micro-interactions using automated tools (axe, Lighthouse), manual audits, and user testing. Document issues and implement remediations.
 ### Details:
-Conduct manual and automated accessibility testing to ensure compliance and a positive user experience for all users.
+Deliverables: Accessibility and performance audit reports; list of remediations and verification steps. Technical specs: Test with screen readers, keyboard navigation, and motion preference settings. Performance: Benchmark animation impact on Core Web Vitals. Accessibility: Ensure WCAG 2.2 compliance, including focus management, reduced motion, and no flashing or distracting effects.
 

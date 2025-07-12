@@ -30,63 +30,63 @@
 7. Test cache invalidation when content updates
 
 # Subtasks:
-## 1. Design Masonry/Asymmetric Grid Layout Structure [pending]
+## 1. Design Asymmetric Grid Layout System [pending]
 ### Dependencies: None
-### Description: Define the overall grid layout structure, including breakpoints, column counts, spacing, and deliberate misalignment for accessibility and punk/brutalist visual energy.
+### Description: Develop a visually striking, punk/brutalist-inspired grid layout using modern CSS (CSS Grid, masonry, and glassmorphism effects) to support dynamic, misaligned arrangements of media cards.
 ### Details:
-Plan how grid items will be arranged across different screen sizes, using CSS Grid/Flexbox for controlled chaos. Align with the services grid for a unified, bold look.
+Implement CSS Grid with custom row/column spans and intentional misalignment. Use glassmorphism (backdrop-filter, semi-transparent backgrounds, border-radius) for card backgrounds. Ensure the grid supports dynamic content and adapts to various screen sizes. Test with real and placeholder content for visual consistency.
 
-## 2. Integrate Strapi API [pending]
+## 2. Create Media Card Components [pending]
 ### Dependencies: 6.1
-### Description: Set up integration with the Strapi API to fetch dynamic content for the grid, ensuring privacy and security best practices.
+### Description: Design reusable, glassmorphic media card components displaying images, titles, metadata, and interactive elements, supporting various media types from Strapi.
 ### Details:
-Implement API calls and data fetching logic to retrieve content from Strapi that will populate the grid layout. Ensure all data handling respects privacy and accessibility.
+Implement cards with semantic HTML, alt text for images, and support for video/audio if needed. Use CSS for glassmorphism and punk/brutalist accents. Ensure cards are focusable and interactive elements are accessible. Test with different media types and content lengths.
 
-## 3. Implement Punk/Brutalist Filter Bar [pending]
+## 3. Integrate Strapi 5 API with Astro 5 [pending]
 ### Dependencies: 6.2
-### Description: Develop an accessible filter bar component with bold, oversized typography and punk-inspired accents to allow users to filter grid items based on categories or tags.
+### Description: Set up secure, efficient data fetching from Strapi 5 CMS using Astro's Content Loader API and/or Axios, supporting media, metadata, and filter categories.
 ### Details:
-Connect filter bar state to grid data and ensure seamless, accessible filtering of content. Match filter UX with the services grid for consistency and boldness.
+Configure Strapi 5 with the Media Library plugin and expose necessary endpoints. In Astro, create utility functions for fetching collections and single items, using environment variables for API URLs. Ensure support for media population and filtering. Test with mock and live data for reliability and error handling.
 
-## 4. Create Media Card Components with Micro-interactions [pending]
-### Dependencies: 6.2
-### Description: Build reusable, accessible media card components to display individual content items within the grid, supporting technical, personal, and creative content, with punk-inspired micro-interactions.
+## 4. Set Up Caching and Data Fetch Optimization [pending]
+### Dependencies: 6.3
+### Description: Implement caching strategies for API responses and media assets to reduce load times and server requests, leveraging Astro's SSR/static generation and AWS edge caching.
 ### Details:
-Design cards to display images, titles, descriptions, and other relevant metadata. Add flicker, glitch, or overlay effects for visual interest. Ensure accessibility and support for diverse content types.
+Configure Astro to statically generate pages where possible. Use HTTP cache headers, service workers, and CDN (AWS CloudFront) for media. Test cache invalidation, stale-while-revalidate, and offline scenarios.
 
-## 5. Implement Lazy Loading [pending]
-### Dependencies: 6.4
-### Description: Add lazy loading functionality to load grid items as they enter the viewport, optimizing performance and accessibility.
+## 5. Develop Filter Bar Component [pending]
+### Dependencies: 6.3, 6.4
+### Description: Build an accessible, keyboard-navigable filter bar for categories/tags, enabling dynamic filtering of grid items via client-side state management.
 ### Details:
-Optimize initial load time and improve performance by only rendering visible items. Ensure lazy loading is accessible and does not hinder usability.
+Use Astro Islands or a lightweight framework (e.g., React/Svelte) for interactivity. Implement ARIA roles, focus management, and visible focus indicators. Ensure filter state syncs with URL/query params for shareability. Test with keyboard, screen reader, and mouse navigation.
 
-## 6. Develop Caching Strategy [pending]
-### Dependencies: 6.2
-### Description: Implement a caching mechanism for Strapi API responses and grid data to reduce redundant network requests, respecting privacy and security.
+## 6. Implement Lazy Loading for Media and Grid Items [pending]
+### Dependencies: 6.2, 6.4
+### Description: Optimize initial load by lazy loading images and grid items using native browser features and Astro's partial hydration.
 ### Details:
-Use browser storage or in-memory caching to store fetched data and improve user experience. Ensure all caching strategies respect user privacy.
+Use the 'loading="lazy"' attribute for images and Intersection Observer for grid item hydration. Ensure smooth loading transitions and fallback for unsupported browsers. Test with slow network conditions and large datasets.
 
-## 7. Set Up Animations with Motion Blur and Glitch Effects [pending]
-### Dependencies: 6.4
-### Description: Add accessible animations for grid item transitions, filtering, and loading states, using GSAP/Framer Motion for motion blur, glitch, and slide-in effects.
+## 7. Add Animations and Micro-Interactions [pending]
+### Dependencies: 6.2, 6.5, 6.6
+### Description: Enhance user experience with subtle, performant animations for grid transitions, filter changes, and card hover/focus states, reflecting the punk-meets-professional aesthetic.
 ### Details:
-Ensure smooth and visually impactful transitions when items are added, removed, or filtered. All animations must respect prefers-reduced-motion and accessibility guidelines.
+Use CSS transitions, keyframes, and Astro-compatible animation libraries (e.g., Framer Motion for React islands). Ensure animations respect user 'prefers-reduced-motion' settings. Test for jank-free, accessible motion.
 
-## 8. Ensure Responsive Design with Deliberate Misalignment [pending]
-### Dependencies: 6.1, 6.4
-### Description: Test and refine the grid layout and components to ensure optimal, accessible display on all device sizes, with deliberate misalignment for punk/brutalist energy.
+## 8. Ensure Responsive Design Across Devices [pending]
+### Dependencies: 6.1, 6.2, 6.5, 6.7
+### Description: Make the grid and all components fully responsive, supporting a wide range of devices and orientations with fluid layouts and touch-friendly interactions.
 ### Details:
-Adjust breakpoints, spacing, and component sizing for mobile, tablet, and desktop views. Prioritize accessibility, clarity, and bold creative intent.
+Use CSS media queries, fluid units, and container queries. Test on mobile, tablet, and desktop. Ensure touch targets are large enough and layouts adapt without horizontal scrolling.
 
-## 9. Implement Accessibility Features for Chaotic Layouts [pending]
-### Dependencies: 6.4, 6.8
-### Description: Enhance accessibility by adding ARIA attributes, keyboard navigation, and screen reader support to all grid and filter components, with special attention to high-contrast and chaotic layouts.
+## 9. Implement Accessibility (a11y) Standards [pending]
+### Dependencies: 6.2, 6.5, 6.7, 6.8
+### Description: Audit and enhance accessibility for all components, ensuring compliance with WCAG 2.2 AA standards and best practices for keyboard, screen reader, and color contrast.
 ### Details:
-Ensure all interactive elements are accessible and comply with WCAG guidelines. Prioritize equity-driven design and empowerment.
+Add semantic HTML, ARIA attributes, keyboard navigation, and sufficient color contrast. Test with screen readers (NVDA, VoiceOver), keyboard-only navigation, and accessibility audit tools (axe, Lighthouse).
 
-## 10. Conduct Performance Testing [pending]
-### Dependencies: 6.5, 6.6, 6.7, 6.8, 6.9
-### Description: Test the application for performance bottlenecks, including rendering speed, memory usage, and responsiveness, ensuring accessibility and privacy are not compromised.
+## 10. Conduct Performance Testing and Optimization [pending]
+### Dependencies: 6.6, 6.7, 6.8, 6.9
+### Description: Test and optimize the grid page for fast load times, smooth interactivity, and minimal resource usage, targeting high Lighthouse scores and AWS deployment best practices.
 ### Details:
-Use profiling tools to identify and address any issues affecting user experience, accessibility, or privacy.
+Use Lighthouse, WebPageTest, and Astro's built-in performance tools. Profile bundle size, image optimization, and hydration costs. Test on AWS deployment (S3/CloudFront) for real-world performance. Address bottlenecks and regressions.
 

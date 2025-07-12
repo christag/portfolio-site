@@ -30,45 +30,63 @@
 7. Test responsive, asymmetric layout and accessibility compliance, prioritizing founders and non-technical leaders
 
 # Subtasks:
-## 1. Define Strapi Service Content Model [pending]
+## 1. Define Strapi Content Model for Services [pending]
 ### Dependencies: None
-### Description: Design and document the Strapi CMS schema for services, including fields for title, description, category/type, tiered pricing, feature highlights, CTA details, pin/highlight, and slug for routing. Ensure model supports bold, punk/professional service descriptions.
+### Description: Design and implement a Strapi v5 content model to represent services, including fields for title, description, tiered pricing, images, categories, tags, and SEO metadata. Ensure the model supports dynamic content and relationships for filtering and detail pages.
 ### Details:
-Specify data types, required fields, and example data for each service. Ensure the structure supports tiered pricing, filtering, pinning, direct linking, and privacy/security best practices.
+Deliverables: Strapi content type with all required fields and relations. Technical specs: Use Strapi v5 best practices for field types, localization, and validation. Testing: Validate content creation, editing, and API output via Strapi admin and REST/GraphQL endpoints.
 
-## 2. Design Dynamic Service Grid/List Layout with Punk/Brutalist Accents [pending]
+## 2. Develop Service Card Component in Astro [pending]
 ### Dependencies: 4.1
-### Description: Create the visual and structural layout for the dynamic service grid or list, supporting accessible filtering, sorting, pin/highlight display, and punk/brutalist visual elements.
+### Description: Create a reusable Astro component to display service information using glassmorphism and punk-meets-professional design. Include micro-interactions, accessible markup, and support for dynamic data from Strapi.
 ### Details:
-Establish visual hierarchy, spacing, and alignment using asymmetric, print-style grids and deliberate misalignment. Plan for accessible filter and sort controls, pin/highlight indicators, and responsive adaptability. Ensure layout is approachable for non-technical users and visually bold.
+Deliverables: Astro component with props for service data. Technical specs: Use semantic HTML, ARIA attributes, and modern CSS (e.g., backdrop-filter, gradients). Testing: Visual regression, keyboard navigation, and screen reader compatibility.
 
-## 3. Implement Dynamic Service Card Component with Micro-interactions [pending]
+## 3. Implement Dynamic Grid/List Layout [pending]
 ### Dependencies: 4.2
-### Description: Develop a reusable, accessible card component that consumes CMS data and renders service information, including pin/highlight state, filter/sort integration, and punk-inspired micro-interactions.
+### Description: Build a responsive grid/list layout in Astro to display service cards, supporting both desktop and mobile breakpoints. Integrate with the service card component and ensure smooth transitions and accessibility.
 ### Details:
-Include header (media/title), body (description/features), footer (CTA/button), and pin/highlight badge. Add glitch, flicker, or overlay effects for visual interest. Ensure modularity for different content lengths and types, and support for bold, empowering messaging.
+Deliverables: Astro page/section with dynamic layout. Technical specs: Use CSS Grid/Flexbox, container queries, and prefers-color-scheme. Testing: Cross-device rendering, accessibility checks, and performance profiling.
 
-## 4. Develop Tiered Pricing and Filtering Logic with Bold UI [pending]
-### Dependencies: 4.3
-### Description: Integrate accessible tiered pricing and filtering/sorting logic into the service grid and card components, supporting user selection by type, tier, and price, with bold, punk-inspired UI.
+## 4. Set Up Dynamic Routing and Service Detail Pages [pending]
+### Dependencies: 4.1, 4.2
+### Description: Configure Astro's file-based routing to generate dynamic service detail pages from Strapi data. Each page should display full service details, tiered pricing, and related services, with SEO-friendly URLs.
 ### Details:
-Design for clarity and scannability, using oversized typography, high-contrast color, and asymmetric layout to highlight differences between tiers. Implement accessible filter and sort controls and logic.
+Deliverables: Dynamic [slug].astro pages. Technical specs: Use Astro's getStaticPaths/getStaticProps, canonical URLs, and Open Graph tags. Testing: Route generation, 404 handling, and deep linking.
 
-## 5. Implement Service Detail Page Routing with Punk/Professional Duality [pending]
+## 5. Add Tiered Pricing and Filtering Logic [pending]
+### Dependencies: 4.1, 4.3
+### Description: Implement logic in Astro to display tiered pricing (e.g., basic, pro, enterprise) and enable filtering by category, price, and tags. Ensure filtering is accessible and performant, using client-side or server-side rendering as appropriate.
+### Details:
+Deliverables: Filtering UI and pricing display. Technical specs: Use Astro's partial hydration for interactive filters, ARIA live regions for updates, and Strapi API queries for filtered data. Testing: Filter accuracy, pricing display, and accessibility.
+
+## 6. Design and Implement Caching Strategy [pending]
+### Dependencies: 4.1, 4.3, 4.4
+### Description: Develop a caching strategy for service data and images using Astro's static generation, incremental builds, and AWS CloudFront CDN. Ensure cache invalidation on content updates.
+### Details:
+Deliverables: Configured caching for static assets and API data. Technical specs: Astro build hooks, HTTP cache headers, and AWS CDN settings. Testing: Cache hit/miss rates, update propagation, and CDN performance.
+
+## 7. Ensure Responsive and Accessible Design [pending]
+### Dependencies: 4.2, 4.3, 4.5, 4.4
+### Description: Audit and enhance all components and layouts for WCAG 2.2 AA accessibility and full responsiveness. Include keyboard navigation, focus management, color contrast, and ARIA support.
+### Details:
+Deliverables: Accessibility-compliant, responsive UI. Technical specs: Use prefers-reduced-motion, semantic HTML, and CSS media queries. Testing: Axe, Lighthouse, and manual screen reader/keyboard tests.
+
+## 8. Implement SEO and Structured Data [pending]
 ### Dependencies: 4.4
-### Description: Add dynamic routing for service detail pages, accessible via direct links (e.g., /services/{slug}), displaying full service info, pricing, features, and CTA with bold, punk/professional messaging.
+### Description: Add dynamic meta tags, Open Graph, Twitter cards, and JSON-LD structured data to service pages using Astro SEO best practices. Ensure sitemap and robots.txt are generated and up-to-date.
 ### Details:
-Ensure each service has a unique, SEO-friendly URL. Render all relevant data and CTA on the detail page, prioritizing accessibility, privacy, and punk/brutalist visual effects.
+Deliverables: SEO metadata and structured data on all relevant pages. Technical specs: Use Astro SEO integrations, dynamic metadata, and schema.org Service markup. Testing: Lighthouse SEO audits, Google Rich Results test, and sitemap validation.
 
-## 6. Add Dynamic Structured Data for SEO [pending]
-### Dependencies: 4.1, 4.3, 4.5
-### Description: Embed structured data (e.g., JSON-LD) for each service card and detail page, mapping CMS data to Schema.org ServiceOffering and related types, reflecting bold, punk/professional service descriptions.
+## 9. Integrate Robust Error Handling [pending]
+### Dependencies: 4.3, 4.5, 4.4, 4.6
+### Description: Implement error boundaries and user-friendly error states for data fetching, routing, and UI rendering. Ensure errors are logged and surfaced appropriately for both users and developers.
 ### Details:
-Validate structured data using testing tools. Ensure dynamic generation based on CMS content and bold, brand-aligned messaging.
+Deliverables: Error boundary components and fallback UIs. Technical specs: Astro error handling patterns, logging to AWS CloudWatch, and graceful degradation. Testing: Simulate API failures, network errors, and invalid routes.
 
-## 7. Ensure Responsive and Accessible Design with Theme Toggles [pending]
-### Dependencies: 4.2, 4.3, 4.4, 4.5
-### Description: Adapt the service grid/list, cards, and detail pages for optimal display, accessibility, and privacy across devices and screen sizes, with support for light/dark/punk theme toggles.
+## 10. Conduct Integration and End-to-End Testing [pending]
+### Dependencies: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9
+### Description: Develop integration and E2E tests covering the full dynamic services flow: content sync, filtering, routing, pricing, SEO, accessibility, and error handling. Use modern testing frameworks and CI/CD integration.
 ### Details:
-Implement CSS or framework utilities for grid, spacing, and aspect ratio. Test on mobile, tablet, and desktop breakpoints. Audit for accessibility, privacy, and theme toggle compliance.
+Deliverables: Automated test suite with coverage reports. Technical specs: Use Playwright or Cypress for E2E, Jest for integration, and GitHub Actions for CI. Testing: All user journeys, edge cases, and regression scenarios.
 

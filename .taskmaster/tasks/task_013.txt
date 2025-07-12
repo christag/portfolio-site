@@ -1,0 +1,140 @@
+# Task ID: 13
+# Title: Fix Critical Mobile UI Bugs
+# Status: pending
+# Dependencies: 2
+# Priority: high
+# Description: Resolve critical mobile UI issues including horizontal scroll/pull problems, dropdown menu styling, non-functional brutalist buttons, text/bubble overflow, footer content obstruction, and oversized header/footer components that are blocking proper mobile usage.
+# Details:
+**CRITICAL BUG FIXES (Priority Order):**
+
+1. **Fix Horizontal Scroll/Pull Issues:**
+   - Identify root cause of content being pulled off-center on mobile devices
+   - Add CSS overflow controls and touch-action properties:
+   ```css
+   body {
+     overflow-x: hidden;
+     touch-action: pan-y pinch-zoom;
+   }
+   .main-container {
+     max-width: 100vw;
+     overflow-x: hidden;
+   }
+   ```
+   - Test on various mobile devices for pull-to-refresh conflicts
+   - Ensure glass blur effects don't cause rendering issues
+
+2. **Fix Dropdown Menu Border Styling:**
+   - Update dropdown menu to use proper glass material with correct border:
+   ```css
+   .dropdown-menu {
+     border: 1px solid rgba(255, 255, 255, 0.1);
+     background: rgba(255, 255, 255, 0.15);
+     backdrop-filter: blur(20px);
+     -webkit-backdrop-filter: blur(20px);
+   }
+   ```
+   - Ensure border color adapts to light/dark themes
+   - Maintain consistency with Liquid Glass design system
+
+3. **Fix Non-functional Brutalist Buttons:**
+   - Debug touch event handlers on mobile devices
+   - Ensure proper touch target sizes (minimum 44x44px):
+   ```css
+   .brutalist-button {
+     min-height: 44px;
+     min-width: 44px;
+     touch-action: manipulation;
+     -webkit-tap-highlight-color: transparent;
+   }
+   ```
+   - Add proper :active states for mobile feedback
+   - Test click/tap events across iOS and Android
+
+4. **Fix Text/Bubble Overflow Issues:**
+   - Implement proper text wrapping and overflow handling:
+   ```css
+   .text-bubble {
+     word-wrap: break-word;
+     overflow-wrap: break-word;
+     hyphens: auto;
+     max-width: 100%;
+   }
+   ```
+   - Ensure glass containers properly contain content
+   - Add responsive typography scaling for mobile
+
+5. **Fix Footer Obscuring Content:**
+   - Calculate and apply proper bottom padding to main content:
+   ```javascript
+   const footer = document.querySelector('footer');
+   const main = document.querySelector('main');
+   const footerHeight = footer.offsetHeight;
+   main.style.paddingBottom = `${footerHeight + 20}px`;
+   ```
+   - Implement ResizeObserver for dynamic footer height changes
+   - Ensure smooth scrolling doesn't get blocked by footer
+
+6. **Fix Oversized Header/Footer on Mobile:**
+   - Implement responsive sizing for mobile viewports:
+   ```css
+   @media (max-width: 768px) {
+     header {
+       height: 60px;
+       padding: 0.75rem 1rem;
+     }
+     footer {
+       padding: 1.5rem 1rem;
+       font-size: 0.875rem;
+     }
+   }
+   ```
+   - Optimize glass blur performance on mobile
+   - Ensure navigation remains accessible at smaller sizes
+
+**MOBILE-SPECIFIC CONSIDERATIONS:**
+- Test on real devices (iOS Safari, Chrome Android)
+- Verify touch interactions work with glass overlays
+- Ensure backdrop-filter performance on lower-end devices
+- Add viewport meta tag adjustments if needed
+- Test landscape orientation handling
+
+# Test Strategy:
+1. **Device Testing Matrix:**
+   - Test on iPhone (Safari), Android (Chrome), and tablet devices
+   - Verify in both portrait and landscape orientations
+   - Test with different zoom levels and text sizes
+
+2. **Horizontal Scroll Testing:**
+   - Swipe left/right on all pages to ensure no horizontal overflow
+   - Test pull-to-refresh doesn't cause content displacement
+   - Verify glass blur effects don't create scroll jank
+
+3. **Dropdown Menu Testing:**
+   - Tap dropdown triggers on mobile to verify proper opening/closing
+   - Ensure light grey border is visible and consistent
+   - Test glass material renders correctly without performance issues
+
+4. **Button Functionality Testing:**
+   - Tap all brutalist buttons to verify they respond to touch
+   - Test rapid tapping and long press behaviors
+   - Verify visual feedback (active states) work on touch
+
+5. **Overflow Testing:**
+   - Add long text content to verify proper wrapping
+   - Test with different languages and character sets
+   - Ensure no content extends beyond glass container boundaries
+
+6. **Footer Obstruction Testing:**
+   - Scroll to bottom of all pages
+   - Verify last content element is fully visible above footer
+   - Test with dynamic content that changes page height
+
+7. **Header/Footer Size Testing:**
+   - Measure actual pixel heights on mobile devices
+   - Verify text remains readable at smaller sizes
+   - Ensure interactive elements meet minimum touch target sizes
+
+8. **Performance Testing:**
+   - Use Chrome DevTools mobile throttling
+   - Verify glass effects don't cause frame drops
+   - Test on low-end devices for performance regression

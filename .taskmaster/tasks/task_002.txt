@@ -3,411 +3,133 @@
 # Status: in-progress
 # Dependencies: 1
 # Priority: high
-# Description: Develop foundational UI components and layouts that properly implement Apple's Liquid Glass design principles with medium-high translucency (60-85% opacity), strong backdrop-filter blur (24-32px), and proper spatial depth. All components must use rounded corners (24px radius), adaptive tinting, and glass materials exclusively - no solid backgrounds. Navigation, footer, typography, and responsive layout system should reflect proper glass layering hierarchy with soft drop shadows, inner highlights, and blending effects between adjacent glass elements.
+# Description: Develop foundational UI components and layouts that properly implement Apple's Liquid Glass design principles with VERY LOW translucency (15-25% opacity), strong backdrop-filter blur (20px), and proper spatial depth. All components must use rounded corners (24px radius), adaptive tinting, and glass materials exclusively - no solid backgrounds. Navigation, footer, typography, and responsive layout system should reflect proper glass layering hierarchy with soft drop shadows, inner highlights, and blending effects between adjacent glass elements. Critical: Use very low opacity values (15-25%) for true transparency, not high opacity (85-95%) which creates opaque panels.
 # Details:
-1. Set up Tailwind CSS with custom configuration for proper Liquid Glass implementation with 60-85% opacity and strong blur effects
+1. Set up Tailwind CSS with custom configuration for proper Liquid Glass implementation with 15-25% opacity and strong blur effects
 2. Define CSS variables for design tokens supporting Light and Dark themes with proper glass materials:
-   - Glass Materials: 60-85% opacity with 24-32px backdrop-filter blur for containers, 16-24px for buttons
+   - Glass Materials: 15-25% opacity with 20px backdrop-filter blur for containers, 16-20px for buttons
    - Rounded Corners: 24px radius standard for all glass containers
    - Shadows & Highlights: Soft drop shadows and inner highlights for proper depth
    - Adaptive Tinting: Subtle color overlays that respond to content
    - NO solid backgrounds - all separation through glass materials
 3. Create layout components:
    - MainLayout.jsx with proper glass layering hierarchy (content → glass controls/containers → overlays)
-   - Header/Navigation with proper glass material (60-85% opacity, 24-32px blur) and rounded corners
-   - Footer with proper glass implementation matching navigation standards
+   - Header/Navigation with proper glass material (15% opacity, 20px blur) and rounded corners
+   - Footer with proper glass implementation matching navigation standards (15% opacity)
+   - Mobile menu with slightly higher opacity (25%) for text readability
    - All components must have blending/merging effects between adjacent glass elements
 4. Implement responsive breakpoints ensuring glass materials properly obscure underlying content at all sizes
 5. Create UI component library:
-   - Buttons with proper glass implementation (16-24px blur, rounded corners, adaptive tinting)
-   - Cards and containers with 60-85% opacity, 24-32px blur, 24px radius
+   - Buttons with proper glass implementation (16-20px blur, rounded corners, adaptive tinting)
+   - Cards and containers with 15-25% opacity, 20px blur, 24px radius
    - All components must use glass materials exclusively - no solid backgrounds
    - Proper layering hierarchy with content visible through multiple glass layers
 6. Add GSAP or Framer Motion for glass-appropriate animations respecting the material properties. All motion must work with glass blur and transparency effects.
+7. Implement dynamic HTML/CSS-generated backgrounds for optimal glassmorphism showcase:
+   - Create animated CSS gradients with soft, muted greyscale tones and very subtle color accents
+   - Develop SVG geometric shapes with slow, gentle movement patterns
+   - Build particle-like elements using CSS transforms for depth enhancement
+   - Ensure 60-70% negative space to allow glass components to float properly
+   - Implement theme-adaptive background system that responds to light/dark mode
+   - All animations must be subtle and slow (parallax effects, soft gradient transitions)
+   - Background motion should complement 20px blur without creating visual competition
+   - No static images - all backgrounds must be dynamically generated for performance and theme-awareness
+8. Background implementation requirements:
+   - Primary palette: Greyscale with occasional soft color touches
+   - Animation speed: Very slow and gentle to enhance depth perception
+   - Ensure backgrounds work seamlessly with existing glass blur effects
+   - Test visual hierarchy - backgrounds must never compete with glass UI elements
+   - Optimize performance for smooth animations alongside backdrop-filter effects
+9. CSS Specificity and Targeting Strategy:
+   - Use `html[data-theme='dark']` targeting for higher specificity
+   - Apply `!important` declarations where needed to override conflicting styles
+   - Ensure proper cascade order in CSS files
+   - Test specificity conflicts and resolve with targeted selectors
+10. Implementation follows complexity-based order: Foundation → Layout Primitives → Components → Advanced Effects → Validation
 
 # Test Strategy:
-1. Test glass materials properly obscure content underneath with 24-32px blur
-2. Verify 60-85% opacity levels create proper visual separation without solid backgrounds
+1. Test glass materials properly show background content through with 15-25% opacity and 20px blur
+2. Verify low opacity levels (15-25%) create true transparency, not opaque panels
 3. Test rounded corners (24px) render correctly on all glass elements
 4. Validate soft drop shadows and inner highlights create proper depth perception
 5. Ensure blending/merging effects work between adjacent glass elements
 6. Test adaptive tinting responds appropriately to underlying content
 7. Verify proper layering hierarchy: content → glass controls/containers → overlays
+8. Confirm CSS specificity targeting works correctly with html[data-theme] selectors
+9. Test that blur effects create proper text contrast and readability
+10. Verify glassmorphism effects are GPU-accelerated with no performance issues
+11. Validate implementation order minimizes rework and allows parallel development
 
 # Subtasks:
-## 1. Conduct Accessibility Checks for Chaotic Layouts [pending]
+## 1. Tailwind CSS Custom Configuration for Liquid Glass [pending]
 ### Dependencies: None
-### Description: Audit all components and layouts for accessibility compliance (WCAG), including keyboard navigation, ARIA attributes, and equity-driven design, with special attention to high-contrast, chaotic, and glass/translucent layouts. Ensure motion and environmental adaptation features are accessible.
+### Description: Extend Tailwind CSS to support glassmorphism by adding custom utilities for blur, opacity, border, and color overlays. Integrate custom theme tokens and ensure compatibility with Astro and Strapi 5.
 ### Details:
-Use automated tools and manual testing to verify accessibility standards are met. Ensure design supports empowerment, inclusion, creative expression, and Liquid Glass spatial depth.
+Update tailwind.config.js to include custom blur levels (e.g., 1px, 2px), semi-transparent color palettes, and border utilities. Add plugin for backdrop-filter support. Test with Astro's build pipeline and ensure Strapi-driven content renders with the new classes.
 
-## 2. Perform Cross-Browser Testing for Punk/Brutalist UI [pending]
-### Dependencies: None
-### Description: Test all components and layouts across major browsers to ensure consistent appearance, accessibility, and brand-aligned functionality, including punk/brutalist and Liquid Glass effects.
+## 2. CSS Variable Setup for Design Tokens [pending]
+### Dependencies: 2.1
+### Description: Define CSS variables for core design tokens: color, spacing, radius, blur, and shadow, supporting both light and dark modes.
 ### Details:
-Address any browser-specific issues, leveraging Autoprefixer and polyfills where necessary. Validate accessibility, privacy, and visual fidelity of punk/brutalist and glass effects in all environments, including fallback for unsupported backdrop-filter.
+Create :root and [data-theme] selectors for tokens. Ensure variables are referenced in Tailwind config and custom CSS. Document all tokens for design consistency and future scalability.
 
-## 3. Refactor Theme System to Light/Dark Only [done]
-### Dependencies: None
-### Description: Remove the punk theme and consolidate to Light and Dark themes only, integrating brutalist/creative and Liquid Glass aesthetic elements directly into both base themes. Update all theme-switching logic and component styling accordingly.
+## 3. Creation of Glass Material Utility Classes [pending]
+### Dependencies: 2.1, 2.2
+### Description: Develop reusable utility classes for glass effects, including multi-layered backgrounds, inner shadows, and adaptive tints.
 ### Details:
-1. Remove punk theme from theme switching logic in Navigation component
-2. Update CSS variables to support only light and dark themes
-3. Integrate punk/brutalist visual elements (glitch effects, asymmetric layouts, bold typography) and glass material system (backdrop-filter, blur, dynamic glow) into both light and dark themes
-4. Update theme toggle to cycle between Light and Dark only
-5. Ensure all components properly support the two-theme system
-6. Remove punk-specific color variables and consolidate color palette
-<info added on 2025-07-10T17:30:41.986Z>
-FINAL COLOR REFINEMENT COMPLETE:
+Implement a three-layer approach using pseudo-elements for depth, backdrop-filter for blur, and SVG noise overlays for organic distortion. Ensure classes are composable and can be applied to any component.
 
-Updated the color scheme to use a more sophisticated dusty pink (#cfa5be) as the primary accent color instead of the previous coral pink. This creates a more mature, elegant aesthetic while maintaining the brutalist edge.
-
-KEY COLOR CHANGES:
-- Primary Accent: #cfa5be (dusty pink) - used sparingly for maximum impact
-- Secondary Accent: #00d4ff (electric blue/cyan) - used even more sparingly 
-- Tertiary Accent: #4ecdc4 (mint green) - minimal usage
-
-UPDATED COMPONENTS:
-1. CSS Variables (variables.scss): Updated all accent color definitions for both light and dark themes
-2. Navigation Component: Updated theme configs to use dusty pink for buttons
-3. Tailwind Config: Added dusty-pink color and reordered by priority
-4. Global CSS: Updated RGB split text effects and glitch overlays to use new colors
-5. AnimationDemo Component: Updated all color references in animations
-6. Homepage: Updated button hover effects to use dusty pink
-
-The new color scheme provides better contrast and sophistication while maintaining the strategic use of cyan as a secondary accent. The dusty pink works beautifully in both light and dark themes, creating a cohesive brand identity that's both professional and edgy.
-</info added on 2025-07-10T17:30:41.986Z>
-
-## 4. Refine Color Strategy for Selective Impact [in-progress]
-### Dependencies: None
-### Description: Update the color system to be more selective and strategic, reducing overall color usage while maximizing impact through careful placement of accent colors and dynamic glow/light effects within glass layers.
+## 4. Responsive Layout Primitives [pending]
+### Dependencies: 2.1, 2.2
+### Description: Build responsive grid and flexbox primitives for section, container, and card layouts, optimized for glassmorphism and spatial depth.
 ### Details:
-1. Audit current color usage across all components
-2. Reduce accent color usage to strategic locations only (CTAs, key interactions, important content), with dynamic glow and lighting for hierarchy
-3. Enhance monochrome base palette with more nuanced greys and glass backgrounds
-4. Update design tokens to reflect refined color and glass strategy
-5. Ensure accent colors create maximum visual impact through selective usage and light bending
-6. Document color and glass usage guidelines for future development
-<info added on 2025-07-10T19:02:28.826Z>
-Color Audit Findings
+Create Tailwind-based layout utilities with adaptive padding, margin, and gap. Ensure layouts support dynamic content from Strapi and maintain glass layering integrity across breakpoints.
 
-Current Color Usage Analysis:
-
-Good Strategic Usage:
-- Hero section dot: christopher. uses primary accent sparingly for impact
-- CTA buttons: Primary accent used for main actions (Explore Services)
-- Secondary buttons: Border-only usage maintains hierarchy
-- Focus states: Consistent accent usage for accessibility
-
-Areas for Improvement:
-
-1. Too Many Accent Colors in Demo Section:
-   - Using all 3 accent colors (primary, secondary, tertiary) in the same demo section
-   - Lines 104, 121, 138 in index.astro show scattered accent usage
-   - Should reduce to 1-2 accent colors max per section
-
-2. Hardcoded Colors in AnimationDemo:
-   - Multiple hardcoded hex values (#ff6b6b, #4ecdc4, #45b7d1, #f9ca24, #6c5ce7)
-   - Should use design token variables instead
-   - Demo section is too colorful - conflicts with selective strategy
-
-3. Navigation Hardcoded Values:
-   - Theme configs use hardcoded hex values instead of CSS variables
-   - Should reference design tokens for consistency
-
-4. Inconsistent Color References:
-   - Some components use #fafafa hardcoded instead of text variables
-   - 404 page uses different gradient colors not in design system
-
-Strategic Refinements Needed:
-1. Reduce accent color usage in demo section to 1 primary color
-2. Convert hardcoded values to design token variables
-3. Remove tertiary accent from most locations (save for very selective usage)
-4. Enhance monochrome palette with more sophisticated greys
-5. Create clear color usage guidelines
-
-Next Steps: Start with demo section cleanup and hardcoded color conversion.
-</info added on 2025-07-10T19:02:28.826Z>
-<info added on 2025-07-10T19:06:08.409Z>
-Color Strategy Implementation - Phase 1 Complete
-
-Completed Changes:
-
-1. Reduced Accent Color Usage in Demo Section
-- Removed secondary and tertiary accent colors from demo cards
-- Now only "Mobile First" uses primary accent, others use primary text color
-- Creates clear visual hierarchy and selective impact
-
-2. Enhanced Monochrome Palette
-- Added --color-bg-quaternary for deeper containers
-- Added --color-text-muted for very subtle text
-- Improved comments with usage guidance
-- Both light and dark themes now have 4-level background hierarchy
-
-3. Fixed Hardcoded Colors
-- Replaced #fafafa in button with var(--color-bg-primary)
-- Updated navigation theme configs to use CSS variables instead of hardcoded hex values
-- Navigation now properly references design tokens
-
-4. Added Strategic Utility Classes
-- .text-token-muted and .bg-token-quaternary for enhanced palette
-- .text-accent-primary, .bg-accent-primary, .border-accent-primary with "USE SPARINGLY" comment
-- Clear documentation about selective usage
-
-Strategic Impact Achieved:
-- Reduced color noise in demo section by 66% (3 accents → 1 accent)
-- Improved visual hierarchy through selective accent usage
-- Enhanced consistency through design token usage
-- Better contrast and readability with expanded grey palette
-
-Next Phase Needed:
-- Clean up AnimationDemo component (most problematic with many hardcoded colors)
-- Update 404 page gradient to use design tokens
-- Create comprehensive color usage guidelines document
-- Audit any remaining hardcoded colors
-
-Build Status: All changes build successfully
-</info added on 2025-07-10T19:06:08.409Z>
-<info added on 2025-07-10T19:09:46.748Z>
-Strategic Pivot: Liquid Glass Integration
-
-Research Findings - Apple Liquid Glass Design:
-
-Core Principles Discovered:
-1. Lensing & Light Bending - Dynamic light manipulation for hierarchy
-2. Spatial Depth & Translucency - Layered, dimensional interfaces
-3. Motion as Meaning - Functional animations that communicate state
-4. Contextual Adaptation - Environment-aware visual adjustments
-5. Accessibility-First - System overrides for motion/transparency
-
-Future Implications:
-- Screen-less Interactions: Voice, gesture, environmental sensing
-- Spatial Computing: 3D floating UI elements with depth cues
-- Mixed Reality Readiness: Interfaces that work in AR/VR contexts
-
-NEW STRATEGIC DIRECTION:
-
-Phase 2: Liquid Glass Integration
-- Implement translucent glass layers with backdrop-filter
-- Add dynamic lighting effects for hierarchy
-- Create responsive motion that reinforces spatial relationships
-- Maintain brutalist boldness within glass framework
-
-Updated Future Steps:
-1. Enhanced Monochrome + Glass - Sophisticated transparency layers
-2. Motion-Driven Feedback - Functional animations for all interactions
-3. Contextual Color Adaptation - Environment-aware accent usage
-4. Spatial UI Components - Floating panels, layered navigation
-5. Accessibility Overrides - Respect prefers-reduced-motion/transparency
-
-Brutalist + Liquid Glass Fusion:
-- Bold Typography through glass layers
-- Strategic Accent Colors with dynamic glow effects
-- Sharp Geometric Forms with soft translucent materials
-- Controlled Chaos through purposeful motion and depth
-
-This represents the future of web interfaces - positioning ahead of the curve.
-</info added on 2025-07-10T19:09:46.748Z>
-<info added on 2025-07-10T19:12:38.784Z>
-Phase 2 Complete - Liquid Glass Material System
-
-Core Liquid Glass Foundation Built:
-
-1. Glass Material Variables System
-   - Light theme: 3-tier glass backgrounds (15%, 25%, 35% opacity)
-   - Dark theme: Adapted glass system (8%, 12%, 18% opacity)
-   - Comprehensive shadow system (light, medium, heavy)
-   - Dynamic blur values (16px standard, 24px heavy)
-
-2. Advanced Glass Utility Classes
-   - .glass-primary, .glass-secondary, .glass-tertiary - Layered depth
-   - .glass-hover, .glass-active - Interactive states with motion
-   - Full prefers-reduced-motion support for accessibility
-   - Backdrop-filter with saturation boost for visual richness
-
-3. Navigation Transformed
-   - Liquid glass navigation bar with dynamic depth
-   - Enhanced scroll states with increased glass intensity
-   - Theme button converted to glass material with hover lift
-   - Proper cubic-bezier transitions for smooth interactions
-
-4. Hero Buttons Revolutionized
-   - Primary button: Gradient background with glass overlay
-   - Secondary button: Pure glass with accent border
-   - Dynamic glow effects using color-mix for light bending
-   - Multi-layered shadows for true spatial depth
-
-5. Demo Cards Enhanced
-   - All cards converted to glass-primary material
-   - Interactive hover states with glass-hover class
-   - Rounded corners increased to 12px/16px for modern feel
-   - Maintained brutalist misalignment within glass framework
-
-Strategic Impact Achieved:
-
-Future-Ready Design:
-- Positioned for screen-less interactions (voice, gesture, environmental)
-- Spatial computing compatibility (AR/VR ready)
-- Advanced light manipulation and depth cues
-- Contextual adaptation foundation laid
-
-Brutalist + Liquid Glass Fusion:
-- Bold typography preserved through translucent layers
-- Strategic accent colors enhanced with dynamic glow effects
-- Sharp geometric forms softened with glass materials
-- Controlled chaos maintained with purposeful motion
-
-Accessibility First:
-- Complete motion preference support
-- Maintains contrast ratios through glass layers
-- Graceful degradation for unsupported browsers
-- System-level accessibility overrides
-
-Technical Excellence:
-- CSS custom properties for consistent theming
-- Modern backdrop-filter with fallbacks
-- Performance-optimized transitions
-- Cross-browser compatibility maintained
-
-Build Status: All revolutionary changes build successfully
-
-Next Phase Ready: Animation refinements, environmental adaptation, spatial UI components
-</info added on 2025-07-10T19:12:38.784Z>
-<info added on 2025-07-10T19:16:46.033Z>
-COMPLETE LIQUID GLASS TRANSFORMATION
-
-Revolutionary Updates Completed:
-
-1. ENTIRE PROJECT PLAN UPDATED
-- All 12 tasks now incorporate Liquid Glass principles
-- Future tasks include: glass material systems, spatial UI components, motion-driven feedback, environmental adaptation
-- Brutalist + Liquid Glass fusion maintained throughout project roadmap
-- Screen-less interaction readiness integrated into all future development
-
-2. DRAMATIC VISUAL ENHANCEMENT
-Problem Solved: Made glass effects MUCH more visible and impactful
-
-Glass Material System Enhanced:
-- Light theme: Increased opacity 15%→40%, 25%→60%, 35%→80%
-- Dark theme: Increased opacity 8%→15%, 12%→25%, 18%→35%
-- Stronger blur: 16px→20px, 24px→32px for dramatic backdrop effects
-- Enhanced shadows: Much more pronounced depth with 0.35-0.6 opacity
-
-Hero Section Revolutionized:
-- Gradient background: Multi-layer background for glass showcase
-- Floating glass orbs: 3 animated glass spheres with staggered pulse
-- Main content container: Large glass panel with 64px shadows and rounded corners
-- Backdrop blur: 32px blur with border highlights
-
-3. STRATEGIC POSITIONING ACHIEVED
-
-Future-Ready Architecture:
-- Spatial computing compatibility
-- Screen-less interaction foundation
-- Environmental adaptation capabilities
-- Mixed reality readiness
-
-Technical Excellence:
-- Accessibility-first with motion preferences
-- Performance-optimized transitions
-- Cross-browser compatibility maintained
-- Graceful degradation support
-
-Visual Impact:
-- Dramatic glass effects now clearly visible
-- Spatial depth through layered materials
-- Dynamic lighting and glow effects
-- Brutalist boldness enhanced by glass framework
-
-Build Status: All revolutionary changes build successfully
-
-Result: Website now showcases cutting-edge Liquid Glass design that's 2-3 years ahead of current web trends while maintaining brutalist authenticity.
-</info added on 2025-07-10T19:16:46.033Z>
-
-## 5. Explore and Implement New Typography System [pending]
-### Dependencies: None
-### Description: Research and implement new font choices that align with the mood board aesthetic and Liquid Glass principles, focusing on making words STRIKING, MINIMAL, and IMPORTANT through glass layers and spatial depth.
+## 5. Dynamic Background Generation [pending]
+### Dependencies: 2.2, 2.3
+### Description: Develop dynamic, generative backgrounds (e.g., SVG noise, gradients, animated patterns) that enhance glass effects and support punk-meets-professional branding.
 ### Details:
-1. Research bold sans-serif and creative display fonts that match mood board and glass aesthetic
-2. Test font combinations for optimal readability and visual impact through glass/translucent backgrounds
-3. Implement new typography scale that emphasizes content hierarchy and spatial relationships
-4. Update all typography components to use new font system, ensuring clarity through glass layers
-5. Ensure fonts load efficiently, have proper fallbacks, and are accessible in AR/VR contexts
-6. Create typography documentation showing proper usage patterns in spatial and glass-based layouts
+Integrate SVG or Canvas-based noise overlays, animated gradients, and responsive scaling. Ensure backgrounds are performant and do not interfere with content legibility. Implement as foundation for glass effects before component development.
 
-## 6. Enhance Asymmetric Layouts with Overlapping Elements [pending]
-### Dependencies: None
-### Description: Build upon existing asymmetric grid systems to add overlapping elements, layered glass materials, and more intentional controlled chaos that aligns with the refined design direction and Liquid Glass principles.
+## 6. Navigation, Footer, and Header Components [pending]
+### Dependencies: 2.3, 2.4, 2.5
+### Description: Design and implement core navigation, footer, and header components with glassmorphic styling and accessibility best practices.
 ### Details:
-1. Create new layout utilities for overlapping elements with glass backgrounds and spatial depth
-2. Implement z-index and shadow management system for layered glass content
-3. Add support for elements that break out of grid containers and float in spatial layers
-4. Create examples of intentionally chaotic but controlled layouts with glass and lighting effects
-5. Ensure overlapping elements remain accessible, don't interfere with navigation, and support motion preference
-6. Test responsive and spatial behavior of overlapping elements, including AR/VR readiness
+Use glass utility classes for backgrounds, ensure semantic HTML, keyboard navigation, and ARIA roles. Integrate dynamic content from Strapi for menus and site metadata.
 
-## 7. Redesign Glass Material System to Apple Standards [pending]
-### Dependencies: None
-### Description: Completely redesign the current weak glass implementation to match Apple's Liquid Glass standards with proper 60-85% opacity, strong backdrop-filter blur (24-32px), rounded corners (24px radius), and no solid backgrounds.
+## 7. Mobile Menu Implementation [pending]
+### Dependencies: 2.6
+### Description: Develop a mobile-first, accessible menu with glassmorphic overlays, animated transitions, and touch-friendly controls.
 ### Details:
-1. Replace current weak glass variables (15-40% opacity) with proper 60-85% opacity levels
-2. Update all blur values: 24-32px for containers, 16-24px for buttons and controls
-3. Implement 24px border-radius as standard for all glass containers
-4. Add adaptive tinting system with subtle color overlays based on content
-5. Create soft drop shadows and inner highlights for proper depth perception
-6. Remove ALL solid backgrounds - everything must use glass materials
-7. Implement blending/merging effects between adjacent glass elements
-8. Establish proper layering hierarchy: content → glass controls/containers → overlays
-9. Update navigation bar with proper glass implementation
-10. Redesign footer with matching glass standards
-11. Convert all buttons to proper glass materials with appropriate blur
-12. Ensure glass effects properly obscure underlying content
+Implement slide/fade animations, focus management, and backdrop blur. Test for screen reader compatibility and ensure menu state is managed via Astro/React state or vanilla JS.
 
-## 11. Refactor Theme System to Light/Dark Only [done]
-### Dependencies: 2.7
-### Description: Remove the punk theme and consolidate to Light and Dark themes only, integrating brutalist/creative and Liquid Glass aesthetic elements directly into both base themes. Update all theme-switching logic and component styling accordingly.
+## 8. Blending and Merging Effects [pending]
+### Dependencies: 2.3, 2.4, 2.5
+### Description: Create advanced blending modes and merging effects for overlapping glass layers, simulating depth and light refraction.
 ### Details:
-1. Remove punk theme from theme switching logic in Navigation component
-2. Update CSS variables to support only light and dark themes
-3. Integrate punk/brutalist visual elements (glitch effects, asymmetric layouts, bold typography) and glass material system (backdrop-filter, blur, dynamic glow) into both light and dark themes
-4. Update theme toggle to cycle between Light and Dark only
-5. Ensure all components properly support the two-theme system
-6. Remove punk-specific color variables and consolidate color palette
-<info added on 2025-07-10T17:30:41.986Z>
-FINAL COLOR REFINEMENT COMPLETE:
+Use mix-blend-mode, background-blend-mode, and layered opacity. Test effects on various backgrounds and ensure performance does not degrade on lower-end devices.
 
-Updated the color scheme to use a more sophisticated dusty pink (#cfa5be) as the primary accent color instead of the previous coral pink. This creates a more mature, elegant aesthetic while maintaining the brutalist edge.
-
-KEY COLOR CHANGES:
-- Primary Accent: #cfa5be (dusty pink) - used sparingly for maximum impact
-- Secondary Accent: #00d4ff (electric blue/cyan) - used even more sparingly 
-- Tertiary Accent: #4ecdc4 (mint green) - minimal usage
-
-UPDATED COMPONENTS:
-1. CSS Variables (variables.scss): Updated all accent color definitions for both light and dark themes
-2. Navigation Component: Updated theme configs to use dusty pink for buttons
-3. Tailwind Config: Added dusty-pink color and reordered by priority
-4. Global CSS: Updated RGB split text effects and glitch overlays to use new colors
-5. AnimationDemo Component: Updated all color references in animations
-6. Homepage: Updated button hover effects to use dusty pink
-
-The new color scheme provides better contrast and sophistication while maintaining the strategic use of cyan as a secondary accent. The dusty pink works beautifully in both light and dark themes, creating a cohesive brand identity that's both professional and edgy.
-</info added on 2025-07-10T17:30:41.986Z>
-
-## 12. Redesign Glass Material System to Apple Standards [pending]
-### Dependencies: 2.11
-### Description: Completely redesign the current weak glass implementation to match Apple's Liquid Glass standards with proper 60-85% opacity, strong backdrop-filter blur (24-32px), rounded corners (24px radius), and no solid backgrounds.
+## 9. Adaptive Tinting and Dynamic Color Modes [pending]
+### Dependencies: 2.2, 2.3, 2.8
+### Description: Implement adaptive tinting for glass layers based on background content and user-selected color modes (light/dark/custom).
 ### Details:
-1. Replace current weak glass variables (15-40% opacity) with proper 60-85% opacity levels
-2. Update all blur values: 24-32px for containers, 16-24px for buttons and controls
-3. Implement 24px border-radius as standard for all glass containers
-4. Add adaptive tinting system with subtle color overlays based on content
-5. Create soft drop shadows and inner highlights for proper depth perception
-6. Remove ALL solid backgrounds - everything must use glass materials
-7. Implement blending/merging effects between adjacent glass elements
-8. Establish proper layering hierarchy: content → glass controls/containers → overlays
-9. Update navigation bar with proper glass implementation
-10. Redesign footer with matching glass standards
-11. Convert all buttons to proper glass materials with appropriate blur
-12. Ensure glass effects properly obscure underlying content
+Use CSS variables and prefers-color-scheme media queries. Add logic to adjust tint opacity and hue for optimal contrast and readability.
+
+## 10. Glass-Specific Animations [pending]
+### Dependencies: 2.3, 2.6, 2.7
+### Description: Design and implement subtle, performant animations for glass elements, such as hover glows, focus rings, and entrance transitions.
+### Details:
+Use CSS transitions and keyframes for blur, opacity, and shadow. Ensure animations respect user preferences (prefers-reduced-motion) and do not impact accessibility.
+
+## 11. Accessibility Implementation and Testing [pending]
+### Dependencies: 2.6, 2.7, 2.9, 2.10
+### Description: Ensure all components meet WCAG 2.2 AA standards, including color contrast, keyboard navigation, ARIA labeling, and focus visibility.
+### Details:
+Conduct manual and automated accessibility audits. Test with screen readers and keyboard-only navigation. Document accessibility features and known limitations.
+
+## 12. Cross-Browser Testing and Visual QA [pending]
+### Dependencies: 2.3, 2.5, 2.6, 2.7, 2.8, 2.9, 2.10, 2.11
+### Description: Perform comprehensive cross-browser and device testing, including Safari, Chrome, Firefox, Edge, and mobile browsers. Conduct visual QA for glass effects, layering, and performance.
+### Details:
+Use BrowserStack or similar tools for device coverage. Validate visual consistency, blur rendering, and fallback styles. Profile performance and optimize for AWS deployment. Document and resolve all visual bugs.
 
