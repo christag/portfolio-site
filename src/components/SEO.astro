@@ -6,26 +6,60 @@ export interface Props {
   image?: string;
   canonical?: string;
   type?: string;
+  keywords?: string[];
+  author?: string;
+  twitterCard?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  twitterImage?: string;
+  openGraphTitle?: string;
+  openGraphDescription?: string;
+  structuredData?: object;
 }
 
 const {
-  title = "Chris's Portfolio & Technology Consulting",
-  description = 'Fractional CTO and technology consultant helping founders and small businesses with strategic IT guidance, automation, and sustainable growth solutions.',
-  image = '/og-image.jpg', // You'll need to add this image
+  title = 'Christopher Tagliaferro - Technology Consultant & Virtual CIO',
+  description = "Senior Technical Program Manager with 12+ years driving technology transformations that actually work. PMP certified, equity-focused, and refreshingly honest about tech's absurdities.",
+  image = '/og-image.jpg',
   canonical = Astro.url.href,
   type = 'website',
+  keywords = [
+    'technical program manager',
+    'product management',
+    'systems integration',
+    'agile',
+    'transformation',
+    'accessibility',
+  ],
+  author = 'Christopher Tagliaferro',
+  twitterCard = 'summary_large_image',
+  twitterTitle,
+  twitterDescription,
+  twitterImage,
+  openGraphTitle,
+  openGraphDescription,
+  structuredData,
 } = Astro.props;
 
-// Ensure title includes site name
-const fullTitle = title.includes('Chris')
+// Use provided values or fall back to defaults
+const ogTitle = openGraphTitle || title;
+const ogDescription = openGraphDescription || description;
+const twTitle = twitterTitle || title;
+const twDescription = twitterDescription || description;
+const twImage = twitterImage || image;
+
+// Ensure title includes site name if not already present
+const fullTitle = title.includes('Christopher')
   ? title
-  : `${title} | Chris's Portfolio`;
+  : `${title} | Christopher Tagliaferro`;
 ---
 
 <!-- Essential Meta Tags -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content={description} />
+<meta name="keywords" content={keywords.join(', ')} />
+<meta name="author" content={author} />
 <title>{fullTitle}</title>
 
 <!-- Canonical URL -->
@@ -34,23 +68,35 @@ const fullTitle = title.includes('Chris')
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />
 <meta property="og:url" content={canonical} />
-<meta property="og:title" content={fullTitle} />
-<meta property="og:description" content={description} />
+<meta property="og:title" content={ogTitle} />
+<meta property="og:description" content={ogDescription} />
 <meta property="og:image" content={new URL(image, Astro.site)} />
-<meta property="og:site_name" content="Chris's Portfolio" />
+<meta property="og:site_name" content="Christopher Tagliaferro" />
+<meta property="og:locale" content="en_US" />
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonical} />
-<meta property="twitter:title" content={fullTitle} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.site)} />
+<meta name="twitter:card" content={twitterCard} />
+<meta name="twitter:url" content={canonical} />
+<meta name="twitter:title" content={twTitle} />
+<meta name="twitter:description" content={twDescription} />
+<meta name="twitter:image" content={new URL(twImage, Astro.site)} />
+<meta name="twitter:creator" content="@christagliaferro" />
 
 <!-- Additional SEO -->
 <meta name="robots" content="index, follow" />
-<meta name="author" content="Chris" />
-<meta name="theme-color" content="#667eea" />
+<meta name="theme-color" content="#b8869a" />
+<meta name="msapplication-TileColor" content="#b8869a" />
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+<!-- Structured Data -->
+{
+  structuredData && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
+  )
+}

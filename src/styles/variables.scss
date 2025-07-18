@@ -1,5 +1,14 @@
-// Design tokens as CSS custom properties for theme switching
+// =============================================================================
+// DESIGN TOKENS - CSS CUSTOM PROPERTIES FOR THEME SWITCHING
+// =============================================================================
+// Complete design token system for Liquid Glass design with Light/Dark themes
+// Organized by category for better maintainability and consistency
+
 :root {
+  // ---------------------------------------------------------------------------
+  // COLOR SYSTEM - Base colors for both themes
+  // ---------------------------------------------------------------------------
+
   // Enhanced monochrome palette - Light theme
   --color-bg-primary: #fafafa; // Pure background
   --color-bg-secondary: #f5f5f5; // Subtle sections
@@ -15,25 +24,86 @@
   --color-accent-secondary: #00d4ff; // Electric blue/cyan - RESERVED for special highlights
   --color-accent-tertiary: #4ecdc4; // Mint green - MINIMAL usage, special cases only
 
+  // Semi-transparent accent colors (15-25% opacity)
+  --color-accent-primary-15: rgba(
+    184,
+    134,
+    154,
+    0.15
+  ); // Primary accent at 15% opacity
+  --color-accent-primary-20: rgba(
+    184,
+    134,
+    154,
+    0.2
+  ); // Primary accent at 20% opacity
+  --color-accent-primary-25: rgba(
+    184,
+    134,
+    154,
+    0.25
+  ); // Primary accent at 25% opacity
+  --color-accent-secondary-15: rgba(
+    0,
+    212,
+    255,
+    0.15
+  ); // Secondary accent at 15% opacity
+  --color-accent-secondary-20: rgba(
+    0,
+    212,
+    255,
+    0.2
+  ); // Secondary accent at 20% opacity
+  --color-accent-secondary-25: rgba(
+    0,
+    212,
+    255,
+    0.25
+  ); // Secondary accent at 25% opacity
+  --color-accent-tertiary-15: rgba(
+    78,
+    205,
+    196,
+    0.15
+  ); // Tertiary accent at 15% opacity
+  --color-accent-tertiary-20: rgba(
+    78,
+    205,
+    196,
+    0.2
+  ); // Tertiary accent at 20% opacity
+  --color-accent-tertiary-25: rgba(
+    78,
+    205,
+    196,
+    0.25
+  ); // Tertiary accent at 25% opacity
+
   // Brutalist elements integrated into light theme
   --color-brutalist-accent: #000000; // Pure black for contrast
   --color-brutalist-highlight: #b8869a; // Darker dusty pink for energy
 
-  // Apple Liquid Glass Material System - Light Theme (FIXED FOR PROPER TRANSPARENCY)
-  // Reduced opacity for true glassmorphism effect - background should show through
+  // ---------------------------------------------------------------------------
+  // GLASS MATERIAL SYSTEM - Apple Liquid Glass Standards
+  // ---------------------------------------------------------------------------
+
+  // Glass backgrounds - Light theme (15-25% opacity for true transparency)
   --glass-bg-primary: rgba(
     255,
     255,
     255,
-    0.25
-  ); // 25% opacity - much more transparent
-  --glass-bg-secondary: rgba(255, 255, 255, 0.35); // 35% opacity - medium glass
+    0.15
+  ); // 15% opacity - true glassmorphism transparency
+  --glass-bg-secondary: rgba(255, 255, 255, 0.2); // 20% opacity - medium glass
   --glass-bg-tertiary: rgba(
     255,
     255,
     255,
-    0.45
-  ); // 45% opacity - strongest glass
+    0.25
+  ); // 25% opacity - strongest glass (still transparent)
+
+  // Glass borders - Light theme
   --glass-border-light: rgba(
     255,
     255,
@@ -41,18 +111,41 @@
     0.5
   ); // Visible but not overpowering borders
   --glass-border-medium: rgba(255, 255, 255, 0.3); // Subtle borders
+  --glass-border-heavy: rgba(255, 255, 255, 0.7); // Strong borders for emphasis
+
+  // Glass tinting and overlays
   --glass-tint: rgba(255, 255, 255, 0.02); // Minimal neutral tinting
+  --glass-overlay-light: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); // Light overlay for interactions
+  --glass-overlay-medium: rgba(
+    255,
+    255,
+    255,
+    0.2
+  ); // Medium overlay for hover states
 
-  // Performance-optimized blur values (research-based)
+  // ---------------------------------------------------------------------------
+  // BLUR SYSTEM - Research-optimized values for 2024-2025 best practices
+  // ---------------------------------------------------------------------------
+
   --glass-blur-minimal: 8px; // For low-end devices
-  --glass-blur-button: 16px; // Buttons and small controls
-  --glass-blur-container: 24px; // Cards and containers
-  --glass-blur-navigation: 32px; // Navigation and large surfaces
+  --glass-blur-button: 16px; // Optimal for buttons and small controls
+  --glass-blur-container: 20px; // Optimal for cards and containers
+  --glass-blur-navigation: 24px; // Optimal for navigation and large surfaces
+  --glass-blur-modal: 32px; // For modal overlays and full-screen elements
 
-  // Reduced blur values for performance mode
+  // Performance fallbacks
   --glass-blur-performance: 12px; // Universal fallback for low-end devices
 
-  // Proper shadows and highlights for spatial depth
+  // ---------------------------------------------------------------------------
+  // SHADOW & DEPTH SYSTEM - Proper spatial depth for glassmorphism
+  // ---------------------------------------------------------------------------
+
+  // Glass shadows - Light theme
   --glass-shadow-light: rgba(
     0,
     0,
@@ -61,26 +154,49 @@
   ); // Slightly stronger for better definition
   --glass-shadow-medium: rgba(0, 0, 0, 0.15); // Medium depth
   --glass-shadow-heavy: rgba(0, 0, 0, 0.2); // Strong depth
+  --glass-shadow-intense: rgba(0, 0, 0, 0.25); // Maximum depth for modals
+
+  // Glass inner highlights for realism
   --glass-inner-highlight: rgba(
     255,
     255,
     255,
     0.6
   ); // Reduced highlight intensity
+  --glass-inner-highlight-subtle: rgba(
+    255,
+    255,
+    255,
+    0.3
+  ); // Subtle inner highlight
+  --glass-inner-highlight-strong: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); // Strong inner highlight
 
-  // Apple standard glass radius
-  --glass-radius: 24px;
-  --glass-radius-small: 16px; // For smaller elements
-  --glass-radius-large: 32px; // For large containers
+  // ---------------------------------------------------------------------------
+  // BORDER RADIUS SYSTEM - Apple standard glass radius
+  // ---------------------------------------------------------------------------
+
+  --glass-radius: 24px; // Standard glass container radius
+  --glass-radius-small: 16px; // For smaller elements like buttons
+  --glass-radius-large: 32px; // For large containers and modals
+  --glass-radius-xl: 40px; // For hero sections and major elements
+
+  // ---------------------------------------------------------------------------
+  // SPACING SYSTEM - Consistent spacing tokens
+  // ---------------------------------------------------------------------------
 
   // Base spacing tokens
-  --space-xs: 0.5rem;
-  --space-sm: 1rem;
-  --space-md: 1.5rem;
-  --space-lg: 2rem;
-  --space-xl: 3rem;
-  --space-2xl: 4rem;
-  --space-3xl: 6rem;
+  --space-xs: 0.5rem; // 8px
+  --space-sm: 1rem; // 16px
+  --space-md: 1.5rem; // 24px
+  --space-lg: 2rem; // 32px
+  --space-xl: 3rem; // 48px
+  --space-2xl: 4rem; // 64px
+  --space-3xl: 6rem; // 96px
 
   // Responsive spacing - Mobile first
   --container-padding: 1rem;
@@ -94,7 +210,10 @@
   --slide-distance: 1rem;
   --chaos-factor: 0.75rem; // For controlled chaos elements
 
-  // Typography tokens - Bold, striking fonts
+  // ---------------------------------------------------------------------------
+  // TYPOGRAPHY SYSTEM - Bold, striking fonts
+  // ---------------------------------------------------------------------------
+
   --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
@@ -102,17 +221,26 @@
   --font-display:
     'Inter', system-ui, -apple-system, sans-serif; // For striking headlines
 
-  // Animation tokens
+  // ---------------------------------------------------------------------------
+  // ANIMATION & TRANSITION SYSTEM - Performance-optimized timing
+  // ---------------------------------------------------------------------------
+
+  // Standard transitions
   --transition-fast: 0.15s ease-out;
   --transition-normal: 0.3s ease-out;
   --transition-slow: 0.5s ease-out;
   --transition-brutal: 0.1s ease-out; // Sharp, immediate transitions
 
-  // Performance-optimized glass transitions
+  // Glass-specific transitions
   --transition-glass: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-glass-hover: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-glass-focus: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 
-  // Subtle theme-appropriate background colors - USING ORIGINAL GREY PALETTE
+  // ---------------------------------------------------------------------------
+  // BACKGROUND SYSTEM - Theme-appropriate backgrounds
+  // ---------------------------------------------------------------------------
+
+  // Subtle theme-appropriate background colors
   --glassmorphism-bg-light: linear-gradient(
     135deg,
     #fafafa 0%,
@@ -125,6 +253,11 @@
     154,
     0.03
   ); // Very subtle accent tint
+  --glassmorphism-bg-pattern: radial-gradient(
+    circle at 30% 20%,
+    rgba(184, 134, 154, 0.02) 0%,
+    transparent 50%
+  );
 }
 
 // Responsive spacing adjustments with enhanced chaos
@@ -173,8 +306,16 @@
   }
 }
 
-// Apple Liquid Glass Material System - Dark Theme (PROPER STANDARDS)
+// =============================================================================
+// DARK THEME - Enhanced design tokens for dark mode
+// =============================================================================
+// All design tokens adapted for dark theme with proper contrast and visibility
+
 [data-theme='dark'] {
+  // ---------------------------------------------------------------------------
+  // COLOR SYSTEM - Dark theme colors
+  // ---------------------------------------------------------------------------
+
   --color-bg-primary: #0a0a0a; // Almost black for dramatic contrast
   --color-bg-secondary: #171717; // Deep black sections
   --color-bg-tertiary: #262626; // Medium dark containers
@@ -189,41 +330,145 @@
   --color-accent-secondary: #00d4ff; // Electric blue/cyan - RESERVED for special highlights
   --color-accent-tertiary: #4ecdc4; // Mint green - MINIMAL usage, special cases only
 
+  // Semi-transparent accent colors (15-25% opacity) - Dark theme
+  --color-accent-primary-15: rgba(
+    184,
+    134,
+    154,
+    0.15
+  ); // Primary accent at 15% opacity
+  --color-accent-primary-20: rgba(
+    184,
+    134,
+    154,
+    0.2
+  ); // Primary accent at 20% opacity
+  --color-accent-primary-25: rgba(
+    184,
+    134,
+    154,
+    0.25
+  ); // Primary accent at 25% opacity
+  --color-accent-secondary-15: rgba(
+    0,
+    212,
+    255,
+    0.15
+  ); // Secondary accent at 15% opacity
+  --color-accent-secondary-20: rgba(
+    0,
+    212,
+    255,
+    0.2
+  ); // Secondary accent at 20% opacity
+  --color-accent-secondary-25: rgba(
+    0,
+    212,
+    255,
+    0.25
+  ); // Secondary accent at 25% opacity
+  --color-accent-tertiary-15: rgba(
+    78,
+    205,
+    196,
+    0.15
+  ); // Tertiary accent at 15% opacity
+  --color-accent-tertiary-20: rgba(
+    78,
+    205,
+    196,
+    0.2
+  ); // Tertiary accent at 20% opacity
+  --color-accent-tertiary-25: rgba(
+    78,
+    205,
+    196,
+    0.25
+  ); // Tertiary accent at 25% opacity
+
   // Brutalist elements integrated into dark theme
   --color-brutalist-accent: #ffffff; // Pure white for contrast
   --color-brutalist-highlight: #b8869a; // Darker dusty pink for energy
 
-  // Apple Liquid Glass Material System - Dark Theme (FIXED FOR PROPER TRANSPARENCY)
-  // Much lower opacity to allow dark background to show through properly
+  // ---------------------------------------------------------------------------
+  // GLASS MATERIAL SYSTEM - Dark theme adaptations
+  // ---------------------------------------------------------------------------
+
+  // Glass backgrounds - Dark theme (much lower opacity for dark backgrounds)
   --glass-bg-primary: rgba(
     255,
     255,
     255,
-    0.08
-  ); // 8% - subtle glass on dark (much more transparent)
-  --glass-bg-secondary: rgba(255, 255, 255, 0.12); // 12% - medium glass on dark
+    0.05
+  ); // 5% - very subtle glass on dark
+  --glass-bg-secondary: rgba(255, 255, 255, 0.08); // 8% - medium glass on dark
   --glass-bg-tertiary: rgba(
     255,
     255,
     255,
-    0.16
-  ); // 16% - strongest glass on dark
+    0.12
+  ); // 12% - strongest glass on dark
+
+  // Glass borders - Dark theme (higher opacity for visibility)
   --glass-border-light: rgba(255, 255, 255, 0.2); // Visible borders on dark
   --glass-border-medium: rgba(255, 255, 255, 0.15); // Medium borders on dark
-  --glass-tint: rgba(255, 255, 255, 0.02); // Very subtle neutral tinting
+  --glass-border-heavy: rgba(
+    255,
+    255,
+    255,
+    0.25
+  ); // Strong borders for emphasis
 
-  // Enhanced shadows for dark theme depth
+  // Glass tinting and overlays - Dark theme
+  --glass-tint: rgba(255, 255, 255, 0.02); // Very subtle neutral tinting
+  --glass-overlay-light: rgba(
+    255,
+    255,
+    255,
+    0.05
+  ); // Light overlay for interactions
+  --glass-overlay-medium: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); // Medium overlay for hover states
+
+  // ---------------------------------------------------------------------------
+  // SHADOW & DEPTH SYSTEM - Enhanced shadows for dark theme
+  // ---------------------------------------------------------------------------
+
+  // Glass shadows - Dark theme (stronger shadows needed)
   --glass-shadow-light: rgba(0, 0, 0, 0.4); // Stronger shadows needed on dark
   --glass-shadow-medium: rgba(0, 0, 0, 0.5); // Medium depth shadows
   --glass-shadow-heavy: rgba(0, 0, 0, 0.6); // Heavy depth shadows
+  --glass-shadow-intense: rgba(0, 0, 0, 0.7); // Maximum depth for modals
+
+  // Glass inner highlights - Dark theme (more subtle)
   --glass-inner-highlight: rgba(
     255,
     255,
     255,
     0.1
   ); // Very subtle inner highlights
+  --glass-inner-highlight-subtle: rgba(
+    255,
+    255,
+    255,
+    0.05
+  ); // Ultra-subtle inner highlight
+  --glass-inner-highlight-strong: rgba(
+    255,
+    255,
+    255,
+    0.15
+  ); // Strong inner highlight for dark
 
-  // Dark theme background - FIXED TO USE PROPER BLACK/GREY GRADIENTS
+  // ---------------------------------------------------------------------------
+  // BACKGROUND SYSTEM - Dark theme backgrounds
+  // ---------------------------------------------------------------------------
+
+  // Dark theme background gradients
   --glassmorphism-bg-light: linear-gradient(
     135deg,
     #0a0a0a 0%,
@@ -236,6 +481,11 @@
     154,
     0.05
   ); // Slightly more accent for dark
+  --glassmorphism-bg-pattern: radial-gradient(
+    circle at 30% 20%,
+    rgba(184, 134, 154, 0.03) 0%,
+    transparent 50%
+  );
 
   // Enhanced chaos for dark theme
   --chaos-factor: calc(

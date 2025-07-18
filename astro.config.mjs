@@ -10,4 +10,7 @@ export default defineConfig({
       tailwindcss(), // Native Tailwind v4 Vite plugin handles everything
     ],
   },
+  markdown: {
+    syntaxHighlight: false, // Disable syntax highlighting
+  },
 });

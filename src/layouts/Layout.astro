@@ -17,11 +17,15 @@ const currentPath = Astro.url.pathname;
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Default meta tags -->
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+
+    <!-- Enhanced SEO metadata from page-specific SEO component -->
+    <slot name="head" />
 
     <!-- Early theme initialization to prevent flash -->
     <script is:inline>

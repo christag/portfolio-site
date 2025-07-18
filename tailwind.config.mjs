@@ -13,6 +13,17 @@ export default {
       '3xl': '1920px', // Ultra wide
     },
     extend: {
+      // Enhanced opacity scale for glassmorphism (15-25% range)
+      opacity: {
+        15: '0.15',
+        20: '0.20',
+        25: '0.25',
+        35: '0.35',
+        45: '0.45',
+        85: '0.85',
+        95: '0.95',
+      },
+
       // Use CSS variables for colors so they work with theme switching
       colors: {
         // Theme-aware colors using CSS variables
@@ -49,6 +60,22 @@ export default {
         coral: '#ff6b6b', // Legacy coral pink (kept for compatibility)
         mint: '#4ecdc4', // Tertiary accent - mint green
 
+        // Semi-transparent accent colors (15-25% opacity)
+        accent: {
+          primary: 'var(--color-accent-primary)',
+          secondary: 'var(--color-accent-secondary)',
+          tertiary: 'var(--color-accent-tertiary)',
+          'primary-15': 'var(--color-accent-primary-15)',
+          'primary-20': 'var(--color-accent-primary-20)',
+          'primary-25': 'var(--color-accent-primary-25)',
+          'secondary-15': 'var(--color-accent-secondary-15)',
+          'secondary-20': 'var(--color-accent-secondary-20)',
+          'secondary-25': 'var(--color-accent-secondary-25)',
+          'tertiary-15': 'var(--color-accent-tertiary-15)',
+          'tertiary-20': 'var(--color-accent-tertiary-20)',
+          'tertiary-25': 'var(--color-accent-tertiary-25)',
+        },
+
         // Brutalist accent colors
         brutalist: {
           accent: 'var(--color-brutalist-accent)', // Pure black/white for contrast
@@ -57,16 +84,29 @@ export default {
 
         // Glass material colors using CSS variables
         glass: {
-          'bg-light': 'var(--glass-bg-primary)',
-          'bg-medium': 'var(--glass-bg-secondary)',
-          'bg-heavy': 'var(--glass-bg-tertiary)',
+          // Background colors (15-25% opacity)
+          'bg-light': 'var(--glass-bg-primary)', // 15% opacity
+          'bg-medium': 'var(--glass-bg-secondary)', // 20% opacity
+          'bg-heavy': 'var(--glass-bg-tertiary)', // 25% opacity
+
+          // Border colors
           'border-light': 'var(--glass-border-light)',
           'border-medium': 'var(--glass-border-medium)',
+          'border-heavy': 'var(--glass-border-heavy)',
+
+          // Overlay colors
+          'overlay-light': 'var(--glass-overlay-light)',
+          'overlay-medium': 'var(--glass-overlay-medium)',
+
+          // Utility colors
           tint: 'var(--glass-tint)',
           'shadow-light': 'var(--glass-shadow-light)',
           'shadow-medium': 'var(--glass-shadow-medium)',
           'shadow-heavy': 'var(--glass-shadow-heavy)',
+          'shadow-intense': 'var(--glass-shadow-intense)',
           highlight: 'var(--glass-inner-highlight)',
+          'highlight-subtle': 'var(--glass-inner-highlight-subtle)',
+          'highlight-strong': 'var(--glass-inner-highlight-strong)',
         },
       },
 
@@ -178,10 +218,14 @@ export default {
         'glass-xs': '8px',
         'glass-sm': '12px',
         'glass-md': '16px',
-        'glass-lg': '20px',
+        'glass-lg': '20px', // Optimal for containers per research
         'glass-xl': '24px',
         'glass-2xl': '28px',
         'glass-3xl': '32px',
+        // Research-based optimal values
+        'glass-optimal-button': '16px', // Optimal for buttons
+        'glass-optimal-container': '20px', // Optimal for containers
+        'glass-optimal-nav': '24px', // Optimal for navigation
       },
 
       // Glass-specific box shadows

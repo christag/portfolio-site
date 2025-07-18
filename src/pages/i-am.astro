@@ -1,0 +1,1576 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import SEO from '../components/SEO.astro';
+
+// Get the bio content
+const bioEntries = await getCollection('bio');
+const bioEntry = bioEntries[0]; // Get the first (and only) bio entry
+const { Content } = await bioEntry.render();
+const { data } = bioEntry;
+---
+
+<Layout title={data.seo.title} description={data.seo.description}>
+  <SEO
+    slot="head"
+    title={data.seo.title}
+    description={data.seo.description}
+    keywords={data.seo.keywords}
+    author={data.author}
+    image={data.seo.openGraph.image}
+    type={data.seo.openGraph.type}
+    canonical={Astro.url.href}
+    openGraphTitle={data.seo.openGraph.title}
+    openGraphDescription={data.seo.openGraph.description}
+    twitterCard={data.seo.twitter.card}
+    twitterTitle={data.seo.twitter.title}
+    twitterDescription={data.seo.twitter.description}
+    twitterImage={data.seo.twitter.image}
+    structuredData={{
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: data.profile.name,
+      jobTitle: data.profile.title,
+      description: data.seo.description,
+      url: Astro.url.href,
+      image: data.seo.openGraph.image,
+      sameAs: [data.social.linkedin, data.social.portfolio],
+      email: data.social.email,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: data.profile.location,
+      },
+      alumniOf: {
+        '@type': 'Organization',
+        name: 'Hofstra University',
+      },
+      hasCredential: [
+        {
+          '@type': 'EducationalOccupationalCredential',
+          name: 'PMP Certification',
+        },
+        {
+          '@type': 'EducationalOccupationalCredential',
+          name: 'Product Management 360',
+        },
+        {
+          '@type': 'EducationalOccupationalCredential',
+          name: 'ITIL v3',
+        },
+      ],
+    }}
+  />
+  <style>
+    /* Bio page specific styles with punk/brutalist elements */
+    .bio-container {
+      min-height: 100vh;
+      padding-top: 100px; /* Account for fixed navigation */
+      padding-bottom: 100px; /* Account for fixed footer */
+      overflow-x: hidden; /* Prevent horizontal scroll */
+      max-width: 100vw;
+    }
+
+    .container-constrained {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
+    /* Hero section with asymmetric layout */
+    .hero-section {
+      background: var(--glass-bg-primary);
+      backdrop-filter: blur(var(--glass-blur-navigation));
+      border: 1px solid var(--glass-border-light);
+      border-radius: var(--glass-radius-xl);
+      padding: 4rem 2rem;
+      margin: 2rem 0 4rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 8rem);
+      font-weight: 900;
+      line-height: 0.8;
+      margin: 0;
+      color: var(--color-text-primary);
+      text-transform: uppercase;
+      letter-spacing: -0.05em;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      font-weight: 600;
+      margin: 1rem 0 0 0;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Punk/brutalist profile section */
+    .profile-section {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin: 4rem 0;
+    }
+
+    @media (min-width: 1013px) {
+      .profile-section {
+        grid-template-columns: 1fr 1.618fr; /* Golden ratio */
+      }
+    }
+
+    .profile-card {
+      background: var(--glass-bg-secondary);
+      backdrop-filter: blur(var(--glass-blur-container));
+      border: 2px solid var(--glass-border-heavy);
+      border-radius: var(--glass-radius-large);
+      padding: 2rem;
+      position: relative;
+      transform: rotate(-1deg); /* Slight misalignment */
+    }
+
+    .profile-card::before {
+      content: '[ PROFILE ]';
+      position: absolute;
+      top: -12px;
+      left: 1rem;
+      background: var(--color-accent-primary);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 597px) {
+      .profile-card::before {
+        font-size: 0.65rem !important;
+        padding: 0.2rem 0.5rem !important;
+        top: -10px !important;
+        left: 0.5rem !important;
+      }
+    }
+
+    .personality-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .personality-card {
+      background: var(--glass-bg-primary);
+      backdrop-filter: blur(var(--glass-blur-button));
+      border: 1px solid var(--glass-border-medium);
+      border-radius: var(--glass-radius-medium);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .personality-card:nth-child(1) {
+      border-left: 4px solid var(--color-accent-primary);
+    }
+
+    .personality-card:nth-child(2) {
+      border-left: 4px solid var(--color-accent-secondary);
+      transform: rotate(1deg);
+    }
+
+    .personality-card:nth-child(3) {
+      border-left: 4px solid var(--color-accent-tertiary);
+      transform: rotate(-0.5deg);
+    }
+
+    .personality-card:nth-child(4) {
+      border-left: 4px solid #ff6b6b;
+      transform: rotate(0.8deg);
+    }
+
+    .personality-card:nth-child(5) {
+      border-left: 4px solid #4ecdc4;
+      transform: rotate(-0.3deg);
+    }
+
+    .personality-card:nth-child(6) {
+      border-left: 4px solid #45b7d1;
+      transform: rotate(0.6deg);
+    }
+
+    .personality-card:nth-child(7) {
+      border-left: 4px solid #96ceb4;
+      transform: rotate(-0.7deg);
+    }
+
+    .personality-card:nth-child(8) {
+      border-left: 4px solid #ffeaa7;
+      transform: rotate(0.4deg);
+    }
+
+    /* Content sections with asymmetric grid */
+    .content-section {
+      background: var(--glass-bg-primary);
+      backdrop-filter: blur(var(--glass-blur-container));
+      border: 1px solid var(--glass-border-light);
+      border-radius: var(--glass-radius-large);
+      padding: 3rem 2rem;
+      margin: 3rem 0;
+      position: relative;
+    }
+
+    .content-section.misalign-left {
+      transform: translateX(-1rem) rotate(-0.5deg);
+    }
+
+    .content-section.misalign-right {
+      transform: translateX(1rem) rotate(0.5deg);
+    }
+
+    /* Brutalist section headers */
+    .section-header {
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin: 0 0 2rem 0;
+      color: var(--color-text-primary);
+      position: relative;
+    }
+
+    .section-header::before {
+      content: '//';
+      color: var(--color-accent-primary);
+      margin-right: 0.5rem;
+    }
+
+    .section-header::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60%;
+      height: 4px;
+      background: linear-gradient(
+        90deg,
+        var(--color-accent-primary),
+        transparent
+      );
+    }
+
+    /* Code block styling */
+    .code-block {
+      background: var(--glass-bg-tertiary);
+      backdrop-filter: blur(var(--glass-blur-button));
+      border: 1px solid var(--glass-border-heavy);
+      border-radius: var(--glass-radius-medium);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      position: relative;
+    }
+
+    .code-block::before {
+      content: '{ CODE }';
+      position: absolute;
+      top: -12px;
+      right: 1rem;
+      background: var(--color-accent-secondary);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 597px) {
+      .code-block::before {
+        font-size: 0.65rem !important;
+        padding: 0.2rem 0.5rem !important;
+        top: -10px !important;
+        right: 0.5rem !important;
+      }
+    }
+
+    /* Timeline/Experience Section */
+    .timeline-section {
+      background: var(--glass-bg-primary);
+      backdrop-filter: blur(var(--glass-blur-container));
+      border: 1px solid var(--glass-border-light);
+      border-radius: var(--glass-radius-large);
+      padding: 3rem 2rem;
+      margin: 4rem 0;
+      transform: rotate(-0.3deg);
+    }
+
+    .timeline-container {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .timeline-item {
+      display: flex;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-marker {
+      flex-shrink: 0;
+      width: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 2rem;
+    }
+
+    .timeline-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--glass-bg-secondary);
+      border: 3px solid var(--color-accent-primary);
+      position: relative;
+      z-index: 2;
+    }
+
+    .timeline-dot.active {
+      background: var(--color-accent-primary);
+      box-shadow: 0 0 0 6px rgba(184, 134, 154, 0.2);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,
+      100% {
+        box-shadow: 0 0 0 6px rgba(184, 134, 154, 0.2);
+      }
+      50% {
+        box-shadow: 0 0 0 12px rgba(184, 134, 154, 0.1);
+      }
+    }
+
+    .timeline-line {
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        var(--color-accent-primary),
+        rgba(184, 134, 154, 0.3)
+      );
+      margin-top: 10px;
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .timeline-item:last-child .timeline-line {
+      display: none;
+    }
+
+    .timeline-content {
+      flex: 1;
+      background: var(--glass-bg-secondary);
+      backdrop-filter: blur(var(--glass-blur-button));
+      border: 1px solid var(--glass-border-medium);
+      border-radius: var(--glass-radius-medium);
+      padding: 2rem;
+      position: relative;
+      transform: rotate(0.2deg);
+    }
+
+    .timeline-content::before {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 30px;
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-right: 10px solid var(--glass-border-medium);
+    }
+
+    .timeline-title {
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 800;
+      color: var(--color-text-primary);
+      margin: 0 0 0.5rem 0;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+    }
+
+    .timeline-period {
+      font-size: 0.9rem;
+      color: var(--color-accent-primary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin: 0 0 1rem 0;
+    }
+
+    .timeline-description {
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      margin: 0 0 1.5rem 0;
+      font-style: italic;
+    }
+
+    .timeline-achievements {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .timeline-achievements li {
+      color: var(--color-text-secondary);
+      margin: 0.75rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .timeline-achievements li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--color-accent-primary);
+      font-weight: bold;
+    }
+
+    .timeline-achievements li strong {
+      color: var(--color-text-primary);
+    }
+
+    /* Social links with punk styling */
+    .social-section {
+      background: var(--glass-bg-secondary);
+      backdrop-filter: blur(var(--glass-blur-container));
+      border: 2px solid var(--glass-border-heavy);
+      border-radius: var(--glass-radius-large);
+      padding: 3rem 2rem;
+      margin: 4rem 0;
+      text-align: center;
+      transform: rotate(0.5deg);
+    }
+
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .social-link {
+      background: var(--glass-bg-primary);
+      backdrop-filter: blur(var(--glass-blur-button));
+      border: 1px solid var(--glass-border-medium);
+      border-radius: var(--glass-radius-medium);
+      padding: 1rem;
+      text-decoration: none;
+      color: var(--color-text-primary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .social-icon {
+      width: 24px;
+      height: 24px;
+      color: var(--color-accent-primary);
+      transition: color 0.3s ease;
+    }
+
+    .social-link:hover {
+      background: var(--glass-bg-secondary);
+      border-color: var(--glass-border-heavy);
+      transform: translateY(-2px);
+      color: var(--color-accent-primary);
+    }
+
+    .social-link:hover .social-icon {
+      color: var(--color-accent-secondary);
+    }
+
+    .social-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: left 0.5s ease;
+    }
+
+    .social-link:hover::before {
+      left: 100%;
+    }
+
+    /* Call to action section */
+    .cta-section {
+      background: var(--glass-bg-tertiary);
+      backdrop-filter: blur(var(--glass-blur-navigation));
+      border: 2px solid var(--color-accent-primary);
+      border-radius: var(--glass-radius-xl);
+      padding: 4rem 2rem;
+      margin: 4rem 0;
+      text-align: center;
+      position: relative;
+      transform: rotate(-0.5deg);
+    }
+
+    .cta-section::before {
+      content: '[ READY TO BREAK RULES? ]';
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-accent-primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 597px) {
+      .cta-section::before {
+        font-size: 0.65rem !important;
+        padding: 0.3rem 0.6rem !important;
+        top: -12px !important;
+        white-space: nowrap !important;
+      }
+    }
+
+    .cta-text {
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      font-weight: 700;
+      margin: 0;
+      color: var(--color-text-primary);
+      font-style: italic;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1012px) {
+      .profile-section {
+        grid-template-columns: 1fr !important; /* Stack vertically in tablet range */
+        gap: 1.5rem;
+      }
+
+      .content-section {
+        transform: none; /* Remove misalignment on tablets */
+        margin: 2rem 0;
+      }
+
+      .personality-split {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+      }
+    }
+
+    /* Specific fix for the 590px cutoff range */
+    @media (max-width: 768px) {
+      .profile-section {
+        grid-template-columns: 1fr !important;
+        margin: 2rem 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      .personality-split {
+        grid-template-columns: 1fr !important; /* Single column on mobile */
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 3rem 1.5rem;
+        margin: 1rem 0 3rem 0;
+      }
+
+      .content-section.misalign-left,
+      .content-section.misalign-right {
+        transform: none; /* Remove misalignment on mobile */
+      }
+
+      .profile-card,
+      .social-section,
+      .cta-section {
+        transform: none; /* Remove rotation on mobile */
+      }
+
+      .personality-split {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Mobile text fixes for <625px */
+    @media (max-width: 625px) {
+      .hero-title {
+        font-size: clamp(
+          2rem,
+          10vw,
+          4rem
+        ) !important; /* Smaller minimum size */
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        hyphens: auto !important;
+        max-width: 100% !important;
+        padding: 0 1rem !important;
+      }
+
+      .hero-subtitle {
+        font-size: clamp(1rem, 4vw, 1.5rem) !important; /* Smaller for mobile */
+        max-width: 100% !important;
+        padding: 0 1rem !important;
+      }
+
+      .section-header {
+        font-size: clamp(
+          1.5rem,
+          6vw,
+          2.5rem
+        ) !important; /* Smaller for mobile */
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        max-width: 100% !important;
+      }
+
+      .content-section {
+        padding: 2rem 1rem; /* Less padding on mobile */
+      }
+
+      .profile-card {
+        padding: 1.5rem 1rem; /* Less padding on mobile */
+      }
+
+      .personality-card {
+        padding: 0.75rem; /* Less padding on mobile */
+      }
+
+      .personality-card h3 {
+        font-size: 0.9rem;
+      }
+
+      .personality-card p {
+        font-size: 0.85rem;
+      }
+
+      .social-grid {
+        grid-template-columns: 1fr; /* Single column on small mobile */
+        gap: 0.75rem;
+      }
+
+      .social-link {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
+
+      .cta-text {
+        font-size: clamp(1.2rem, 5vw, 2rem); /* Smaller for mobile */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      /* Ensure all text elements wrap properly */
+      p,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      span,
+      div {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        hyphens: auto !important;
+        max-width: 100% !important;
+      }
+
+      /* Code blocks on mobile */
+      .content-wrapper pre {
+        padding: 1rem !important;
+        font-size: 0.8rem !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        background: #f5f5f5 !important;
+        color: #171717 !important;
+      }
+
+      [data-theme='dark'] .content-wrapper pre {
+        background: #1a1a1a !important;
+        color: #f5f5f0 !important;
+      }
+
+      /* Content wrapper specific fixes */
+      .content-wrapper {
+        max-width: 100% !important;
+        padding: 0 1rem !important;
+        overflow-x: hidden !important;
+      }
+
+      .content-wrapper h2 {
+        font-size: clamp(1.2rem, 5vw, 2rem) !important;
+      }
+
+      .content-wrapper h3 {
+        font-size: clamp(1rem, 4vw, 1.5rem) !important;
+      }
+
+      .content-wrapper p {
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+      }
+
+      /* Fix the main container */
+      .bio-container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+
+      .container-constrained {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+    }
+
+    /* Fix for the specific 590px cutoff issue */
+    @media (max-width: 650px) {
+      /* Ensure no grid layout causes overflow */
+      .profile-section {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+        margin: 1.5rem 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+      }
+
+      .content-section {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 1.5rem 0 !important;
+        padding: 1.5rem 1rem !important;
+        overflow: hidden !important;
+      }
+
+      .personality-split {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+      }
+    }
+
+    /* Extra small mobile fixes for 390px-597px */
+    @media (max-width: 597px) {
+      /* Fix the main containers */
+      .bio-container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+      }
+
+      .container-constrained {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Fix sections that might overflow */
+      .hero-section {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        border-radius: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      .profile-section {
+        margin: 2rem 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      .profile-card {
+        padding: 1.2rem 0.8rem !important;
+        transform: none !important; /* Remove rotation on mobile */
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 12px !important;
+      }
+
+      /* Fix personality cards - single column on small screens */
+      .personality-split {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+        width: 100% !important;
+      }
+
+      .personality-card {
+        padding: 0.6rem !important;
+        transform: none !important; /* Remove rotation */
+        margin: 0 !important;
+        width: 100% !important;
+      }
+
+      .personality-card h3 {
+        font-size: 0.85rem !important;
+      }
+
+      .personality-card p {
+        font-size: 0.8rem !important;
+      }
+
+      /* Fix content sections */
+      .content-section {
+        padding: 1.5rem 0.8rem !important;
+        margin: 1.5rem 0 !important;
+        transform: none !important; /* Remove misalignment */
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 12px !important;
+      }
+
+      /* Fix timeline section */
+      .timeline-section {
+        padding: 2rem 0.8rem !important;
+        margin: 2rem 0 !important;
+        transform: none !important;
+        width: 100% !important;
+        border-radius: 12px !important;
+      }
+
+      .timeline-container {
+        max-width: 100% !important;
+      }
+
+      .timeline-item {
+        flex-direction: column !important;
+        margin-bottom: 2rem !important;
+      }
+
+      .timeline-marker {
+        width: 100% !important;
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        margin-right: 0 !important;
+        margin-bottom: 1rem !important;
+      }
+
+      .timeline-dot {
+        margin-right: 1rem !important;
+      }
+
+      .timeline-line {
+        display: none !important;
+      }
+
+      .timeline-content {
+        transform: none !important;
+        padding: 1.5rem !important;
+      }
+
+      .timeline-content::before {
+        display: none !important;
+      }
+
+      .timeline-title {
+        font-size: clamp(1.1rem, 4vw, 1.5rem) !important;
+      }
+
+      .timeline-period {
+        font-size: 0.8rem !important;
+      }
+
+      .timeline-description {
+        font-size: 0.9rem !important;
+      }
+
+      .timeline-achievements li {
+        font-size: 0.85rem !important;
+        margin: 0.5rem 0 !important;
+      }
+
+      /* Fix social section */
+      .social-section {
+        padding: 2rem 0.8rem !important;
+        margin: 2rem 0 !important;
+        transform: none !important;
+        width: 100% !important;
+        border-radius: 12px !important;
+      }
+
+      .social-grid {
+        width: 100% !important;
+      }
+
+      .social-link {
+        padding: 0.6rem !important;
+        font-size: 0.85rem !important;
+        width: 100% !important;
+      }
+
+      /* Fix CTA section */
+      .cta-section {
+        padding: 2.5rem 0.8rem !important;
+        margin: 2rem 0 !important;
+        transform: none !important;
+        width: 100% !important;
+        border-radius: 12px !important;
+      }
+
+      /* Typography adjustments */
+      .hero-title {
+        font-size: clamp(1.75rem, 9vw, 3.5rem) !important;
+        letter-spacing: -0.03em !important;
+        padding: 0 0.5rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .hero-subtitle {
+        font-size: clamp(0.9rem, 3.5vw, 1.3rem) !important;
+        padding: 0 0.5rem !important;
+        width: 100% !important;
+      }
+
+      .section-header {
+        font-size: clamp(1.3rem, 5.5vw, 2.2rem) !important;
+        width: 100% !important;
+        word-break: break-word !important;
+      }
+
+      .content-wrapper {
+        width: 100% !important;
+        padding: 0 !important;
+      }
+
+      .content-wrapper h2 {
+        font-size: clamp(1.1rem, 4.5vw, 1.8rem) !important;
+        width: 100% !important;
+      }
+
+      .content-wrapper h3 {
+        font-size: clamp(0.95rem, 3.5vw, 1.3rem) !important;
+        width: 100% !important;
+      }
+
+      .content-wrapper p {
+        font-size: 0.9rem !important;
+        line-height: 1.5 !important;
+        width: 100% !important;
+      }
+
+      .cta-text {
+        font-size: clamp(1rem, 4.5vw, 1.8rem) !important;
+        padding: 0 0.5rem !important;
+        width: 100% !important;
+      }
+
+      /* Ensure nothing can overflow */
+      * {
+        max-width: 100% !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+      }
+    }
+
+    /* Ultra small mobile for 390px and below */
+    @media (max-width: 390px) {
+      .hero-title {
+        font-size: clamp(1.5rem, 8vw, 3rem) !important;
+        letter-spacing: -0.02em !important;
+        padding: 0 0.5rem !important;
+      }
+
+      .hero-subtitle {
+        font-size: clamp(0.8rem, 3vw, 1.2rem) !important;
+        padding: 0 0.5rem !important;
+      }
+
+      .section-header {
+        font-size: clamp(1.2rem, 5vw, 2rem) !important;
+      }
+
+      .content-wrapper h2 {
+        font-size: clamp(1rem, 4vw, 1.6rem) !important;
+      }
+
+      .content-wrapper h3 {
+        font-size: clamp(0.9rem, 3vw, 1.2rem) !important;
+      }
+
+      .content-wrapper p {
+        font-size: 0.85rem !important;
+        line-height: 1.45 !important;
+      }
+
+      .content-wrapper pre {
+        padding: 0.75rem !important;
+        font-size: 0.7rem !important;
+      }
+
+      .profile-card {
+        padding: 1rem 0.5rem !important;
+      }
+
+      .personality-card {
+        padding: 0.5rem !important;
+      }
+
+      .personality-card h3 {
+        font-size: 0.8rem !important;
+      }
+
+      .personality-card p {
+        font-size: 0.75rem !important;
+      }
+
+      .content-section {
+        padding: 1.2rem 0.5rem !important;
+      }
+
+      .social-section {
+        padding: 1.5rem 0.5rem !important;
+      }
+
+      .social-link {
+        padding: 0.5rem !important;
+        font-size: 0.8rem !important;
+      }
+
+      .cta-section {
+        padding: 2rem 0.5rem !important;
+      }
+
+      .cta-text {
+        font-size: clamp(0.9rem, 4vw, 1.5rem) !important;
+      }
+
+      /* Minimal container padding */
+      .container-constrained {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+      }
+
+      /* Ensure no horizontal overflow */
+      * {
+        max-width: 100vw !important;
+      }
+    }
+
+    /* Content styling from markdown */
+    .content-wrapper h2 {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin: 3rem 0 1.5rem 0;
+      color: var(--color-text-primary);
+      position: relative;
+    }
+
+    .content-wrapper h2::before {
+      content: '>';
+      color: var(--color-accent-secondary);
+      margin-right: 0.5rem;
+    }
+
+    .content-wrapper h3 {
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 700;
+      margin: 2rem 0 1rem 0;
+      color: var(--color-text-primary);
+    }
+
+    .content-wrapper p {
+      line-height: 1.7;
+      margin: 1.5rem 0;
+      color: var(--color-text-secondary);
+    }
+
+    .content-wrapper strong {
+      color: var(--color-text-primary);
+      font-weight: 700;
+    }
+
+    .content-wrapper ul,
+    .content-wrapper ol {
+      padding-left: 2rem;
+      margin: 1.5rem 0;
+    }
+
+    .content-wrapper li {
+      margin: 0.5rem 0;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+    }
+
+    /* Code block styling with proper contrast */
+    .content-wrapper pre {
+      background: #f5f5f5; /* Light grey background */
+      border: 1px solid #e5e5e5;
+      border-radius: var(--glass-radius-medium);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      overflow-x: auto;
+      position: relative;
+      color: #171717; /* Dark text for light theme */
+    }
+
+    .content-wrapper code {
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: inherit; /* Inherit color from parent */
+    }
+
+    .content-wrapper pre code {
+      color: #171717; /* Dark text for light theme */
+      background: transparent;
+    }
+
+    /* Remove ALL syntax highlighting */
+    .content-wrapper pre code * {
+      color: #171717 !important; /* Force all text to be dark */
+      background: transparent !important;
+      font-weight: normal !important;
+      font-style: normal !important;
+      text-decoration: none !important;
+    }
+
+    /* Override any remaining syntax highlighting classes */
+    .content-wrapper pre code .string,
+    .content-wrapper pre code .attr-value,
+    .content-wrapper pre code .template-string,
+    .content-wrapper pre code .keyword,
+    .content-wrapper pre code .function,
+    .content-wrapper pre code .class-name,
+    .content-wrapper pre code .operator,
+    .content-wrapper pre code .number,
+    .content-wrapper pre code .boolean,
+    .content-wrapper pre code .property,
+    .content-wrapper pre code .tag,
+    .content-wrapper pre code .selector,
+    .content-wrapper pre code .attr-name,
+    .content-wrapper pre code .punctuation,
+    .content-wrapper pre code .comment {
+      color: #171717 !important; /* All text dark */
+    }
+
+    /* Specifically target green-ish colors and make them dark */
+    .content-wrapper pre code [style*='color: #'],
+    .content-wrapper pre code [style*='color: rgb'] {
+      color: #171717 !important;
+    }
+
+    /* Dark theme code blocks */
+    [data-theme='dark'] .content-wrapper pre {
+      color: #f5f5f0; /* Light text for dark theme */
+      background: #1a1a1a; /* Dark background for better contrast */
+      border: 1px solid #333;
+    }
+
+    [data-theme='dark'] .content-wrapper pre code {
+      color: #f5f5f0; /* Light text for dark theme */
+      background: transparent;
+    }
+
+    /* Inline code styling */
+    .content-wrapper p code,
+    .content-wrapper li code {
+      background: #f0f0f0;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      color: #171717;
+      font-size: 0.85em;
+    }
+
+    [data-theme='dark'] .content-wrapper p code,
+    [data-theme='dark'] .content-wrapper li code {
+      background: #2a2a2a;
+      color: #f5f5f0;
+    }
+
+    .content-wrapper blockquote {
+      border-left: 4px solid var(--color-accent-primary);
+      padding-left: 2rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: var(--color-text-secondary);
+    }
+  </style>
+
+  <main class="bio-container">
+    <div class="container-constrained">
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <canvas class="hero-particles" aria-hidden="true"></canvas>
+        <h1 class="hero-title">{data.hero.title}</h1>
+        <p class="hero-subtitle">{data.hero.subtitle}</p>
+      </section>
+
+      <!-- Profile Section -->
+      <section class="profile-section">
+        <div class="profile-card">
+          <h2>{data.profile.name}</h2>
+          <p><strong>{data.profile.title}</strong></p>
+          <p>{data.profile.location} • {data.profile.status}</p>
+
+          <div class="personality-split">
+            {
+              Object.entries(data.profile.personality).map(
+                ([key, value], index) => (
+                  <div
+                    class={`personality-card personality-${key.toLowerCase()}`}
+                  >
+                    <h3>{key.charAt(0).toUpperCase() + key.slice(1)}</h3>
+                    <p>{value}</p>
+                  </div>
+                )
+              )
+            }
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-section">
+          <div class="content-wrapper">
+            <Content />
+          </div>
+        </div>
+      </section>
+
+      <!-- Timeline/Experience Section -->
+      <section class="timeline-section">
+        <h2 class="section-header">The Journey</h2>
+        <div class="timeline-container">
+          <div class="timeline-item">
+            <div class="timeline-marker">
+              <div class="timeline-dot"></div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="timeline-content">
+              <h3 class="timeline-title">Foundation: Business Meets Tech</h3>
+              <p class="timeline-period">Early Career</p>
+              <p class="timeline-description">
+                Started with a Business degree and IT concentration from
+                Hofstra. Quickly discovered that understanding both sides of the
+                equation—business needs and technical possibilities—was my
+                superpower.
+              </p>
+              <ul class="timeline-achievements">
+                <li>
+                  Business degree with IT concentration from Hofstra University
+                </li>
+                <li>Discovered the intersection of business and technology</li>
+                <li>
+                  Built foundation in both strategic thinking and technical
+                  implementation
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker">
+              <div class="timeline-dot"></div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="timeline-content">
+              <h3 class="timeline-title">
+                Evolution: From Projects to Purpose
+              </h3>
+              <p class="timeline-period">Mid Career • 12+ Years Experience</p>
+              <p class="timeline-description">
+                Spent years learning that successful transformation isn't about
+                the technology—it's about people, processes, and occasionally
+                calling out the emperor's new clothes.
+              </p>
+              <ul class="timeline-achievements">
+                <li>
+                  <strong>PMP and Product Management certified</strong> (because
+                  credentials matter, even when they're arbitrary)
+                </li>
+                <li>
+                  <strong>Saved 20+ hours/month</strong> for a global payroll team
+                  through strategic system migration
+                </li>
+                <li>
+                  <strong>Expert in Agile, Scrum,</strong> and knowing when to ignore
+                  both
+                </li>
+                <li>
+                  <strong>Specialist in systems integration</strong> and making disparate
+                  tools play nicely together
+                </li>
+                <li>
+                  <strong>0% project strategy rejection rate</strong> (turns out,
+                  listening to stakeholders works)
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker">
+              <div class="timeline-dot active"></div>
+            </div>
+            <div class="timeline-content">
+              <h3 class="timeline-title">Current Chapter: Building Better</h3>
+              <p class="timeline-period">
+                Present • Senior Technical Program Manager
+              </p>
+              <p class="timeline-description">
+                Now I focus on helping organizations create technology solutions
+                that are secure, private, accessible, and actually useful. No
+                compromises on the fundamentals.
+              </p>
+              <ul class="timeline-achievements">
+                <li>
+                  <strong>Global payroll system migration</strong> that actually
+                  improved people's lives
+                </li>
+                <li>
+                  <strong>Launched compliance tools</strong> that teams actually
+                  want to use
+                </li>
+                <li>
+                  <strong>Streamlined workflows</strong> without the usual consultant
+                  buzzword bingo
+                </li>
+                <li>
+                  <strong>Built inclusive environments</strong> where diverse voices
+                  drive better solutions
+                </li>
+                <li>
+                  <strong>Champions equity and accessibility</strong> in every solution—it's
+                  not optional
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Social Links Section -->
+      <section class="social-section" aria-labelledby="social-heading">
+        <h2 id="social-heading" class="section-header">Connect</h2>
+        <div class="social-grid" role="list">
+          {
+            data.social.linkedin && (
+              <a
+                href={data.social.linkedin}
+                class="social-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Connect with Christopher Tagliaferro on LinkedIn (opens in new tab)"
+                role="listitem"
+              >
+                <svg
+                  class="social-icon"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg>
+                LinkedIn
+              </a>
+            )
+          }
+          {
+            data.social.email && (
+              <a
+                href={`mailto:${data.social.email}`}
+                class="social-link"
+                aria-label="Send an email to Christopher Tagliaferro"
+                role="listitem"
+              >
+                <svg
+                  class="social-icon"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-.904.732-1.636 1.636-1.636h.273L12 9.545l10.091-5.724h.273c.904 0 1.636.732 1.636 1.636z" />
+                </svg>
+                Email
+              </a>
+            )
+          }
+          {
+            data.social.portfolio && (
+              <a
+                href={data.social.portfolio}
+                class="social-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Christopher Tagliaferro's portfolio website (opens in new tab)"
+                role="listitem"
+              >
+                <svg
+                  class="social-icon"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                </svg>
+                Portfolio
+              </a>
+            )
+          }
+        </div>
+      </section>
+
+      <!-- Call to Action -->
+      <section class="cta-section">
+        <p class="cta-text">
+          Ready to break some rules and build something amazing?
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    // Simple particle animation for hero section
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.querySelector('.hero-particles');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let animationId;
+
+      // Check for reduced motion preference
+      const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches;
+      if (prefersReducedMotion) {
+        canvas.style.display = 'none';
+        return;
+      }
+
+      function setupCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+      }
+
+      function createParticles() {
+        particles = [];
+        for (let i = 0; i < 30; i++) {
+          particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2 + 1,
+            speedX: (Math.random() - 0.5) * 1,
+            speedY: (Math.random() - 0.5) * 1,
+            opacity: Math.random() * 0.5 + 0.1,
+            color: `rgba(184, 134, 154, ${Math.random() * 0.3 + 0.1})`,
+          });
+        }
+      }
+
+      function updateParticles() {
+        particles.forEach((particle) => {
+          particle.x += particle.speedX;
+          particle.y += particle.speedY;
+
+          if (particle.x < 0) particle.x = canvas.width;
+          if (particle.x > canvas.width) particle.x = 0;
+          if (particle.y < 0) particle.y = canvas.height;
+          if (particle.y > canvas.height) particle.y = 0;
+        });
+      }
+
+      function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach((particle) => {
+          ctx.save();
+          ctx.globalAlpha = particle.opacity;
+          ctx.fillStyle = particle.color;
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        });
+      }
+
+      function animate() {
+        updateParticles();
+        drawParticles();
+        animationId = requestAnimationFrame(animate);
+      }
+
+      function handleResize() {
+        setupCanvas();
+        createParticles();
+      }
+
+      // Initialize
+      setupCanvas();
+      createParticles();
+      animate();
+
+      // Handle resize
+      window.addEventListener('resize', handleResize);
+
+      // Cleanup
+      window.addEventListener('beforeunload', () => {
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+        window.removeEventListener('resize', handleResize);
+      });
+    });
+  </script>
+</Layout>
