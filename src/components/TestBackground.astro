@@ -1,0 +1,55 @@
+---
+// Simple test component to debug background issues
+---
+
+<div class="test-background">
+  <div class="test-dot"></div>
+  <div class="test-text">BACKGROUND TEST</div>
+</div>
+
+<style>
+  .test-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(45deg, #ff0000 0%, #00ff00 50%, #0000ff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .test-dot {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 30px;
+    height: 30px;
+    background: yellow;
+    border-radius: 50%;
+    animation: test-pulse 1s ease-in-out infinite;
+    z-index: 1000;
+  }
+
+  .test-text {
+    font-size: 3rem;
+    color: white;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    z-index: 999;
+  }
+
+  @keyframes test-pulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(1.5);
+    }
+  }
+</style>

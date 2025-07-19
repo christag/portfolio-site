@@ -1,0 +1,786 @@
+---
+// Dynamic Background Component for Glassmorphism Enhancement
+export interface Props {
+  intensity?: 'subtle' | 'medium' | 'high';
+  colorAccents?: boolean;
+  glitchEffects?: boolean;
+}
+
+const {
+  intensity = 'medium',
+  colorAccents = true,
+  glitchEffects = true,
+} = Astro.props;
+---
+
+<div
+  class={`dynamic-background dynamic-background--${intensity}`}
+  data-color-accents={colorAccents}
+  data-glitch={glitchEffects}
+>
+  <!-- Animated Wave Layers -->
+  <div class="wave-layer wave-layer--1"></div>
+  <div class="wave-layer wave-layer--2"></div>
+  <div class="wave-layer wave-layer--3"></div>
+
+  <!-- Floating Particles -->
+  <div class="particles-container">
+    <div class="particle particle--1"></div>
+    <div class="particle particle--2"></div>
+    <div class="particle particle--3"></div>
+    <div class="particle particle--4"></div>
+    <div class="particle particle--5"></div>
+    <div class="particle particle--6"></div>
+  </div>
+
+  <!-- High Contrast Elements -->
+  <div class="contrast-element contrast-element--1"></div>
+  <div class="contrast-element contrast-element--2"></div>
+  <div class="contrast-element contrast-element--3"></div>
+  <div class="contrast-element contrast-element--4"></div>
+
+  <!-- Glitch Overlay -->
+  <div class="glitch-overlay"></div>
+
+  <!-- Color Accent Sparkles (much smaller) -->
+  <div class="color-sparkle color-sparkle--1"></div>
+  <div class="color-sparkle color-sparkle--2"></div>
+  <div class="color-sparkle color-sparkle--3"></div>
+  <div class="color-sparkle color-sparkle--4"></div>
+  <div class="color-sparkle color-sparkle--5"></div>
+
+  <!-- Diagonal Pattern (very subtle in light mode) -->
+  <div class="diagonal-pattern light-mode-only"></div>
+</div>
+
+<style lang="scss">
+  .dynamic-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: var(--glassmorphism-bg-light);
+
+    // Dark mode: much darker background closer to black
+    [data-theme='dark'] & {
+      background: linear-gradient(
+        135deg,
+        #030303 0%,
+        #080808 50%,
+        #0d0d0d 100%
+      ) !important;
+    }
+
+    // Performance optimizations
+    will-change: auto;
+    transform: translateZ(0);
+    contain: layout style;
+  }
+
+  /* MORE SPECIFIC: Hide light-mode-only elements in dark mode */
+  html[data-theme='dark'] .light-mode-only,
+  [data-theme='dark'] .light-mode-only {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+
+  /* MORE SPECIFIC: Dark mode diagonal pattern override */
+  html[data-theme='dark'] .diagonal-pattern,
+  [data-theme='dark'] .diagonal-pattern {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    background: none !important;
+  }
+
+  /* ==========================================================================
+   WAVE LAYERS - Sharp, high contrast
+   ========================================================================== */
+
+  .wave-layer {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    animation: wave-float 15s ease-in-out infinite;
+    transform-origin: center;
+    filter: blur(8px); // Much sharper
+
+    // Light mode: sharp white elements
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.12) 30%,
+      transparent 50%
+    );
+
+    // Dark mode: sharp white wisps
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      background: radial-gradient(
+        ellipse at center,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.06) 30%,
+        transparent 50%
+      ) !important;
+    }
+  }
+
+  .wave-layer--1 {
+    top: -50%;
+    left: -50%;
+    animation-duration: 20s;
+    animation-delay: 0s;
+    transform: rotate(15deg);
+
+    // Light mode: sharp white with tiny pink hint
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(184, 134, 154, 0.08) 20%,
+      rgba(255, 255, 255, 0.15) 40%,
+      transparent 50%
+    );
+
+    // Dark mode: sharp white wisps
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      background: radial-gradient(
+        ellipse at center,
+        rgba(255, 255, 255, 0.18) 0%,
+        rgba(255, 255, 255, 0.08) 30%,
+        transparent 50%
+      ) !important;
+    }
+  }
+
+  .wave-layer--2 {
+    top: -30%;
+    left: -30%;
+    animation-duration: 25s;
+    animation-delay: -8s;
+    transform: rotate(-10deg);
+    opacity: 0.8;
+
+    // Light mode: sharp white
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.15) 30%,
+      transparent 50%
+    );
+
+    // Dark mode: sharp white wisps
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      background: radial-gradient(
+        ellipse at center,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.06) 30%,
+        transparent 50%
+      ) !important;
+    }
+  }
+
+  .wave-layer--3 {
+    top: -70%;
+    left: -70%;
+    animation-duration: 30s;
+    animation-delay: -15s;
+    transform: rotate(25deg);
+    opacity: 0.6;
+
+    // Light mode: sharp white
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.12) 30%,
+      transparent 50%
+    );
+
+    // Dark mode: sharp white wisps
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      background: radial-gradient(
+        ellipse at center,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.05) 30%,
+        transparent 50%
+      ) !important;
+    }
+  }
+
+  @keyframes wave-float {
+    0%,
+    100% {
+      transform: translateX(0) translateY(0)
+        rotate(var(--initial-rotation, 0deg)) scale(1);
+    }
+    25% {
+      transform: translateX(20px) translateY(-30px)
+        rotate(calc(var(--initial-rotation, 0deg) + 3deg)) scale(1.1);
+    }
+    50% {
+      transform: translateX(-15px) translateY(20px)
+        rotate(calc(var(--initial-rotation, 0deg) - 2deg)) scale(0.9);
+    }
+    75% {
+      transform: translateX(25px) translateY(10px)
+        rotate(calc(var(--initial-rotation, 0deg) + 2deg)) scale(1.05);
+    }
+  }
+
+  /* ==========================================================================
+   FLOATING PARTICLES - Sharp and high contrast
+   ========================================================================== */
+
+  .particles-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: particle-float 12s ease-in-out infinite;
+    filter: blur(5px); // Much sharper definition
+
+    // Light mode: sharp white particles
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.25) 50%,
+      transparent 100%
+    );
+
+    // Dark mode: sharp white wisps
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.08) 50%,
+        transparent 100%
+      ) !important;
+    }
+  }
+
+  .particle--1 {
+    width: 120px;
+    height: 120px;
+    top: 20%;
+    left: 10%;
+    animation-duration: 15s;
+    animation-delay: 0s;
+
+    // Light mode: sharp white with tiny pink hint
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(184, 134, 154, 0.15) 30%,
+      rgba(255, 255, 255, 0.25) 60%,
+      transparent 100%
+    );
+
+    // Dark mode: sharp white wisp
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%
+      ) !important;
+    }
+  }
+
+  .particle--2,
+  .particle--3,
+  .particle--4,
+  .particle--5,
+  .particle--6 {
+    // All other particles are sharp white in light mode
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.25) 50%,
+      transparent 100%
+    );
+  }
+
+  .particle--2 {
+    width: 100px;
+    height: 100px;
+    top: 60%;
+    left: 80%;
+    animation-duration: 18s;
+    animation-delay: -5s;
+  }
+
+  .particle--3 {
+    width: 80px;
+    height: 80px;
+    top: 80%;
+    left: 30%;
+    animation-duration: 14s;
+    animation-delay: -10s;
+  }
+
+  .particle--4 {
+    width: 140px;
+    height: 140px;
+    top: 40%;
+    left: 70%;
+    animation-duration: 20s;
+    animation-delay: -15s;
+  }
+
+  .particle--5 {
+    width: 90px;
+    height: 90px;
+    top: 10%;
+    left: 60%;
+    animation-duration: 16s;
+    animation-delay: -8s;
+  }
+
+  .particle--6 {
+    width: 110px;
+    height: 110px;
+    top: 70%;
+    left: 15%;
+    animation-duration: 22s;
+    animation-delay: -12s;
+  }
+
+  @keyframes particle-float {
+    0%,
+    100% {
+      transform: translateY(0) translateX(0) scale(1);
+      opacity: 0.8;
+    }
+    25% {
+      transform: translateY(-40px) translateX(30px) scale(1.2);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(30px) translateX(-20px) scale(0.8);
+      opacity: 0.9;
+    }
+    75% {
+      transform: translateY(-20px) translateX(35px) scale(1.1);
+      opacity: 0.95;
+    }
+  }
+
+  /* ==========================================================================
+   HIGH CONTRAST ELEMENTS - Black in light mode, white in dark mode
+   ========================================================================== */
+
+  .contrast-element {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(3px); // Very sharp for maximum contrast
+    opacity: 0;
+    animation: contrast-pulse 6s ease-in-out infinite;
+    pointer-events: none;
+
+    // Light mode: sharp black elements for contrast
+    background: radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0.4) 0%,
+      rgba(0, 0, 0, 0.15) 50%,
+      transparent 100%
+    );
+
+    // Dark mode: sharp white elements for contrast
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0.12) 50%,
+        transparent 100%
+      ) !important;
+    }
+  }
+
+  .contrast-element--1 {
+    width: 60px;
+    height: 60px;
+    top: 35%;
+    left: 25%;
+    animation-delay: 0s;
+  }
+
+  .contrast-element--2 {
+    width: 45px;
+    height: 45px;
+    top: 55%;
+    left: 70%;
+    animation-delay: -2s;
+  }
+
+  .contrast-element--3 {
+    width: 50px;
+    height: 50px;
+    top: 75%;
+    left: 45%;
+    animation-delay: -4s;
+  }
+
+  .contrast-element--4 {
+    width: 40px;
+    height: 40px;
+    top: 20%;
+    left: 75%;
+    animation-delay: -1s;
+  }
+
+  @keyframes contrast-pulse {
+    0%,
+    60%,
+    100% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    20%,
+    40% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+  }
+
+  /* ==========================================================================
+   GLITCH OVERLAY - Sharp contrast
+   ========================================================================== */
+
+  .glitch-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    animation: glitch-sweep 10s ease-in-out infinite;
+
+    // Light mode: sharp black glitch for contrast
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.15) 50%,
+      transparent 100%
+    );
+
+    // Dark mode: sharp white glitch
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        transparent 100%
+      ) !important;
+    }
+  }
+
+  [data-glitch='true'] .glitch-overlay {
+    animation: glitch-sweep 10s ease-in-out infinite;
+  }
+
+  @keyframes glitch-sweep {
+    0%,
+    85%,
+    100% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    10%,
+    20% {
+      opacity: 0.8;
+      transform: translateX(100%);
+    }
+  }
+
+  /* ==========================================================================
+   COLOR SPARKLES - Sharp, tiny color accents
+   ========================================================================== */
+
+  .color-sparkle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px); // Very sharp sparkles
+    opacity: 0;
+    animation: sparkle-twinkle 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  [data-color-accents='true'] .color-sparkle {
+    animation: sparkle-twinkle 8s ease-in-out infinite;
+  }
+
+  .color-sparkle--1 {
+    width: 40px;
+    height: 40px;
+    top: 25%;
+    left: 15%;
+    animation-delay: 0s;
+
+    // Light mode: sharp pink sparkle
+    background: radial-gradient(
+      circle,
+      rgba(184, 134, 154, 0.6) 0%,
+      rgba(184, 134, 154, 0.25) 50%,
+      transparent 100%
+    );
+
+    // Dark mode: hidden
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      display: none !important;
+    }
+  }
+
+  .color-sparkle--2 {
+    width: 30px;
+    height: 30px;
+    top: 65%;
+    left: 75%;
+    animation-delay: -2s;
+
+    // Light mode: sharp blue sparkle
+    background: radial-gradient(
+      circle,
+      rgba(0, 212, 255, 0.5) 0%,
+      rgba(0, 212, 255, 0.2) 50%,
+      transparent 100%
+    );
+
+    // Dark mode: hidden
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      display: none !important;
+    }
+  }
+
+  .color-sparkle--3 {
+    width: 35px;
+    height: 35px;
+    top: 45%;
+    left: 55%;
+    animation-delay: -4s;
+
+    // Light mode: sharp mint sparkle
+    background: radial-gradient(
+      circle,
+      rgba(78, 205, 196, 0.45) 0%,
+      rgba(78, 205, 196, 0.18) 50%,
+      transparent 100%
+    );
+
+    // Dark mode: hidden
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      display: none !important;
+    }
+  }
+
+  .color-sparkle--4 {
+    width: 25px;
+    height: 25px;
+    top: 15%;
+    left: 85%;
+    animation-delay: -1s;
+
+    // Light mode: sharp pink sparkle
+    background: radial-gradient(
+      circle,
+      rgba(184, 134, 154, 0.5) 0%,
+      rgba(184, 134, 154, 0.2) 50%,
+      transparent 100%
+    );
+
+    // Dark mode: hidden
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      display: none !important;
+    }
+  }
+
+  .color-sparkle--5 {
+    width: 32px;
+    height: 32px;
+    top: 80%;
+    left: 25%;
+    animation-delay: -3s;
+
+    // Light mode: sharp blue sparkle
+    background: radial-gradient(
+      circle,
+      rgba(0, 212, 255, 0.45) 0%,
+      rgba(0, 212, 255, 0.18) 50%,
+      transparent 100%
+    );
+
+    // Dark mode: hidden
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      display: none !important;
+    }
+  }
+
+  @keyframes sparkle-twinkle {
+    0%,
+    70%,
+    100% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    15%,
+    35% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1);
+    }
+  }
+
+  /* ==========================================================================
+   DIAGONAL PATTERN - Sharp lines
+   ========================================================================== */
+
+  .diagonal-pattern {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation: diagonal-shift 30s linear infinite;
+
+    // Light mode: sharper diagonal lines
+    background: repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      transparent 40px,
+      rgba(0, 0, 0, 0.08) 40px,
+      rgba(0, 0, 0, 0.08) 42px,
+      transparent 42px,
+      transparent 80px
+    );
+    opacity: 0.6;
+  }
+
+  @keyframes diagonal-shift {
+    0% {
+      transform: translateX(0) translateY(0);
+    }
+    100% {
+      transform: translateX(80px) translateY(80px);
+    }
+  }
+
+  /* ==========================================================================
+   INTENSITY VARIATIONS
+   ========================================================================== */
+
+  .dynamic-background--subtle {
+    .wave-layer {
+      opacity: 0.5;
+    }
+    .particle {
+      opacity: 0.6;
+    }
+    .color-sparkle {
+      opacity: 0.7;
+    }
+    .contrast-element {
+      opacity: 0.6;
+    }
+    .glitch-overlay {
+      opacity: 0.4;
+    }
+  }
+
+  .dynamic-background--medium {
+    .wave-layer {
+      opacity: 0.8;
+    }
+    .particle {
+      opacity: 0.9;
+    }
+    .color-sparkle {
+      opacity: 1;
+    }
+    .contrast-element {
+      opacity: 0.9;
+    }
+    .glitch-overlay {
+      opacity: 0.6;
+    }
+  }
+
+  .dynamic-background--high {
+    .wave-layer {
+      opacity: 1;
+    }
+    .particle {
+      opacity: 1;
+    }
+    .color-sparkle {
+      opacity: 1;
+    }
+    .contrast-element {
+      opacity: 1;
+    }
+    .glitch-overlay {
+      opacity: 0.8;
+    }
+  }
+
+  /* ==========================================================================
+   ACCESSIBILITY & PERFORMANCE
+   ========================================================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+    .dynamic-background * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+
+  @media (max-device-memory: 2GB) {
+    .dynamic-background {
+      .wave-layer,
+      .glitch-overlay,
+      .color-sparkle,
+      .contrast-element {
+        display: none;
+      }
+    }
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .dynamic-background {
+      .wave-layer {
+        opacity: 0.7;
+      }
+      .particle {
+        opacity: 0.8;
+        transform: scale(0.8);
+      }
+      .color-sparkle {
+        opacity: 0.8;
+        transform: scale(0.8);
+      }
+      .contrast-element {
+        opacity: 0.7;
+        transform: scale(0.9);
+      }
+    }
+  }
+</style>

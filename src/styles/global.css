@@ -200,7 +200,6 @@
   html {
     font-family: var(--font-body);
     scroll-behavior: smooth;
-    background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
     /* REMOVED position: relative to fix fixed positioning */
     height: 100%;
@@ -209,20 +208,17 @@
     max-width: 100vw;
   }
 
-  /* Ensure body has proper background and layout */
+  /* Ensure body has proper layout without blocking backgrounds */
   body {
-    background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
     min-height: 100vh;
     /* Reset any margins/padding that might interfere with fixed positioning */
     margin: 0 !important;
     padding: 0 !important;
-    /* REMOVED position: relative to fix fixed positioning */
     /* MOBILE FIX: Critical containment and touch properties */
     overflow-x: hidden;
     max-width: 100vw;
     width: 100%;
-    position: relative;
     /* Improve touch scrolling on mobile */
     -webkit-overflow-scrolling: touch;
     /* Prevent text scaling on orientation change */
@@ -650,10 +646,11 @@
   .glassmorphism-panel,
   .glassmorphism-content-panel {
     max-width: 100%;
-    overflow-x: hidden;
     box-sizing: border-box;
     word-wrap: break-word;
     hyphens: auto;
+    /* Remove overflow-x: hidden to prevent drop shadow cutoff */
+    /* overflow-x: hidden; */
   }
 
   /* Prevent any element from creating horizontal overflow */

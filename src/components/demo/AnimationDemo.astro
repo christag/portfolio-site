@@ -7,14 +7,6 @@ export interface Props {
 const { title = 'Animation Utilities Demo' } = Astro.props;
 ---
 
-<!-- Simple test animation first -->
-<div
-  class="test-animation-container mb-8 p-4 bg-red-500 text-white text-center"
->
-  <h3>ANIMATION TEST - This should be pulsing red</h3>
-  <div class="test-pulse">If this isn't pulsing, animations are broken</div>
-</div>
-
 <section class="animation-demo py-12 px-4">
   <div class="container-constrained">
     <h2 class="text-3xl font-bold mb-8 text-center">{title}</h2>

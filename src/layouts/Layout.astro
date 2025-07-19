@@ -1,6 +1,7 @@
 ---
 import Navigation from '../components/navigation/Navigation.astro';
 import Footer from '../components/footer/Footer.astro';
+import DynamicBackground from '../components/DynamicBackground.astro';
 
 export interface Props {
   title: string;
@@ -21,7 +22,7 @@ const currentPath = Astro.url.pathname;
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>{title}</title>
 
     <!-- Enhanced SEO metadata from page-specific SEO component -->
@@ -43,10 +44,14 @@ const currentPath = Astro.url.pathname;
       @import '../styles/variables.scss';
     </style>
   </head>
-  <body
-    class="min-h-screen"
-    style="background: var(--glassmorphism-bg-light); color: var(--color-text-primary, #171717);"
-  >
+  <body class="min-h-screen" style="color: var(--color-text-primary, #171717);">
+    <!-- Dynamic Animated Background -->
+    <DynamicBackground
+      intensity="medium"
+      colorAccents={true}
+      glitchEffects={true}
+    />
+
     <Navigation currentPath={currentPath} />
     <main class="pt-20 pb-32 mobile-main">
       <slot />
@@ -76,46 +81,83 @@ const currentPath = Astro.url.pathname;
       .container-constrained {
         max-width: 100vw;
         overflow-x: hidden;
+        box-sizing: border-box;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      /* Prevent any element from creating horizontal overflow */
+      * {
+        box-sizing: border-box;
+      }
+
+      img,
+      video,
+      canvas,
+      svg {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* Text containment for mobile */
+      p,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      span,
+      div {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+      }
+
+      /* Responsive typography */
+      .text-responsive {
+        font-size: clamp(1rem, 2.5vw, 1.25rem);
+        line-height: 1.4;
+      }
+
+      .heading-responsive {
+        font-size: clamp(1.5rem, 5vw, 3rem);
+        line-height: 0.9;
+        letter-spacing: -0.025em;
+      }
+
+      .display-responsive {
+        font-size: clamp(2rem, 8vw, 6rem);
+        line-height: 0.8;
+        letter-spacing: -0.05em;
       }
     </style>
 
-    <!-- Glassmorphism Performance Manager -->
+    <!-- Theme switching functionality -->
     <script>
-      import {
-        GlassPerformanceManager,
-        glassUtils,
-      } from '../components/utils/performance.js';
+      // Theme toggle functionality
+      function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 
-      // Initialize performance manager
-      const initPerformance = () => {
-        const manager = new GlassPerformanceManager();
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
 
-        // DISABLED: This adds transforms that break fixed positioning
-        // glassUtils.optimizeElements();
-
-        // Log performance recommendations in development
-        if (import.meta.env.DEV) {
-          const recommendations = manager.getRecommendations();
-          if (recommendations.length > 0) {
-            console.group('🔍 Glass Performance Recommendations');
-            recommendations.forEach((rec) => console.log(`• ${rec}`));
-            console.groupEnd();
-          }
-        }
-
-        // Make manager available globally for debugging
-        if (import.meta.env.DEV) {
-          window.glassPerformance = manager;
-          window.glassUtils = glassUtils;
-        }
-      };
-
-      // Initialize when DOM is ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initPerformance);
-      } else {
-        initPerformance();
+        // Dispatch custom event for components that need to react to theme changes
+        window.dispatchEvent(
+          new CustomEvent('themeChanged', { detail: { theme: newTheme } })
+        );
       }
+
+      // Make function globally available
+      window.toggleTheme = toggleTheme;
+
+      // Apply saved theme on page load
+      document.addEventListener('DOMContentLoaded', function () {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      });
     </script>
   </body>
 </html>

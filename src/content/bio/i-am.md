@@ -28,7 +28,7 @@ seo:
     card: 'summary_large_image'
     title: 'Christopher Tagliaferro - Senior Technical Program Manager'
     description: 'Transforming technology with purpose, humanity, and a dash of irony.'
-    image: '/twitter-bio.jpg'
+    image: '/og-bio.jpg'
 hero:
   title: 'I Am'
   subtitle: 'Program Manager. Systems Thinker. Optimistic Realist.'
