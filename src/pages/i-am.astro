@@ -5,8 +5,21 @@ import { contentManager } from '../lib/content';
 
 // Get the bio content using hybrid system (Strapi with local fallback)
 const bioEntry = await contentManager.getBioContent();
-const { Content } = await bioEntry.render();
 const { data } = bioEntry;
+
+// Handle content rendering differently for Strapi vs local content
+let Content;
+let contentHtml = '';
+
+if (bioEntry.body && typeof bioEntry.body === 'string') {
+  // This is from Strapi - create a simple component
+  contentHtml = bioEntry.body;
+  Content = () => null; // We'll use contentHtml directly
+} else {
+  // This is from local markdown - use normal rendering
+  const rendered = await bioEntry.render();
+  Content = rendered.Content;
+}
 ---
 
 <Layout title={data.seo.title} description={data.seo.description}>
@@ -1279,7 +1292,7 @@ const { data } = bioEntry;
         <!-- Main Content -->
         <div class="content-section">
           <div class="content-wrapper">
-            <Content />
+            {contentHtml ? <div set:html={contentHtml} /> : <Content />}
           </div>
         </div>
       </section>
