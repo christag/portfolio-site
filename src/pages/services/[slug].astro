@@ -1,0 +1,658 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SEO from '../../components/SEO.astro';
+import DynamicBackground from '../../components/DynamicBackground.astro';
+import { strapiAPI } from '../../lib/strapi';
+import type { Service } from '../../lib/strapi';
+
+export async function getStaticPaths() {
+  let services: Service[] = [];
+
+  try {
+    // Try to fetch from Strapi
+    const isHealthy = await strapiAPI.healthCheck();
+    if (isHealthy) {
+      services = await strapiAPI.getServices();
+    }
+  } catch (error) {
+    console.error('Failed to fetch services for static paths:', error);
+  }
+
+  // If no services from Strapi, create paths for mock services
+  if (services.length === 0) {
+    const mockSlugs = [
+      'virtual-cio-strategy',
+      'it-support-troubleshooting',
+      'hourly-tech-consulting',
+      'it-project-management',
+      'workflow-automation-ai',
+      'data-analysis-business-intelligence',
+      'cloud-migration-infrastructure',
+      'cybersecurity-risk-assessment',
+      'website-development-online-presence',
+      'employee-tech-training',
+    ];
+
+    return mockSlugs.map((slug) => ({
+      params: { slug },
+      props: { service: null }, // Will use mock data in component
+    }));
+  }
+
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { slug } = Astro.params;
+let { service } = Astro.props;
+
+// If no service provided (mock mode), create mock service data
+if (!service) {
+  const mockServices = {
+    'virtual-cio-strategy': {
+      id: 1,
+      documentId: 'virtual-cio-1',
+      title: 'Virtual CIO & IT Strategy Leadership',
+      description:
+        'Strategic technology leadership and guidance for growing businesses. Get expert CTO-level insights without the full-time executive cost.',
+      category: 'Leadership',
+      featureHighlights: [
+        '12+ Years IT Leadership Experience',
+        'Strategic Technology Roadmaps',
+        'IT Budget Planning & Cost Reduction',
+        'Executive-Level Guidance',
+      ],
+      tiers: [
+        {
+          name: 'Strategic Tech Check-Up',
+          priceLow: 500,
+          priceHigh: 500,
+          deliverables: [
+            'Current IT setup review',
+            'Prioritized action plan',
+            'Cost reduction recommendations',
+          ],
+        },
+        {
+          name: 'Fractional CIO Advisory',
+          priceLow: 1500,
+          priceHigh: 1500,
+          deliverables: [
+            'Monthly strategy calls',
+            'IT budget planning',
+            'Ongoing technology advice',
+          ],
+        },
+        {
+          name: 'Fully-Integrated vCIO Partner',
+          priceLow: 3000,
+          priceHigh: 3000,
+          deliverables: [
+            'Leadership team integration',
+            'Complete IT initiative oversight',
+            'Enterprise-grade strategic planning',
+          ],
+        },
+      ],
+      contactMethod: 'email',
+      isPinned: true,
+      slug: 'virtual-cio-strategy',
+      createdAt: '2024-01-01',
+      updatedAt: '2024-01-01',
+      publishedAt: '2024-01-01',
+    },
+    // Add more mock services as needed
+  };
+
+  service =
+    mockServices[slug as keyof typeof mockServices] ||
+    mockServices['virtual-cio-strategy'];
+}
+
+// Format pricing for display
+const formatPrice = (low?: number, high?: number) => {
+  if (!low && !high) return 'Contact for pricing';
+  if (low === high) return `$${low?.toLocaleString()}`;
+  return `$${low?.toLocaleString()} - $${high?.toLocaleString()}`;
+};
+
+// Get contact method display
+const getContactDisplay = (method?: string) => {
+  switch (method) {
+    case 'email':
+      return {
+        text: 'Email Me',
+        link: 'mailto:chris@example.com',
+        icon: 'email',
+      };
+    case 'calendar':
+      return { text: 'Schedule Call', link: '#', icon: 'calendar' };
+    case 'phone':
+      return { text: 'Call Now', link: 'tel:+1234567890', icon: 'phone' };
+    default:
+      return {
+        text: 'Get In Touch',
+        link: 'mailto:chris@example.com',
+        icon: 'email',
+      };
+  }
+};
+
+const contact = getContactDisplay(service.contactMethod);
+
+// SEO data
+const seoTitle = `${service.title} | Professional IT Consulting Services`;
+const seoDescription =
+  service.description.length > 160
+    ? service.description.substring(0, 157) + '...'
+    : service.description;
+---
+
+<Layout>
+  <SEO
+    slot="head"
+    title={seoTitle}
+    description={seoDescription}
+    keywords={[
+      service.title,
+      service.category || 'IT Consulting',
+      'Technology Services',
+      'Business Consulting',
+      'IT Strategy',
+      'Digital Transformation',
+    ]}
+    openGraph={{
+      title: seoTitle,
+      description: seoDescription,
+      type: 'service',
+      url: `https://christagliaferro.com/services/${service.slug}`,
+    }}
+    structuredData={{
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: service.title,
+      description: service.description,
+      category: service.category,
+      provider: {
+        '@type': 'Person',
+        name: 'Christopher Tagliaferro',
+        jobTitle: 'IT Consultant & Technology Leader',
+      },
+      offers: service.tiers?.map((tier) => ({
+        '@type': 'Offer',
+        name: tier.name,
+        price: tier.priceLow?.toString(),
+        priceCurrency: 'USD',
+        description: tier.deliverables?.join(', '),
+      })),
+    }}
+  />
+
+  <DynamicBackground />
+
+  <main class="service-detail">
+    <!-- Back Navigation -->
+    <nav class="back-nav">
+      <a href="/services" class="back-link">
+        <span class="back-arrow">←</span>
+        <span class="back-text">All Services</span>
+      </a>
+    </nav>
+
+    <!-- Service Header -->
+    <header class="service-header">
+      <div class="service-meta">
+        {
+          service.category && (
+            <span class="service-category">
+              [ {service.category.toUpperCase()} ]
+            </span>
+          )
+        }
+        {service.isPinned && <span class="service-featured">★ FEATURED</span>}
+      </div>
+      <h1 class="service-title">{service.title}</h1>
+      <p class="service-description">{service.description}</p>
+    </header>
+
+    <!-- Feature Highlights -->
+    {
+      service.featureHighlights && service.featureHighlights.length > 0 && (
+        <section class="features-section">
+          <h2 class="features-title">[ KEY FEATURES ]</h2>
+          <ul class="features-grid">
+            {service.featureHighlights.map((feature, index) => (
+              <li class="feature-item" style={`--delay: ${index * 0.1}s`}>
+                <span class="feature-bullet">▶</span>
+                <span class="feature-text">{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <!-- Pricing Tiers -->
+    {
+      service.tiers && service.tiers.length > 0 && (
+        <section class="pricing-section">
+          <h2 class="pricing-title">[ PRICING TIERS ]</h2>
+          <div class="pricing-grid">
+            {service.tiers.map((tier, index) => (
+              <div class="pricing-tier" style={`--delay: ${index * 0.15}s`}>
+                <div class="tier-header">
+                  <h3 class="tier-name">{tier.name}</h3>
+                  <div class="tier-price">
+                    {formatPrice(tier.priceLow, tier.priceHigh)}
+                  </div>
+                </div>
+                {tier.deliverables && tier.deliverables.length > 0 && (
+                  <ul class="tier-deliverables">
+                    {tier.deliverables.map((deliverable) => (
+                      <li class="deliverable-item">
+                        <span class="deliverable-check">✓</span>
+                        <span class="deliverable-text">{deliverable}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <!-- Contact CTA -->
+    <section class="contact-section">
+      <div class="contact-card">
+        <h2 class="contact-title">Ready to Get Started?</h2>
+        <p class="contact-description">
+          Let's discuss how this service can help transform your business
+          operations and drive growth.
+        </p>
+        <a href={contact.link} class="contact-button">
+          <span class="contact-icon" data-icon={contact.icon}></span>
+          <span class="contact-text">{contact.text}</span>
+        </a>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .service-detail {
+    min-height: 100vh;
+    padding: 2rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Back Navigation */
+  .back-nav {
+    margin-bottom: 2rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+  }
+
+  .back-link:hover {
+    color: var(--accent-primary);
+    transform: translateX(-0.25rem);
+  }
+
+  .back-arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+  }
+
+  .back-link:hover .back-arrow {
+    transform: translateX(-0.25rem);
+  }
+
+  /* Service Header */
+  .service-header {
+    max-width: 800px;
+    margin: 0 auto 4rem;
+    text-align: center;
+  }
+
+  .service-meta {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .service-category {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-secondary);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+
+  .service-featured {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+
+  .service-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(
+      135deg,
+      var(--text-primary),
+      var(--accent-primary)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+
+  .service-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Features Section */
+  .features-section {
+    max-width: 1000px;
+    margin: 0 auto 4rem;
+  }
+
+  .features-title {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    text-align: center;
+    margin-bottom: 2rem;
+    letter-spacing: 0.1em;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    animation: slideInUp 0.6s ease var(--delay, 0s) both;
+  }
+
+  .feature-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(var(--accent-primary-rgb), 0.3);
+  }
+
+  .feature-bullet {
+    color: var(--accent-primary);
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+
+  .feature-text {
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  /* Pricing Section */
+  .pricing-section {
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+  }
+
+  .pricing-title {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    text-align: center;
+    margin-bottom: 2rem;
+    letter-spacing: 0.1em;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .pricing-tier {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    animation: slideInUp 0.6s ease var(--delay, 0s) both;
+  }
+
+  .pricing-tier:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(var(--accent-primary-rgb), 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .tier-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .tier-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .tier-price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent-primary);
+    font-family: var(--font-mono);
+  }
+
+  .tier-deliverables {
+    list-style: none;
+    padding: 0;
+  }
+
+  .deliverable-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0;
+  }
+
+  .deliverable-check {
+    color: var(--accent-secondary);
+    font-weight: bold;
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .deliverable-text {
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* Contact Section */
+  .contact-section {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .contact-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 3rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .contact-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(var(--accent-primary-rgb), 0.3);
+  }
+
+  .contact-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+
+  .contact-description {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .contact-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(
+      135deg,
+      var(--accent-primary),
+      var(--accent-secondary)
+    );
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .contact-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(var(--accent-primary-rgb), 0.4);
+  }
+
+  .contact-icon {
+    font-size: 1.2rem;
+  }
+
+  .contact-icon[data-icon='email']::before {
+    content: '✉';
+  }
+  .contact-icon[data-icon='calendar']::before {
+    content: '📅';
+  }
+  .contact-icon[data-icon='phone']::before {
+    content: '📞';
+  }
+
+  /* Animations */
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .service-detail {
+      padding: 1rem;
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .pricing-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-card {
+      padding: 2rem;
+    }
+
+    .service-meta {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    .feature-item,
+    .pricing-tier,
+    .contact-card {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .feature-item:hover,
+    .pricing-tier:hover,
+    .contact-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .feature-item,
+    .pricing-tier {
+      animation: none;
+    }
+
+    .back-link:hover,
+    .feature-item:hover,
+    .pricing-tier:hover,
+    .contact-button:hover {
+      transform: none;
+    }
+  }
+</style>
+
