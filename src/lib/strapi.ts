@@ -18,46 +18,21 @@ interface StrapiArticle {
   content: string;
   publishDate: string;
   author: string;
-  tags: string[];
+  tags: string;
   featured: boolean;
   draft: boolean;
-  seo: {
-    title: string;
-    description: string;
-    keywords: string[];
-    openGraph: {
-      title: string;
-      description: string;
-      type: string;
-      image?: string;
-    };
-    twitter: {
-      card: string;
-      title: string;
-      description: string;
-      image?: string;
-    };
-  };
-  hero: {
-    title: string;
-    subtitle: string;
-    animation: string;
-    background: string;
-  };
-  profile: {
-    name: string;
-    title: string;
-    location: string;
-    status: string;
-    personality: Record<string, string>;
-  };
-  social: {
-    github?: string;
-    linkedin?: string;
-    twitter?: string;
-    email?: string;
-    portfolio?: string;
-  };
+  heroTitle: string;
+  heroSubtitle: string;
+  seoTitle: string;
+  seoDescription: string;
+  seoKeywords: string;
+  profileName: string;
+  profileTitle: string;
+  profileLocation: string;
+  profileStatus: string;
+  socialLinkedin?: string;
+  socialEmail?: string;
+  socialPortfolio?: string;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;

@@ -11,13 +11,55 @@ function transformStrapiArticle(article: StrapiArticle) {
       description: article.description,
       publishDate: new Date(article.publishDate),
       author: article.author,
-      tags: article.tags,
+      tags: article.tags
+        ? article.tags.split(',').map((tag) => tag.trim())
+        : [],
       featured: article.featured,
       draft: article.draft,
-      seo: article.seo,
-      hero: article.hero,
-      profile: article.profile,
-      social: article.social,
+      seo: {
+        title: article.seoTitle,
+        description: article.seoDescription,
+        keywords: article.seoKeywords
+          ? article.seoKeywords.split(',').map((kw) => kw.trim())
+          : [],
+        openGraph: {
+          title: article.seoTitle,
+          description: article.seoDescription,
+          type: 'profile',
+          image: '/og-bio.jpg',
+        },
+        twitter: {
+          card: 'summary_large_image',
+          title: article.seoTitle,
+          description: article.seoDescription,
+          image: '/og-bio.jpg',
+        },
+      },
+      hero: {
+        title: article.heroTitle,
+        subtitle: article.heroSubtitle,
+        animation: 'particle-name',
+        background: 'gradient-chaos',
+      },
+      profile: {
+        name: article.profileName,
+        title: article.profileTitle,
+        location: article.profileLocation,
+        status: article.profileStatus,
+        personality: {
+          professional: 'Architect of sustainable transformations',
+          'anti-corporate':
+            'Challenger of inefficient systems and corporate absurdity',
+          technical: 'Deep systems thinker and problem solver',
+          creative: 'Design-minded approach to complex challenges',
+          pragmatic: 'Results-focused with attention to detail',
+        },
+      },
+      social: {
+        linkedin: article.socialLinkedin,
+        email: article.socialEmail,
+        portfolio: article.socialPortfolio,
+      },
     },
     body: article.content,
     render: async () => ({
