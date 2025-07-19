@@ -124,17 +124,25 @@ const getContactDisplay = (method?: string) => {
     case 'email':
       return {
         text: 'Email Me',
-        link: 'mailto:chris@example.com',
+        link: 'https://booking.christagliaferro.com',
         icon: 'email',
       };
     case 'calendar':
-      return { text: 'Schedule Call', link: '#', icon: 'calendar' };
+      return {
+        text: 'Schedule Call',
+        link: 'https://booking.christagliaferro.com',
+        icon: 'calendar',
+      };
     case 'phone':
-      return { text: 'Call Now', link: 'tel:+1234567890', icon: 'phone' };
+      return {
+        text: 'Call Now',
+        link: 'https://booking.christagliaferro.com',
+        icon: 'phone',
+      };
     default:
       return {
         text: 'Get In Touch',
-        link: 'mailto:chris@example.com',
+        link: 'https://booking.christagliaferro.com',
         icon: 'email',
       };
   }
@@ -273,7 +281,12 @@ const seoDescription =
           Let's discuss how this service can help transform your business
           operations and drive growth.
         </p>
-        <a href={contact.link} class="contact-button">
+        <a
+          href={contact.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-button"
+        >
           <span class="contact-icon" data-icon={contact.icon}></span>
           <span class="contact-text">{contact.text}</span>
         </a>
@@ -655,4 +668,3 @@ const seoDescription =
     }
   }
 </style>
-
