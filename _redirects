@@ -1,0 +1,14 @@
+# Cloudflare Pages Redirects Configuration
+
+# Redirect old paths (if any)
+# /old-path/* /new-path/:splat 301
+
+# SPA fallback for 404s (if needed)
+/* /404.html 404
+
+# Force HTTPS
+http://christagliaferro.com/* https://christagliaferro.com/:splat 301
+http://www.christagliaferro.com/* https://www.christagliaferro.com/:splat 301
+
+# Redirect non-www to www (if preferred)
+# https://christagliaferro.com/* https://www.christagliaferro.com/:splat 301 

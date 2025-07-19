@@ -21,13 +21,16 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "build:production": "NODE_ENV=production astro build",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "deploy:preview": "npm run build && npm run preview",
+    "check": "astro check"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.4.1",

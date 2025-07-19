@@ -1,11 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import SEO from '../components/SEO.astro';
+import { contentManager } from '../lib/content';
 
-// Get the bio content
-const bioEntries = await getCollection('bio');
-const bioEntry = bioEntries[0]; // Get the first (and only) bio entry
+// Get the bio content using hybrid system (Strapi with local fallback)
+const bioEntry = await contentManager.getBioContent();
 const { Content } = await bioEntry.render();
 const { data } = bioEntry;
 ---
@@ -1484,14 +1483,29 @@ const { data } = bioEntry;
   </main>
 
   <script>
+    // @ts-nocheck
     // Simple particle animation for hero section
     document.addEventListener('DOMContentLoaded', () => {
-      const canvas = document.querySelector('.hero-particles');
+      const canvas = document.querySelector(
+        '.hero-particles'
+      ) as HTMLCanvasElement;
       if (!canvas) return;
 
       const ctx = canvas.getContext('2d');
-      let particles = [];
-      let animationId;
+      if (!ctx) return;
+
+      interface Particle {
+        x: number;
+        y: number;
+        size: number;
+        speedX: number;
+        speedY: number;
+        opacity: number;
+        color: string;
+      }
+
+      let particles: Particle[] = [];
+      let animationId: number;
 
       // Check for reduced motion preference
       const prefersReducedMotion = window.matchMedia(
@@ -1570,7 +1584,7 @@ const { data } = bioEntry;
 
       // Cleanup
       window.addEventListener('beforeunload', () => {
-        if (animationId) {
+        if (animationId !== undefined) {
           cancelAnimationFrame(animationId);
         }
         window.removeEventListener('resize', handleResize);
