@@ -28,7 +28,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky install",
+    "prepare": "husky install || true",
     "deploy:preview": "npm run build && npm run preview",
     "check": "astro check"
   },
