@@ -1,74 +1,5 @@
 import { getCollection } from 'astro:content';
-import { strapiAPI, type StrapiArticle } from './strapi';
-
-// Transform Strapi article to match our local content structure
-function transformStrapiArticle(article: StrapiArticle) {
-  return {
-    id: article.documentId,
-    slug: article.documentId,
-    data: {
-      title: article.title,
-      description: article.description,
-      publishDate: new Date(article.publishDate),
-      author: article.author,
-      tags: article.tags
-        ? article.tags.split(',').map((tag) => tag.trim())
-        : [],
-      featured: article.featured,
-      draft: article.draft,
-      seo: {
-        title: article.seoTitle,
-        description: article.seoDescription,
-        keywords: article.seoKeywords
-          ? article.seoKeywords.split(',').map((kw) => kw.trim())
-          : [],
-        openGraph: {
-          title: article.seoTitle,
-          description: article.seoDescription,
-          type: 'profile',
-          image: '/og-bio.jpg',
-        },
-        twitter: {
-          card: 'summary_large_image',
-          title: article.seoTitle,
-          description: article.seoDescription,
-          image: '/og-bio.jpg',
-        },
-      },
-      hero: {
-        title: article.heroTitle,
-        subtitle: article.heroSubtitle,
-        animation: 'particle-name',
-        background: 'gradient-chaos',
-      },
-      profile: {
-        name: article.profileName,
-        title: article.profileTitle,
-        location: article.profileLocation,
-        status: article.profileStatus,
-        personality: {
-          professional: 'Architect of sustainable transformations',
-          'anti-corporate':
-            'Challenger of inefficient systems and corporate absurdity',
-          technical: 'Deep systems thinker and problem solver',
-          creative: 'Design-minded approach to complex challenges',
-          pragmatic: 'Results-focused with attention to detail',
-        },
-      },
-      social: {
-        linkedin: article.socialLinkedin,
-        email: article.socialEmail,
-        portfolio: article.socialPortfolio,
-      },
-    },
-    body: article.content,
-    render: async () => ({
-      Content: () => ({
-        __html: article.content,
-      }),
-    }),
-  };
-}
+import { strapiAPI } from './strapi';
 
 // Content fetching strategies
 export class ContentManager {
@@ -103,26 +34,40 @@ export class ContentManager {
     }
   }
 
-  // Get bio content with fallback strategy
+  // Get bio content with multi-source data fetching and fallback strategy
   async getBioContent() {
     const isStrapiAvailable = await this.checkStrapiAvailability();
 
     if (isStrapiAvailable) {
       try {
-        console.log('Fetching bio content from Strapi...');
-        const strapiArticle = await strapiAPI.getFeaturedBioArticle();
+        console.log(
+          'Fetching merged bio content from Strapi (multi-source)...'
+        );
+        const mergedData = await strapiAPI.getMergedBioContent();
 
-        if (strapiArticle) {
-          console.log('Successfully fetched bio content from Strapi');
-          return transformStrapiArticle(strapiArticle);
+        if (mergedData) {
+          console.log('Successfully fetched merged bio content from Strapi');
+
+          // Transform to match expected structure
+          return {
+            id: 'strapi-merged',
+            slug: 'strapi-merged',
+            data: mergedData,
+            body: mergedData.content,
+            render: async () => ({
+              Content: () => ({
+                __html: mergedData.content,
+              }),
+            }),
+          };
         } else {
           console.warn(
-            'No featured bio article found in Strapi, falling back to local content'
+            'No merged bio content available from Strapi, falling back to local content'
           );
         }
       } catch (error) {
         console.error(
-          'Failed to fetch from Strapi, falling back to local content:',
+          'Failed to fetch merged content from Strapi, falling back to local content:',
           error
         );
       }
@@ -148,7 +93,8 @@ export class ContentManager {
       try {
         console.log('Fetching all bio articles from Strapi...');
         const strapiArticles = await strapiAPI.getBioArticles();
-        return strapiArticles.map(transformStrapiArticle);
+        // For now, return raw articles - can be enhanced later if needed
+        return strapiArticles;
       } catch (error) {
         console.error(
           'Failed to fetch articles from Strapi, falling back to local content:',

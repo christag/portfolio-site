@@ -3,83 +3,158 @@
 # Status: pending
 # Dependencies: 1
 # Priority: highest
-# Description: Set up and deploy Strapi as the headless CMS on AWS EC2 (t3.micro or higher as needed) with content models for Media, Service (with tiered pricing, descriptions, feature highlights, pin/highlight, slug, filtering, dynamic CTA), Bio, and SiteSettings. This is the highest priority task and must be completed before any dynamic services or portfolio features. The Service model must support filtering by service type and pricing tier, pin/highlight functionality, and dynamic CTA generation based on contactMethod. Performance considerations such as caching, error handling, and loading states are required. Subtasks have been reordered based on risk assessment and critical path optimization to minimize blockers and enable parallel work where possible.
+# Description: Set up and deploy Strapi as the headless CMS on Railway (instead of AWS) with content models following Strapi v5 best practices: Author Profile (Single Type), Site Settings (Single Type), Bio Article (Collection Type), Service (Collection Type with tiered pricing, descriptions, feature highlights, pin/highlight, slug, filtering, dynamic CTA), and reusable components. This architecture eliminates 80% of duplicate fields through automated population from centralized profiles. This is the highest priority task and must be completed before any dynamic services or portfolio features. Performance considerations such as caching, error handling, and loading states are required. Railway provides seamless GitHub integration, automatic deployments, built-in PostgreSQL, and cost-effective scaling (~$5-20/month).
 # Details:
-1. Provision AWS infrastructure using Terraform:
-   - EC2 t3.micro (or higher if required for performance)
-   - S3 bucket for asset storage
-   - Security groups and IAM roles
-2. Apply security hardening immediately after infrastructure provisioning to minimize risk exposure
-3. Set up backup and recovery procedures before any data is created
-4. Install and configure Strapi CMS:
-   - Set up with SQLite initially (PostgreSQL upgrade-ready)
-   - Use pre-configured AMI or manual setup as appropriate[1][3][5]
-5. Define content models in Strapi:
-   - Media: id, title, type(enum), url, embedCode, tags[], length, createdAt
-   - Service: id, title, category/type, description, featureHighlights[], tiers[{name (Basic/Standard/Premium), priceLow, priceHigh, deliverables}], contactMethod, isPinned, slug
-   - Service model must support filtering by service type and pricing tier, pin/highlight functionality, and dynamic CTA generation based on contactMethod
-   - Bio: markdown, socialLinks[]
-   - SiteSettings: various configuration options
+1. Set up Railway project and connect GitHub repository:
+   - Create Railway account and project
+   - Connect GitHub repository for automatic deployments
+   - Configure environment variables
+2. Provision Railway PostgreSQL database:
+   - Use Railway's built-in PostgreSQL service
+   - Configure database connection strings
+3. Deploy Strapi to Railway:
+   - Configure Strapi for Railway deployment
+   - Set up automatic deployments on push
+   - Configure custom subdomain (via Railway or Cloudflare)
+4. Set up media storage:
+   - Configure Railway's file storage or S3 integration
+   - Set up CDN for media delivery if needed
+5. Define content models in Strapi v5 following best practices:
+   - Author Profile (Single Type): fullName, bio, avatar, role, location, status, socialLinks (component), contactInfo (component), timeline (dynamic zone)
+   - Site Settings (Single Type): Default SEO metadata, site title/description, global social links, contact info, brand colors/logos/default images
+   - Bio Article (Collection Type): title, description, content (rich text), publishDate, featured, draft, seoOverride (component), heroOverride (component)
+   - Service (Collection Type): id, title, category/type, description, featureHighlights[], tiers[{name (Basic/Standard/Premium), priceLow, priceHigh, deliverables}], contactMethod, isPinned, slug
+   - Reusable Components: SocialLink, SEOData, HeroData, TimelineEvent
 6. Configure API endpoints (GraphQL and REST, as supported by Strapi)
    - Ensure endpoints support filtering, sorting, and dynamic CTA logic for Service
+   - Enable automated field population from Author Profile and Site Settings
 7. Set up user authentication and permissions in Strapi
-8. Configure S3 for media uploads via Strapi's upload provider
-9. Implement caching strategies, error handling, and monitoring in parallel
-10. Conduct performance and load testing
+8. Configure webhooks to trigger Cloudflare Pages rebuilds
+9. Implement caching strategies, error handling, and monitoring
+10. Set up backup procedures using Railway's built-in features
 11. Document all architecture and processes
 
-CRITICAL: This CMS deployment blocks all dynamic content functionality and should be prioritized over other tasks. Security and backup procedures are now prioritized early in the process to minimize risk.
+CRITICAL: This CMS deployment blocks all dynamic content functionality and should be prioritized over other tasks. Railway's platform handles SSL, scaling, and much of the infrastructure complexity automatically.
 
 # Test Strategy:
-1. Verify Strapi installation and accessibility
-2. Test content model creation and validation in Strapi, especially Service model fields (title, description, category/type, tiered pricing, feature highlights, contactMethod, isPinned, slug)
-3. Validate Strapi API endpoints (REST/GraphQL) return expected data, including filtering by service type and pricing tier, and dynamic CTA logic
-4. Test media upload functionality to S3 via Strapi
-5. Verify backup system works correctly
-6. Load test to ensure t3.micro (or chosen instance) performance is adequate
-7. Check security configurations and access controls in Strapi
+1. Verify Strapi deployment on Railway is accessible via custom subdomain
+2. Test content model creation and validation in Strapi, especially:
+   - Author Profile single type with all fields and components
+   - Site Settings single type with global configurations
+   - Bio Article collection with automated field population from Author Profile/Site Settings
+   - Service model fields (title, description, category/type, tiered pricing, feature highlights, contactMethod, isPinned, slug)
+3. Validate Strapi API endpoints (REST/GraphQL) return expected data, including:
+   - Automated population of fields from Author Profile and Site Settings
+   - Filtering by service type and pricing tier
+   - Dynamic CTA logic
+4. Test media upload functionality (Railway storage or S3)
+5. Verify automatic deployments work on GitHub push
+6. Test webhook integration with Cloudflare Pages rebuilds
+7. Check authentication and access controls in Strapi
 8. Test caching and error handling for all API endpoints
 9. Validate loading states for all dynamic content
-10. Review CSS variable and Tailwind integration in CMS-driven UI
-11. Verify security hardening measures are effective
-12. Test disaster recovery procedures
+10. Verify Railway's built-in monitoring and logging
+11. Test backup and recovery procedures
+12. Validate SSL certificate is properly configured
+13. Test component reusability across content types
 
 # Subtasks:
-## 1. Provision AWS Infrastructure with Terraform [pending]
+## 1. Set Up Railway Project and GitHub Integration [done]
 ### Dependencies: None
-### Description: Set up foundational AWS resources using Terraform, including VPC, subnets, security groups, EC2 instances, RDS (if needed), S3 buckets, and IAM roles for Strapi deployment.
+### Description: Create Railway account, initialize project, and connect GitHub repository for automatic deployments. Configure environment variables and deployment settings.
 ### Details:
-Deliverables: Terraform scripts (modular, reusable), state management (remote backend), and documentation. Technical specs: Use latest AWS provider, enable versioning on S3, restrict security groups to necessary ports, and enforce least privilege IAM policies. Validation: Run 'terraform plan' and 'terraform apply', verify resource creation in AWS console, and perform security group port scans.
+Deliverables: Railway project setup, GitHub connection, environment variables configuration, and deployment pipeline. Technical specs: Enable automatic deployments on push, configure build commands, set Node.js version, and document Railway dashboard access. Validation: Push test commit to verify automatic deployment, check Railway logs, and confirm successful build.
+<info added on 2025-07-19T04:54:23.056Z>
+COMPLETED: Successfully set up Railway project foundation and GitHub integration.
 
-## 2. Apply Security Hardening Best Practices [pending]
+**Accomplished:**
+- ✅ Created Strapi 5 project in separate `website-cms` directory
+- ✅ Configured `.env.example` with all required environment variables for Railway
+- ✅ Updated database configuration for PostgreSQL with Railway optimizations:
+  - Added proper SSL handling for production
+  - Enhanced connection pooling settings
+  - Configured to use Railway's DATABASE_URL
+- ✅ Configured CORS middleware for Cloudflare Pages frontend integration
+- ✅ Added PostgreSQL driver (`pg`) dependency
+- ✅ Enhanced security headers and CSP configuration
+- ✅ Committed and pushed all changes to GitHub repository
+
+**Ready for Railway:**
+- GitHub repository is ready for Railway connection
+- All environment variables documented in .env.example
+- Database configuration optimized for Railway PostgreSQL
+- CORS configured for frontend integration
+
+The foundation is now ready for Railway deployment setup in the next subtask.
+</info added on 2025-07-19T04:54:23.056Z>
+
+## 2. Provision Railway PostgreSQL Database [in-progress]
 ### Dependencies: 5.1
-### Description: Harden Strapi and AWS infrastructure against common threats, following latest security guidelines. This is now prioritized immediately after infrastructure to minimize risk exposure.
+### Description: Set up Railway's built-in PostgreSQL service and configure database connections for Strapi.
 ### Details:
-Deliverables: Hardened OS images, updated dependencies, WAF configuration, and security group audits. Technical specs: Enable HTTPS everywhere, set secure HTTP headers (CSP, HSTS), disable unused endpoints, and enable audit logging. Validation: Run vulnerability scans (OWASP ZAP, AWS Inspector), review logs, and attempt penetration tests.
+Deliverables: PostgreSQL database instance, connection strings, and database configuration. Technical specs: Use Railway's PostgreSQL plugin, configure connection pooling, set up database backups, and document connection details. Validation: Test database connection from local environment, verify tables can be created, and check backup functionality.
 
-## 3. Implement Backup and Recovery Procedures [pending]
-### Dependencies: 5.1
-### Description: Establish automated backup and disaster recovery for Strapi data and media. Prioritized before data creation to ensure no data loss.
+## 3. Deploy and Configure Strapi 5 on Railway [pending]
+### Dependencies: 5.2
+### Description: Deploy Strapi 5 to Railway with proper configuration for production use, including environment variables and domain setup.
 ### Details:
-Deliverables: Scheduled database (RDS or self-hosted) and S3 backups, backup scripts, and recovery documentation. Technical specs: Use AWS Backup or custom Lambda functions, encrypt backups, and store in separate AWS account if possible. Validation: Perform backup/restore drills, verify data integrity, and document RTO/RPO.
+Deliverables: Deployed Strapi instance, custom subdomain configuration, SSL setup (automatic via Railway), and production-ready settings. Technical specs: Configure Strapi for Railway environment, set up proper NODE_ENV, configure CORS for Cloudflare Pages frontend, and enable logging. Validation: Access Strapi admin panel via custom domain, verify SSL certificate, and check API endpoints.
 
-## 4. Install and Configure Strapi 5 on AWS [pending]
-### Dependencies: 5.1, 5.2, 5.3
-### Description: Deploy Strapi 5 on provisioned AWS infrastructure, ensuring secure and scalable configuration.
+## 4. Configure Media Storage Solution [pending]
+### Dependencies: 5.3
+### Description: Set up media storage using Railway's file storage or integrate with AWS S3 for scalable media handling.
 ### Details:
-Deliverables: Automated deployment scripts (Ansible, shell, or Docker Compose), environment variable management (AWS Secrets Manager or SSM), and HTTPS setup (ACM/ELB). Technical specs: Use Node.js LTS, configure process manager (PM2/systemd), enable CORS for Astro frontend, and set up logging. Validation: Access Strapi admin panel securely, verify HTTPS, and check logs for errors.
+Deliverables: Configured media storage, upload functionality, and CDN setup if needed. Technical specs: Evaluate Railway's built-in storage vs S3, configure Strapi upload provider, set up image optimization, and implement secure access. Validation: Upload test media files, verify storage and retrieval, test different file types and sizes.
 
 ## 5. Define Content Models and Schemas in Strapi [pending]
-### Dependencies: 5.4
-### Description: Design and implement content types and fields in Strapi to support the website's glassmorphism, punk-meets-professional aesthetic and content needs.
+### Dependencies: 5.3
+### Description: Design and implement content types following Strapi v5 best practices with Single Types for Author Profile and Site Settings, Collection Types for Bio Articles and Services, and reusable components.
 ### Details:
-Deliverables: Strapi content models (JSON or via admin UI), field validation rules, and relationships. Technical specs: Use Strapi's schema conventions, include accessibility metadata fields, and document model structure. Validation: Create sample entries, test field validation, and export schema for review.
+Deliverables: Strapi content models following v5 best practices architecture. Technical specs:
+1. Author Profile (Single Type):
+   - fullName (text, required)
+   - bio (rich text)
+   - avatar (media)
+   - role (text)
+   - location (text)
+   - status (enumeration)
+   - socialLinks (repeatable component: SocialLink)
+   - contactInfo (component: Email, Phone fields)
+   - timeline (dynamic zone: TimelineEvent components)
+2. Site Settings (Single Type):
+   - Default SEO metadata (component: SEOData)
+   - siteTitle, siteDescription (text)
+   - globalSocialLinks (repeatable component: SocialLink)
+   - globalContactInfo (component)
+   - brandColors (JSON)
+   - logos, defaultImages (media)
+3. Bio Article (Collection Type - Simplified):
+   - title, description (text)
+   - content (rich text)
+   - publishDate (datetime)
+   - featured, draft (boolean)
+   - seoOverride (component: SEOData - optional)
+   - heroOverride (component: HeroData - optional)
+4. Service (Collection Type - existing requirements):
+   - title, category/type, description
+   - featureHighlights (JSON array)
+   - tiers (repeatable component with name, priceLow, priceHigh, deliverables)
+   - contactMethod (enumeration)
+   - isPinned (boolean)
+   - slug (UID)
+5. Reusable Components:
+   - SocialLink: platform (enum), url (text), icon (text)
+   - SEOData: title, description, keywords, ogImage
+   - HeroData: title, subtitle, animation (enum), background (media)
+   - TimelineEvent: date, title, description, media
+
+Validation: Create sample entries, test field validation, verify component reusability, and export schema for review.
 
 ## 6. Set Up REST and GraphQL API Endpoints [pending]
 ### Dependencies: 5.5
-### Description: Enable and configure both REST and GraphQL endpoints in Strapi for content delivery to the Astro frontend.
+### Description: Enable and configure both REST and GraphQL endpoints in Strapi with automated field population from Single Types.
 ### Details:
-Deliverables: Enabled REST and GraphQL plugins, custom endpoints (if needed), and API documentation (OpenAPI/GraphQL schema). Technical specs: Secure endpoints with rate limiting, enable CORS, and support filtering/sorting. Validation: Use Postman/GraphQL Playground to test endpoints, check response times, and validate schema.
+Deliverables: Enabled REST and GraphQL plugins, custom endpoints with automated population logic, and API documentation. Technical specs: Configure APIs to automatically populate Bio Article and Service fields from Author Profile and Site Settings, secure endpoints with rate limiting, enable CORS for Cloudflare Pages, support filtering/sorting, and implement dynamic CTA logic. Validation: Use Postman/GraphQL Playground to test endpoints, verify automated field population works correctly, check response times, and validate schema.
 
 ## 7. Implement Authentication and Permissions [pending]
 ### Dependencies: 5.6
@@ -87,33 +162,45 @@ Deliverables: Enabled REST and GraphQL plugins, custom endpoints (if needed), an
 ### Details:
 Deliverables: Role-based access control (RBAC) setup, custom roles for editors/admins, and public/private API access rules. Technical specs: Enforce strong password policies, enable email verification, and document permission matrix. Validation: Attempt unauthorized access, verify role restrictions, and test login/logout flows.
 
-## 8. Integrate S3 for Media Storage [pending]
-### Dependencies: 5.7
-### Description: Configure Strapi to use AWS S3 for media uploads, ensuring scalability and security.
-### Details:
-Deliverables: S3 bucket configuration (private/public as needed), Strapi S3 upload plugin setup, and IAM policies for media access. Technical specs: Enable S3 versioning, use signed URLs for private assets, and optimize image delivery (resize, WebP). Validation: Upload media via Strapi, verify S3 storage, and test media retrieval from frontend.
-
-## 9. Implement Caching Strategies [pending]
+## 8. Configure Webhook Integration with Cloudflare Pages [pending]
 ### Dependencies: 5.6
-### Description: Set up caching at multiple layers to optimize API and media delivery performance. Can be worked on in parallel with error handling and monitoring.
+### Description: Set up webhooks from Strapi to trigger Cloudflare Pages rebuilds when content changes.
 ### Details:
-Deliverables: API response caching (Redis, CDN), S3/media CDN integration (CloudFront), and cache invalidation logic. Technical specs: Configure cache headers, use ETag/Last-Modified, and document cache strategies. Validation: Measure cache hit rates, test cache invalidation, and verify reduced response times.
+Deliverables: Webhook configuration in Strapi, Cloudflare Pages build hook setup, and webhook security. Technical specs: Configure Strapi lifecycle hooks, set up secure webhook endpoints, implement retry logic, and document webhook flow. Validation: Create/update content and verify Cloudflare Pages rebuild triggers, test webhook payload and security.
 
-## 10. Establish Robust Error Handling and Monitoring [pending]
+## 9. Implement Caching and Performance Optimization [pending]
 ### Dependencies: 5.6
-### Description: Implement comprehensive error handling, logging, and monitoring for the CMS stack. Can be worked on in parallel with caching strategies.
+### Description: Set up caching strategies and performance optimizations leveraging Railway's infrastructure and CDN options.
 ### Details:
-Deliverables: Centralized logging (CloudWatch, ELK), error notification setup (PagerDuty, Slack), and user-friendly error responses. Technical specs: Use structured logs, monitor key metrics (uptime, error rates), and set up alerts for critical failures. Validation: Trigger test errors, verify alerting, and review logs for completeness.
+Deliverables: API response caching configuration, CDN setup for static assets, and cache invalidation logic. Technical specs: Configure cache headers, implement Redis if needed (Railway addon), optimize database queries, and set up monitoring. Validation: Measure response times, test cache hit rates, and verify performance improvements.
 
-## 11. Conduct Performance and Load Testing [pending]
-### Dependencies: 5.8, 5.9, 5.10
-### Description: Test the CMS under realistic and peak loads to ensure scalability and responsiveness.
+## 10. Set Up Monitoring and Error Handling [pending]
+### Dependencies: 5.6
+### Description: Implement comprehensive error handling and monitoring using Railway's built-in features and additional services as needed.
 ### Details:
-Deliverables: Load testing scripts (k6, Artillery), performance benchmarks, and bottleneck analysis. Technical specs: Simulate API and media requests, monitor CPU/memory/network, and test auto-scaling (if enabled). Validation: Achieve target response times under load, identify and resolve bottlenecks, and document results.
+Deliverables: Error handling middleware, Railway metrics dashboard configuration, and alerting setup. Technical specs: Use Railway's built-in logging, configure error notifications, implement structured logging, and set up uptime monitoring. Validation: Trigger test errors, verify alerts work, and review log aggregation.
 
-## 12. Document Architecture, Processes, and Best Practices [pending]
+## 11. Configure Backup and Recovery Procedures [pending]
+### Dependencies: 5.2
+### Description: Set up automated backup procedures using Railway's features and implement disaster recovery plan.
+### Details:
+Deliverables: Automated database backups, media backup strategy, and recovery documentation. Technical specs: Use Railway's PostgreSQL backup features, implement point-in-time recovery, backup media files, and document recovery procedures. Validation: Test backup creation, perform recovery drill, and verify data integrity.
+
+## 12. Document Railway Deployment and Integration [pending]
 ### Dependencies: 5.11
-### Description: Produce comprehensive documentation covering infrastructure, deployment, content modeling, API usage, security, and operational procedures.
+### Description: Create comprehensive documentation covering Railway deployment, GitHub integration, API usage, content model architecture, and operational procedures.
 ### Details:
-Deliverables: Architecture diagrams, setup guides, API docs (OpenAPI/GraphQL), security and backup procedures, and accessibility/performance checklists. Technical specs: Use Markdown and diagrams (Mermaid, Lucidchart), ensure docs are accessible (WCAG 2.2), and include CSS/UX guidelines for glassmorphism and punk-meets-professional design. Validation: Peer review of documentation, onboarding test with new developer, and accessibility audit of docs.
+Deliverables: Deployment guide, API documentation with automated population details, Railway-specific configurations, content model architecture documentation, and troubleshooting guide. Technical specs: Document environment variables, deployment process, webhook configuration, content model relationships and automated field population logic, component reusability patterns, and cost optimization strategies. Include integration details with Cloudflare Pages frontend. Validation: Peer review documentation, test deployment following docs only, and ensure completeness.
+
+## 13. Refactor Content Models to Strapi v5 Best Practices [pending]
+### Dependencies: 5.1
+### Description: Update the existing Strapi setup to implement the new content model architecture with Single Types for Author Profile and Site Settings, eliminating duplicate fields through automated population.
+### Details:
+Deliverables: Refactored content models following Strapi v5 best practices, migration scripts if needed, and updated API logic. Technical specs: Since subtask 1 is complete with basic Strapi 5 setup, this task will restructure the content models to use the new architecture with Author Profile and Site Settings as Single Types, implement automated field population logic, and ensure backward compatibility where needed. Validation: Verify all existing functionality works with new models, test automated population, and ensure no data loss.
+
+## 14. Refactor Content Models to Strapi v5 Best Practices [pending]
+### Dependencies: 5.1
+### Description: Update the existing Strapi setup to implement the new content model architecture with Single Types for Author Profile and Site Settings, eliminating duplicate fields through automated population.
+### Details:
+Deliverables: Refactored content models following Strapi v5 best practices, migration scripts if needed, and updated API logic. Technical specs: Since subtask 1 is complete with basic Strapi 5 setup, this task will restructure the content models to use the new architecture with Author Profile and Site Settings as Single Types, implement automated field population logic, and ensure backward compatibility where needed. Validation: Verify all existing functionality works with new models, test automated population, and ensure no data loss.
 

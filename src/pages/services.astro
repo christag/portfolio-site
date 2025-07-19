@@ -1,0 +1,715 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SEO from '../components/SEO.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { strapiAPI } from '../lib/strapi';
+import type { Service } from '../lib/strapi';
+
+// Fetch all services from Strapi
+let services: Service[] = [];
+let error: string | null = null;
+
+try {
+  // Try to fetch from Strapi
+  const isHealthy = await strapiAPI.healthCheck();
+  if (isHealthy) {
+    services = await strapiAPI.getServices();
+    console.log(`Fetched ${services.length} services from Strapi`);
+  } else {
+    error = 'CMS is currently unavailable';
+  }
+} catch (err) {
+  console.error('Failed to fetch services:', err);
+  error = 'Failed to load services';
+
+  // Fallback: Create mock services for development
+  services = [
+    {
+      id: 1,
+      documentId: 'mock-1',
+      title: 'Virtual CIO Services',
+      description:
+        'Strategic technology leadership and guidance for growing businesses. Get expert CTO-level insights without the full-time executive cost.',
+      category: 'Leadership',
+      featureHighlights: [
+        'Technology Strategy',
+        'Digital Transformation',
+        'Team Leadership',
+        'Budget Planning',
+      ],
+      tiers: [
+        {
+          name: 'Starter',
+          priceLow: 2500,
+          priceHigh: 5000,
+          deliverables: ['Monthly Strategy Sessions', 'Technology Roadmap'],
+        },
+        {
+          name: 'Growth',
+          priceLow: 5000,
+          priceHigh: 10000,
+          deliverables: [
+            'Weekly Check-ins',
+            'Team Reviews',
+            'Vendor Management',
+          ],
+        },
+      ],
+      contactMethod: 'email',
+      isPinned: true,
+      slug: 'virtual-cio',
+      createdAt: '2025-01-01',
+      updatedAt: '2025-01-01',
+      publishedAt: '2025-01-01',
+    },
+    {
+      id: 2,
+      documentId: 'mock-2',
+      title: 'Project Management',
+      description:
+        'End-to-end project delivery with agile methodologies. Turn your ideas into reality with proven project management expertise.',
+      category: 'Management',
+      featureHighlights: [
+        'Agile/Scrum',
+        'Risk Management',
+        'Stakeholder Communication',
+        'Delivery Assurance',
+      ],
+      tiers: [
+        {
+          name: 'Project',
+          priceLow: 1500,
+          priceHigh: 3000,
+          deliverables: ['Project Planning', 'Weekly Reports'],
+        },
+        {
+          name: 'Program',
+          priceLow: 3000,
+          priceHigh: 7500,
+          deliverables: ['Multi-project coordination', 'Executive reporting'],
+        },
+      ],
+      contactMethod: 'calendar',
+      isPinned: false,
+      slug: 'project-management',
+      createdAt: '2025-01-01',
+      updatedAt: '2025-01-01',
+      publishedAt: '2025-01-01',
+    },
+    {
+      id: 3,
+      documentId: 'mock-3',
+      title: 'Cloud Migration',
+      description:
+        'Seamless cloud transformation with minimal disruption. Move your infrastructure to the cloud safely and efficiently.',
+      category: 'Infrastructure',
+      featureHighlights: [
+        'AWS/Azure/GCP',
+        'Security First',
+        'Cost Optimization',
+        'Zero Downtime',
+      ],
+      tiers: [
+        {
+          name: 'Assessment',
+          priceLow: 1000,
+          priceHigh: 2500,
+          deliverables: ['Cloud Readiness Assessment', 'Migration Plan'],
+        },
+        {
+          name: 'Full Migration',
+          priceLow: 5000,
+          priceHigh: 25000,
+          deliverables: ['Complete Infrastructure Move', '24/7 Support'],
+        },
+      ],
+      contactMethod: 'email',
+      isPinned: false,
+      slug: 'cloud-migration',
+      createdAt: '2025-01-01',
+      updatedAt: '2025-01-01',
+      publishedAt: '2025-01-01',
+    },
+  ];
+}
+
+// Sort services: pinned first, then by creation date
+services.sort((a, b) => {
+  if (a.isPinned && !b.isPinned) return -1;
+  if (!a.isPinned && b.isPinned) return 1;
+  return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+});
+
+// Get unique categories for filtering
+const categories = [
+  ...new Set(services.map((s) => s.category).filter(Boolean)),
+];
+
+// SEO metadata
+const pageTitle = 'Services - What I Can Build For You';
+const pageDescription =
+  'Explore my consulting services: Virtual CIO leadership, project management, cloud migration, and technology transformation. Get expert guidance tailored to your business needs.';
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <SEO
+    slot="head"
+    title={pageTitle}
+    description={pageDescription}
+    keywords={[
+      'consulting services',
+      'virtual CIO',
+      'project management',
+      'cloud migration',
+      'technology leadership',
+      'digital transformation',
+    ]}
+    canonical={Astro.url.href}
+    openGraphTitle={pageTitle}
+    openGraphDescription={pageDescription}
+    twitterTitle={pageTitle}
+    twitterDescription={pageDescription}
+    structuredData={{
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Technology Consulting Services',
+      description: pageDescription,
+      provider: {
+        '@type': 'Person',
+        name: 'Christopher Tagliaferro',
+        jobTitle: 'Senior Technical Program Manager',
+      },
+      serviceType: 'Technology Consulting',
+      areaServed: 'Global',
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Consulting Services',
+        itemListElement: services.map((service, index) => ({
+          '@type': 'Offer',
+          position: index + 1,
+          name: service.title,
+          description: service.description,
+          category: service.category,
+          url: `${Astro.url.origin}/services/${service.slug}`,
+        })),
+      },
+    }}
+  />
+
+  <main class="services-page">
+    <div class="services-container">
+      <!-- Hero Section -->
+      <section class="services-hero">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            <span class="title-main">What I Can</span>
+            <span class="title-accent">Build For You</span>
+          </h1>
+          <p class="hero-description">
+            Strategic technology leadership and hands-on expertise to transform
+            your business. From vision to execution, I deliver results that
+            matter.
+          </p>
+          {
+            error && (
+              <div class="error-notice" role="alert">
+                <span class="error-icon">⚠️</span>
+                <span class="error-text">
+                  {error} - Showing sample services
+                </span>
+              </div>
+            )
+          }
+        </div>
+
+        <!-- Animated background particles -->
+        <canvas
+          id="services-particles"
+          class="hero-particles"
+          aria-hidden="true"></canvas>
+      </section>
+
+      <!-- Filter Section -->
+      {
+        categories.length > 0 && (
+          <section class="filter-section" aria-label="Service filters">
+            <div class="filter-container">
+              <h2 class="filter-title">[ FILTER BY CATEGORY ]</h2>
+              <div
+                class="filter-buttons"
+                role="group"
+                aria-label="Service category filters"
+              >
+                <button
+                  class="filter-btn active"
+                  data-category="all"
+                  aria-pressed="true"
+                >
+                  ALL SERVICES
+                </button>
+                {categories.map((category) => (
+                  <button
+                    class="filter-btn"
+                    data-category={category}
+                    aria-pressed="false"
+                  >
+                    {category?.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </section>
+        )
+      }
+
+      <!-- Services Grid -->
+      <section class="services-grid-section" aria-label="Available services">
+        <div class="services-grid" id="services-grid">
+          {
+            services.map((service, index) => (
+              <div
+                class="service-item"
+                data-category={service.category || 'uncategorized'}
+              >
+                <ServiceCard service={service} index={index} />
+              </div>
+            ))
+          }
+        </div>
+
+        {
+          services.length === 0 && !error && (
+            <div class="no-services">
+              <h3>No Services Available</h3>
+              <p>Services are being updated. Please check back soon.</p>
+            </div>
+          )
+        }
+      </section>
+
+      <!-- CTA Section -->
+      <section class="services-cta">
+        <div class="cta-content">
+          <h2 class="cta-title">Ready to Transform Your Technology?</h2>
+          <p class="cta-description">
+            Let's discuss how these services can accelerate your business goals.
+          </p>
+          <div class="cta-buttons">
+            <a href="/contact" class="cta-primary"> Start a Conversation </a>
+            <a href="/i-am" class="cta-secondary"> Learn About My Approach </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .services-page {
+    min-height: 100vh;
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+
+  .services-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* Hero Section */
+  .services-hero {
+    position: relative;
+    background: var(--glass-bg-primary);
+    backdrop-filter: blur(var(--glass-blur-navigation));
+    border: 1px solid var(--glass-border-light);
+    border-radius: var(--glass-radius-xl);
+    padding: 4rem 2rem;
+    margin-bottom: 4rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .title-main {
+    color: var(--text-primary);
+  }
+
+  .title-accent {
+    color: var(--accent-primary);
+    transform: rotate(-1deg);
+  }
+
+  .hero-description {
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.6;
+  }
+
+  .error-notice {
+    background: var(--glass-bg-tertiary);
+    border: 1px solid var(--accent-secondary);
+    border-radius: var(--glass-radius-md);
+    padding: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .hero-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Filter Section */
+  .filter-section {
+    margin-bottom: 3rem;
+  }
+
+  .filter-container {
+    background: var(--glass-bg-secondary);
+    backdrop-filter: blur(var(--glass-blur-card));
+    border: 1px solid var(--glass-border-light);
+    border-radius: var(--glass-radius-lg);
+    padding: 2rem;
+  }
+
+  .filter-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    margin: 0 0 1.5rem 0;
+    letter-spacing: 0.05em;
+  }
+
+  .filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .filter-btn {
+    background: var(--glass-bg-tertiary);
+    border: 1px solid var(--glass-border-light);
+    border-radius: var(--glass-radius-md);
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.05em;
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+  }
+
+  .filter-btn:focus {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+  }
+
+  /* Services Grid */
+  .services-grid-section {
+    margin-bottom: 4rem;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .service-item {
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .service-item.filtered-out {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+  }
+
+  .no-services {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--glass-bg-secondary);
+    border-radius: var(--glass-radius-lg);
+    border: 1px solid var(--glass-border-light);
+  }
+
+  .no-services h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+
+  .no-services p {
+    color: var(--text-secondary);
+  }
+
+  /* CTA Section */
+  .services-cta {
+    background: var(--glass-bg-primary);
+    backdrop-filter: blur(var(--glass-blur-navigation));
+    border: 1px solid var(--glass-border-light);
+    border-radius: var(--glass-radius-xl);
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .cta-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem 0;
+    line-height: 1.2;
+  }
+
+  .cta-description {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin: 0 auto 2.5rem auto;
+    line-height: 1.6;
+  }
+
+  .cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .cta-primary,
+  .cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-radius: var(--glass-radius-md);
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    letter-spacing: 0.05em;
+  }
+
+  .cta-primary {
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    border: 1px solid var(--accent-primary);
+  }
+
+  .cta-primary:hover {
+    background: var(--accent-secondary);
+    border-color: var(--accent-secondary);
+    transform: translateY(-2px);
+  }
+
+  .cta-secondary {
+    background: var(--glass-bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border-light);
+  }
+
+  .cta-secondary:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    transform: translateY(-2px);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .services-container {
+      padding: 0 1rem;
+    }
+
+    .services-hero,
+    .services-cta {
+      padding: 3rem 1.5rem;
+    }
+
+    .services-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .filter-buttons {
+      justify-content: center;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-primary,
+    .cta-secondary {
+      width: 100%;
+      max-width: 300px;
+      justify-content: center;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .service-item,
+    .filter-btn,
+    .cta-primary,
+    .cta-secondary {
+      transition: none;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active,
+    .cta-primary:hover,
+    .cta-secondary:hover {
+      transform: none;
+    }
+
+    .title-accent {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  // Client-side filtering functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const serviceItems = document.querySelectorAll('.service-item');
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const category = button.getAttribute('data-category');
+
+        // Update active state
+        filterButtons.forEach((btn) => {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-pressed', 'false');
+        });
+        button.classList.add('active');
+        button.setAttribute('aria-pressed', 'true');
+
+        // Filter services
+        serviceItems.forEach((item) => {
+          const itemCategory = item.getAttribute('data-category');
+
+          if (category === 'all' || itemCategory === category) {
+            item.classList.remove('filtered-out');
+            item.setAttribute('aria-hidden', 'false');
+          } else {
+            item.classList.add('filtered-out');
+            item.setAttribute('aria-hidden', 'true');
+          }
+        });
+      });
+    });
+
+    // Initialize particles animation
+    const canvas = document.getElementById(
+      'services-particles'
+    ) as HTMLCanvasElement;
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        // Respect prefers-reduced-motion
+        const prefersReducedMotion = window.matchMedia(
+          '(prefers-reduced-motion: reduce)'
+        ).matches;
+        if (prefersReducedMotion) return;
+
+        const resizeCanvas = () => {
+          canvas.width = canvas.offsetWidth;
+          canvas.height = canvas.offsetHeight;
+        };
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const particles: Array<{
+          x: number;
+          y: number;
+          vx: number;
+          vy: number;
+          size: number;
+        }> = [];
+        const particleCount = 20;
+
+        // Create particles
+        for (let i = 0; i < particleCount; i++) {
+          particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            size: Math.random() * 2 + 1,
+          });
+        }
+
+        const animate = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          // Get accent color from CSS
+          const accentColor = getComputedStyle(document.documentElement)
+            .getPropertyValue('--accent-primary')
+            .trim();
+
+          particles.forEach((particle) => {
+            // Update position
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+
+            // Wrap around edges
+            if (particle.x < 0) particle.x = canvas.width;
+            if (particle.x > canvas.width) particle.x = 0;
+            if (particle.y < 0) particle.y = canvas.height;
+            if (particle.y > canvas.height) particle.y = 0;
+
+            // Draw particle
+            ctx.fillStyle = accentColor || '#3b82f6';
+            ctx.globalAlpha = 0.6;
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fill();
+          });
+
+          requestAnimationFrame(animate);
+        };
+
+        animate();
+      }
+    }
+  });
+</script>
+
