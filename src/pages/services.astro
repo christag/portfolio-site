@@ -21,8 +21,11 @@ try {
 } catch (err) {
   console.error('Failed to fetch services:', err);
   error = 'Failed to load services';
+}
 
-  // Fallback: Create mock services for development
+// If we have an error or no services, provide sample services
+if (error || services.length === 0) {
+  console.log('Using sample services due to:', error || 'No services found');
   services = [
     {
       id: 1,
@@ -131,6 +134,7 @@ try {
       publishedAt: '2025-01-01',
     },
   ];
+  console.log(`Created ${services.length} sample services`);
 }
 
 // Sort services: pinned first, then by creation date
@@ -215,7 +219,7 @@ const pageDescription =
               <div class="error-notice" role="alert">
                 <span class="error-icon">⚠️</span>
                 <span class="error-text">
-                  {error} - Showing sample services
+                  CMS temporarily unavailable - Showing sample services below
                 </span>
               </div>
             )
@@ -278,7 +282,7 @@ const pageDescription =
         </div>
 
         {
-          services.length === 0 && !error && (
+          services.length === 0 && (
             <div class="no-services">
               <h3>No Services Available</h3>
               <p>Services are being updated. Please check back soon.</p>
