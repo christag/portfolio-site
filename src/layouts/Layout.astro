@@ -80,7 +80,7 @@ const currentPath = Astro.url.pathname;
       .container-fluid,
       .container-constrained {
         max-width: 100vw;
-        overflow-x: hidden;
+        /* Removed overflow-x: hidden to prevent drop shadow clipping */
         box-sizing: border-box;
         padding-left: 1rem;
         padding-right: 1rem;

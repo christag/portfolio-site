@@ -1228,7 +1228,8 @@
   border: 1px solid var(--glass-border-medium);
   border-radius: var(--glass-radius);
   box-shadow:
-    0 12px 40px var(--glass-shadow-medium),
+    0 20px 60px var(--glass-shadow-medium),
+    0 8px 30px var(--glass-shadow-light),
     inset 0 1px 0 var(--glass-inner-highlight);
   transition: all var(--transition-glass);
 
