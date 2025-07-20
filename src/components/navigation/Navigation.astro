@@ -247,10 +247,13 @@ const { currentPath = '/' } = Astro.props;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    /* Reduce width to show page content behind */
-    margin: 0.5rem auto;
-    max-width: 280px;
-    width: calc(100vw - 4rem);
+    /* Reduce width significantly to show page content behind */
+    margin: 0.5rem auto !important;
+    max-width: 260px !important;
+    width: 260px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    position: relative !important;
     border-radius: 16px;
     overflow: hidden;
     /* MOBILE FIX: Ensure proper containment and remove conflicting borders */

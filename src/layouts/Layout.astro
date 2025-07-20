@@ -30,16 +30,7 @@ const currentPath = Astro.url.pathname;
 
     <!-- iOS Safari Theme Colors & Status Bar -->
     <!-- Dynamic theme-color that changes with theme -->
-    <meta
-      name="theme-color"
-      content="#b8869a"
-      media="(prefers-color-scheme: light)"
-    />
-    <meta
-      name="theme-color"
-      content="#b8869a"
-      media="(prefers-color-scheme: dark)"
-    />
+    <meta name="theme-color" content="#b8869a" />
 
     <!-- iOS Safari Status Bar Styling -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,6 +43,13 @@ const currentPath = Astro.url.pathname;
     <!-- Safari-specific meta tags for minimal UI -->
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no" />
+
+    <!-- Force Safari minimal UI -->
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
 
     <!-- iOS Safari Touch Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
@@ -389,16 +387,49 @@ const currentPath = Astro.url.pathname;
       window.addEventListener('resize', setViewportHeight);
       window.addEventListener('orientationchange', setViewportHeight);
 
-      // Force Safari to hide address bar on initial load
-      if (
-        navigator.userAgent.includes('Safari') &&
-        !navigator.userAgent.includes('Chrome')
-      ) {
-        setTimeout(() => {
-          window.scrollTo(0, 1);
-          setTimeout(() => window.scrollTo(0, 0), 100);
-        }, 500);
+      // Force Safari to hide address bar and enable minimal UI
+      function enableSafariMinimalUI() {
+        const isSafari =
+          /Safari/.test(navigator.userAgent) &&
+          !/Chrome/.test(navigator.userAgent);
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+        if (isSafari || isIOS) {
+          // Force scroll to trigger minimal UI
+          setTimeout(() => {
+            window.scrollTo(0, 1);
+            setTimeout(() => {
+              window.scrollTo(0, 0);
+              // Set proper viewport height after bars hide
+              setViewportHeight();
+            }, 100);
+          }, 300);
+
+          // Listen for scroll events to maintain minimal UI
+          let ticking = false;
+          const handleScroll = () => {
+            if (!ticking) {
+              requestAnimationFrame(() => {
+                // Update theme color based on scroll position
+                const scrolled = window.scrollY > 10;
+                const themeColorMeta = document.querySelector(
+                  'meta[name="theme-color"]'
+                );
+                if (themeColorMeta) {
+                  const color = scrolled ? '#b8869a' : '#b8869a';
+                  themeColorMeta.setAttribute('content', color);
+                }
+                ticking = false;
+              });
+              ticking = true;
+            }
+          };
+
+          window.addEventListener('scroll', handleScroll, { passive: true });
+        }
       }
+
+      enableSafariMinimalUI();
 
       // iOS Safari scroll position restoration
       if ('scrollRestoration' in history) {
@@ -465,6 +496,10 @@ const currentPath = Astro.url.pathname;
 
     /* Force Safari to hide address bar on scroll */
     overflow-x: hidden;
+
+    /* Ensure full height to trigger Safari minimal UI */
+    min-height: 100vh;
+    min-height: 100svh; /* Small viewport height for Safari */
   }
 
   /* iOS Safari specific optimizations */
@@ -473,6 +508,23 @@ const currentPath = Astro.url.pathname;
       /* Trigger minimal UI mode */
       min-height: 100vh;
       min-height: -webkit-fill-available;
+
+      /* Force Safari to hide UI chrome */
+      height: 100vh;
+      height: -webkit-fill-available;
+    }
+
+    /* Ensure content fills the space when bars hide */
+    body {
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+    }
+  }
+
+  /* Modern Safari viewport units */
+  @supports (height: 100svh) {
+    .safari-minimal-ui {
+      min-height: 100svh;
     }
   }
 </style>
