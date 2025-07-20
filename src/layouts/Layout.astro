@@ -29,8 +29,8 @@ const currentPath = Astro.url.pathname;
     <title>{title}</title>
 
     <!-- iOS Safari Theme Colors & Status Bar -->
-    <!-- Single theme-color meta tag for iOS Safari toolbar -->
-    <meta name="theme-color" content="#3b82f6" />
+    <!-- Single theme-color meta tag for iOS Safari toolbar - using accent color for visibility -->
+    <meta name="theme-color" content="#b8869a" />
 
     <!-- iOS Safari Status Bar Styling -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -84,10 +84,10 @@ const currentPath = Astro.url.pathname;
       (function () {
         const theme = localStorage.getItem('theme') || 'light';
 
-        // Immediately set theme color based on saved preference
-        const lightColor = '#3b82f6'; // Vibrant blue
-        const darkColor = '#1e40af'; // Darker blue
-        const currentColor = theme === 'dark' ? darkColor : lightColor;
+        // Immediately set theme color based on saved preference - using accent color for visibility
+        const lightColor = '#b8869a'; // Dusty pink accent (visible in light mode)
+        const darkColor = '#b8869a'; // Same accent color (visible in dark mode)
+        const currentColor = lightColor; // Use accent color for both themes
 
         // Update the single theme-color meta tag
         const themeColorMeta = document.querySelector(
@@ -102,9 +102,8 @@ const currentPath = Astro.url.pathname;
 
         // Dynamic theme color updates based on current theme
         function updateThemeColor(isDark) {
-          const lightColor = '#3b82f6'; // Vibrant blue
-          const darkColor = '#1e40af'; // Darker blue
-          const newColor = isDark ? darkColor : lightColor;
+          const accentColor = '#b8869a'; // Dusty pink accent - visible in both themes
+          const newColor = accentColor;
 
           const themeColorMeta = document.querySelector(
             'meta[name="theme-color"]'
@@ -320,7 +319,7 @@ const currentPath = Astro.url.pathname;
         localStorage.setItem('theme', newTheme);
 
         // Update iOS Safari theme color dynamically
-        const newColor = newTheme === 'dark' ? '#1e40af' : '#3b82f6';
+        const newColor = '#b8869a'; // Use accent color for visibility
         const themeColorMeta = document.querySelector(
           'meta[name="theme-color"]'
         );
@@ -343,7 +342,7 @@ const currentPath = Astro.url.pathname;
         document.documentElement.setAttribute('data-theme', savedTheme);
 
         // Update theme color on load
-        const color = savedTheme === 'dark' ? '#1e40af' : '#3b82f6';
+        const color = '#b8869a'; // Use accent color for visibility
         const themeColorMeta = document.querySelector(
           'meta[name="theme-color"]'
         );
