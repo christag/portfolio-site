@@ -173,7 +173,7 @@ class StrapiAPI {
   async getAuthorProfile(): Promise<AuthorProfile | null> {
     try {
       const response = await this.fetchAPI<StrapiResponse<AuthorProfile>>(
-        '/author-profile?populate=*'
+        '/profile?populate=*'
       );
       return response.data;
     } catch (error) {
@@ -186,7 +186,7 @@ class StrapiAPI {
   async getSiteSettings(): Promise<SiteSettings | null> {
     try {
       const response = await this.fetchAPI<StrapiResponse<SiteSettings>>(
-        '/site-settings?populate=*'
+        '/settings?populate=*'
       );
       return response.data;
     } catch (error) {
@@ -435,7 +435,7 @@ class StrapiAPI {
   // Health check for Strapi connection
   async healthCheck(): Promise<boolean> {
     try {
-      await this.fetchAPI('/author-profile');
+      await this.fetchAPI('/profile');
       return true;
     } catch (error) {
       console.error('Strapi health check failed:', error);
