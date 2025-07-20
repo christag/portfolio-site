@@ -25,13 +25,13 @@ export default defineConfig({
         context: 'server',
         access: 'public',
         type: 'string',
-        default: 'http://localhost:1337'
+        default: 'http://localhost:1337',
       },
       STRAPI_API_TOKEN: {
         context: 'server',
         access: 'secret',
-        type: 'string'
-      }
-    }
-  }
+        type: 'string',
+      },
+    },
+  },
 });

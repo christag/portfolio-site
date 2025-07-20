@@ -8,7 +8,8 @@ export async function onRequestPost(context) {
     // Verify the webhook is from Strapi
     const body = await request.json();
 
-    // Log the webhook event
+    // Log the webhook event (for Cloudflare Functions monitoring)
+    // eslint-disable-next-line no-console
     console.log('Webhook received:', {
       event: body.event,
       model: body.model,
@@ -52,10 +53,12 @@ export async function onRequestPost(context) {
       });
 
       if (!deployResponse.ok) {
+        // eslint-disable-next-line no-console
         console.error('Failed to trigger deploy:', deployResponse.statusText);
         return new Response('Deploy trigger failed', { status: 500 });
       }
 
+      // eslint-disable-next-line no-console
       console.log('Deploy triggered successfully');
     }
 
@@ -66,6 +69,7 @@ export async function onRequestPost(context) {
       },
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Webhook error:', error);
     return new Response('Webhook processing failed', { status: 500 });
   }
