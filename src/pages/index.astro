@@ -4,8 +4,8 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Christopher Tagliaferro - Technology Consultant & Virtual CIO">
   <!-- Hero Section with Glassmorphism Background -->
-  <section class="min-h-screen flex items-center justify-center relative">
-    <div class="content-wrapper relative z-10 px-4 py-8 md:py-16">
+  <section class="hero-section flex items-center justify-center relative">
+    <div class="content-wrapper relative z-10 px-4 py-4 md:py-8">
       <!-- Main Content Container - Enhanced Glassmorphism Panel for Text Content -->
       <div
         class="text-center glassmorphism-content-panel p-2xl space-y-lg mx-auto max-w-4xl"
@@ -133,3 +133,71 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 </Layout>
+
+<style>
+  /* Hero section mobile optimization */
+  .hero-section {
+    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* Mobile-specific hero adjustments */
+  @media (max-width: 767px) {
+    .hero-section {
+      /* Account for mobile nav and safe areas */
+      min-height: calc(100vh - 8rem);
+      min-height: calc((var(--vh, 1vh) * 100) - 8rem);
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .hero-section {
+      /* Tighter spacing for very small screens */
+      min-height: calc(100vh - 6rem);
+      min-height: calc((var(--vh, 1vh) * 100) - 6rem);
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+  }
+
+  /* iOS Safari specific adjustments */
+  @supports (-webkit-touch-callout: none) {
+    .hero-section {
+      /* Account for iOS Safari's dynamic viewport */
+      min-height: calc(
+        100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 4rem
+      );
+      min-height: calc(
+        (var(--vh, 1vh) * 100) - env(safe-area-inset-top) -
+          env(safe-area-inset-bottom) - 4rem
+      );
+    }
+
+    @media (max-width: 767px) {
+      .hero-section {
+        min-height: calc(
+          100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 6rem
+        );
+        min-height: calc(
+          (var(--vh, 1vh) * 100) - env(safe-area-inset-top) -
+            env(safe-area-inset-bottom) - 6rem
+        );
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+    }
+  }
+
+  /* Ensure content is properly centered */
+  .content-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+</style>

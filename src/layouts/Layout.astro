@@ -33,13 +33,15 @@ const currentPath = Astro.url.pathname;
     <meta
       name="theme-color"
       media="(prefers-color-scheme: light)"
-      content="#ffffff"
+      content="#f8fafc"
     />
     <meta
       name="theme-color"
       media="(prefers-color-scheme: dark)"
-      content="#0a0a0a"
+      content="#0f172a"
     />
+    <!-- Fallback theme color for older browsers -->
+    <meta name="theme-color" content="#f8fafc" />
 
     <!-- iOS Safari Status Bar Styling -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -84,12 +86,6 @@ const currentPath = Astro.url.pathname;
     <link rel="dns-prefetch" href="//booking.christagliaferro.com" />
     <link rel="preconnect" href="//booking.christagliaferro.com" crossorigin />
 
-    <!-- iOS Safari Smart App Banner -->
-    <meta
-      name="apple-itunes-app"
-      content="app-id=myAppStoreID, app-argument=myURL"
-    />
-
     <!-- Enhanced SEO metadata from page-specific SEO component -->
     <slot name="head" />
 
@@ -98,6 +94,15 @@ const currentPath = Astro.url.pathname;
       // Initialize theme before any rendering
       (function () {
         const theme = localStorage.getItem('theme') || 'light';
+
+        // Immediately set theme color based on saved preference
+        const lightColor = '#f8fafc';
+        const darkColor = '#0f172a';
+        const currentColor = theme === 'dark' ? darkColor : lightColor;
+
+        // Update all theme-color meta tags immediately
+        const metaTags = document.querySelectorAll('meta[name="theme-color"]');
+        metaTags.forEach((tag) => tag.setAttribute('content', currentColor));
         if (theme === 'dark') {
           document.documentElement.setAttribute('data-theme', 'dark');
         }
@@ -110,15 +115,23 @@ const currentPath = Astro.url.pathname;
           const themeColorDark = document.querySelector(
             'meta[name="theme-color"][media*="dark"]'
           );
+          const themeColorFallback = document.querySelector(
+            'meta[name="theme-color"]:not([media])'
+          );
+
+          const lightColor = '#f8fafc'; // Light blue-gray
+          const darkColor = '#0f172a'; // Dark blue-gray
 
           if (isDark) {
             // Dark mode colors
-            if (themeColorLight) themeColorLight.content = '#0a0a0a';
-            if (themeColorDark) themeColorDark.content = '#0a0a0a';
+            if (themeColorLight) themeColorLight.content = darkColor;
+            if (themeColorDark) themeColorDark.content = darkColor;
+            if (themeColorFallback) themeColorFallback.content = darkColor;
           } else {
             // Light mode colors
-            if (themeColorLight) themeColorLight.content = '#ffffff';
-            if (themeColorDark) themeColorDark.content = '#ffffff';
+            if (themeColorLight) themeColorLight.content = lightColor;
+            if (themeColorDark) themeColorDark.content = lightColor;
+            if (themeColorFallback) themeColorFallback.content = lightColor;
           }
         }
 
@@ -172,14 +185,18 @@ const currentPath = Astro.url.pathname;
       @media (max-width: 767px) {
         .mobile-main {
           padding-top: 4.25rem; /* 68px - matches mobile nav height */
-          padding-bottom: 6rem; /* Reduced for smaller mobile footer */
+          padding-bottom: 8rem; /* More bottom padding for mobile */
+          min-height: calc(100vh - 4.25rem);
+          min-height: calc((var(--vh, 1vh) * 100) - 4.25rem);
         }
       }
 
       @media (max-width: 479px) {
         .mobile-main {
           padding-top: 4rem; /* 64px - slightly less for very small screens */
-          padding-bottom: 5rem; /* Further reduced for very compact footer */
+          padding-bottom: 6rem; /* Adequate bottom padding */
+          min-height: calc(100vh - 4rem);
+          min-height: calc((var(--vh, 1vh) * 100) - 4rem);
         }
       }
 
@@ -189,22 +206,32 @@ const currentPath = Astro.url.pathname;
         .mobile-main {
           /* Account for dynamic island and status bar */
           padding-top: calc(4.25rem + env(safe-area-inset-top));
+          padding-bottom: calc(8rem + env(safe-area-inset-bottom));
+          min-height: calc(
+            100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+          );
+          min-height: calc(
+            (var(--vh, 1vh) * 100) - env(safe-area-inset-top) -
+              env(safe-area-inset-bottom)
+          );
         }
 
-        /* Prevent iOS Safari bounce scrolling issues */
+        @media (max-width: 479px) {
+          .mobile-main {
+            padding-top: calc(4rem + env(safe-area-inset-top));
+            padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+          }
+        }
+
+        /* Prevent iOS Safari bounce scrolling issues but allow proper scrolling */
         body {
-          position: fixed;
-          overflow: hidden;
+          position: relative;
+          overflow-x: hidden;
           width: 100%;
           height: 100%;
         }
 
         .mobile-main {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
           overflow-y: auto;
           -webkit-overflow-scrolling: touch;
         }
@@ -313,7 +340,7 @@ const currentPath = Astro.url.pathname;
         const themeColorMetas = document.querySelectorAll(
           'meta[name="theme-color"]'
         );
-        const newColor = newTheme === 'dark' ? '#0a0a0a' : '#ffffff';
+        const newColor = newTheme === 'dark' ? '#0f172a' : '#f8fafc';
 
         themeColorMetas.forEach((meta) => {
           meta.setAttribute('content', newColor);
@@ -337,7 +364,7 @@ const currentPath = Astro.url.pathname;
         const themeColorMetas = document.querySelectorAll(
           'meta[name="theme-color"]'
         );
-        const color = savedTheme === 'dark' ? '#0a0a0a' : '#ffffff';
+        const color = savedTheme === 'dark' ? '#0f172a' : '#f8fafc';
 
         themeColorMetas.forEach((meta) => {
           meta.setAttribute('content', color);
