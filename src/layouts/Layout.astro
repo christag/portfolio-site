@@ -21,9 +21,74 @@ const currentPath = Astro.url.pathname;
     <!-- Default meta tags -->
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>{title}</title>
+
+    <!-- iOS Safari Theme Colors & Status Bar -->
+    <!-- Dynamic theme colors for light and dark mode -->
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#ffffff"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#0a0a0a"
+    />
+
+    <!-- iOS Safari Status Bar Styling -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Christopher T" />
+
+    <!-- iOS Safari Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon.svg" />
+
+    <!-- iOS Safari Splash Screens for different devices -->
+    <link
+      rel="apple-touch-startup-image"
+      href="/favicon.svg"
+      media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/favicon.svg"
+      media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/favicon.svg"
+      media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="/favicon.svg"
+      media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
+    />
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- iOS Safari Preconnect for Performance -->
+    <link rel="dns-prefetch" href="//booking.christagliaferro.com" />
+    <link rel="preconnect" href="//booking.christagliaferro.com" crossorigin />
+
+    <!-- iOS Safari Smart App Banner -->
+    <meta
+      name="apple-itunes-app"
+      content="app-id=myAppStoreID, app-argument=myURL"
+    />
 
     <!-- Enhanced SEO metadata from page-specific SEO component -->
     <slot name="head" />
@@ -35,6 +100,40 @@ const currentPath = Astro.url.pathname;
         const theme = localStorage.getItem('theme') || 'light';
         if (theme === 'dark') {
           document.documentElement.setAttribute('data-theme', 'dark');
+        }
+
+        // Dynamic theme color updates based on current theme
+        function updateThemeColor(isDark) {
+          const themeColorLight = document.querySelector(
+            'meta[name="theme-color"][media*="light"]'
+          );
+          const themeColorDark = document.querySelector(
+            'meta[name="theme-color"][media*="dark"]'
+          );
+
+          if (isDark) {
+            // Dark mode colors
+            if (themeColorLight) themeColorLight.content = '#0a0a0a';
+            if (themeColorDark) themeColorDark.content = '#0a0a0a';
+          } else {
+            // Light mode colors
+            if (themeColorLight) themeColorLight.content = '#ffffff';
+            if (themeColorDark) themeColorDark.content = '#ffffff';
+          }
+        }
+
+        // Set initial theme color
+        updateThemeColor(theme === 'dark');
+
+        // Listen for system theme changes
+        if (window.matchMedia) {
+          window
+            .matchMedia('(prefers-color-scheme: dark)')
+            .addEventListener('change', (e) => {
+              if (!localStorage.getItem('theme')) {
+                updateThemeColor(e.matches);
+              }
+            });
         }
       })();
     </script>
@@ -60,18 +159,54 @@ const currentPath = Astro.url.pathname;
 
     <!-- Mobile-specific layout fixes -->
     <style>
+      /* iOS Safari Safe Area Support */
+      body {
+        /* Support for iPhone X+ notch and home indicator */
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+      }
+
       /* MOBILE FIX: Adjust main content spacing for mobile */
       @media (max-width: 767px) {
         .mobile-main {
-          padding-top: 4rem; /* Reduced for smaller mobile nav */
+          padding-top: 4.25rem; /* 68px - matches mobile nav height */
           padding-bottom: 6rem; /* Reduced for smaller mobile footer */
         }
       }
 
       @media (max-width: 479px) {
         .mobile-main {
-          padding-top: 3.5rem;
+          padding-top: 4rem; /* 64px - slightly less for very small screens */
           padding-bottom: 5rem; /* Further reduced for very compact footer */
+        }
+      }
+
+      /* iOS Safari specific fixes */
+      @supports (-webkit-touch-callout: none) {
+        /* iOS Safari only styles */
+        .mobile-main {
+          /* Account for dynamic island and status bar */
+          padding-top: calc(4.25rem + env(safe-area-inset-top));
+        }
+
+        /* Prevent iOS Safari bounce scrolling issues */
+        body {
+          position: fixed;
+          overflow: hidden;
+          width: 100%;
+          height: 100%;
+        }
+
+        .mobile-main {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
         }
       }
 
@@ -131,9 +266,39 @@ const currentPath = Astro.url.pathname;
         line-height: 0.8;
         letter-spacing: -0.05em;
       }
+
+      /* iOS Safari haptic feedback support */
+      @media (hover: none) and (pointer: coarse) {
+        button,
+        .button,
+        a[role='button'],
+        input[type='submit'],
+        input[type='button'] {
+          /* Enable haptic feedback on iOS */
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+        }
+      }
+
+      /* iOS Safari pull-to-refresh prevention */
+      body {
+        overscroll-behavior-y: none;
+      }
+
+      /* iOS Safari zoom prevention on form inputs */
+      input[type='text'],
+      input[type='email'],
+      input[type='password'],
+      input[type='search'],
+      input[type='tel'],
+      input[type='url'],
+      select,
+      textarea {
+        font-size: 16px; /* Prevents zoom on iOS Safari */
+      }
     </style>
 
-    <!-- Theme switching functionality -->
+    <!-- Theme switching functionality with iOS Safari theme color updates -->
     <script>
       // Theme toggle functionality
       function toggleTheme() {
@@ -144,6 +309,16 @@ const currentPath = Astro.url.pathname;
         html.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
 
+        // Update iOS Safari theme color dynamically
+        const themeColorMetas = document.querySelectorAll(
+          'meta[name="theme-color"]'
+        );
+        const newColor = newTheme === 'dark' ? '#0a0a0a' : '#ffffff';
+
+        themeColorMetas.forEach((meta) => {
+          meta.setAttribute('content', newColor);
+        });
+
         // Dispatch custom event for components that need to react to theme changes
         window.dispatchEvent(
           new CustomEvent('themeChanged', { detail: { theme: newTheme } })
@@ -151,13 +326,44 @@ const currentPath = Astro.url.pathname;
       }
 
       // Make function globally available
-      window.toggleTheme = toggleTheme;
+      (window as any).toggleTheme = toggleTheme;
 
       // Apply saved theme on page load
       document.addEventListener('DOMContentLoaded', function () {
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // Update theme color on load
+        const themeColorMetas = document.querySelectorAll(
+          'meta[name="theme-color"]'
+        );
+        const color = savedTheme === 'dark' ? '#0a0a0a' : '#ffffff';
+
+        themeColorMetas.forEach((meta) => {
+          meta.setAttribute('content', color);
+        });
       });
+
+      // iOS Safari specific enhancements
+      if ('serviceWorker' in navigator) {
+        // Register service worker for PWA functionality
+        navigator.serviceWorker.register('/sw.js').catch(console.error);
+      }
+
+      // iOS Safari viewport height fix
+      function setViewportHeight() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      }
+
+      setViewportHeight();
+      window.addEventListener('resize', setViewportHeight);
+      window.addEventListener('orientationchange', setViewportHeight);
+
+      // iOS Safari scroll position restoration
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
     </script>
   </body>
 </html>
@@ -166,4 +372,15 @@ const currentPath = Astro.url.pathname;
   @import '../styles/variables.scss';
   @import '../styles/global.css';
   @import '../styles/utilities.scss';
+
+  /* iOS Safari custom properties for viewport */
+  :root {
+    --vh: 1vh;
+  }
+
+  /* Use custom viewport height for iOS Safari */
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
+  }
 </style>
