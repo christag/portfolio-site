@@ -1,0 +1,28 @@
+---
+// Debug page to check environment variables
+const strapiUrl = import.meta.env.STRAPI_URL;
+const apiToken = import.meta.env.STRAPI_API_TOKEN;
+const nodeEnv = import.meta.env.NODE_ENV;
+
+console.log('Environment Debug:', {
+  STRAPI_URL: strapiUrl,
+  STRAPI_API_TOKEN: apiToken ? 'SET' : 'NOT_SET',
+  NODE_ENV: nodeEnv,
+});
+---
+
+<html>
+  <head>
+    <title>Environment Debug</title>
+  </head>
+  <body>
+    <h1>Environment Debug</h1>
+    <p><strong>STRAPI_URL:</strong> {strapiUrl || 'NOT SET'}</p>
+    <p><strong>STRAPI_API_TOKEN:</strong> {apiToken ? 'SET' : 'NOT SET'}</p>
+    <p><strong>NODE_ENV:</strong> {nodeEnv || 'NOT SET'}</p>
+
+    <h2>Test API Call</h2>
+    <p>Trying to connect to: {strapiUrl || 'http://localhost:1337'}</p>
+  </body>
+</html>
+
