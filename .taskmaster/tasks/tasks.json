@@ -1245,11 +1245,113 @@
             "testStrategy": ""
           }
         ]
+      },
+      {
+        "id": 14,
+        "title": "Implement WebKit-Optimized PWA Features: Manifest, Favicon, Web Share API, and View Transitions",
+        "description": "Enhance the PWA with a robust Web App Manifest (including installability and advanced favicon handling), integrate Web Share API Level 2+, and implement the View Transitions API for seamless page transitions, ensuring optimal support on WebKit browsers and modern platforms.",
+        "details": "1. **Web App Manifest & Favicon Handling:**\n   - Create or update `manifest.webmanifest` with a comprehensive set of icons (PNG and SVG, including at least 192x192, 512x512, and a maskable icon) for broad device and OS compatibility. Use high-quality, small file size icons for performance[1][2][3].\n   - Ensure the favicon used in the manifest matches the site's favicon and is referenced in both the manifest and HTML `<head>` via `<link rel=\"icon\">`, `<link rel=\"apple-touch-icon\">`, and `<link rel=\"manifest\">` for maximum cross-browser and home screen consistency[1][2][4].\n   - Test icon rendering on iOS (Safari), Android (Chrome), and desktop browsers, as WebKit/Safari often requires special attention for home screen icons[1].\n2. **Installable PWA:**\n   - Ensure the manifest includes all required fields (`name`, `short_name`, `start_url`, `display`, `background_color`, `theme_color`, `icons`), and that the service worker is registered and functional.\n   - Implement install prompt handling for both Chrome and Safari (using `beforeinstallprompt` and iOS install banners where possible).\n3. **Web Share API Level 2+ Integration:**\n   - Integrate the Web Share API (Level 2+) to enable sharing files, URLs, and text from the app. Use feature detection (`navigator.canShare`) and provide graceful fallback for unsupported browsers.\n   - Ensure share buttons are accessible and tested on iOS Safari, Android Chrome, and desktop browsers supporting the API.\n4. **View Transitions API:**\n   - Implement the View Transitions API for smooth, native-like page transitions. Use the API to animate route changes and major UI updates, with fallbacks for browsers that do not support it.\n   - Coordinate with existing animation/micro-interaction logic to avoid conflicts and ensure accessibility (e.g., respect `prefers-reduced-motion`).\n5. **Best Practices:**\n   - Validate manifest and icons using tools like Lighthouse and PWA Builder.\n   - Document all manifest/icon changes and browser-specific workarounds for future maintenance.\n   - Ensure all features degrade gracefully on unsupported browsers.",
+        "testStrategy": "1. Use Lighthouse and PWA Builder to verify manifest correctness, installability, and icon usage across platforms.\n2. Manually test PWA installation and home screen icon rendering on iOS Safari, Android Chrome, and desktop browsers, confirming the correct favicon is always used.\n3. Test Web Share API functionality (including file sharing) on all supported platforms; verify fallback UI on unsupported browsers.\n4. Validate View Transitions API animations during route changes, ensuring smoothness and accessibility compliance (including `prefers-reduced-motion`).\n5. Check for regressions in service worker registration, offline support, and push notifications.\n6. Review browser console for manifest, icon, or API errors on all major browsers.",
+        "status": "pending",
+        "dependencies": [12, 11],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Optimize Web App Manifest for WebKit/Safari",
+            "description": "Audit and update the web app manifest to maximize compatibility with WebKit/Safari, ensuring all required fields (name, short_name, start_url, display, background_color, theme_color) are present and using icon formats and sizes preferred by iOS.",
+            "dependencies": [],
+            "details": "Include Apple-specific meta tags (e.g., apple-mobile-web-app-capable, apple-mobile-web-app-status-bar-style) in the HTML head. Validate manifest with Lighthouse and manual inspection on iOS Safari.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Advanced Favicon and Icon Handling for Home Screen",
+            "description": "Generate and reference a comprehensive set of icons (PNG, SVG, maskable, and Apple touch icons) for all platforms, ensuring correct display on iOS home screen and across browsers.",
+            "dependencies": [1],
+            "details": "Test icon rendering on iOS, Android, and desktop. Ensure icons are optimized for performance and referenced via manifest and HTML head. Include at least 192x192, 512x512, and maskable icons.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Integrate Web Share API Level 2+ with Feature Detection and Fallbacks",
+            "description": "Implement Web Share API Level 2+ for sharing files and links, using feature detection to provide graceful fallbacks for unsupported browsers, especially on WebKit.",
+            "dependencies": [1],
+            "details": "Detect support for navigator.canShare and navigator.share. Provide custom fallback UI for browsers lacking support. Test on iOS Safari and Android Chrome.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Integrate View Transitions API with Accessibility and Fallback Logic",
+            "description": "Implement View Transitions API for seamless page transitions, ensuring accessibility and providing fallback logic for browsers without support (notably WebKit/Safari).",
+            "dependencies": [1],
+            "details": "Use feature detection for View Transitions API. Ensure transitions are accessible (e.g., respects reduced motion settings). Provide instant transitions or CSS-based fallback for unsupported browsers.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Conduct WebKit/Safari-Specific Testing and Validation",
+            "description": "Perform comprehensive manual and automated testing of all PWA features on iOS and macOS Safari, focusing on manifest, icons, installability, and advanced APIs.",
+            "dependencies": [2, 3, 4],
+            "details": "Use real devices and emulators. Validate home screen installation, icon rendering, Web Share, and View Transitions behavior. Document all WebKit-specific issues and workarounds.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Implement iOS Safari Install Prompts and User Guidance",
+            "description": "Provide custom UI and instructions for installing the PWA on iOS Safari, since native install prompts are not supported.",
+            "dependencies": [1, 2, 5],
+            "details": "Detect iOS Safari and display a banner or modal with step-by-step instructions for adding to home screen. Ensure guidance is accessible and dismissible.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Implement Advanced PWA Features: Shortcuts and Edge Panels",
+            "description": "Add support for PWA shortcuts and edge panels (where supported), ensuring graceful degradation on WebKit/Safari.",
+            "dependencies": [1, 2, 5],
+            "details": "Define shortcuts in the manifest. Detect support and hide features on unsupported browsers. Test on Android and document limitations on iOS.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 8,
+            "title": "Cross-Browser Compatibility and Regression Testing",
+            "description": "Perform automated and manual cross-browser testing of all PWA features, with a focus on WebKit/Safari, Chrome, Firefox, and Edge.",
+            "dependencies": [5, 6, 7],
+            "details": "Use tools like BrowserStack and Lighthouse. Validate installability, icon rendering, Web Share, View Transitions, and shortcuts across platforms. Log and triage any regressions.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 9,
+            "title": "Performance Optimization for WebKit-Enhanced PWA",
+            "description": "Optimize performance for all PWA features, focusing on icon file sizes, manifest loading, and smooth transitions, especially on iOS devices.",
+            "dependencies": [2, 4, 8],
+            "details": "Audit with Lighthouse and WebPageTest. Optimize images, defer non-critical scripts, and ensure transitions do not impact responsiveness. Address any WebKit-specific bottlenecks.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 10,
+            "title": "Documentation, Monitoring, and Analytics Integration",
+            "description": "Document all manifest/icon changes, browser-specific workarounds, and testing results. Integrate analytics and monitoring for post-launch tracking of PWA usage and errors.",
+            "dependencies": [8, 9],
+            "details": "Update developer docs with implementation details and known issues. Set up analytics (e.g., Google Analytics, Sentry) to monitor install rates, feature usage, and runtime errors, with special attention to WebKit/Safari.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       }
     ],
     "metadata": {
       "created": "2025-07-08T18:36:06.074Z",
-      "updated": "2025-07-20T15:56:25.642Z",
+      "updated": "2025-07-20T22:07:33.928Z",
       "description": "Tasks for master context"
     }
   }

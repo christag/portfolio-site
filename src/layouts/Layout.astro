@@ -78,6 +78,9 @@ const currentPath = Astro.url.pathname;
     <!-- Enhanced SEO metadata from page-specific SEO component -->
     <slot name="head" />
 
+    <!-- View Transitions API meta tag for supported browsers -->
+    <meta name="view-transition" content="same-origin" />
+
     <!-- Early theme initialization to prevent flash -->
     <script is:inline>
       // Initialize theme before any rendering
@@ -143,7 +146,10 @@ const currentPath = Astro.url.pathname;
     />
 
     <Navigation currentPath={currentPath} />
-    <main class="pt-20 pb-32 mobile-main">
+    <main
+      class="pt-20 pb-32 mobile-main"
+      style="view-transition-name: main-content"
+    >
       <slot />
     </main>
     <Footer />
@@ -371,6 +377,40 @@ const currentPath = Astro.url.pathname;
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
       }
+    </script>
+
+    <!-- View Transitions API initialization -->
+    <script>
+      // Import and initialize View Transitions
+      import {
+        setupAutoTransitions,
+        isViewTransitionsSupported,
+      } from '../lib/viewtransitions';
+
+      // Initialize automatic transitions for internal links
+      document.addEventListener('DOMContentLoaded', () => {
+        if (isViewTransitionsSupported()) {
+          console.log(
+            'View Transitions API supported - enabling smooth transitions'
+          );
+        } else {
+          console.log(
+            'View Transitions API not supported - using fallback transitions'
+          );
+        }
+
+        // Setup automatic transitions for all internal links
+        setupAutoTransitions(
+          'a[href^="/"], a[href*="' + window.location.origin + '"]'
+        );
+      });
+
+      // Re-initialize on Astro page loads (for SPA-like behavior)
+      document.addEventListener('astro:page-load', () => {
+        setupAutoTransitions(
+          'a[href^="/"], a[href*="' + window.location.origin + '"]'
+        );
+      });
     </script>
   </body>
 </html>

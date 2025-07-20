@@ -1,0 +1,213 @@
+---
+export interface Props {
+  title?: string;
+  text?: string;
+  url?: string;
+  className?: string;
+  label?: string;
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  showIcon?: boolean;
+}
+
+const {
+  title,
+  text = 'Check this out!',
+  url,
+  className = '',
+  label = 'Share',
+  variant = 'secondary',
+  size = 'md',
+  showIcon = true,
+} = Astro.props;
+
+// Generate unique ID for this instance
+const buttonId = `share-btn-${Math.random().toString(36).substr(2, 9)}`;
+
+// Size classes
+const sizeClasses = {
+  sm: 'px-3 py-1.5 text-sm',
+  md: 'px-4 py-2 text-base',
+  lg: 'px-6 py-3 text-lg',
+};
+
+// Variant classes
+const variantClasses = {
+  primary: 'bg-accent text-white hover:bg-accent/90 focus:ring-accent/50',
+  secondary:
+    'bg-surface-secondary text-text-primary hover:bg-surface-tertiary focus:ring-accent/30',
+  ghost: 'text-accent hover:bg-accent/10 focus:ring-accent/30',
+};
+---
+
+<button
+  id={buttonId}
+  class={`
+    inline-flex items-center justify-center gap-2 rounded-lg font-medium
+    transition-all duration-200 ease-in-out
+    focus:outline-none focus:ring-2 focus:ring-offset-2
+    disabled:opacity-50 disabled:cursor-not-allowed
+    ${sizeClasses[size]}
+    ${variantClasses[variant]}
+    ${className}
+  `}
+  data-share-title={title}
+  data-share-text={text}
+  data-share-url={url}
+  aria-label={`${label} - Opens share dialog or copies to clipboard`}
+  type="button"
+>
+  {
+    showIcon && (
+      <svg
+        class="w-4 h-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
+        />
+      </svg>
+    )
+  }
+  <span>{label}</span>
+</button>
+
+<script>
+  // Import the webshare utility (this will be bundled by Astro)
+  import { shareContent, isWebShareSupported } from '../lib/webshare';
+
+  // Initialize share functionality when DOM is ready
+  function initializeShareButtons() {
+    const shareButtons = document.querySelectorAll('[id^="share-btn-"]');
+
+    shareButtons.forEach((button) => {
+      if (button.hasAttribute('data-share-initialized')) return;
+
+      button.setAttribute('data-share-initialized', 'true');
+
+      button.addEventListener('click', async (event) => {
+        event.preventDefault();
+
+        const btn = event.currentTarget as HTMLButtonElement;
+
+        // Get share data from attributes
+        const shareData = {
+          title: btn.getAttribute('data-share-title') || document.title,
+          text: btn.getAttribute('data-share-text') || 'Check this out!',
+          url: btn.getAttribute('data-share-url') || window.location.href,
+        };
+
+        // Update button state
+        const originalText = btn.querySelector('span')?.textContent;
+        const span = btn.querySelector('span');
+
+        if (span) {
+          span.textContent = 'Sharing...';
+        }
+        btn.disabled = true;
+
+        try {
+          await shareContent(shareData, {
+            fallbackMessage:
+              'Sharing not supported on this device. Content copied to clipboard!',
+            copyToClipboard: true,
+            showToast: true,
+          });
+        } catch (error) {
+          console.error('Share error:', error);
+        } finally {
+          // Restore button state
+          if (span && originalText) {
+            span.textContent = originalText;
+          }
+          btn.disabled = false;
+        }
+      });
+    });
+  }
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeShareButtons);
+  } else {
+    initializeShareButtons();
+  }
+
+  // Re-initialize on navigation (for SPA-like behavior)
+  document.addEventListener('astro:page-load', initializeShareButtons);
+</script>
+
+<style>
+  /* Enhanced button styles with glassmorphism */
+  [id^='share-btn-'] {
+    position: relative;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+      0 4px 6px rgba(0, 0, 0, 0.05),
+      0 1px 3px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  [id^='share-btn-']:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      0 6px 12px rgba(0, 0, 0, 0.1),
+      0 2px 4px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  [id^='share-btn-']:active {
+    transform: translateY(0);
+  }
+
+  [id^='share-btn-']:disabled {
+    transform: none;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  /* Icon animation */
+  [id^='share-btn-'] svg {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  [id^='share-btn-']:hover svg {
+    transform: scale(1.05);
+  }
+
+  /* Dark mode adjustments */
+  :global([data-theme='dark']) [id^='share-btn-'] {
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow:
+      0 4px 6px rgba(0, 0, 0, 0.2),
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  :global([data-theme='dark']) [id^='share-btn-']:hover {
+    box-shadow:
+      0 6px 12px rgba(0, 0, 0, 0.3),
+      0 2px 4px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    [id^='share-btn-'],
+    [id^='share-btn-'] svg {
+      transition: none;
+    }
+
+    [id^='share-btn-']:hover {
+      transform: none;
+    }
+  }
+</style>
