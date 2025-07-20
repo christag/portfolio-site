@@ -121,10 +121,10 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <!-- CTA Section -->
-      <div class="text-center mt-2xl">
+      <div class="text-center mt-lg">
         <a
           href="/we-could"
-          class="inline-block px-xl py-md text-lg font-semibold bg-glass-bg-light hover:bg-glass-bg-medium backdrop-blur-glass-button border border-glass-border-light rounded-glass-radius transition-all duration-300 hover:scale-105 misalign-accessible misalign-diagonal"
+          class="cta-button inline-block px-8 py-4 text-lg font-semibold bg-glass-bg-light hover:bg-glass-bg-medium backdrop-blur-glass-button border border-glass-border-light rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-accent/50"
           style="color: var(--color-text-primary); text-decoration: none;"
         >
           Start a Conversation
@@ -135,6 +135,22 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
+  /* CTA Button enhanced styling */
+  .cta-button {
+    background: rgba(184, 134, 154, 0.1) !important;
+    border: 2px solid rgba(184, 134, 154, 0.3) !important;
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    box-shadow: 0 4px 20px rgba(184, 134, 154, 0.2);
+  }
+
+  .cta-button:hover {
+    background: rgba(184, 134, 154, 0.2) !important;
+    border-color: rgba(184, 134, 154, 0.5) !important;
+    box-shadow: 0 8px 30px rgba(184, 134, 154, 0.3);
+    transform: translateY(-2px) scale(1.02);
+  }
+
   /* Hero section mobile optimization */
   .hero-section {
     min-height: 100vh;
@@ -161,6 +177,38 @@ import Layout from '../layouts/Layout.astro';
       min-height: calc((var(--vh, 1vh) * 100) - 6rem);
       padding-top: 1.5rem;
       padding-bottom: 1.5rem;
+    }
+  }
+
+  /* Landscape mode optimization for mobile */
+  @media screen and (max-height: 500px) and (orientation: landscape) {
+    .hero-section {
+      min-height: 100vh !important;
+      padding: 1rem !important;
+      padding-top: 6rem !important; /* Account for nav bar */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .hero-section .container {
+      max-width: none;
+    }
+
+    .hero-section h1 {
+      font-size: 2.5rem !important;
+      margin-bottom: 1rem !important;
+      line-height: 1.2 !important;
+    }
+
+    .hero-section p {
+      font-size: 1rem !important;
+      margin-bottom: 1.5rem !important;
+    }
+
+    .text-center.mt-lg {
+      margin-top: 1rem !important;
     }
   }
 

@@ -23,14 +23,23 @@ const currentPath = Astro.url.pathname;
     <meta name="description" content={description} />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no"
     />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>{title}</title>
 
     <!-- iOS Safari Theme Colors & Status Bar -->
-    <!-- Single theme-color meta tag for iOS Safari toolbar - using accent color for visibility -->
-    <meta name="theme-color" content="#b8869a" />
+    <!-- Dynamic theme-color that changes with theme -->
+    <meta
+      name="theme-color"
+      content="#b8869a"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#b8869a"
+      media="(prefers-color-scheme: dark)"
+    />
 
     <!-- iOS Safari Status Bar Styling -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -39,6 +48,10 @@ const currentPath = Astro.url.pathname;
       content="black-translucent"
     />
     <meta name="apple-mobile-web-app-title" content="Christopher T" />
+
+    <!-- Safari-specific meta tags for minimal UI -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
 
     <!-- iOS Safari Touch Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
@@ -137,7 +150,10 @@ const currentPath = Astro.url.pathname;
       @import '../styles/variables.scss';
     </style>
   </head>
-  <body class="min-h-screen" style="color: var(--color-text-primary, #171717);">
+  <body
+    class="min-h-screen safari-minimal-ui"
+    style="color: var(--color-text-primary, #171717);"
+  >
     <!-- Dynamic Animated Background -->
     <DynamicBackground
       intensity="medium"
@@ -373,6 +389,17 @@ const currentPath = Astro.url.pathname;
       window.addEventListener('resize', setViewportHeight);
       window.addEventListener('orientationchange', setViewportHeight);
 
+      // Force Safari to hide address bar on initial load
+      if (
+        navigator.userAgent.includes('Safari') &&
+        !navigator.userAgent.includes('Chrome')
+      ) {
+        setTimeout(() => {
+          window.scrollTo(0, 1);
+          setTimeout(() => window.scrollTo(0, 0), 100);
+        }, 500);
+      }
+
       // iOS Safari scroll position restoration
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
@@ -429,5 +456,23 @@ const currentPath = Astro.url.pathname;
   .min-h-screen {
     min-height: 100vh;
     min-height: calc(var(--vh, 1vh) * 100);
+  }
+
+  /* Safari minimal UI - hide bars on scroll */
+  .safari-minimal-ui {
+    /* Enable momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+
+    /* Force Safari to hide address bar on scroll */
+    overflow-x: hidden;
+  }
+
+  /* iOS Safari specific optimizations */
+  @supports (-webkit-touch-callout: none) {
+    .safari-minimal-ui {
+      /* Trigger minimal UI mode */
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+    }
   }
 </style>
