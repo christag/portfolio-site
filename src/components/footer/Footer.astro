@@ -140,9 +140,9 @@ const socialLinks = [
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-    padding: 1rem 0;
+    padding: 0.5rem 0; /* Much smaller padding */
     flex-wrap: wrap;
-    /* MOBILE FIX: Reduce padding on mobile */
+    min-height: 2.5rem; /* Compact height */
   }
 
   /* Footer text styling */
@@ -151,17 +151,19 @@ const socialLinks = [
   }
 
   .footer-text {
-    font-size: 0.875rem;
+    font-size: 0.8rem; /* Smaller text */
     margin: 0;
     color: var(--color-text-primary);
     font-weight: 500;
+    line-height: 1.2; /* Tighter line height */
   }
 
   .footer-subtitle {
-    font-size: 0.75rem;
+    font-size: 0.7rem; /* Smaller subtitle */
     margin: 0;
     color: var(--color-text-secondary);
     opacity: 0.8;
+    line-height: 1.2; /* Tighter line height */
   }
 
   /* Social links with glassmorphism */
@@ -175,18 +177,17 @@ const socialLinks = [
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    width: 1.75rem; /* Smaller icons */
+    height: 1.75rem;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
+    border-radius: 6px; /* Smaller border radius */
     color: var(--color-text-secondary);
-    font-size: 0.875rem;
+    font-size: 0.75rem; /* Smaller font */
     text-decoration: none;
     transition: all 0.3s ease;
-    /* MOBILE FIX: Improve touch interaction */
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
   }
@@ -206,41 +207,48 @@ const socialLinks = [
   /* Responsive adjustments */
   @media (max-width: 479px) {
     .footer-content {
-      flex-direction: column;
-      text-align: center;
-      gap: 0.5rem; /* Reduced gap */
-      padding: 0.75rem 0; /* Reduced padding */
+      padding: 0.4rem 0; /* Very compact mobile padding */
+      gap: 0.25rem;
+      min-height: 2rem; /* Even more compact on mobile */
     }
 
     .footer-info {
-      text-align: center;
+      text-align: left; /* Keep left aligned even on mobile */
     }
 
-    /* MOBILE FIX: Make social links smaller and more compact */
     .social-links {
-      gap: 0.5rem;
+      gap: 0.4rem; /* Tighter social icon spacing */
     }
 
     .social-link {
-      width: 1.75rem;
-      height: 1.75rem;
-      font-size: 0.75rem;
+      width: 1.5rem; /* Even smaller on mobile */
+      height: 1.5rem;
+      font-size: 0.7rem;
     }
 
     .footer-text {
-      font-size: 0.8rem;
+      font-size: 0.75rem; /* Smaller on mobile */
     }
 
     .footer-subtitle {
-      font-size: 0.7rem;
+      font-size: 0.65rem; /* Smaller subtitle on mobile */
     }
   }
 
   /* Additional mobile optimization for very small screens */
   @media (max-width: 320px) {
     .footer-content {
-      padding: 0.5rem 0;
-      gap: 0.25rem;
+      padding: 0.3rem 0; /* Ultra compact for tiny screens */
+      gap: 0.2rem;
+      min-height: 1.8rem;
+    }
+
+    .footer-text {
+      font-size: 0.7rem;
+    }
+
+    .footer-subtitle {
+      font-size: 0.6rem;
     }
   }
 </style>

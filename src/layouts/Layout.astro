@@ -29,19 +29,19 @@ const currentPath = Astro.url.pathname;
     <title>{title}</title>
 
     <!-- iOS Safari Theme Colors & Status Bar -->
-    <!-- Dynamic theme colors for light and dark mode -->
+    <!-- Dynamic theme colors for light and dark mode - More vibrant colors -->
     <meta
       name="theme-color"
       media="(prefers-color-scheme: light)"
-      content="#f8fafc"
+      content="#3b82f6"
     />
     <meta
       name="theme-color"
       media="(prefers-color-scheme: dark)"
-      content="#0f172a"
+      content="#1e40af"
     />
     <!-- Fallback theme color for older browsers -->
-    <meta name="theme-color" content="#f8fafc" />
+    <meta name="theme-color" content="#3b82f6" />
 
     <!-- iOS Safari Status Bar Styling -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -96,13 +96,21 @@ const currentPath = Astro.url.pathname;
         const theme = localStorage.getItem('theme') || 'light';
 
         // Immediately set theme color based on saved preference
-        const lightColor = '#f8fafc';
-        const darkColor = '#0f172a';
+        const lightColor = '#3b82f6'; // Vibrant blue
+        const darkColor = '#1e40af'; // Darker blue
         const currentColor = theme === 'dark' ? darkColor : lightColor;
 
         // Update all theme-color meta tags immediately
         const metaTags = document.querySelectorAll('meta[name="theme-color"]');
-        metaTags.forEach((tag) => tag.setAttribute('content', currentColor));
+        metaTags.forEach((tag) => {
+          tag.setAttribute('content', currentColor);
+        });
+
+        // Also create a simple fallback meta tag for maximum iOS Safari compatibility
+        const simpleMeta = document.createElement('meta');
+        simpleMeta.name = 'theme-color';
+        simpleMeta.content = currentColor;
+        document.head.appendChild(simpleMeta);
         if (theme === 'dark') {
           document.documentElement.setAttribute('data-theme', 'dark');
         }
@@ -119,8 +127,8 @@ const currentPath = Astro.url.pathname;
             'meta[name="theme-color"]:not([media])'
           );
 
-          const lightColor = '#f8fafc'; // Light blue-gray
-          const darkColor = '#0f172a'; // Dark blue-gray
+          const lightColor = '#3b82f6'; // Vibrant blue
+          const darkColor = '#1e40af'; // Darker blue
 
           if (isDark) {
             // Dark mode colors
@@ -185,7 +193,7 @@ const currentPath = Astro.url.pathname;
       @media (max-width: 767px) {
         .mobile-main {
           padding-top: 4.25rem; /* 68px - matches mobile nav height */
-          padding-bottom: 8rem; /* More bottom padding for mobile */
+          padding-bottom: 4rem; /* Reduced for compact footer */
           min-height: calc(100vh - 4.25rem);
           min-height: calc((var(--vh, 1vh) * 100) - 4.25rem);
         }
@@ -194,7 +202,7 @@ const currentPath = Astro.url.pathname;
       @media (max-width: 479px) {
         .mobile-main {
           padding-top: 4rem; /* 64px - slightly less for very small screens */
-          padding-bottom: 6rem; /* Adequate bottom padding */
+          padding-bottom: 3rem; /* Much smaller for compact footer */
           min-height: calc(100vh - 4rem);
           min-height: calc((var(--vh, 1vh) * 100) - 4rem);
         }
@@ -206,7 +214,9 @@ const currentPath = Astro.url.pathname;
         .mobile-main {
           /* Account for dynamic island and status bar */
           padding-top: calc(4.25rem + env(safe-area-inset-top));
-          padding-bottom: calc(8rem + env(safe-area-inset-bottom));
+          padding-bottom: calc(
+            4rem + env(safe-area-inset-bottom)
+          ); /* Reduced for compact footer */
           min-height: calc(
             100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
           );
@@ -219,7 +229,9 @@ const currentPath = Astro.url.pathname;
         @media (max-width: 479px) {
           .mobile-main {
             padding-top: calc(4rem + env(safe-area-inset-top));
-            padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+            padding-bottom: calc(
+              3rem + env(safe-area-inset-bottom)
+            ); /* Much smaller for compact footer */
           }
         }
 
@@ -340,7 +352,7 @@ const currentPath = Astro.url.pathname;
         const themeColorMetas = document.querySelectorAll(
           'meta[name="theme-color"]'
         );
-        const newColor = newTheme === 'dark' ? '#0f172a' : '#f8fafc';
+        const newColor = newTheme === 'dark' ? '#1e40af' : '#3b82f6';
 
         themeColorMetas.forEach((meta) => {
           meta.setAttribute('content', newColor);
@@ -364,7 +376,7 @@ const currentPath = Astro.url.pathname;
         const themeColorMetas = document.querySelectorAll(
           'meta[name="theme-color"]'
         );
-        const color = savedTheme === 'dark' ? '#0f172a' : '#f8fafc';
+        const color = savedTheme === 'dark' ? '#1e40af' : '#3b82f6';
 
         themeColorMetas.forEach((meta) => {
           meta.setAttribute('content', color);
