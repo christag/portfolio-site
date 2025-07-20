@@ -14,18 +14,15 @@ const STATIC_ASSETS = [
   '/manifest.json',
 ];
 
-// Assets to cache on first request
-const RUNTIME_CACHE = ['/services/', '/portfolio/', '/i-am'];
+// Assets to cache on first request (for future use)
+// const RUNTIME_CACHE = ['/services/', '/portfolio/', '/i-am'];
 
 // Install event - cache static assets
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing Service Worker');
-
   event.waitUntil(
     caches
       .open(STATIC_CACHE_NAME)
       .then((cache) => {
-        console.log('[SW] Caching static assets');
         return cache.addAll(STATIC_ASSETS);
       })
       .then(() => {
@@ -37,8 +34,6 @@ self.addEventListener('install', (event) => {
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating Service Worker');
-
   event.waitUntil(
     caches
       .keys()
@@ -46,7 +41,6 @@ self.addEventListener('activate', (event) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
             if (cacheName !== CACHE_NAME && cacheName !== STATIC_CACHE_NAME) {
-              console.log('[SW] Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             }
           })
@@ -103,7 +97,6 @@ async function networkFirstStrategy(request) {
     return networkResponse;
   } catch (error) {
     // Network failed, try cache
-    console.log('[SW] Network failed, trying cache for:', request.url);
     const cachedResponse = await caches.match(request);
 
     if (cachedResponse) {
@@ -137,7 +130,6 @@ async function cacheFirstStrategy(request) {
 
     return networkResponse;
   } catch (error) {
-    console.log('[SW] Failed to fetch and cache:', request.url);
     throw error;
   }
 }
@@ -156,7 +148,7 @@ async function staleWhileRevalidateStrategy(request) {
       return networkResponse;
     })
     .catch(() => {
-      console.log('[SW] Network failed for:', request.url);
+      // Network failed - silent fallback to cache
     });
 
   // Return cached version immediately if available, otherwise wait for network
@@ -193,15 +185,12 @@ async function getCacheSize() {
 // Background sync for iOS Safari (limited support)
 self.addEventListener('sync', (event) => {
   if (event.tag === 'background-sync') {
-    console.log('[SW] Background sync triggered');
     // Implement background sync logic here
   }
 });
 
 // Push notifications (iOS Safari 16.4+)
 self.addEventListener('push', (event) => {
-  console.log('[SW] Push message received');
-
   const options = {
     body: event.data ? event.data.text() : 'New notification',
     icon: '/favicon.svg',
@@ -232,8 +221,6 @@ self.addEventListener('push', (event) => {
 
 // Handle notification clicks
 self.addEventListener('notificationclick', (event) => {
-  console.log('[SW] Notification click received');
-
   event.notification.close();
 
   if (event.action === 'explore') {
