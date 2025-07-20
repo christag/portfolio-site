@@ -29,18 +29,7 @@ const currentPath = Astro.url.pathname;
     <title>{title}</title>
 
     <!-- iOS Safari Theme Colors & Status Bar -->
-    <!-- Dynamic theme colors for light and dark mode - More vibrant colors -->
-    <meta
-      name="theme-color"
-      media="(prefers-color-scheme: light)"
-      content="#3b82f6"
-    />
-    <meta
-      name="theme-color"
-      media="(prefers-color-scheme: dark)"
-      content="#1e40af"
-    />
-    <!-- Fallback theme color for older browsers -->
+    <!-- Single theme-color meta tag for iOS Safari toolbar -->
     <meta name="theme-color" content="#3b82f6" />
 
     <!-- iOS Safari Status Bar Styling -->
@@ -100,46 +89,28 @@ const currentPath = Astro.url.pathname;
         const darkColor = '#1e40af'; // Darker blue
         const currentColor = theme === 'dark' ? darkColor : lightColor;
 
-        // Update all theme-color meta tags immediately
-        const metaTags = document.querySelectorAll('meta[name="theme-color"]');
-        metaTags.forEach((tag) => {
-          tag.setAttribute('content', currentColor);
-        });
-
-        // Also create a simple fallback meta tag for maximum iOS Safari compatibility
-        const simpleMeta = document.createElement('meta');
-        simpleMeta.name = 'theme-color';
-        simpleMeta.content = currentColor;
-        document.head.appendChild(simpleMeta);
+        // Update the single theme-color meta tag
+        const themeColorMeta = document.querySelector(
+          'meta[name="theme-color"]'
+        );
+        if (themeColorMeta) {
+          themeColorMeta.setAttribute('content', currentColor);
+        }
         if (theme === 'dark') {
           document.documentElement.setAttribute('data-theme', 'dark');
         }
 
         // Dynamic theme color updates based on current theme
         function updateThemeColor(isDark) {
-          const themeColorLight = document.querySelector(
-            'meta[name="theme-color"][media*="light"]'
-          );
-          const themeColorDark = document.querySelector(
-            'meta[name="theme-color"][media*="dark"]'
-          );
-          const themeColorFallback = document.querySelector(
-            'meta[name="theme-color"]:not([media])'
-          );
-
           const lightColor = '#3b82f6'; // Vibrant blue
           const darkColor = '#1e40af'; // Darker blue
+          const newColor = isDark ? darkColor : lightColor;
 
-          if (isDark) {
-            // Dark mode colors
-            if (themeColorLight) themeColorLight.content = darkColor;
-            if (themeColorDark) themeColorDark.content = darkColor;
-            if (themeColorFallback) themeColorFallback.content = darkColor;
-          } else {
-            // Light mode colors
-            if (themeColorLight) themeColorLight.content = lightColor;
-            if (themeColorDark) themeColorDark.content = lightColor;
-            if (themeColorFallback) themeColorFallback.content = lightColor;
+          const themeColorMeta = document.querySelector(
+            'meta[name="theme-color"]'
+          );
+          if (themeColorMeta) {
+            themeColorMeta.setAttribute('content', newColor);
           }
         }
 
@@ -349,14 +320,13 @@ const currentPath = Astro.url.pathname;
         localStorage.setItem('theme', newTheme);
 
         // Update iOS Safari theme color dynamically
-        const themeColorMetas = document.querySelectorAll(
+        const newColor = newTheme === 'dark' ? '#1e40af' : '#3b82f6';
+        const themeColorMeta = document.querySelector(
           'meta[name="theme-color"]'
         );
-        const newColor = newTheme === 'dark' ? '#1e40af' : '#3b82f6';
-
-        themeColorMetas.forEach((meta) => {
-          meta.setAttribute('content', newColor);
-        });
+        if (themeColorMeta) {
+          themeColorMeta.setAttribute('content', newColor);
+        }
 
         // Dispatch custom event for components that need to react to theme changes
         window.dispatchEvent(
@@ -373,14 +343,13 @@ const currentPath = Astro.url.pathname;
         document.documentElement.setAttribute('data-theme', savedTheme);
 
         // Update theme color on load
-        const themeColorMetas = document.querySelectorAll(
+        const color = savedTheme === 'dark' ? '#1e40af' : '#3b82f6';
+        const themeColorMeta = document.querySelector(
           'meta[name="theme-color"]'
         );
-        const color = savedTheme === 'dark' ? '#1e40af' : '#3b82f6';
-
-        themeColorMetas.forEach((meta) => {
-          meta.setAttribute('content', color);
-        });
+        if (themeColorMeta) {
+          themeColorMeta.setAttribute('content', color);
+        }
       });
 
       // iOS Safari specific enhancements
