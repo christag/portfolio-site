@@ -30,10 +30,13 @@ Our design implements **authentic glassmorphism** with breakthrough techniques:
 - **🎨 Dynamic Content**: Strapi 5 CMS with tiered pricing, filtering, and real-time updates
 - **♿ Accessibility First**: WCAG 2.2 AA compliant with comprehensive testing
 - **🔍 SEO Optimized**: Dynamic metadata, structured data, and Core Web Vitals optimization
-- **🌍 Global CDN**: AWS CloudFront deployment for worldwide performance
+- **🌐 Production Ready**: Deployed on Cloudflare Pages with Railway Strapi backend
 - **🔄 Modern Workflow**: GitHub Actions CI/CD with Taskmaster AI-powered project management
 - **📱 Responsive Design**: Mobile-first with glassmorphism effects across all devices
-- **🔐 Enterprise Security**: AWS security hardening and comprehensive backup strategies
+- **🔐 Enterprise Security**: Railway security hardening and comprehensive backup strategies
+- **📞 Integrated Booking**: All contact flows direct to https://booking.christagliaferro.com
+- **🛡️ Graceful Degradation**: Sample services shown when CMS is unavailable
+- **🎯 Professional Error Handling**: Custom branded 404 and portfolio coming soon pages
 
 ## 🛠️ Tech Stack
 
@@ -44,21 +47,22 @@ Our design implements **authentic glassmorphism** with breakthrough techniques:
 - **Styling**: Modern CSS with Tailwind CSS + Glassmorphism utilities
 - **Animations**: GSAP/Framer Motion with accessibility-first approach
 - **PWA**: Service workers, offline support, and installability
+- **Deployment**: [Cloudflare Pages](https://pages.cloudflare.com/) with global CDN
 
 ### Backend & CMS
 
 - **CMS**: [Strapi 5](https://strapi.io/) - Headless CMS with advanced content modeling
 - **Database**: PostgreSQL with automated backups
-- **Media Storage**: AWS S3 with CloudFront CDN
-- **API**: REST and GraphQL endpoints with caching strategies
+- **Hosting**: [Railway](https://railway.app/) for Strapi backend
+- **API**: REST endpoints with proper error handling and fallbacks
 
 ### Infrastructure & DevOps
 
-- **Hosting**: AWS (EC2, S3, CloudFront, Route 53)
-- **Infrastructure**: Terraform for reproducible deployments
+- **Frontend Hosting**: Cloudflare Pages with automatic deployments
+- **Backend Hosting**: Railway with PostgreSQL database
 - **CI/CD**: GitHub Actions with Lighthouse CI integration
-- **Monitoring**: AWS CloudWatch with performance alerting
-- **Security**: WAF, SSL/TLS, vulnerability scanning
+- **Monitoring**: Railway metrics with performance alerting
+- **Security**: Railway security, SSL/TLS, environment variable management
 
 ### Development Tools
 
@@ -71,7 +75,8 @@ Our design implements **authentic glassmorphism** with breakthrough techniques:
 
 - **Node.js 18+** ([Download here](https://nodejs.org/))
 - **Git** configured with your GitHub account
-- **AWS Account** for deployment and CMS hosting
+- **Railway Account** for Strapi CMS hosting
+- **Cloudflare Account** for Pages deployment
 - **Strapi 5** knowledge for content management
 
 ## 🚀 Quick Start
@@ -86,11 +91,25 @@ cd portfolio-site
 # Install dependencies
 npm install
 
+# Setup environment variables
+cp .env.example .env
+# Add your Railway Strapi URL to .env
+
 # Start development server
 npm run dev
 ```
 
-### 2. Development Commands
+### 2. Environment Configuration
+
+Create `.env` file in the `website` directory:
+
+```bash
+# Strapi CMS Configuration
+STRAPI_URL=https://your-railway-strapi-url.up.railway.app
+STRAPI_API_TOKEN=your-strapi-api-token (optional)
+```
+
+### 3. Development Commands
 
 ```bash
 # Development
@@ -130,7 +149,10 @@ npm run task-master  # Access task management CLI
 ├── public/
 │   ├── favicon.svg             # Site favicon
 │   ├── robots.txt              # Search engine guidelines
-│   └── manifest.json           # PWA configuration
+│   ├── email-icon.svg          # Contact icons
+│   ├── linkedin-icon.svg
+│   ├── phone-icon.svg
+│   └── web-icon.svg
 ├── src/
 │   ├── components/
 │   │   ├── demo/
@@ -145,13 +167,23 @@ npm run task-master  # Access task management CLI
 │   │   │   └── Navigation.astro # Glassmorphism navigation
 │   │   ├── utils/
 │   │   │   └── performance.js   # Performance utilities
+│   │   ├── DynamicBackground.astro # Animated background
 │   │   ├── SEO.astro           # Dynamic SEO component
+│   │   ├── ServiceCard.astro   # Service display component
 │   │   └── Welcome.astro       # Homepage component
 │   ├── layouts/
 │   │   └── Layout.astro        # Base layout with glassmorphism
+│   ├── lib/
+│   │   ├── strapi.ts           # Strapi API integration
+│   │   └── content.ts          # Content management utilities
 │   ├── pages/
-│   │   ├── index.astro         # Homepage
-│   │   ├── 404.astro           # Custom 404 page
+│   │   ├── index.astro         # Homepage with booking integration
+│   │   ├── 404.astro           # Custom branded 404 page
+│   │   ├── portfolio.astro     # Coming soon page
+│   │   ├── services.astro      # Services with CMS fallback
+│   │   ├── services/
+│   │   │   └── [slug].astro    # Dynamic service pages
+│   │   ├── i-am.astro          # About page
 │   │   └── grid-test.astro     # Grid system demo
 │   ├── styles/
 │   │   ├── animations.css      # Animation utilities
@@ -162,6 +194,15 @@ npm run task-master  # Access task management CLI
 │   │   └── variables.scss      # CSS variables for glassmorphism
 │   └── types/
 │       └── global.d.ts         # TypeScript definitions
+├── website-cms/                # Strapi 5 CMS (Railway deployment)
+│   ├── src/
+│   │   ├── api/
+│   │   │   ├── bio-article/    # Bio content type
+│   │   │   ├── profile/        # Author profile
+│   │   │   └── settings/       # Site settings
+│   │   └── components/         # Shared components
+│   ├── config/                 # Strapi configuration
+│   └── database/               # Database migrations
 ├── astro.config.mjs            # Astro 5 configuration
 ├── tailwind.config.mjs         # Tailwind with glassmorphism utilities
 ├── eslint.config.js            # ESLint configuration
@@ -169,15 +210,55 @@ npm run task-master  # Access task management CLI
 └── tsconfig.json               # TypeScript configuration
 ```
 
+## 🎯 Recent Major Updates
+
+### ✅ **Strapi 5 CMS Integration** (Production Ready)
+
+- **Railway Deployment**: Fully configured Strapi 5 backend on Railway
+- **Content Types**: Bio articles, author profile, and site settings
+- **API Endpoints**: REST API with proper error handling
+- **Database**: PostgreSQL with automated backups
+- **Environment Variables**: Secure configuration management
+
+### ✅ **Contact Flow Integration**
+
+- **Booking System**: All contact buttons → https://booking.christagliaferro.com
+- **Unified Experience**: Homepage, services, navigation, and 404 page
+- **External Links**: Proper `target="_blank"` and security attributes
+- **Professional Flow**: Seamless transition to booking system
+
+### ✅ **Error Handling & Fallbacks**
+
+- **Custom 404 Page**: Branded error page with glassmorphism design
+- **Portfolio Coming Soon**: Professional placeholder for portfolio section
+- **CMS Fallback**: Sample services displayed when CMS is unavailable
+- **Graceful Degradation**: Site remains functional during CMS downtime
+
+### ✅ **Production Deployment**
+
+- **Cloudflare Pages**: Frontend deployed with global CDN
+- **Railway Backend**: Strapi CMS with PostgreSQL database
+- **Environment Variables**: Production configuration for CMS connection
+- **Performance Optimization**: Fast loading with proper caching
+
+### ✅ **Strapi Technical Fixes**
+
+- **Content Type Registration**: Fixed missing index.js files
+- **API Identifier Alignment**: Corrected controller/route/service references
+- **Lifecycle Hooks**: Removed invalid hooks, implemented proper patterns
+- **TypeScript to JavaScript**: Resolved compilation issues
+- **Schema Validation**: Fixed plural name conflicts with Strapi built-ins
+
 ## 🎯 Project Management with Taskmaster AI
 
 This project uses **Taskmaster AI** for sophisticated project management:
 
 ### 📊 Current Status
 
-- **Total Tasks**: 12 major tasks with 110 detailed subtasks
-- **Completion**: Task 1 (Setup) ✅ | Task 2 (Core Layout) 🟡 In Progress
-- **Next Priority**: Task 5 (Strapi CMS Deployment) - Highest complexity, critical path
+- **Total Tasks**: 15 major tasks with 120+ detailed subtasks
+- **Completion**: Tasks 1-3 ✅ | Task 4 (Services) ✅ | Task 5 (CMS) ✅
+- **Current Focus**: Task 6 (Portfolio Enhancement) and Task 7 (Performance)
+- **Production Status**: ✅ Live and functional with CMS integration
 
 ### 🧠 AI-Powered Features
 
@@ -186,27 +267,28 @@ This project uses **Taskmaster AI** for sophisticated project management:
 - **Progress Tracking**: Real-time status updates with detailed logging
 - **Risk Assessment**: Early identification of potential blockers
 
-### 📋 Task Categories
+### 📋 Completed Major Milestones
 
-#### 🔥 **Critical Path (High Complexity)**
+#### ✅ **Critical Infrastructure (Completed)**
 
-1. **Task 5**: Deploy Strapi 5 CMS on AWS (Score: 10/10)
-2. **Task 2**: Core Layout & Glassmorphism (Score: 9/10) - _In Progress_
-3. **Task 4**: Dynamic Services Page (Score: 8/10)
-4. **Task 6**: Portfolio Grid with Masonry Layout (Score: 8/10)
+1. **Task 1**: Project Setup & Development Environment ✅
+2. **Task 2**: Core Layout & Glassmorphism Implementation ✅
+3. **Task 3**: Bio Page with Dynamic Content ✅
+4. **Task 4**: Services Page with CMS Integration ✅
+5. **Task 5**: Strapi 5 CMS Deployment on Railway ✅
 
-#### ⚡ **Content Implementation (Medium-High Complexity)**
+#### 🔄 **Current Focus (In Progress)**
 
-5. **Task 3**: Bio Page with Generative Animation (Score: 7/10)
-6. **Task 7**: Dynamic Media Detail Pages (Score: 7/10)
-7. **Task 8**: Data Migration to Strapi (Score: 7/10)
-8. **Task 10**: Performance Optimization (Score: 7/10)
+6. **Task 6**: Portfolio Section Enhancement
+7. **Task 7**: Performance Optimization & Monitoring
+8. **Task 8**: Advanced Error Handling & Accessibility
 
-#### ✨ **Enhancement & Polish (Medium Complexity)**
+#### 📋 **Upcoming Features**
 
-9. **Task 9**: Collaboration Form with Jira Integration (Score: 6/10)
-10. **Task 12**: PWA Capabilities (Score: 6/10)
-11. **Task 11**: Animations & Micro-interactions (Score: 5/10)
+9. **Task 9**: PWA Implementation
+10. **Task 10**: Advanced Analytics Integration
+11. **Task 11**: SEO Enhancement & Schema Markup
+12. **Task 12**: Advanced Animations & Micro-interactions
 
 ## 🪟 Glassmorphism Implementation Guide
 
@@ -250,41 +332,110 @@ This project uses **Taskmaster AI** for sophisticated project management:
 - Buttons: 16-20px blur with adaptive tinting
 - All elements use glass materials exclusively
 
-## 🔧 Configuration
-
-### Environment Setup
-
-1. **Strapi 5 CMS**: Configure content models for services, media, and bio
-2. **AWS Infrastructure**: Terraform scripts for EC2, S3, CloudFront setup
-3. **Environment Variables**: API keys for Strapi, AWS, and analytics
-4. **Glassmorphism Variables**: CSS custom properties for glass effects
-
-### Performance Optimization
-
-- **Image Optimization**: WebP/AVIF formats with lazy loading
-- **Code Splitting**: Astro 5 islands architecture
-- **Caching Strategy**: Multi-layer CDN and API caching
-- **Lighthouse CI**: Automated performance monitoring
-
 ## 🚀 Deployment
 
-### Automated Deployment Pipeline
+### Production Environment
 
-Every push to `main` branch automatically:
+**Frontend (Cloudflare Pages)**:
 
-1. ✅ **Quality Checks**: ESLint, Prettier, TypeScript compilation
-2. ✅ **Performance Audit**: Lighthouse CI with regression detection
-3. ✅ **Build Process**: Astro 5 static generation with optimizations
-4. ✅ **AWS Deployment**: Terraform-managed infrastructure updates
-5. ✅ **CDN Invalidation**: CloudFront cache refresh
-6. ✅ **Monitoring**: Performance metrics and error tracking
+- **URL**: https://www.christagliaferro.com
+- **CDN**: Global Cloudflare network
+- **SSL**: Automatic HTTPS with modern TLS
+- **Build**: Automatic deployment from GitHub main branch
 
-### Infrastructure as Code
+**Backend (Railway)**:
 
-- **Terraform**: Complete AWS infrastructure automation
-- **Security Hardening**: WAF, SSL/TLS, vulnerability scanning
-- **Backup Strategy**: Automated database and media backups
-- **Monitoring**: CloudWatch alerts and performance dashboards
+- **Strapi CMS**: https://your-railway-domain.up.railway.app
+- **Database**: PostgreSQL with automated backups
+- **Environment**: Production-optimized configuration
+- **Security**: Environment variable management
+
+### Environment Variables Setup
+
+#### Cloudflare Pages Environment Variables
+
+Set these in your Cloudflare Pages dashboard:
+
+```bash
+STRAPI_URL=https://your-railway-strapi-url.up.railway.app
+STRAPI_API_TOKEN=your-optional-api-token
+```
+
+#### Railway Environment Variables
+
+Configure in Railway dashboard:
+
+```bash
+DATABASE_URL=postgresql://user:pass@host:port/db
+NODE_ENV=production
+STATIC_SITE_WEBHOOK_URL=https://your-cloudflare-pages-webhook
+```
+
+### Deployment Pipeline
+
+**Automated Process**:
+
+1. ✅ **Code Push**: Push to main branch triggers deployment
+2. ✅ **Quality Checks**: ESLint, TypeScript, and build validation
+3. ✅ **Build Process**: Astro static site generation
+4. ✅ **CMS Health Check**: Verify Strapi connectivity
+5. ✅ **Performance Audit**: Lighthouse CI validation
+6. ✅ **Global Deployment**: Cloudflare Pages worldwide distribution
+
+### CMS Content Management
+
+**Strapi Admin Panel**:
+
+- Access: https://your-railway-url.up.railway.app/admin
+- Content Types: Bio Articles, Profile, Settings
+- Media Management: File uploads and organization
+- User Management: Admin access control
+
+## 🔧 Configuration
+
+### CMS Integration
+
+**Content Types**:
+
+- **Profile** (`/api/profile`): Author information and bio
+- **Settings** (`/api/settings`): Site-wide configuration
+- **Bio Articles** (`/api/bio-articles`): Dynamic content pieces
+
+**API Endpoints**:
+
+- Health Check: `GET /api/profile`
+- All Services: `GET /api/services` (when implemented)
+- Site Settings: `GET /api/settings`
+
+### Error Handling Strategy
+
+**CMS Unavailable**:
+
+- Services page shows sample services with clear notice
+- Health check determines CMS availability
+- Graceful fallback maintains site functionality
+
+**404 Errors**:
+
+- Custom branded 404 page with glassmorphism design
+- Clear navigation options and contact information
+- Professional error messaging
+
+### Contact Flow Integration
+
+**All Contact Points**:
+
+- Homepage "Let's Talk" button
+- Navigation contact links (desktop & mobile)
+- Services page CTAs
+- Individual service page buttons
+- 404 page contact link
+
+**External Link Configuration**:
+
+- Target: `https://booking.christagliaferro.com`
+- Security: `target="_blank" rel="noopener noreferrer"`
+- Consistent user experience across all touchpoints
 
 ## 👥 Development Workflow
 
@@ -295,19 +446,19 @@ Every push to `main` branch automatically:
 npm run task-master next
 
 # 2. Create feature branch
-git checkout -b feature/glassmorphism-cards
+git checkout -b feature/new-component
 
 # 3. Work on complexity-optimized subtasks
 # Follow dependency order from Taskmaster analysis
 
 # 4. Update task progress
-npm run task-master update-subtask --id=2.3 --progress="Completed glass utility classes"
+npm run task-master update-subtask --id=6.3 --progress="Completed portfolio grid layout"
 
 # 5. Mark subtask complete
-npm run task-master set-status --id=2.3 --status=done
+npm run task-master set-status --id=6.3 --status=done
 
 # 6. Push and create PR
-git push origin feature/glassmorphism-cards
+git push origin feature/new-component
 ```
 
 ### Code Quality Standards
@@ -317,6 +468,7 @@ git push origin feature/glassmorphism-cards
 - **Performance**: Core Web Vitals optimization with glassmorphism
 - **TypeScript**: Strict typing for component props and Strapi responses
 - **Testing**: E2E tests for glassmorphism rendering and interactions
+- **CMS Integration**: Proper error handling and fallback strategies
 
 ## 🎯 Performance Metrics
 
@@ -327,6 +479,13 @@ git push origin feature/glassmorphism-cards
 - **FID (First Input Delay)**: < 100ms
 - **CLS (Cumulative Layout Shift)**: < 0.1
 - **PWA Score**: 100% compliance
+
+### Production Performance
+
+- **Cloudflare CDN**: Global edge caching for static assets
+- **Railway Performance**: Optimized Strapi backend response times
+- **Image Optimization**: WebP/AVIF formats with lazy loading
+- **Code Splitting**: Astro 5 islands architecture minimizes JavaScript
 
 ### Glassmorphism Performance
 
@@ -339,18 +498,17 @@ git push origin feature/glassmorphism-cards
 
 ### Glass Effect Considerations
 
-- **Contrast Ratios**: Blur effects create sufficient text contrast
+- **Contrast Ratios**: Blur effects maintain sufficient text contrast
 - **Focus States**: High-contrast focus indicators on glass elements
 - **Screen Readers**: Proper ARIA labels and semantic markup
 - **Motion Sensitivity**: Glassmorphism respects motion preferences
 - **Color Independence**: No reliance on glass effects for information
 
-### Testing Protocol
+### Error Page Accessibility
 
-- **Automated**: axe, Lighthouse, and custom accessibility checks
-- **Manual**: Screen reader testing and keyboard navigation
-- **User Testing**: Real users with assistive technologies
-- **Performance**: Accessibility with glassmorphism performance impact
+- **Custom 404**: Accessible navigation and clear error messaging
+- **Coming Soon**: Professional placeholder with proper headings
+- **Contact Integration**: Accessible booking flow with proper labels
 
 ## 🔍 SEO Features
 
@@ -359,27 +517,51 @@ git push origin feature/glassmorphism-cards
 - **Strapi Integration**: Automatic meta tag generation from CMS
 - **Structured Data**: Schema.org markup for services and portfolio
 - **Performance SEO**: Fast loading improves search rankings
-- **Glassmorphism SEO**: Ensure visual effects don't impact content indexing
+- **Glassmorphism SEO**: Visual effects don't impact content indexing
 
-## 🤝 Contributing
+### Production SEO
 
-### For Team Members
-
-1. **Clone and setup** (see Quick Start)
-2. **Check Taskmaster** for current priorities and dependencies
-3. **Follow glassmorphism principles** for all UI components
-4. **Test accessibility** with glass effects enabled
-5. **Update task progress** using Taskmaster AI
-6. **Request reviews** with performance considerations
-
-### Glassmorphism Development
-
-- **Use established patterns**: Follow breakthrough CSS techniques
-- **Test across devices**: Ensure glass effects render consistently
-- **Performance audit**: Monitor blur effect impact
-- **Accessibility check**: Verify contrast and usability
+- **Custom 404**: Proper HTTP status codes and user experience
+- **Portfolio Coming Soon**: SEO-friendly placeholder content
+- **Services Fallback**: Maintains SEO value during CMS downtime
 
 ## 🐛 Troubleshooting
+
+### Production Issues
+
+**CMS Connection Problems**:
+
+```bash
+# Check environment variables in Cloudflare Pages
+# Verify Railway Strapi is running and accessible
+# Test API endpoints directly: https://your-railway-url.up.railway.app/api/profile
+```
+
+**Deployment Failures**:
+
+```bash
+# Check build logs in Cloudflare Pages dashboard
+# Verify environment variables are set correctly
+# Test build locally: npm run build
+```
+
+### CMS Issues
+
+**Strapi Not Starting**:
+
+```bash
+# Check Railway logs for startup errors
+# Verify database connection and environment variables
+# Ensure all content types have proper index.js files
+```
+
+**API Endpoint Errors**:
+
+```bash
+# Verify content type names match API calls
+# Check controller/route/service file references
+# Ensure database migrations are complete
+```
 
 ### Glassmorphism Issues
 
@@ -407,27 +589,6 @@ git push origin feature/glassmorphism-cards
 - Limit number of simultaneous glass elements
 - Use `will-change: backdrop-filter` for animated glass
 
-### Common Development Issues
-
-**Taskmaster Sync**:
-
-```bash
-# Refresh task data
-npm run task-master refresh
-
-# Validate dependencies
-npm run task-master validate-dependencies
-```
-
-**Build Failures**:
-
-```bash
-# Clear cache and reinstall
-rm -rf node_modules package-lock.json
-npm install
-npm run build
-```
-
 ## 📄 License
 
 This project is private and proprietary. All rights reserved.
@@ -437,10 +598,11 @@ This project is private and proprietary. All rights reserved.
 - **Apple Design Team**: For Liquid Glass design inspiration
 - **Astro Team**: For the incredible static site generator
 - **Strapi Team**: For the powerful headless CMS
-- **AWS**: For robust cloud infrastructure
+- **Cloudflare**: For fast global content delivery
+- **Railway**: For reliable backend hosting
 - **Taskmaster AI**: For intelligent project management
 - **Open Source Community**: For the tools that make this possible
 
 ---
 
-**Built with ❤️ and 🪟 by Tags** | [Website](https://www.christagliaferro.com) | [LinkedIn](https://www.linkedin.com/in/christophertagliaferro/)
+**Built with ❤️ and 🪟 by Tags** | [Website](https://www.christagliaferro.com) | [LinkedIn](https://www.linkedin.com/in/christophertagliaferro/) | [Book a Call](https://booking.christagliaferro.com)
