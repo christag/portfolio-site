@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generatedAt": "2025-07-20T22:01:24.204Z",
-    "tasksAnalyzed": 1,
-    "totalTasks": 14,
-    "analysisCount": 13,
-    "thresholdScore": 5,
+    "generatedAt": "2025-07-21T14:07:55.945Z",
+    "tasksAnalyzed": 18,
+    "totalTasks": 23,
+    "analysisCount": 22,
+    "thresholdScore": 7,
     "projectName": "Taskmaster",
     "usedResearch": true
   },
@@ -26,52 +26,12 @@
       "reasoning": "This task is highly complex due to the need to deeply integrate Apple's Liquid Glass design principles—including dynamic, adaptive layering, low-opacity glass materials, strong blur, and spatial depth—across all foundational UI components. It requires advanced CSS (variables, specificity, backdrop-filter), custom Tailwind configuration, responsive design, accessibility, animation, and performance optimization. The need for blending effects, adaptive tinting, and strict adherence to a new visual language further increases complexity. Multiple rounds of refactoring and cross-browser QA are necessary to achieve the intended effect and maintain performance."
     },
     {
-      "taskId": 7,
-      "taskTitle": "Implement Dynamic Media Detail Page",
-      "complexityScore": 7,
-      "recommendedSubtasks": 9,
-      "expansionPrompt": "Break down the implementation of a dynamic media detail page that fetches content from Strapi and renders it based on media type. Include route handling, API integration, component rendering for different media types (markdown, video, code, image, audio), SEO metadata, social sharing, related content, and error handling. Consider accessibility, performance optimization, and responsive design for each media type.",
-      "reasoning": "This task involves multiple complex components: dynamic routing, API integration, conditional rendering based on media types, SEO optimization, and social features. The existing 9 subtasks appear well-structured, covering the essential aspects from routing setup to performance optimization."
-    },
-    {
       "taskId": 3,
       "taskTitle": "Build Static Bio Page ('I Am')",
       "complexityScore": 6,
       "recommendedSubtasks": 10,
       "expansionPrompt": "Expand the bio page implementation to include markdown content creation, Astro content collections setup, punk/brutalist layout design with glassmorphism, hero section with particle animation, timeline/experience section, social links integration, SEO metadata, static generation configuration, responsive styling, and accessibility compliance. Focus on the dual personality theme and creative visual elements.",
       "reasoning": "While this is a static page, it requires complex visual design elements (particle animations, glassmorphism, punk aesthetic), multiple content sections, and careful attention to accessibility and SEO. The current 10 subtasks appropriately cover all aspects from content to deployment."
-    },
-    {
-      "taskId": 8,
-      "taskTitle": "Migrate Services Data to Strapi CMS with Structured Mapping",
-      "complexityScore": 8,
-      "recommendedSubtasks": 8,
-      "expansionPrompt": "Structure the migration process following complexity-based ordering: first validate Strapi models and schemas, then plan migration strategy with backups, execute data migration with integrity checks, implement API integration and CTA logic, develop tiered pricing and filtering UI components, update service cards and detail pages, and finally optimize with caching and SEO. Ensure each phase builds on the previous for risk mitigation.",
-      "reasoning": "This is a critical data migration task requiring careful planning, execution, and validation. It involves backend schema design, data transformation, API integration, complex UI features (filtering, sorting, tiered pricing), and performance optimization. The complexity-based approach in 8 subtasks is appropriate."
-    },
-    {
-      "taskId": 9,
-      "taskTitle": "Implement Collaboration Form ('We Could')",
-      "complexityScore": 5,
-      "recommendedSubtasks": 8,
-      "expansionPrompt": "Break down the collaboration form implementation into: Jira Service Management project setup, analytics tracking integration, form page layout with glassmorphism design, validation and error handling, Jira iframe embedding, fallback form implementation for reliability, webhook integration for real-time updates, and success/thank-you flow. Ensure accessibility and cross-browser compatibility throughout.",
-      "reasoning": "While conceptually straightforward (embedding a form), this task involves third-party integration (Jira), fallback mechanisms, webhook setup, and proper error handling. The 8 subtasks appropriately cover setup, implementation, integration, and user experience aspects."
-    },
-    {
-      "taskId": 11,
-      "taskTitle": "Add Animation and Micro-interactions",
-      "complexityScore": 6,
-      "recommendedSubtasks": 7,
-      "expansionPrompt": "Structure animation implementation by complexity: setup animation library and configuration, implement prefers-reduced-motion support as foundation, create animations by type (page transitions, element animations, micro-interactions), develop custom hooks and utilities, implement lazy-loading for performance, build reusable animation components, and validate accessibility and performance. Ensure each animation respects user preferences and enhances rather than hinders usability.",
-      "reasoning": "Animation implementation requires careful balance between visual enhancement and performance/accessibility. The complexity comes from library integration, accessibility considerations, performance optimization, and creating reusable patterns. The 7 subtasks follow a logical progression from setup to validation."
-    },
-    {
-      "taskId": 12,
-      "taskTitle": "Implement PWA Capabilities",
-      "complexityScore": 7,
-      "recommendedSubtasks": 8,
-      "expansionPrompt": "Implement PWA features in layers: create manifest.json and generate app icons as foundation, implement service worker for offline functionality, handle install prompts for user engagement, set up push notifications with Strapi/AWS integration, implement offline content sync and background sync for enhanced functionality, conduct cross-device testing, and run Lighthouse PWA audit for validation. Each layer should build upon the previous for a robust implementation.",
-      "reasoning": "PWA implementation involves multiple technical aspects: manifest configuration, service worker development, push notifications, offline sync, and extensive testing across devices. The structured approach from foundation to advanced features in 8 subtasks ensures proper implementation order and comprehensive coverage."
     },
     {
       "taskId": 4,
@@ -84,34 +44,146 @@
     {
       "taskId": 5,
       "taskTitle": "Deploy Headless CMS (Strapi) on AWS with Robust Integration",
-      "complexityScore": 5,
-      "recommendedSubtasks": 3,
-      "expansionPrompt": "Break down this task with a focus on deploy headless cms (strapi) on aws with robust integration.",
-      "reasoning": "Automatically added due to missing analysis in AI response."
+      "complexityScore": 9,
+      "recommendedSubtasks": 14,
+      "expansionPrompt": "Break down the deployment and integration of Strapi on Railway into granular subtasks covering environment setup, database provisioning, deployment configuration, media storage, content modeling, API endpoint setup, authentication, webhook integration, caching, monitoring, backup, documentation, and model refactoring. Ensure each subtask addresses a distinct technical or operational concern, follows Strapi v5 and Railway best practices, and includes validation steps.",
+      "reasoning": "This task involves multi-layered infrastructure setup, advanced content modeling, automated field population, robust API configuration (REST/GraphQL), authentication, performance optimization, and integration with multiple platforms (Railway, Cloudflare, GitHub). It requires deep knowledge of Strapi v5, cloud deployment, security, and best practices for scalable CMS architecture. The number of dependencies, required integrations, and critical path nature further increase complexity. The current breakdown into 14 subtasks is appropriate for the scope and risk profile."
     },
     {
       "taskId": 6,
       "taskTitle": "Develop Portfolio Grid ('I Did')",
-      "complexityScore": 5,
-      "recommendedSubtasks": 3,
-      "expansionPrompt": "Break down this task with a focus on develop portfolio grid ('i did').",
-      "reasoning": "Automatically added due to missing analysis in AI response."
+      "complexityScore": 8,
+      "recommendedSubtasks": 10,
+      "expansionPrompt": "Expand the portfolio grid implementation into subtasks for grid layout design, media card components, Strapi API integration, caching/data optimization, filter bar development, lazy loading, animation/micro-interactions, responsive design, accessibility, and performance testing. Each subtask should focus on a single technical or UX aspect, following modern frontend and accessibility standards.",
+      "reasoning": "This task combines advanced UI/UX (masonry grid, punk/brutalist design, micro-interactions), accessibility, dynamic filtering, API integration, and performance optimization. It requires expertise in frontend frameworks, accessibility, animation, and data fetching. The current 10 subtasks reflect the need to isolate layout, interactivity, data, and testing concerns for maintainability and parallel development."
+    },
+    {
+      "taskId": 7,
+      "taskTitle": "Implement Dynamic Media Detail Page",
+      "complexityScore": 7,
+      "recommendedSubtasks": 9,
+      "expansionPrompt": "Decompose the dynamic media detail page into subtasks for routing, single media API integration, renderer components by media type, SEO metadata, social sharing, related content carousel, deep-linking/state, error handling, and responsive/performance optimization. Ensure each subtask addresses a unique technical challenge and aligns with best practices for dynamic content rendering.",
+      "reasoning": "This task requires dynamic routing, type-based rendering, SEO, social integration, and robust error handling. It spans both backend (API integration) and frontend (component rendering, accessibility, performance) concerns. The 9 subtasks are justified by the need to separate concerns and ensure each feature is independently testable and maintainable."
+    },
+    {
+      "taskId": 8,
+      "taskTitle": "Migrate Services Data to Strapi CMS with Structured Mapping",
+      "complexityScore": 8,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Expand the migration task into subtasks for model validation, migration planning/backup, migration execution, API integration, CTA logic, tiered pricing/filtering UI, dynamic card/detail page updates, and caching/SEO/performance optimization. Each subtask should address a distinct migration or integration phase, following Strapi and frontend best practices.",
+      "reasoning": "This migration involves schema validation, data transformation, API refactoring, dynamic UI updates, and business logic implementation (tiered pricing, CTAs). It requires careful planning to avoid data loss and ensure seamless frontend integration. The 8-phase breakdown aligns with industry-standard migration and integration workflows."
+    },
+    {
+      "taskId": 9,
+      "taskTitle": "Implement Collaboration Form ('We Could')",
+      "complexityScore": 6,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Break down the collaboration form implementation into subtasks for Jira project setup, analytics tracking, form page layout, validation/error handling, Jira iframe embed, fallback form, webhook integration, and success/thank-you flow. Each subtask should focus on a specific integration or UX concern, ensuring robust error handling and accessibility.",
+      "reasoning": "While the core form logic is straightforward, integrating Jira Service Management, handling fallbacks, analytics, and webhooks adds moderate complexity. Accessibility, error handling, and cross-platform testing further justify the 8-subtask structure."
     },
     {
       "taskId": 10,
       "taskTitle": "Implement Performance Optimizations",
-      "complexityScore": 5,
-      "recommendedSubtasks": 3,
-      "expansionPrompt": "Break down this task with a focus on implement performance optimizations.",
-      "reasoning": "Automatically added due to missing analysis in AI response."
+      "complexityScore": 7,
+      "recommendedSubtasks": 10,
+      "expansionPrompt": "Expand performance optimization into subtasks for image optimization, JavaScript/code splitting, font loading, caching strategies, service worker setup, sitemap.xml, RSS feed, performance monitoring, Lighthouse CI integration, and offline testing. Each subtask should address a specific optimization area, following web performance and SEO best practices.",
+      "reasoning": "This task covers a broad range of performance, SEO, and offline capabilities, each requiring specialized knowledge and validation. The 10 subtasks reflect the need to address each optimization independently for effective measurement and troubleshooting."
+    },
+    {
+      "taskId": 11,
+      "taskTitle": "Add Animation and Micro-interactions",
+      "complexityScore": 6,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "Decompose animation and micro-interaction implementation into subtasks for library setup, motion accessibility, animation patterns, custom hooks/utilities, lazy-loading, reusable components, and accessibility/performance validation. Each subtask should focus on a distinct aspect of animation integration and testing.",
+      "reasoning": "Animation tasks are moderately complex due to accessibility, performance, and cross-browser considerations. The 7-subtask breakdown ensures each phase (from setup to validation) is handled systematically and aligns with modern frontend animation practices."
+    },
+    {
+      "taskId": 12,
+      "taskTitle": "Implement PWA Capabilities",
+      "complexityScore": 7,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Expand PWA implementation into subtasks for manifest creation, icon generation, service worker, install prompt handling, push notifications, offline/background sync, cross-device testing, and Lighthouse audit. Each subtask should address a foundational or advanced PWA feature, following current PWA standards.",
+      "reasoning": "PWA implementation spans foundational setup, advanced features (push, sync), and rigorous cross-device testing. Each area requires focused attention to meet installability, offline, and engagement standards. The 8-subtask structure matches the layered complexity of modern PWA projects."
     },
     {
       "taskId": 14,
       "taskTitle": "Implement WebKit-Optimized PWA Features: Manifest, Favicon, Web Share API, and View Transitions",
-      "complexityScore": 9,
+      "complexityScore": 7,
       "recommendedSubtasks": 10,
-      "expansionPrompt": "Break down the implementation of WebKit-optimized PWA features into granular subtasks covering: manifest creation and validation, advanced favicon and icon handling for all platforms, installability and service worker registration (including browser-specific install prompts), Web Share API Level 2+ integration with feature detection and fallbacks, View Transitions API integration with accessibility and fallback logic, comprehensive cross-browser testing (especially on WebKit/Safari), documentation of manifest/icon changes and browser-specific workarounds, and ensuring graceful degradation for unsupported browsers. Include subtasks for automated and manual testing, as well as post-launch monitoring and analytics integration.",
-      "reasoning": "This task is highly complex due to the need for deep cross-browser compatibility (especially with WebKit/Safari quirks), integration of multiple advanced PWA features (manifest, icons, installability, Web Share API, View Transitions API), and strict adherence to modern best practices for performance, accessibility, and graceful degradation. Each feature requires careful implementation, testing, and fallback logic to ensure a seamless experience across platforms. Industry standards in 2025 emphasize robust testing (manual and automated), continuous validation with tools like Lighthouse, and thorough documentation for future maintenance. Expanding to at least 10 subtasks allows for focused attention on each critical area, including platform-specific challenges and post-launch monitoring.[1][2][3][4]"
+      "expansionPrompt": "Break down WebKit-optimized PWA enhancements into subtasks for manifest optimization, advanced favicon/icon handling, Web Share API integration, View Transitions API, Safari-specific testing, iOS install prompts, advanced PWA features (shortcuts/edge panels), cross-browser testing, performance optimization, and documentation/analytics. Each subtask should address a unique compatibility or feature concern.",
+      "reasoning": "Optimizing for WebKit/Safari and implementing advanced PWA features requires specialized knowledge of browser quirks, API support, and cross-platform testing. The 10-subtask breakdown ensures each compatibility and feature area is addressed systematically."
+    },
+    {
+      "taskId": 15,
+      "taskTitle": "Implement Strict Content Security Policy (CSP) Headers for XSS Protection",
+      "complexityScore": 6,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Expand CSP implementation into subtasks for dependency/resource audit, initial policy drafting (report-only), violation monitoring and resolution, enforcement rollout, cross-browser validation, and documentation. Each subtask should focus on a distinct phase of CSP deployment and validation.",
+      "reasoning": "CSP implementation is moderately complex, requiring careful auditing, iterative policy tuning, and cross-browser validation. While not as code-heavy as application features, it demands security expertise and systematic rollout, justifying 6 focused subtasks."
+    },
+    {
+      "taskId": 16,
+      "taskTitle": "Fix Cross-Platform Build Scripts with cross-env",
+      "complexityScore": 3,
+      "recommendedSubtasks": 3,
+      "expansionPrompt": "Break down the build script fix into subtasks for cross-env installation, script updates in package.json, and CI/CD pipeline validation. Each subtask should address a specific compatibility or validation step.",
+      "reasoning": "This is a low-complexity, well-understood task involving dependency installation, script updates, and basic validation. Three subtasks are sufficient to ensure cross-platform compatibility and prevent regressions."
+    },
+    {
+      "taskId": 17,
+      "taskTitle": "Implement HMAC Signature Verification and Rate Limiting for Webhook Security",
+      "complexityScore": 8,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Expand webhook security into subtasks for HMAC signature middleware, rate limiting setup, IP whitelisting, router integration, environment configuration, monitoring/logging, migration strategy, and security header implementation. Each subtask should address a distinct security or operational concern.",
+      "reasoning": "This task involves multiple advanced security layers (cryptography, rate limiting, IP filtering), middleware integration, and migration planning. Each layer must be implemented and validated independently to ensure robust protection, justifying 8 subtasks."
+    },
+    {
+      "taskId": 18,
+      "taskTitle": "Format Configuration Files and Fix JSON Structure",
+      "complexityScore": 4,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Decompose configuration formatting into subtasks for Prettier setup, config file formatting, pre-commit hook integration, CI/CD format check, and team documentation. Each subtask should address a specific aspect of formatting enforcement and workflow integration.",
+      "reasoning": "While not algorithmically complex, this task impacts developer workflow and CI/CD. Five subtasks ensure setup, enforcement, and documentation are handled systematically."
+    },
+    {
+      "taskId": 19,
+      "taskTitle": "Set Up Playwright E2E Testing Infrastructure and Implement Core Test Suites",
+      "complexityScore": 6,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Expand E2E testing setup into subtasks for Playwright installation/configuration, directory/test organization, glassmorphism UI tests, accessibility tests, Strapi integration tests, and CI integration. Each subtask should focus on a distinct testing or infrastructure concern.",
+      "reasoning": "E2E testing setup is moderately complex, requiring infrastructure, test design, and CI integration. Six subtasks allow for clear separation of concerns and parallel development."
+    },
+    {
+      "taskId": 20,
+      "taskTitle": "Enhance TypeScript Configuration with Path Aliases, Strict Mode, and Module Resolution",
+      "complexityScore": 5,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "Break down TypeScript configuration enhancement into subtasks for config backup, strict config creation, Astro/Vite alias integration, type declaration files, import refactoring, VS Code settings, and build/typecheck script updates. Each subtask should address a specific configuration or migration step.",
+      "reasoning": "Upgrading TypeScript configuration impacts code quality and developer experience. Seven subtasks ensure each aspect (from config to IDE integration) is addressed without overwhelming individual steps."
+    },
+    {
+      "taskId": 21,
+      "taskTitle": "Research and Optimize Tailwind Configuration Complexity",
+      "complexityScore": 7,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "Expand Tailwind optimization into subtasks for config audit, modularization, glassmorphism plugin creation, color palette optimization, unused utility removal, JIT mode optimization, and documentation update. Each subtask should address a distinct optimization or refactoring concern.",
+      "reasoning": "Optimizing a large Tailwind config requires research, modularization, plugin development, and careful validation to avoid regressions. Seven subtasks allow for systematic reduction of complexity and technical debt."
+    },
+    {
+      "taskId": 22,
+      "taskTitle": "Plan and Implement Documentation Structure Reorganization for Astro Project",
+      "complexityScore": 4,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Decompose documentation reorganization into subtasks for best practice research, /docs folder creation, markdown file migration, link/reference updates, and team onboarding documentation. Each subtask should address a specific organizational or communication step.",
+      "reasoning": "This is a low-to-moderate complexity task focused on project organization and documentation hygiene. Five subtasks ensure a thorough and maintainable transition."
+    },
+    {
+      "taskId": 23,
+      "taskTitle": "Evaluate Static vs SSR Architecture for Runtime CMS Fallback in Astro with Strapi",
+      "complexityScore": 6,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Expand the architecture evaluation into subtasks for current config analysis, SSR capability research, hybrid strategy exploration, pros/cons documentation, implementation recommendation, and team review. Each subtask should focus on a distinct research or decision-making phase.",
+      "reasoning": "This research and decision task requires technical analysis, documentation, and team alignment. Six subtasks allow for a structured evaluation and clear communication of findings."
     }
   ]
 }
