@@ -435,29 +435,78 @@ class StrapiAPI {
   // Health check for Strapi connection
   async healthCheck(): Promise<boolean> {
     try {
+      console.log(`🔍 Testing Strapi connection to: ${this.baseURL}`);
+      console.log(`🔑 API Token available: ${this.apiToken ? 'YES' : 'NO'}`);
+
       // Try multiple endpoints to verify connectivity
       // Start with simpler endpoints that are more likely to work
       const endpoints = [
-        '/services', // Try the services endpoint first since that's what we need
-        '/bio-articles', // Try bio articles since we know bio page works
+        '/services?pagination[limit]=1', // Try the services endpoint first since that's what we need
+        '/bio-articles?pagination[limit]=1', // Try bio articles since we know bio page works
         '/profile', // Finally try profile (the original check)
       ];
 
       for (const endpoint of endpoints) {
         try {
-          await this.fetchAPI(endpoint);
-          console.log(`Strapi health check passed using endpoint: ${endpoint}`);
-          return true;
+          console.log(`📡 Testing endpoint: ${this.baseURL}/api${endpoint}`);
+
+          const response = await fetch(`${this.baseURL}/api${endpoint}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(this.apiToken
+                ? { Authorization: `Bearer ${this.apiToken}` }
+                : {}),
+            },
+          });
+
+          console.log(
+            `📊 Response status: ${response.status} ${response.statusText}`
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log(
+              `✅ Strapi health check passed using endpoint: ${endpoint}`
+            );
+            console.log(
+              `📄 Sample response:`,
+              JSON.stringify(data).substring(0, 200)
+            );
+            return true;
+          } else {
+            const errorText = await response.text();
+            console.warn(`⚠️ Health check failed for endpoint ${endpoint}:`, {
+              status: response.status,
+              statusText: response.statusText,
+              error: errorText.substring(0, 500),
+            });
+          }
         } catch (error) {
-          console.warn(`Health check failed for endpoint ${endpoint}:`, error);
+          console.warn(`❌ Network error for endpoint ${endpoint}:`, {
+            message: error instanceof Error ? error.message : 'Unknown error',
+            name: error instanceof Error ? error.name : 'Unknown',
+          });
           // Continue to next endpoint
         }
       }
 
-      console.error('All health check endpoints failed');
+      console.error('💥 All health check endpoints failed');
+      console.error('🔧 Debug info:', {
+        baseURL: this.baseURL,
+        hasToken: !!this.apiToken,
+        tokenPrefix: this.apiToken
+          ? this.apiToken.substring(0, 8) + '...'
+          : 'none',
+      });
+
       return false;
     } catch (error) {
-      console.error('Strapi health check failed:', error);
+      console.error('🚨 Strapi health check failed with error:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        name: error instanceof Error ? error.name : 'Unknown',
+        baseURL: this.baseURL,
+      });
       return false;
     }
   }

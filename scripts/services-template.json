@@ -1,0 +1,75 @@
+[
+  {
+    "title": "Virtual CIO & IT Strategy Leadership",
+    "description": "Act as your on-demand Chief Information Officer, helping you plan and execute a technology strategy that fuels your business growth. Get executive-level IT guidance without the full-time cost.",
+    "category": "Leadership",
+    "featureHighlights": [
+      "12+ Years IT Leadership Experience",
+      "Strategic Technology Roadmaps",
+      "IT Budget Planning & Cost Reduction",
+      "Vendor Management & Negotiations"
+    ],
+    "tiers": [
+      {
+        "name": "Basic",
+        "priceLow": 500,
+        "priceHigh": 500,
+        "deliverables": [
+          "Current IT setup review",
+          "Prioritized action plan",
+          "Cost reduction recommendations"
+        ]
+      },
+      {
+        "name": "Standard",
+        "priceLow": 1500,
+        "priceHigh": 1500,
+        "deliverables": [
+          "Monthly strategy calls",
+          "IT budget planning",
+          "Ongoing technology advice"
+        ]
+      }
+    ],
+    "contactMethod": "email",
+    "isPinned": true,
+    "slug": "virtual-cio-strategy"
+  },
+  {
+    "title": "Cloud Migration & Infrastructure",
+    "description": "Migrate your business to the cloud with minimal downtime and maximum security. I'll handle the entire migration process from planning to execution.",
+    "category": "Infrastructure",
+    "featureHighlights": [
+      "AWS/Azure Certified",
+      "Zero-Downtime Migration",
+      "Cost Optimization",
+      "Security-First Approach"
+    ],
+    "tiers": [
+      {
+        "name": "Basic",
+        "priceLow": 2000,
+        "priceHigh": 5000,
+        "deliverables": [
+          "Migration assessment",
+          "Basic cloud setup",
+          "Data migration"
+        ]
+      },
+      {
+        "name": "Enterprise",
+        "priceLow": 10000,
+        "priceHigh": 25000,
+        "deliverables": [
+          "Full infrastructure design",
+          "Multi-environment setup",
+          "24/7 monitoring setup",
+          "Staff training"
+        ]
+      }
+    ],
+    "contactMethod": "email",
+    "isPinned": true,
+    "slug": "cloud-migration"
+  }
+]

@@ -1,0 +1,6 @@
+title,description,category,featureHighlights,isPinned,slug,contactMethod
+"Virtual CIO & IT Strategy Leadership","Act as your on-demand Chief Information Officer, helping you plan and execute a technology strategy that fuels your business growth.","Leadership","Strategic Technology Roadmaps;IT Budget Planning;Vendor Management;12+ Years Experience",true,virtual-cio-strategy,email
+"Cloud Migration & Infrastructure","Migrate your business to the cloud with minimal downtime and maximum security.","Infrastructure","AWS/Azure Certified;Zero-Downtime Migration;Cost Optimization;Security-First Approach",true,cloud-migration,email
+"Cybersecurity Assessment & Implementation","Comprehensive security audit and implementation of enterprise-grade security measures.","Security","Penetration Testing;Compliance (SOC2/HIPAA);Security Training;24/7 Monitoring",false,cybersecurity-assessment,phone
+"Business Process Automation","Automate repetitive tasks and workflows to increase efficiency and reduce errors.","Automation","Custom Workflow Design;API Integrations;Staff Training;ROI Tracking",false,business-automation,email
+"IT Support & Troubleshooting","On-demand technical support for all your IT needs.","Support","Remote & On-Site Support;Quick Response Times;Preventive Maintenance;Documentation",false,it-support,phone 

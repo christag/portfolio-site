@@ -111,6 +111,7 @@ const { currentPath = '/' } = Astro.props;
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 2rem;
+    position: relative; /* Add relative positioning for mobile menu dropdown */
   }
 
   .nav-content {
@@ -244,23 +245,22 @@ const { currentPath = '/' } = Astro.props;
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    /* Reduce width significantly to show page content behind */
-    margin: 0.5rem auto !important;
-    max-width: 260px !important;
-    width: 260px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    position: relative !important;
+    /* Fix positioning and width to prevent full-width background */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1000;
+    min-width: 260px;
+    max-width: 320px;
+    width: max-content;
     border-radius: 16px;
     overflow: hidden;
-    /* MOBILE FIX: Ensure proper containment and remove conflicting borders */
-    border-left: none;
-    border-right: none;
-    /* Improve touch interactions */
-    touch-action: manipulation;
+    /* Remove any problematic positioning */
+    margin: 0.5rem 1rem 0 0 !important;
+    transform: none !important;
+    left: auto !important;
   }
 
   /* Dark theme mobile menu - TRUE TRANSPARENT GLASS */
@@ -271,9 +271,6 @@ const { currentPath = '/' } = Astro.props;
     -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.6) !important;
-    /* MOBILE FIX: Remove any additional borders that cause grey appearance */
-    border-left: none !important;
-    border-right: none !important;
   }
 
   .mobile-menu-content {

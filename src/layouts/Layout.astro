@@ -35,14 +35,11 @@ const currentPath = Astro.url.pathname;
 
     <!-- iOS Safari Theme Colors & Status Bar -->
     <!-- Dynamic theme-color that changes with theme -->
-    <meta name="theme-color" content="#b8869a" />
+    <meta name="theme-color" content="#fafafa" />
 
     <!-- iOS Safari Status Bar Styling -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent"
-    />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Christopher T" />
 
     <!-- Safari-specific meta tags for minimal UI -->
@@ -313,12 +310,31 @@ const currentPath = Astro.url.pathname;
 
       // Dynamic theme color updates based on current theme
       function updateThemeColor(isDark: boolean) {
-        const accentColor = '#b8869a'; // Dusty pink accent - visible in both themes
+        // Use theme-appropriate colors for better WebKit integration
+        const lightThemeColor = '#fafafa'; // Light background with slight pink tint
+        const darkThemeColor = '#1a1a1a'; // Dark background that works with dark mode
+
+        const themeColor = isDark ? darkThemeColor : lightThemeColor;
+
         const themeColorMeta = document.querySelector(
           'meta[name="theme-color"]'
         );
         if (themeColorMeta) {
-          themeColorMeta.setAttribute('content', accentColor);
+          themeColorMeta.setAttribute('content', themeColor);
+          console.log(
+            `🎨 Updated theme-color to: ${themeColor} (${isDark ? 'dark' : 'light'} theme)`
+          );
+        }
+
+        // Also update the apple-mobile-web-app-status-bar-style for better iOS integration
+        const statusBarMeta = document.querySelector(
+          'meta[name="apple-mobile-web-app-status-bar-style"]'
+        );
+        if (statusBarMeta) {
+          // Use 'black-translucent' for dark theme, 'default' for light theme
+          const statusBarStyle = isDark ? 'black-translucent' : 'default';
+          statusBarMeta.setAttribute('content', statusBarStyle);
+          console.log(`📱 Updated status bar style to: ${statusBarStyle}`);
         }
       }
 
@@ -407,14 +423,20 @@ const currentPath = Astro.url.pathname;
           const handleScroll = () => {
             if (!ticking) {
               requestAnimationFrame(() => {
-                // Update theme color based on scroll position
-                const scrolled = window.scrollY > 10;
+                // Update theme color based on current theme (not scroll position)
+                const currentTheme =
+                  document.documentElement.getAttribute('data-theme') ||
+                  'light';
+                const isDark = currentTheme === 'dark';
+
                 const themeColorMeta = document.querySelector(
                   'meta[name="theme-color"]'
                 );
                 if (themeColorMeta) {
-                  const color = scrolled ? '#b8869a' : '#b8869a';
-                  themeColorMeta.setAttribute('content', color);
+                  const lightThemeColor = '#fafafa';
+                  const darkThemeColor = '#1a1a1a';
+                  const themeColor = isDark ? darkThemeColor : lightThemeColor;
+                  themeColorMeta.setAttribute('content', themeColor);
                 }
                 ticking = false;
               });
