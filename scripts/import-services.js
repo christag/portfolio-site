@@ -7,8 +7,9 @@
  * Usage: node scripts/import-services.js
  */
 
-const STRAPI_URL = process.env.STRAPI_URL || 'http://localhost:1337';
-const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN;
+const STRAPI_URL = 'https://website-cms-production-96f5.up.railway.app';
+const STRAPI_API_TOKEN =
+  '87024feea8a626782e0ab25516530ca94e7609a81b825cb3a9bd2b87173ca3fe2b94ab3f403741a67fa0cff442be6fbf6fbbaa0f2024c9e2ec48bd80e01946bf1fffd2b24ee126f31182a449a0f250a6dd0c24ef475d026254837aa14bfee58835a411a0472288e1e428a2e0f35d9de0efe8f361ce12010d2397a61e399887e5';
 
 // Your existing fallback services (from content.ts)
 const services = [
