@@ -435,8 +435,27 @@ class StrapiAPI {
   // Health check for Strapi connection
   async healthCheck(): Promise<boolean> {
     try {
-      await this.fetchAPI('/profile');
-      return true;
+      // Try multiple endpoints to verify connectivity
+      // Start with simpler endpoints that are more likely to work
+      const endpoints = [
+        '/services', // Try the services endpoint first since that's what we need
+        '/bio-articles', // Try bio articles since we know bio page works
+        '/profile', // Finally try profile (the original check)
+      ];
+
+      for (const endpoint of endpoints) {
+        try {
+          await this.fetchAPI(endpoint);
+          console.log(`Strapi health check passed using endpoint: ${endpoint}`);
+          return true;
+        } catch (error) {
+          console.warn(`Health check failed for endpoint ${endpoint}:`, error);
+          // Continue to next endpoint
+        }
+      }
+
+      console.error('All health check endpoints failed');
+      return false;
     } catch (error) {
       console.error('Strapi health check failed:', error);
       return false;
