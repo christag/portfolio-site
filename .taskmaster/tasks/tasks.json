@@ -1298,7 +1298,7 @@
             "description": "Perform comprehensive manual and automated testing of all PWA features on iOS and macOS Safari, focusing on manifest, icons, installability, and advanced APIs.",
             "dependencies": [2, 3, 4],
             "details": "Use real devices and emulators. Validate home screen installation, icon rendering, Web Share, and View Transitions behavior. Document all WebKit-specific issues and workarounds.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -1351,7 +1351,7 @@
     ],
     "metadata": {
       "created": "2025-07-08T18:36:06.074Z",
-      "updated": "2025-07-20T22:07:33.928Z",
+      "updated": "2025-07-21T00:40:05.206Z",
       "description": "Tasks for master context"
     }
   }

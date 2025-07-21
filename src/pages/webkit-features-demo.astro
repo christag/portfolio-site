@@ -281,6 +281,14 @@ import ShareButton from '../components/ShareButton.astro';
       </div>
     </section>
 
+    <!-- Debug Panel -->
+    <section class="glass-card p-8 rounded-2xl mb-16">
+      <h2 class="text-3xl font-bold mb-6">Debug Information</h2>
+      <div id="debug-info" class="space-y-4 font-mono text-sm">
+        <p>Loading debug information...</p>
+      </div>
+    </section>
+
     <!-- Technical Details -->
     <section class="glass-card p-8 rounded-2xl">
       <h2 class="text-3xl font-bold mb-6">Technical Implementation</h2>
@@ -436,7 +444,7 @@ Visit: ${window.location.origin}`;
     });
 
   // Log feature support on page load
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 WebKit Features Demo Loaded');
     console.log('📱 Web Share API supported:', isWebShareSupported());
     console.log(
@@ -451,6 +459,98 @@ Visit: ${window.location.origin}`;
 
     if (isViewTransitionsSupported()) {
       document.body.classList.add('supports-view-transitions');
+    }
+
+    // Collect debug information
+    const debugInfo = {
+      userAgent: navigator.userAgent,
+      platform: navigator.platform,
+      vendor: navigator.vendor,
+      standalone: window.matchMedia('(display-mode: standalone)').matches,
+      webShareSupported: isWebShareSupported(),
+      webShareLevel2: 'canShare' in navigator,
+      viewTransitionsSupported: isViewTransitionsSupported(),
+      serviceWorkerSupported: 'serviceWorker' in navigator,
+      serviceWorkerStatus: null as string | null,
+      manifestInstalled: false,
+      errors: [] as string[],
+    };
+
+    // Check service worker status
+    if ('serviceWorker' in navigator) {
+      try {
+        const registration = await navigator.serviceWorker.getRegistration();
+        if (registration) {
+          debugInfo.serviceWorkerStatus = registration.active
+            ? 'active'
+            : 'installing';
+        } else {
+          debugInfo.serviceWorkerStatus = 'not registered';
+        }
+      } catch (error) {
+        debugInfo.errors.push(
+          `Service Worker check error: ${error instanceof Error ? error.message : String(error)}`
+        );
+      }
+    }
+
+    // Check if app is installed
+    if ('getInstalledRelatedApps' in navigator) {
+      try {
+        const relatedApps = await (navigator as any).getInstalledRelatedApps();
+        debugInfo.manifestInstalled = relatedApps.length > 0;
+      } catch (error) {
+        debugInfo.errors.push(
+          `Installed apps check error: ${error instanceof Error ? error.message : String(error)}`
+        );
+      }
+    }
+
+    // Display debug information
+    const debugElement = document.getElementById('debug-info');
+    if (debugElement) {
+      debugElement.innerHTML = `
+        <div class="grid gap-2">
+          <div class="flex justify-between">
+            <span class="text-text-secondary">Browser:</span>
+            <span class="${navigator.vendor.includes('Apple') ? 'text-yellow-500' : 'text-green-500'}">${navigator.vendor || 'Unknown'}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-text-secondary">Platform:</span>
+            <span>${debugInfo.platform}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-text-secondary">Standalone Mode:</span>
+            <span class="${debugInfo.standalone ? 'text-green-500' : 'text-red-500'}">${debugInfo.standalone ? 'Yes' : 'No'}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-text-secondary">Web Share API:</span>
+            <span class="${debugInfo.webShareSupported ? 'text-green-500' : 'text-red-500'}">${debugInfo.webShareSupported ? 'Supported' : 'Not Supported'}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-text-secondary">Web Share Level 2+:</span>
+            <span class="${debugInfo.webShareLevel2 ? 'text-green-500' : 'text-yellow-500'}">${debugInfo.webShareLevel2 ? 'Supported' : 'Level 1 Only'}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-text-secondary">View Transitions API:</span>
+            <span class="${debugInfo.viewTransitionsSupported ? 'text-green-500' : 'text-red-500'}">${debugInfo.viewTransitionsSupported ? 'Supported' : 'Not Supported'}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-text-secondary">Service Worker:</span>
+            <span class="${debugInfo.serviceWorkerStatus === 'active' ? 'text-green-500' : debugInfo.serviceWorkerStatus === 'installing' ? 'text-yellow-500' : 'text-red-500'}">${debugInfo.serviceWorkerStatus || 'Not Supported'}</span>
+          </div>
+          ${
+            debugInfo.errors.length > 0
+              ? `
+            <div class="mt-4 p-4 bg-red-500/10 rounded-lg">
+              <p class="text-red-500 font-semibold mb-2">Errors Detected:</p>
+              ${debugInfo.errors.map((error) => `<p class="text-sm text-red-400">• ${error}</p>`).join('')}
+            </div>
+          `
+              : ''
+          }
+        </div>
+      `;
     }
   });
 </script>

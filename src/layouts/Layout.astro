@@ -52,10 +52,10 @@ const currentPath = Astro.url.pathname;
     />
 
     <!-- iOS Safari Touch Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicon.svg" />
-    <link rel="apple-touch-icon" sizes="120x120" href="/favicon.svg" />
-    <link rel="apple-touch-icon" sizes="76x76" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon.png" />
 
     <!-- iOS Safari Splash Screens for different devices -->
     <link
@@ -374,7 +374,26 @@ const currentPath = Astro.url.pathname;
       // iOS Safari specific enhancements
       if ('serviceWorker' in navigator) {
         // Register service worker for PWA functionality
-        navigator.serviceWorker.register('/sw.js').catch(console.error);
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then((registration) => {
+            console.log(
+              '✅ Service Worker registered successfully:',
+              registration
+            );
+
+            // Check for updates on page focus
+            document.addEventListener('visibilitychange', () => {
+              if (!document.hidden) {
+                registration.update();
+              }
+            });
+          })
+          .catch((error) => {
+            console.error('❌ Service Worker registration failed:', error);
+          });
+      } else {
+        console.log('⚠️ Service Workers not supported in this browser');
       }
 
       // iOS Safari viewport height fix
