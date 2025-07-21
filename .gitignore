@@ -1,47 +1,43 @@
-# build output
-dist/
-
-# generated types
-.astro/
-
-# dependencies
-node_modules/
-
-# logs
+# Logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
-# environment variables
-.env
-.env.production
+node_modules
+dist
+dist-ssr
+*.local
 
-# macOS-specific files
-.DS_Store
-
-# jetbrains setting folder
-.idea/
-
-# design direction
-design-direction.md
-
-# Logs
-logs
-*.log
-dev-debug.log
-# Dependency directories
-# Environment variables
 # Editor directories and files
+.vscode/*
+!.vscode/extensions.json
 .idea
-.vscode
+.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-# OS specific
 
-# Task files
-# tasks.json
-# tasks/ 
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development
+
+# Astro
+.astro/
+
+# Scripts with hardcoded tokens/secrets (SECURITY)
+scripts/test-*.js
+scripts/list-available-endpoints.js
+scripts/check-strapi-endpoints.js
+
+# Keep the import scripts but they should use env vars
+# scripts/import-services.js - OK (uses env vars)
+# scripts/import-services-csv.js - OK (uses env vars)  
+# scripts/import-services-json.js - OK (uses env vars) 
