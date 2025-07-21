@@ -99,51 +99,13 @@ const currentPath = Astro.url.pathname;
 
     <!-- Early theme initialization to prevent flash -->
     <script is:inline>
-      // Initialize theme before any rendering
+      // Initialize theme immediately with minimal DOM manipulation
       (function () {
         const theme = localStorage.getItem('theme') || 'light';
 
-        // Immediately set theme color based on saved preference - using accent color for visibility
-        const lightColor = '#b8869a'; // Dusty pink accent (visible in light mode)
-        const darkColor = '#b8869a'; // Same accent color (visible in dark mode)
-        const currentColor = lightColor; // Use accent color for both themes
-
-        // Update the single theme-color meta tag
-        const themeColorMeta = document.querySelector(
-          'meta[name="theme-color"]'
-        );
-        if (themeColorMeta) {
-          themeColorMeta.setAttribute('content', currentColor);
-        }
+        // Set theme attribute immediately without DOM queries to prevent layout shift
         if (theme === 'dark') {
           document.documentElement.setAttribute('data-theme', 'dark');
-        }
-
-        // Dynamic theme color updates based on current theme
-        function updateThemeColor(isDark) {
-          const accentColor = '#b8869a'; // Dusty pink accent - visible in both themes
-          const newColor = accentColor;
-
-          const themeColorMeta = document.querySelector(
-            'meta[name="theme-color"]'
-          );
-          if (themeColorMeta) {
-            themeColorMeta.setAttribute('content', newColor);
-          }
-        }
-
-        // Set initial theme color
-        updateThemeColor(theme === 'dark');
-
-        // Listen for system theme changes
-        if (window.matchMedia) {
-          window
-            .matchMedia('(prefers-color-scheme: dark)')
-            .addEventListener('change', (e) => {
-              if (!localStorage.getItem('theme')) {
-                updateThemeColor(e.matches);
-              }
-            });
         }
       })();
     </script>
@@ -341,13 +303,7 @@ const currentPath = Astro.url.pathname;
         localStorage.setItem('theme', newTheme);
 
         // Update iOS Safari theme color dynamically
-        const newColor = '#b8869a'; // Use accent color for visibility
-        const themeColorMeta = document.querySelector(
-          'meta[name="theme-color"]'
-        );
-        if (themeColorMeta) {
-          themeColorMeta.setAttribute('content', newColor);
-        }
+        updateThemeColor(newTheme === 'dark');
 
         // Dispatch custom event for components that need to react to theme changes
         window.dispatchEvent(
@@ -355,21 +311,41 @@ const currentPath = Astro.url.pathname;
         );
       }
 
-      // Make function globally available
-      (window as any).toggleTheme = toggleTheme;
-
-      // Apply saved theme on page load
-      document.addEventListener('DOMContentLoaded', function () {
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-
-        // Update theme color on load
-        const color = '#b8869a'; // Use accent color for visibility
+      // Dynamic theme color updates based on current theme
+      function updateThemeColor(isDark: boolean) {
+        const accentColor = '#b8869a'; // Dusty pink accent - visible in both themes
         const themeColorMeta = document.querySelector(
           'meta[name="theme-color"]'
         );
         if (themeColorMeta) {
-          themeColorMeta.setAttribute('content', color);
+          themeColorMeta.setAttribute('content', accentColor);
+        }
+      }
+
+      // Make function globally available
+      (window as any).toggleTheme = toggleTheme;
+
+      // Initialize theme color and system preferences after DOM loads
+      document.addEventListener('DOMContentLoaded', function () {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+
+        // Apply theme if not already set (prevents flash)
+        if (!document.documentElement.getAttribute('data-theme')) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+
+        // Update theme color after DOM is ready
+        updateThemeColor(savedTheme === 'dark');
+
+        // Listen for system theme changes
+        if (window.matchMedia) {
+          window
+            .matchMedia('(prefers-color-scheme: dark)')
+            .addEventListener('change', (e) => {
+              if (!localStorage.getItem('theme')) {
+                updateThemeColor(e.matches);
+              }
+            });
         }
       });
 
