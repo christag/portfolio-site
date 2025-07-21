@@ -212,10 +212,32 @@ npm run task-master  # Access task management CLI
 
 ## 🎯 Recent Major Updates
 
+### ✅ **Service Content Type Added** (December 2024)
+
+- **Complete API Structure**: Service collection type with controllers, routes, and services
+- **Pricing Tiers**: Component-based tiered pricing with deliverables
+- **Feature Highlights**: JSON array for service features
+- **Contact Methods**: Enumeration for email, calendar, phone, or custom links
+- **SEO Integration**: Reusable SEO component for service pages
+
+### ✅ **Mobile CSS Fix** (December 2024)
+
+- **SCSS Import Issue**: Fixed mobile browsers failing to load styles
+- **Proper Imports**: Moved SCSS imports to Astro component head
+- **Cross-Browser**: Now works on all mobile browsers including iOS Safari
+
+### ✅ **Dynamic Background Enhancements** (December 2024)
+
+- **Smaller Particles**: Reduced all particle sizes by 50% for subtler effect
+- **Less Blur**: Decreased blur from 5px to 1px for sharper definition
+- **Horizontal Glitch Lines**: Added randomized glitch lines appearing every 1-8 seconds
+- **True Randomization**: JavaScript-powered dynamic positioning and timing
+- **Performance**: Optimized animations with proper cleanup
+
 ### ✅ **Strapi 5 CMS Integration** (Production Ready)
 
 - **Railway Deployment**: Fully configured Strapi 5 backend on Railway
-- **Content Types**: Bio articles, author profile, and site settings
+- **Content Types**: Bio articles, author profile, site settings, and services
 - **API Endpoints**: REST API with proper error handling
 - **Database**: PostgreSQL with automated backups
 - **Environment Variables**: Secure configuration management

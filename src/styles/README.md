@@ -274,6 +274,34 @@ Our glassmorphism implementation follows **authentic Apple Liquid Glass principl
 - ✅ Color contrast validation with glass effects
 - ✅ Motion preference testing
 
+### 📱 **Mobile Compatibility & SCSS Imports**
+
+#### Critical Import Pattern for Mobile Browsers
+
+Mobile browsers (especially iOS Safari) cannot process SCSS imports directly in `<style>` tags. All SCSS imports must be processed by Astro:
+
+```astro
+---
+// ✅ CORRECT - Import in component script
+import '../styles/variables.scss';
+import '../styles/global.css';
+import '../styles/utilities.scss';
+---
+
+<style>
+  /* ❌ INCORRECT - Will fail on mobile browsers */
+  @import '../styles/variables.scss';
+</style>
+```
+
+#### Mobile CSS Loading Requirements
+
+1. **Import SCSS files in the Astro component frontmatter**
+2. **Use `<style lang="scss">` for component-specific SCSS**
+3. **Avoid `@import` statements in style tags**
+4. **Test on real mobile devices, not just browser dev tools**
+5. **Clear mobile browser cache after CSS changes**
+
 ### 🔧 **Development Guidelines**
 
 #### Glass Effect Best Practices
@@ -298,6 +326,43 @@ Our glassmorphism implementation follows **authentic Apple Liquid Glass principl
 
 - Navigation: 100% of page views
 - Footer: 100% of page views
+- Dynamic Background: 100% of page views
+- Service Cards: Services page
+- Error Pages: 404 and coming soon pages
+
+### 🌟 **Dynamic Background Enhancements** (December 2024)
+
+#### Particle System Updates
+
+- **Size Reduction**: All particles reduced by 50% for subtler effect
+  - Largest: 140px → 70px
+  - Smallest: 80px → 40px
+- **Blur Reduction**: Changed from 5px to 1px for sharper definition
+- **Improved Visibility**: Increased opacity for better contrast
+
+#### New Horizontal Glitch Lines
+
+**Implementation**:
+
+```css
+.glitch-line {
+  height: 1%;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.8); /* Black in light mode */
+}
+
+[data-theme='dark'] .glitch-line {
+  background: rgba(255, 255, 255, 0.8); /* White in dark mode */
+}
+```
+
+**Dynamic Behavior**:
+
+- **Appearance**: Random intervals between 1-8 seconds
+- **Duration**: Visible for 0.25-1 seconds
+- **Position**: Randomized top position (5-95%)
+- **Width**: Random between 20-70%
+- **JavaScript**: Dynamic keyframe generation for true randomization
 - Service Cards: 85% engagement rate
 - Error Pages: 3% of traffic, 95% successful navigation
 - Coming Soon Pages: 12% of portfolio traffic

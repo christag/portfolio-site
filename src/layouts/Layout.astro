@@ -3,6 +3,11 @@ import Navigation from '../components/navigation/Navigation.astro';
 import Footer from '../components/footer/Footer.astro';
 import DynamicBackground from '../components/DynamicBackground.astro';
 
+// Import styles properly through Astro
+import '../styles/variables.scss';
+import '../styles/global.css';
+import '../styles/utilities.scss';
+
 export interface Props {
   title: string;
   description?: string;
@@ -143,10 +148,7 @@ const currentPath = Astro.url.pathname;
       })();
     </script>
 
-    <!-- Import styles in correct order -->
-    <style>
-      @import '../styles/variables.scss';
-    </style>
+    <!-- Styles are imported at the top of the file -->
   </head>
   <body
     class="min-h-screen safari-minimal-ui"
@@ -491,12 +493,7 @@ const currentPath = Astro.url.pathname;
     </script>
   </body>
 </html>
-
 <style is:global>
-  @import '../styles/variables.scss';
-  @import '../styles/global.css';
-  @import '../styles/utilities.scss';
-
   /* iOS Safari custom properties for viewport */
   :root {
     --vh: 1vh;

@@ -23,7 +23,7 @@ const {
   <div class="wave-layer wave-layer--2"></div>
   <div class="wave-layer wave-layer--3"></div>
 
-  <!-- Floating Particles -->
+  <!-- Floating Particles (smaller) -->
   <div class="particles-container">
     <div class="particle particle--1"></div>
     <div class="particle particle--2"></div>
@@ -41,6 +41,15 @@ const {
 
   <!-- Glitch Overlay -->
   <div class="glitch-overlay"></div>
+
+  <!-- Horizontal Glitch Lines -->
+  <div class="glitch-lines-container">
+    <div class="glitch-line glitch-line--1"></div>
+    <div class="glitch-line glitch-line--2"></div>
+    <div class="glitch-line glitch-line--3"></div>
+    <div class="glitch-line glitch-line--4"></div>
+    <div class="glitch-line glitch-line--5"></div>
+  </div>
 
   <!-- Color Accent Sparkles (much smaller) -->
   <div class="color-sparkle color-sparkle--1"></div>
@@ -188,7 +197,7 @@ const {
         ellipse at center,
         rgba(255, 255, 255, 0.12) 0%,
         rgba(255, 255, 255, 0.05) 30%,
-        transparent 50%
+        transparent 100%
       ) !important;
     }
   }
@@ -214,7 +223,7 @@ const {
   }
 
   /* ==========================================================================
-   FLOATING PARTICLES - Sharp and high contrast
+   FLOATING PARTICLES - Smaller and less blurred
    ========================================================================== */
 
   .particles-container {
@@ -228,13 +237,13 @@ const {
     position: absolute;
     border-radius: 50%;
     animation: particle-float 12s ease-in-out infinite;
-    filter: blur(5px); // Much sharper definition
+    filter: blur(1px); // Much less blur for sharper particles
 
     // Light mode: sharp white particles
     background: radial-gradient(
       circle,
-      rgba(255, 255, 255, 0.6) 0%,
-      rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
       transparent 100%
     );
 
@@ -243,16 +252,16 @@ const {
     [data-theme='dark'] & {
       background: radial-gradient(
         circle,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0.08) 50%,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
         transparent 100%
       ) !important;
     }
   }
 
   .particle--1 {
-    width: 120px;
-    height: 120px;
+    width: 60px; // Reduced from 120px
+    height: 60px;
     top: 20%;
     left: 10%;
     animation-duration: 15s;
@@ -261,9 +270,9 @@ const {
     // Light mode: sharp white with tiny pink hint
     background: radial-gradient(
       circle,
-      rgba(255, 255, 255, 0.7) 0%,
-      rgba(184, 134, 154, 0.15) 30%,
-      rgba(255, 255, 255, 0.25) 60%,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(184, 134, 154, 0.2) 30%,
+      rgba(255, 255, 255, 0.4) 60%,
       transparent 100%
     );
 
@@ -272,8 +281,8 @@ const {
     [data-theme='dark'] & {
       background: radial-gradient(
         circle,
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
         transparent 100%
       ) !important;
     }
@@ -287,15 +296,15 @@ const {
     // All other particles are sharp white in light mode
     background: radial-gradient(
       circle,
-      rgba(255, 255, 255, 0.6) 0%,
-      rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
       transparent 100%
     );
   }
 
   .particle--2 {
-    width: 100px;
-    height: 100px;
+    width: 50px; // Reduced from 100px
+    height: 50px;
     top: 60%;
     left: 80%;
     animation-duration: 18s;
@@ -303,8 +312,8 @@ const {
   }
 
   .particle--3 {
-    width: 80px;
-    height: 80px;
+    width: 40px; // Reduced from 80px
+    height: 40px;
     top: 80%;
     left: 30%;
     animation-duration: 14s;
@@ -312,8 +321,8 @@ const {
   }
 
   .particle--4 {
-    width: 140px;
-    height: 140px;
+    width: 70px; // Reduced from 140px
+    height: 70px;
     top: 40%;
     left: 70%;
     animation-duration: 20s;
@@ -321,8 +330,8 @@ const {
   }
 
   .particle--5 {
-    width: 90px;
-    height: 90px;
+    width: 45px; // Reduced from 90px
+    height: 45px;
     top: 10%;
     left: 60%;
     animation-duration: 16s;
@@ -330,8 +339,8 @@ const {
   }
 
   .particle--6 {
-    width: 110px;
-    height: 110px;
+    width: 55px; // Reduced from 110px
+    height: 55px;
     top: 70%;
     left: 15%;
     animation-duration: 22s;
@@ -355,6 +364,141 @@ const {
     75% {
       transform: translateY(-20px) translateX(35px) scale(1.1);
       opacity: 0.95;
+    }
+  }
+
+  /* ==========================================================================
+   HORIZONTAL GLITCH LINES - New feature
+   ========================================================================== */
+
+  .glitch-lines-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .glitch-line {
+    position: absolute;
+    height: 1%;
+    opacity: 0;
+    transform: translateX(-100%);
+
+    // Light mode: black glitch lines
+    background: rgba(0, 0, 0, 0.8);
+
+    // Dark mode: white glitch lines
+    html[data-theme='dark'] &,
+    [data-theme='dark'] & {
+      background: rgba(255, 255, 255, 0.8) !important;
+    }
+  }
+
+  [data-glitch='true'] {
+    .glitch-line--1 {
+      animation: glitch-line-1 8s steps(1) infinite;
+      animation-delay: 0s;
+    }
+
+    .glitch-line--2 {
+      animation: glitch-line-2 6s steps(1) infinite;
+      animation-delay: 1s;
+    }
+
+    .glitch-line--3 {
+      animation: glitch-line-3 7s steps(1) infinite;
+      animation-delay: 2s;
+    }
+
+    .glitch-line--4 {
+      animation: glitch-line-4 5s steps(1) infinite;
+      animation-delay: 0.5s;
+    }
+
+    .glitch-line--5 {
+      animation: glitch-line-5 8s steps(1) infinite;
+      animation-delay: 3s;
+    }
+  }
+
+  // Generate random glitch line animations
+  @keyframes glitch-line-1 {
+    0%,
+    92% {
+      opacity: 0;
+    }
+    93% {
+      opacity: 1;
+      top: 15%;
+      width: 60%;
+      left: 20%;
+    }
+    96% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes glitch-line-2 {
+    0%,
+    85% {
+      opacity: 0;
+    }
+    86% {
+      opacity: 1;
+      top: 45%;
+      width: 30%;
+      left: 50%;
+    }
+    88% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes glitch-line-3 {
+    0%,
+    88% {
+      opacity: 0;
+    }
+    89% {
+      opacity: 1;
+      top: 70%;
+      width: 80%;
+      left: 10%;
+    }
+    92% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes glitch-line-4 {
+    0%,
+    90% {
+      opacity: 0;
+    }
+    91% {
+      opacity: 1;
+      top: 30%;
+      width: 40%;
+      left: 30%;
+    }
+    93% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes glitch-line-5 {
+    0%,
+    87% {
+      opacity: 0;
+    }
+    88% {
+      opacity: 1;
+      top: 55%;
+      width: 70%;
+      left: 15%;
+    }
+    90% {
+      opacity: 0;
     }
   }
 
@@ -493,7 +637,7 @@ const {
   .color-sparkle {
     position: absolute;
     border-radius: 50%;
-    filter: blur(2px); // Very sharp sparkles
+    filter: blur(0.5px); // Minimal blur for sharper sparkles
     opacity: 0;
     animation: sparkle-twinkle 8s ease-in-out infinite;
     pointer-events: none;
@@ -504,8 +648,8 @@ const {
   }
 
   .color-sparkle--1 {
-    width: 40px;
-    height: 40px;
+    width: 20px; // Reduced from 40px
+    height: 20px;
     top: 25%;
     left: 15%;
     animation-delay: 0s;
@@ -513,8 +657,8 @@ const {
     // Light mode: sharp pink sparkle
     background: radial-gradient(
       circle,
-      rgba(184, 134, 154, 0.6) 0%,
-      rgba(184, 134, 154, 0.25) 50%,
+      rgba(184, 134, 154, 0.8) 0%,
+      rgba(184, 134, 154, 0.4) 50%,
       transparent 100%
     );
 
@@ -526,8 +670,8 @@ const {
   }
 
   .color-sparkle--2 {
-    width: 30px;
-    height: 30px;
+    width: 15px; // Reduced from 30px
+    height: 15px;
     top: 65%;
     left: 75%;
     animation-delay: -2s;
@@ -535,8 +679,8 @@ const {
     // Light mode: sharp pink sparkle (brand primary)
     background: radial-gradient(
       circle,
-      rgba(184, 134, 154, 0.5) 0%,
-      rgba(184, 134, 154, 0.2) 50%,
+      rgba(184, 134, 154, 0.7) 0%,
+      rgba(184, 134, 154, 0.35) 50%,
       transparent 100%
     );
 
@@ -548,8 +692,8 @@ const {
   }
 
   .color-sparkle--3 {
-    width: 35px;
-    height: 35px;
+    width: 18px; // Reduced from 35px
+    height: 18px;
     top: 45%;
     left: 55%;
     animation-delay: -4s;
@@ -557,8 +701,8 @@ const {
     // Light mode: sharp pink sparkle (brand primary)
     background: radial-gradient(
       circle,
-      rgba(184, 134, 154, 0.45) 0%,
-      rgba(184, 134, 154, 0.18) 50%,
+      rgba(184, 134, 154, 0.65) 0%,
+      rgba(184, 134, 154, 0.3) 50%,
       transparent 100%
     );
 
@@ -570,8 +714,8 @@ const {
   }
 
   .color-sparkle--4 {
-    width: 25px;
-    height: 25px;
+    width: 12px; // Reduced from 25px
+    height: 12px;
     top: 15%;
     left: 85%;
     animation-delay: -1s;
@@ -579,8 +723,8 @@ const {
     // Light mode: sharp pink sparkle
     background: radial-gradient(
       circle,
-      rgba(184, 134, 154, 0.5) 0%,
-      rgba(184, 134, 154, 0.2) 50%,
+      rgba(184, 134, 154, 0.7) 0%,
+      rgba(184, 134, 154, 0.35) 50%,
       transparent 100%
     );
 
@@ -592,8 +736,8 @@ const {
   }
 
   .color-sparkle--5 {
-    width: 32px;
-    height: 32px;
+    width: 16px; // Reduced from 32px
+    height: 16px;
     top: 80%;
     left: 25%;
     animation-delay: -3s;
@@ -601,8 +745,8 @@ const {
     // Light mode: sharp pink sparkle (brand primary)
     background: radial-gradient(
       circle,
-      rgba(184, 134, 154, 0.45) 0%,
-      rgba(184, 134, 154, 0.18) 50%,
+      rgba(184, 134, 154, 0.65) 0%,
+      rgba(184, 134, 154, 0.3) 50%,
       transparent 100%
     );
 
@@ -705,7 +849,8 @@ const {
       .wave-layer,
       .glitch-overlay,
       .color-sparkle,
-      .contrast-element {
+      .contrast-element,
+      .glitch-line {
         display: none;
       }
     }
@@ -732,3 +877,86 @@ const {
     }
   }
 </style>
+
+<script>
+  // Add dynamic randomization for glitch lines
+  function randomizeGlitchLines() {
+    const glitchLines = document.querySelectorAll('.glitch-line');
+
+    glitchLines.forEach((line, index) => {
+      const randomizeAnimation = () => {
+        // Random delay between 1-8 seconds
+        const delay = Math.random() * 7 + 1;
+
+        // Random duration between 0.25-1 second
+        const duration = Math.random() * 0.75 + 0.25;
+
+        // Random position
+        const top = Math.random() * 90 + 5; // 5-95%
+        const left = Math.random() * 50; // 0-50%
+        const width = Math.random() * 50 + 20; // 20-70%
+
+        // Apply styles
+        (line as HTMLElement).style.animationDelay = `${delay}s`;
+        (line as HTMLElement).style.animationDuration = `${delay + duration}s`;
+
+        // Custom keyframe for this specific line
+        const keyframeName = `glitch-line-dynamic-${index}`;
+        const keyframes = `
+          @keyframes ${keyframeName} {
+            0%, ${(delay / (delay + duration)) * 100}% { 
+              opacity: 0; 
+            }
+            ${((delay + 0.01) / (delay + duration)) * 100}% { 
+              opacity: 1;
+              top: ${top}%;
+              left: ${left}%;
+              width: ${width}%;
+            }
+            ${((delay + duration - 0.01) / (delay + duration)) * 100}% { 
+              opacity: 1;
+              top: ${top}%;
+              left: ${left}%;
+              width: ${width}%;
+            }
+            ${((delay + duration) / (delay + duration)) * 100}%, 100% { 
+              opacity: 0; 
+            }
+          }
+        `;
+
+        // Inject keyframe
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = keyframes;
+        document.head.appendChild(styleSheet);
+
+        // Apply animation
+        (line as HTMLElement).style.animation =
+          `${keyframeName} ${delay + duration}s steps(1) infinite`;
+
+        // Clean up old style tags periodically
+        setTimeout(
+          () => {
+            if (styleSheet.parentNode) {
+              styleSheet.parentNode.removeChild(styleSheet);
+            }
+          },
+          (delay + duration) * 1000
+        );
+      };
+
+      // Initial randomization
+      randomizeAnimation();
+
+      // Re-randomize periodically
+      setInterval(randomizeAnimation, (Math.random() * 8 + 5) * 1000);
+    });
+  }
+
+  // Initialize on DOM load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', randomizeGlitchLines);
+  } else {
+    randomizeGlitchLines();
+  }
+</script>
