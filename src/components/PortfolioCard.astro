@@ -54,14 +54,20 @@ const imageUrl =
   item.featuredImage?.data?.attributes?.url || item.featuredImage?.url;
 const imageAlt =
   item.featuredImage?.data?.attributes?.alternativeText || item.title;
+
+// Check if we have a valid image URL
+const hasImage = imageUrl && imageUrl.trim() !== '';
+
+// Check if we have a slug for the detail page
+const hasDetailPage = item.slug && item.slug.trim() !== '';
 ---
 
 <article class={cardClasses} data-media-type={item.mediaType}>
   <div class="portfolio-card__content">
-    <!-- Media/Image Section -->
-    <div class="portfolio-card__media">
-      {
-        imageUrl ? (
+    <!-- Media/Image Section - Only show if we have an image -->
+    {
+      hasImage && (
+        <div class="portfolio-card__media">
           <LazyImage
             src={imageUrl}
             alt={imageAlt}
@@ -71,49 +77,47 @@ const imageAlt =
             priority={item.featured}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
           />
-        ) : (
-          <div class="portfolio-card__placeholder">
-            <div class="portfolio-card__placeholder-icon">
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <circle cx="9" cy="9" r="2" />
-                <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-              </svg>
-            </div>
-            <span class="portfolio-card__placeholder-text">
+
+          {/* Media type badge */}
+          <div class="portfolio-card__type-badge">
+            <span class="portfolio-card__type-label">
+              {getMediaTypeLabel(item.mediaType)}
+            </span>
+          </div>
+
+          {/* Featured badge */}
+          {item.featured && (
+            <div class="portfolio-card__featured-badge">Featured</div>
+          )}
+        </div>
+      )
+    }
+
+    <!-- Content Section -->
+    <div
+      class={`portfolio-card__info ${!hasImage ? 'portfolio-card__info--no-image' : ''}`}
+    >
+      <!-- Media type for cards without images -->
+      {
+        !hasImage && (
+          <div class="portfolio-card__media-type">
+            <span class="portfolio-card__media-type-label">
               {getMediaTypeLabel(item.mediaType)}
             </span>
           </div>
         )
       }
 
-      <!-- Media type badge -->
-      <div class="portfolio-card__type-badge">
-        <span class="portfolio-card__type-label"
-          >{getMediaTypeLabel(item.mediaType)}</span
-        >
-      </div>
-
-      <!-- Featured badge -->
-      {
-        item.featured && (
-          <div class="portfolio-card__featured-badge">Featured</div>
-        )
-      }
-    </div>
-
-    <!-- Content Section -->
-    <div class="portfolio-card__info">
       <header class="portfolio-card__header">
         <h3 class="portfolio-card__title">{item.title}</h3>
         {item.client && <p class="portfolio-card__client">for {item.client}</p>}
+        {
+          item.featured && !hasImage && (
+            <span class="portfolio-card__featured-indicator">
+              Featured Project
+            </span>
+          )
+        }
       </header>
 
       <p class="portfolio-card__description">{item.description}</p>
@@ -184,29 +188,32 @@ const imageAlt =
             </a>
           )
         }
-        <!-- Link to detail page -->
-        <a
-          href={`/portfolio/${item.slug}`}
-          class="portfolio-card__action portfolio-card__action--detail"
-          aria-label={`View details of ${item.title}`}
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-            ></path>
-            <polyline points="14,2 14,8 20,8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10,9 9,9 8,9"></polyline>
-          </svg>
-          Details
-        </a>
+        {/* Link to detail page - only show if slug exists */}
+        {
+          hasDetailPage && (
+            <a
+              href={`/portfolio/${item.slug}`}
+              class="portfolio-card__action portfolio-card__action--detail"
+              aria-label={`View details of ${item.title}`}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14,2 14,8 20,8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10,9 9,9 8,9" />
+              </svg>
+              Details
+            </a>
+          )
+        }
       </div>
 
       <!-- Tags -->
@@ -232,26 +239,25 @@ const imageAlt =
   /* Base Card Styles with Glassmorphism */
   .portfolio-card {
     position: relative;
-    background: var(--color-glass-bg-light);
-    backdrop-filter: blur(var(--glass-blur-light));
-    border: 1px solid var(--color-glass-border-light);
+    background: var(--glass-bg-primary);
+    backdrop-filter: blur(var(--glass-blur-container));
+    border: 1px solid var(--glass-border-medium);
     border-radius: var(--glass-radius);
-    box-shadow: var(--glass-shadow-light);
+    box-shadow: var(--glass-shadow-medium);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
-    break-inside: avoid;
-    margin-bottom: 2rem;
-    display: inline-block;
-    width: 100%;
-    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 420px;
   }
 
   .portfolio-card:hover {
-    transform: translateY(-4px) rotate(0.5deg);
-    background: var(--color-glass-bg-medium);
-    border-color: var(--color-glass-border-medium);
+    transform: translateY(-4px);
+    background: var(--glass-bg-secondary);
+    border-color: var(--glass-border-light);
     box-shadow:
-      var(--glass-shadow-medium),
+      var(--glass-shadow-heavy),
       0 16px 40px rgba(0, 0, 0, 0.15);
   }
 
@@ -268,7 +274,6 @@ const imageAlt =
     box-shadow:
       var(--glass-shadow-medium),
       0 0 20px rgba(247, 144, 9, 0.2);
-    min-height: 520px;
   }
 
   .portfolio-card--featured:hover {
@@ -309,34 +314,6 @@ const imageAlt =
     transition: transform 0.3s ease;
   }
 
-  .portfolio-card__placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      135deg,
-      var(--color-glass-bg-light),
-      var(--color-glass-bg-medium)
-    );
-    gap: var(--spacing-sm);
-  }
-
-  .portfolio-card__placeholder-icon {
-    color: var(--color-text-tertiary);
-    opacity: 0.6;
-  }
-
-  .portfolio-card__placeholder-text {
-    color: var(--color-text-secondary);
-    font-weight: 600;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
   /* Type Badge */
   .portfolio-card__type-badge {
     position: absolute;
@@ -375,20 +352,42 @@ const imageAlt =
 
   /* Info Section */
   .portfolio-card__info {
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg);
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
   }
 
-  /* Header */
-  .portfolio-card__header {
+  .portfolio-card__info--no-image {
+    padding-top: var(--spacing-xl);
+  }
+
+  /* Media Type for no-image cards */
+  .portfolio-card__media-type {
     margin-bottom: var(--spacing-sm);
   }
 
+  .portfolio-card__media-type-label {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    background: var(--color-glass-bg-medium);
+    border: 1px solid var(--color-glass-border-medium);
+    border-radius: calc(var(--glass-radius) * 0.5);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Header */
+  .portfolio-card__header {
+    margin-bottom: var(--spacing-xs);
+  }
+
   .portfolio-card__title {
-    font-size: 1.375rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-text-primary);
     margin: 0;
@@ -402,16 +401,27 @@ const imageAlt =
     font-style: italic;
   }
 
+  .portfolio-card__featured-indicator {
+    display: inline-block;
+    margin-top: var(--spacing-xs);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-accent-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
   /* Description */
   .portfolio-card__description {
     color: var(--color-text-secondary);
     line-height: 1.6;
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.9375rem;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    flex-grow: 1;
   }
 
   /* Technologies */
@@ -419,7 +429,6 @@ const imageAlt =
     display: flex;
     flex-wrap: wrap;
     gap: 0.375rem;
-    margin: var(--spacing-sm) 0;
   }
 
   .portfolio-card__tech-tag,
@@ -442,9 +451,8 @@ const imageAlt =
   /* Actions */
   .portfolio-card__actions {
     display: flex;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-xs);
     margin-top: auto;
-    padding-top: var(--spacing-md);
     flex-wrap: wrap;
   }
 
@@ -452,8 +460,8 @@ const imageAlt =
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     text-decoration: none;
     border-radius: calc(var(--glass-radius) * 0.5);
@@ -463,7 +471,7 @@ const imageAlt =
     color: var(--color-text-primary);
     flex: 1;
     justify-content: center;
-    min-height: 40px;
+    min-height: 36px;
   }
 
   .portfolio-card__action:hover {
@@ -495,6 +503,7 @@ const imageAlt =
     gap: 0.25rem;
     padding-top: var(--spacing-sm);
     border-top: 1px solid var(--color-glass-border-light);
+    margin-top: auto;
   }
 
   .portfolio-card__tag,
@@ -510,48 +519,23 @@ const imageAlt =
   }
 
   /* Responsive Adjustments */
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     .portfolio-card {
-      min-height: 420px;
-    }
-
-    .portfolio-card__info {
-      padding: var(--spacing-lg);
-      gap: var(--spacing-sm);
+      min-height: auto;
     }
 
     .portfolio-card__title {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
     }
 
     .portfolio-card__actions {
-      flex-direction: column;
       gap: var(--spacing-xs);
     }
 
     .portfolio-card__action {
-      flex: none;
-      width: 100%;
+      font-size: 0.75rem;
+      padding: 0.375rem 0.625rem;
     }
-  }
-
-  /* Variant: Compact */
-  .portfolio-card--compact {
-    margin-bottom: 1.5rem;
-    min-height: 360px;
-  }
-
-  .portfolio-card--compact .portfolio-card__info {
-    padding: var(--spacing-lg);
-    gap: var(--spacing-sm);
-  }
-
-  .portfolio-card--compact .portfolio-card__description {
-    -webkit-line-clamp: 2;
-  }
-
-  .portfolio-card--compact .portfolio-card__title {
-    font-size: 1.25rem;
   }
 
   /* Print Styles */

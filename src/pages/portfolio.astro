@@ -91,24 +91,11 @@ const description =
 
               {/* Portfolio Content */}
               <div class="portfolio-content">
-                <header class="portfolio-content__header">
-                  <h2
-                    id="portfolio-grid-title"
-                    class="portfolio-content__title"
-                  >
-                    Project Gallery
-                  </h2>
-                  <p class="portfolio-content__subtitle">
-                    Use the filters above to explore by media type, status, or
-                    technology stack.
-                  </p>
-                </header>
-
                 {/* Grid Container with Lazy Loading */}
                 <div class="portfolio-grid" id="portfolio-grid">
                   <LazyGrid
-                    variant="chaos"
-                    gap="gap-8"
+                    variant="standard"
+                    gap="gap-6"
                     class="portfolio-lazy-grid"
                     loadingStrategy="priority"
                     batchSize={6}
@@ -304,47 +291,32 @@ const description =
     padding: var(--space-xl) 0;
   }
 
+  /* Container override to ensure proper margins */
+  .portfolio-main .container {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+
   /* Horizontal Filter Container */
   .portfolio-filter-container {
     margin-bottom: var(--space-xl);
   }
 
-  /* Content Area */
-  .portfolio-content__header {
-    margin-bottom: var(--space-lg);
-    text-align: center;
-  }
-
-  .portfolio-content__title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    margin-bottom: var(--space-sm);
-  }
-
-  .portfolio-content__subtitle {
-    color: var(--color-text-secondary);
-    font-size: 1.125rem;
-    line-height: 1.6;
-  }
-
   /* Portfolio Grid Enhancements */
   .portfolio-lazy-grid {
     min-height: 400px;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: var(--space-lg) !important;
   }
 
   .portfolio-grid__item {
     transition: all 0.3s ease;
+    grid-column: span 1 !important;
   }
 
   .portfolio-grid__item[data-hidden='true'] {
     display: none;
-  }
-
-  /* Lazy loading integration */
-  .portfolio-grid :global([data-lazy-item]) {
-    break-inside: avoid;
-    margin-bottom: 2rem;
   }
 
   /* Empty State */
@@ -528,6 +500,12 @@ const description =
   }
 
   /* Responsive Design */
+  @media (max-width: 1200px) {
+    .portfolio-lazy-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+
   @media (max-width: 768px) {
     .portfolio-hero {
       padding: var(--space-xl) 0;
@@ -535,6 +513,16 @@ const description =
 
     .portfolio-main {
       padding: var(--space-lg) 0;
+    }
+
+    .portfolio-lazy-grid {
+      grid-template-columns: 1fr !important;
+      gap: var(--space-md) !important;
+    }
+
+    .portfolio-main .container {
+      padding-left: var(--space-md);
+      padding-right: var(--space-md);
     }
   }
 
