@@ -124,6 +124,57 @@ interface Service {
   publishedAt: string;
 }
 
+interface PortfolioCollaborator {
+  name: string;
+  role?: string;
+  url?: string;
+  avatar?: any;
+}
+
+interface PortfolioTestimonial {
+  quote: string;
+  author: string;
+  authorTitle?: string;
+  company?: string;
+  rating?: number;
+}
+
+interface Portfolio {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  description: string;
+  content?: string;
+  mediaType:
+    | 'code'
+    | 'video'
+    | 'blog'
+    | 'audio'
+    | 'image'
+    | 'design'
+    | 'presentation';
+  tags?: string;
+  technologies?: string;
+  featuredImage?: any;
+  gallery?: any[];
+  demoUrl?: string;
+  repositoryUrl?: string;
+  externalUrl?: string;
+  featured: boolean;
+  completed: boolean;
+  startDate?: string;
+  endDate?: string;
+  client?: string;
+  collaborators?: PortfolioCollaborator[];
+  testimonials?: PortfolioTestimonial[];
+  priority?: number;
+  seoOverride?: SEOData;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
 class StrapiAPI {
   private baseURL: string;
   private apiToken?: string;
@@ -432,6 +483,76 @@ class StrapiAPI {
     }
   }
 
+  // Portfolio Methods
+
+  // Get all portfolio items
+  async getPortfolioItems(): Promise<Portfolio[]> {
+    try {
+      const response = await this.fetchAPI<StrapiResponse<Portfolio[]>>(
+        '/portfolios?populate=*&sort=priority:asc,createdAt:desc'
+      );
+      return response.data || [];
+    } catch (error) {
+      console.error('Failed to fetch portfolio items:', error);
+      return [];
+    }
+  }
+
+  // Get a specific portfolio item by documentId
+  async getPortfolioItem(documentId: string): Promise<Portfolio | null> {
+    try {
+      const response = await this.fetchAPI<StrapiResponse<Portfolio>>(
+        `/portfolios/${documentId}?populate=*`
+      );
+      return response.data;
+    } catch (error) {
+      console.error(`Failed to fetch portfolio item ${documentId}:`, error);
+      return null;
+    }
+  }
+
+  // Get portfolio items by media type
+  async getPortfolioByMediaType(mediaType: string): Promise<Portfolio[]> {
+    try {
+      const response = await this.fetchAPI<StrapiResponse<Portfolio[]>>(
+        `/portfolios?filters[mediaType][$eq]=${mediaType}&populate=*&sort=priority:asc,createdAt:desc`
+      );
+      return response.data || [];
+    } catch (error) {
+      console.error(
+        `Failed to fetch portfolio items for media type ${mediaType}:`,
+        error
+      );
+      return [];
+    }
+  }
+
+  // Get featured portfolio items
+  async getFeaturedPortfolio(): Promise<Portfolio[]> {
+    try {
+      const response = await this.fetchAPI<StrapiResponse<Portfolio[]>>(
+        '/portfolios?filters[featured][$eq]=true&populate=*&sort=priority:asc,createdAt:desc'
+      );
+      return response.data || [];
+    } catch (error) {
+      console.error('Failed to fetch featured portfolio items:', error);
+      return [];
+    }
+  }
+
+  // Get portfolio items by tag
+  async getPortfolioByTag(tag: string): Promise<Portfolio[]> {
+    try {
+      const response = await this.fetchAPI<StrapiResponse<Portfolio[]>>(
+        `/portfolios?filters[tags][$contains]=${encodeURIComponent(tag)}&populate=*&sort=priority:asc,createdAt:desc`
+      );
+      return response.data || [];
+    } catch (error) {
+      console.error(`Failed to fetch portfolio items for tag ${tag}:`, error);
+      return [];
+    }
+  }
+
   // Health check for Strapi connection
   async healthCheck(): Promise<boolean> {
     try {
@@ -522,6 +643,9 @@ export type {
   SiteSettings,
   Service,
   ServiceTier,
+  Portfolio,
+  PortfolioCollaborator,
+  PortfolioTestimonial,
   SocialLink,
   ContactInfo,
   SEOData,
