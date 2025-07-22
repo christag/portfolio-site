@@ -47,3 +47,4 @@ scripts/import-bio-articles.js
 scripts/import-services.js
 strapi-mcp-server.config.json
 website.code-workspace
+temp_content.txt
