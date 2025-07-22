@@ -68,16 +68,13 @@ const {
     height: 100%;
     z-index: -1;
     overflow: hidden;
-    background: var(--glassmorphism-bg-light);
+    /* Use flat theme color instead of gradient */
+    background: #fafafa;
 
-    // Dark mode: much darker background closer to black
+    /* Light/dark theme override */
+    html[data-theme='dark'] &,
     [data-theme='dark'] & {
-      background: linear-gradient(
-        135deg,
-        #030303 0%,
-        #080808 50%,
-        #0d0d0d 100%
-      ) !important;
+      background: #0a0a0a !important;
     }
 
     // Performance optimizations

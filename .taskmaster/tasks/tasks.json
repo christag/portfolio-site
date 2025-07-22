@@ -597,7 +597,7 @@
             "id": 4,
             "title": "Set Up Caching and Data Fetch Optimization",
             "description": "Implement caching strategies for API responses and media assets to reduce load times and server requests, leveraging Astro's SSR/static generation and AWS edge caching.",
-            "status": "pending",
+            "status": "in-progress",
             "dependencies": [3],
             "details": "Configure Astro to statically generate pages where possible. Use HTTP cache headers, service workers, and CDN (AWS CloudFront) for media. Test cache invalidation, stale-while-revalidate, and offline scenarios.",
             "testStrategy": ""
@@ -1651,7 +1651,7 @@
     ],
     "metadata": {
       "created": "2025-07-08T18:36:06.074Z",
-      "updated": "2025-07-22T11:39:58.640Z",
+      "updated": "2025-07-22T13:12:13.958Z",
       "description": "Tasks for master context"
     }
   }
