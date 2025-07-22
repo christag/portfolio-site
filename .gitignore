@@ -45,3 +45,4 @@ scripts/import-all-content-fixed.js
 scripts/import-all-content.js
 scripts/import-bio-articles.js
 scripts/import-services.js
+strapi-mcp-server.config.json
