@@ -606,7 +606,7 @@
             "id": 5,
             "title": "Develop Filter Bar Component",
             "description": "Build an accessible, keyboard-navigable filter bar for categories/tags, enabling dynamic filtering of grid items via client-side state management.",
-            "status": "pending",
+            "status": "done",
             "dependencies": [3, 4],
             "details": "Use Astro Islands or a lightweight framework (e.g., React/Svelte) for interactivity. Implement ARIA roles, focus management, and visible focus indicators. Ensure filter state syncs with URL/query params for shareability. Test with keyboard, screen reader, and mouse navigation.",
             "testStrategy": ""
@@ -1651,7 +1651,7 @@
     ],
     "metadata": {
       "created": "2025-07-08T18:36:06.074Z",
-      "updated": "2025-07-22T05:30:35.658Z",
+      "updated": "2025-07-22T11:39:58.640Z",
       "description": "Tasks for master context"
     }
   }
