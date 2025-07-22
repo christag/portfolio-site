@@ -132,10 +132,9 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
     .hero-title {
       font-size: clamp(3rem, 8vw, 8rem);
       font-weight: 900;
-      line-height: 0.8;
+      line-height: 1.1;
       margin: 0;
       color: var(--color-text-primary);
-      text-transform: uppercase;
       letter-spacing: -0.05em;
       position: relative;
       z-index: 2;
@@ -1617,6 +1616,25 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
         }
         window.removeEventListener('resize', handleResize);
       });
+    });
+
+    // Dynamically highlight "I am" and the period in dusty pink
+    document.addEventListener('DOMContentLoaded', () => {
+      const heroTitle = document.querySelector('.hero-title');
+      if (heroTitle) {
+        const text = heroTitle.textContent;
+        // Replace "I am" and periods with styled spans
+        const styledText = text
+          .replace(
+            /I am/gi,
+            '<span style="color: var(--color-accent-primary);">I am</span>'
+          )
+          .replace(
+            /\./g,
+            '<span style="color: var(--color-accent-primary);">.</span>'
+          );
+        heroTitle.innerHTML = styledText;
+      }
     });
   </script>
 </Layout>

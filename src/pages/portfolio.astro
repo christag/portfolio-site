@@ -60,7 +60,9 @@ const description =
       <!-- Hero Section - Floating Glass Style -->
       <section class="hero-section">
         <h1 class="hero-title">
-          I Did<span class="hero-accent">.</span>
+          <span class="hero-accent">I did</span> these things before<span
+            class="hero-accent">.</span
+          >
         </h1>
         <p class="hero-subtitle">
           {
@@ -311,19 +313,54 @@ const description =
   .portfolio-lazy-grid {
     min-height: 400px;
     display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: var(--space-lg) !important;
-    max-width: 1200px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)) !important;
+    gap: var(--space-xl) !important;
+    max-width: 1400px;
     margin: 0 auto;
+    padding: var(--space-lg);
   }
 
   .portfolio-grid__item {
     transition: all 0.3s ease;
     grid-column: span 1 !important;
+    width: 100%;
+    min-width: 400px;
   }
 
   .portfolio-grid__item[data-hidden='true'] {
     display: none;
+  }
+
+  /* Responsive Grid Breakpoints */
+  @media (max-width: 1200px) {
+    .portfolio-lazy-grid {
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)) !important;
+      padding: var(--space-md);
+    }
+
+    .portfolio-grid__item {
+      min-width: 350px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .portfolio-lazy-grid {
+      grid-template-columns: 1fr !important;
+      gap: var(--space-lg) !important;
+      padding: var(--space-sm);
+    }
+
+    .portfolio-grid__item {
+      min-width: unset;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .portfolio-lazy-grid {
+      padding: var(--space-xs);
+      gap: var(--space-md) !important;
+    }
   }
 
   /* Empty State */

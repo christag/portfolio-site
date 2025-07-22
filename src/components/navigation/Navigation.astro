@@ -13,7 +13,9 @@ const { currentPath = '/' } = Astro.props;
     <div class="nav-content">
       <!-- Logo/Name -->
       <div>
-        <a href="/" class="nav-logo" id="nav-logo"> christopher tagliaferro </a>
+        <a href="/" class="nav-logo" id="nav-logo">
+          <span class="nav-logo-accent">christopher</span> tagliaferro
+        </a>
       </div>
 
       <!-- Desktop navigation -->
@@ -151,6 +153,11 @@ const { currentPath = '/' } = Astro.props;
 
   .nav-logo:hover {
     opacity: 0.8;
+  }
+
+  /* Navigation logo accent styling */
+  .nav-logo-accent {
+    color: var(--color-accent-primary);
   }
 
   /* Desktop Navigation */

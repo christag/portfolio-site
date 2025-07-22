@@ -30,7 +30,7 @@ seo:
     description: 'Transforming technology with purpose, humanity, and a dash of irony.'
     image: '/og-bio.jpg'
 hero:
-  title: 'I Am'
+  title: 'Here's a little bit about who I am.'
   subtitle: 'Program Manager. Systems Thinker. Optimistic Realist.'
   animation: 'particle-name'
   background: 'gradient-chaos'
