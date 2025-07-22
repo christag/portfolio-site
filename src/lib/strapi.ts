@@ -203,15 +203,15 @@ class StrapiAPI {
     return response.data;
   }
 
-  // Get a specific bio article by ID
-  async getBioArticle(id: string): Promise<BioArticle | null> {
+  // Get a specific bio article by documentId (Strapi v5 uses documentId instead of id)
+  async getBioArticle(documentId: string): Promise<BioArticle | null> {
     try {
       const response = await this.fetchAPI<StrapiResponse<BioArticle>>(
-        `/bio-articles/${id}?populate=*`
+        `/bio-articles/${documentId}?populate=*`
       );
       return response.data;
     } catch (error) {
-      console.error(`Failed to fetch bio article ${id}:`, error);
+      console.error(`Failed to fetch bio article ${documentId}:`, error);
       return null;
     }
   }
