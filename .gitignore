@@ -41,3 +41,7 @@ scripts/check-strapi-endpoints.js
 # scripts/import-services.js - OK (uses env vars)
 # scripts/import-services-csv.js - OK (uses env vars)  
 # scripts/import-services-json.js - OK (uses env vars) 
+scripts/import-all-content-fixed.js
+scripts/import-all-content.js
+scripts/import-bio-articles.js
+scripts/import-services.js

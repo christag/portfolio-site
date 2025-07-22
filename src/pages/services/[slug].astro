@@ -48,6 +48,21 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 let { service } = Astro.props;
 
+// Helper function to parse JSON strings back to arrays (for Strapi data)
+const parseArrayField = (field: any): string[] => {
+  if (!field) return [];
+  if (Array.isArray(field)) return field; // Already an array (mock data)
+  if (typeof field === 'string') {
+    try {
+      const parsed = JSON.parse(field);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return []; // Invalid JSON, return empty array
+    }
+  }
+  return [];
+};
+
 // If no service provided (mock mode), create mock service data
 if (!service) {
   const mockServices = {
@@ -109,6 +124,18 @@ if (!service) {
   service =
     mockServices[slug as keyof typeof mockServices] ||
     mockServices['virtual-cio-strategy'];
+}
+
+// Parse JSON string fields back to arrays (for Strapi data compatibility)
+if (service) {
+  service.featureHighlights = parseArrayField(service.featureHighlights);
+
+  if (service.tiers) {
+    service.tiers = service.tiers.map((tier) => ({
+      ...tier,
+      deliverables: parseArrayField(tier.deliverables),
+    }));
+  }
 }
 
 // Format pricing for display
