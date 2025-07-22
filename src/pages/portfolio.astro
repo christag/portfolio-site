@@ -637,6 +637,15 @@ const description =
       transform: none;
     }
   }
+
+  /* FINAL OVERRIDE: ensure portfolio grid uses responsive columns */
+  .portfolio-lazy-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  }
+
+  .portfolio-lazy-grid > .portfolio-grid__item {
+    grid-column: auto !important;
+  }
 </style>
 
 <script>
