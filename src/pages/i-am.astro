@@ -1277,7 +1277,10 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
       <!-- Hero Section -->
       <section class="hero-section">
         <canvas class="hero-particles" aria-hidden="true"></canvas>
-        <h1 class="hero-title">{data.hero.title}</h1>
+        <h1 class="hero-title">
+          Here's a little bit about who <span class="hero-accent">I am</span
+          ><span class="hero-accent">.</span>
+        </h1>
         <p class="hero-subtitle">{data.hero.subtitle}</p>
       </section>
 
@@ -1617,25 +1620,6 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
         }
         window.removeEventListener('resize', handleResize);
       });
-    });
-
-    // Dynamically highlight "I am" and the period in dusty pink
-    document.addEventListener('DOMContentLoaded', () => {
-      const heroTitle = document.querySelector('.hero-title');
-      if (heroTitle) {
-        const text = heroTitle.textContent;
-        // Replace "I am" and periods with styled spans
-        const styledText = text
-          .replace(
-            /I am/gi,
-            '<span style="color: var(--color-accent-primary);">I am</span>'
-          )
-          .replace(
-            /\./g,
-            '<span style="color: var(--color-accent-primary);">.</span>'
-          );
-        heroTitle.innerHTML = styledText;
-      }
     });
   </script>
 </Layout>
