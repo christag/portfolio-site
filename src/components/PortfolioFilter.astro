@@ -599,18 +599,10 @@ const sortFieldId = 'portfolio-sort';
     }
 
     initializeFilter() {
-      const form = this.querySelector(
-        '.portfolio-filter__form'
-      ) as HTMLFormElement | null;
-      const resetButton = this.querySelector(
-        '.portfolio-filter__reset'
-      ) as HTMLButtonElement | null;
-      const searchInput = this.querySelector(
-        '.portfolio-filter__search'
-      ) as HTMLInputElement | null;
-      const resultsCount = this.querySelector(
-        '#results-count'
-      ) as HTMLElement | null;
+      const form = this.querySelector('.portfolio-filter__form');
+      const resetButton = this.querySelector('.portfolio-filter__reset');
+      const searchInput = this.querySelector('.portfolio-filter__search');
+      const resultsCount = this.querySelector('#results-count');
 
       // Add event listeners
       form?.addEventListener('input', this.handleFilterChange.bind(this));
@@ -631,7 +623,7 @@ const sortFieldId = 'portfolio-sort';
       }
     }
 
-    handleFilterChange(event: Event) {
+    handleFilterChange(event) {
       // Filter logic will be handled by the portfolio grid component
       // This dispatches custom events for the grid to listen to
       const filterData = this.getFilterData();
@@ -646,8 +638,8 @@ const sortFieldId = 'portfolio-sort';
       this.updateResults(filterData);
     }
 
-    handleSearch(event: Event) {
-      const target = event.target as HTMLInputElement;
+    handleSearch(event) {
+      const target = event.target;
       const searchTerm = target.value.trim().toLowerCase();
 
       this.dispatchEvent(
@@ -659,9 +651,7 @@ const sortFieldId = 'portfolio-sort';
     }
 
     getFilterData() {
-      const form = this.querySelector(
-        '.portfolio-filter__form'
-      ) as HTMLFormElement | null;
+      const form = this.querySelector('.portfolio-filter__form');
       if (!form) return {};
 
       const formData = new FormData(form);
@@ -676,17 +666,13 @@ const sortFieldId = 'portfolio-sort';
     }
 
     resetFilters() {
-      const form = this.querySelector(
-        '.portfolio-filter__form'
-      ) as HTMLFormElement | null;
+      const form = this.querySelector('.portfolio-filter__form');
 
       // Reset form
       form?.reset();
 
       // Reset search
-      const searchInput = this.querySelector(
-        '.portfolio-filter__search'
-      ) as HTMLInputElement | null;
+      const searchInput = this.querySelector('.portfolio-filter__search');
       if (searchInput) {
         searchInput.value = '';
       }
@@ -702,9 +688,7 @@ const sortFieldId = 'portfolio-sort';
       this.updateCounts();
 
       // Announce reset to screen readers
-      const resultsCount = this.querySelector(
-        '#results-count'
-      ) as HTMLElement | null;
+      const resultsCount = this.querySelector('#results-count');
       if (resultsCount) {
         resultsCount.textContent =
           'Filters reset. Showing all portfolio items.';
@@ -724,19 +708,17 @@ const sortFieldId = 'portfolio-sort';
       });
     }
 
-    updateResults(filterData: any) {
-      const resultsCount = this.querySelector(
-        '#results-count'
-      ) as HTMLElement | null;
+    updateResults(filterData) {
+      const resultsCount = this.querySelector('#results-count');
       if (resultsCount) {
         // This will be updated by the portfolio grid component
         resultsCount.textContent = 'Filtering portfolio items...';
       }
     }
 
-    debounce(func: Function, wait: number) {
-      let timeout: ReturnType<typeof setTimeout>;
-      return function executedFunction(...args: any[]) {
+    debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
         const later = () => {
           clearTimeout(timeout);
           func(...args);
@@ -750,4 +732,3 @@ const sortFieldId = 'portfolio-sort';
   // Register the custom element
   customElements.define('portfolio-filter', PortfolioFilter);
 </script>
-
