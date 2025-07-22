@@ -90,14 +90,14 @@ const misalignmentClass =
       )
     }
 
-    <!-- Expand/Collapse Arrow Button -->
+    <!-- Details Toggle Button - Always Visible -->
     <button
-      class="expand-toggle"
+      class="details-toggle"
       aria-expanded="false"
-      aria-label={`Expand details for ${service.title}`}
+      aria-label={`Toggle details for ${service.title}`}
     >
-      <span class="expand-text">Show Details</span>
-      <span class="expand-arrow">↓</span>
+      <span class="toggle-text">Show Details</span>
+      <span class="toggle-arrow">↓</span>
     </button>
   </div>
 
@@ -136,15 +136,6 @@ const misalignmentClass =
         <span class="link-text">LEARN MORE</span>
         <span class="link-arrow">→</span>
       </a>
-
-      <!-- Collapse button -->
-      <button
-        class="collapse-toggle"
-        aria-label={`Collapse details for ${service.title}`}
-      >
-        <span class="collapse-text">Show Less</span>
-        <span class="collapse-arrow">↑</span>
-      </button>
     </footer>
   </div>
 </article>
@@ -156,43 +147,50 @@ const misalignmentClass =
     const serviceCards = document.querySelectorAll('.service-card');
 
     serviceCards.forEach((card) => {
-      const expandButton = card.querySelector('.expand-toggle');
-      const collapseButton = card.querySelector('.collapse-toggle');
+      const toggleButton = card.querySelector('.details-toggle');
+      const toggleText = toggleButton?.querySelector('.toggle-text');
+      const toggleArrow = toggleButton?.querySelector('.toggle-arrow');
 
-      // Expand functionality
-      expandButton?.addEventListener('click', (e) => {
+      // Toggle functionality
+      toggleButton?.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent event bubbling
-        card.classList.add('expanded');
-        expandButton.setAttribute('aria-expanded', 'true');
 
+        const isExpanded = card.classList.contains('expanded');
         const expandedContent = card.querySelector('.service-expanded');
-        expandedContent?.setAttribute('aria-hidden', 'false');
 
-        // Smooth scroll to show expanded content
-        setTimeout(() => {
-          expandedContent?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest',
-          });
-        }, 150);
-      });
+        if (!isExpanded) {
+          // Expand
+          card.classList.add('expanded');
+          toggleButton.setAttribute('aria-expanded', 'true');
+          expandedContent?.setAttribute('aria-hidden', 'false');
 
-      // Collapse functionality
-      collapseButton?.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent event bubbling
-        card.classList.remove('expanded');
-        expandButton?.setAttribute('aria-expanded', 'false');
+          if (toggleText) toggleText.textContent = 'Show Less';
+          if (toggleArrow) toggleArrow.textContent = '↑';
 
-        const expandedContent = card.querySelector('.service-expanded');
-        expandedContent?.setAttribute('aria-hidden', 'true');
+          // Smooth scroll to show expanded content
+          setTimeout(() => {
+            expandedContent?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest',
+            });
+          }, 150);
+        } else {
+          // Collapse
+          card.classList.remove('expanded');
+          toggleButton.setAttribute('aria-expanded', 'false');
+          expandedContent?.setAttribute('aria-hidden', 'true');
 
-        // Smooth scroll back to card top
-        setTimeout(() => {
-          card.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest',
-          });
-        }, 150);
+          if (toggleText) toggleText.textContent = 'Show Details';
+          if (toggleArrow) toggleArrow.textContent = '↓';
+
+          // Smooth scroll back to card top
+          setTimeout(() => {
+            card.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest',
+            });
+          }, 150);
+        }
       });
     });
   });
@@ -213,7 +211,7 @@ const misalignmentClass =
     min-height: 200px;
     height: auto;
 
-    /* Smooth transition for expansion */
+    /* Smooth transition for expansion - U-shaped speed curve */
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
@@ -323,15 +321,14 @@ const misalignmentClass =
     color: var(--accent-primary);
   }
 
-  /* Expand/Collapse Toggle Button */
-  .expand-toggle,
-  .collapse-toggle {
+  /* Details Toggle Button - Always Visible */
+  .details-toggle {
     background: var(--glass-bg-tertiary);
     border: 1px solid var(--glass-border-light);
     border-radius: var(--glass-radius-md);
     padding: 0.75rem 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -342,25 +339,27 @@ const misalignmentClass =
     margin-top: auto;
   }
 
-  .expand-toggle:hover,
-  .collapse-toggle:hover {
+  .details-toggle:hover {
     background: var(--glass-bg-medium);
     border-color: var(--accent-primary);
     color: var(--accent-primary);
+    transform: translateY(-1px);
   }
 
-  .expand-arrow,
-  .collapse-arrow {
+  .toggle-arrow {
     font-size: 1rem;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
-  .expand-toggle:hover .expand-arrow {
-    transform: translateY(2px);
+  .details-toggle:hover .toggle-arrow {
+    transform: scale(1.1);
   }
 
-  .collapse-toggle:hover .collapse-arrow {
-    transform: translateY(-2px);
+  /* Expanded state - button stays visible but changes text */
+  .service-card.expanded .details-toggle {
+    background: var(--glass-bg-medium);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
   }
 
   /* Expandable content - initially hidden */
@@ -380,11 +379,6 @@ const misalignmentClass =
   /* Show expanded content when card has expanded class */
   .service-card.expanded .service-expanded {
     display: flex;
-  }
-
-  /* Hide expand button when expanded */
-  .service-card.expanded .expand-toggle {
-    display: none;
   }
 
   .service-content {
@@ -434,8 +428,7 @@ const misalignmentClass =
 
   .service-footer {
     display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    justify-content: center;
     padding-top: 1rem;
     border-top: 1px solid var(--glass-border-light);
   }
@@ -449,8 +442,11 @@ const misalignmentClass =
     font-weight: 700;
     font-size: 0.85rem;
     letter-spacing: 0.05em;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    padding: 0.5rem 0;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    padding: 0.5rem 1rem;
+    border-radius: var(--glass-radius-md);
+    background: var(--glass-bg-tertiary);
+    border: 1px solid var(--glass-border-light);
   }
 
   .service-link:hover {
@@ -464,7 +460,7 @@ const misalignmentClass =
   }
 
   .link-arrow {
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .service-link:hover .link-arrow {

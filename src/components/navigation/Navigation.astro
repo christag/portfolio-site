@@ -96,13 +96,13 @@ const { currentPath = '/' } = Astro.props;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
 
-  /* Dark theme glassmorphism - TRUE TRANSPARENT GLASS */
+  /* Dark theme glassmorphism - FROSTED GLASS WITH BETTER READABILITY */
   html[data-theme='dark'] nav#main-nav.nav-glassmorphism {
-    /* TRUE transparent glass - background shows through */
-    background: rgba(0, 0, 0, 0.15) !important;
+    /* Frosted glass with enough opacity for text readability */
+    background: rgba(0, 0, 0, 0.4) !important;
     backdrop-filter: blur(20px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5) !important;
   }
 
@@ -263,13 +263,13 @@ const { currentPath = '/' } = Astro.props;
     left: auto !important;
   }
 
-  /* Dark theme mobile menu - TRUE TRANSPARENT GLASS */
+  /* Dark theme mobile menu - FROSTED GLASS WITH BETTER READABILITY */
   html[data-theme='dark'] .mobile-menu {
-    /* TRANSPARENT glass with better text readability */
-    background: rgba(0, 0, 0, 0.25) !important;
+    /* Frosted glass with enough opacity for text readability */
+    background: rgba(0, 0, 0, 0.5) !important;
     backdrop-filter: blur(20px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.6) !important;
   }
 
