@@ -75,36 +75,27 @@ const pageDescription =
 
   <main class="services-page">
     <div class="services-container">
-      <!-- Hero Section -->
-      <section class="services-hero">
-        <div class="hero-content">
-          <h1 class="hero-title">
-            <span class="title-main">What I Can</span>
-            <span class="title-accent">Build For You</span>
-          </h1>
-          <p class="hero-description">
-            Strategic technology leadership and hands-on expertise to transform
-            your business. From vision to execution, I deliver results that
-            matter.
-          </p>
-          {
-            usingFallback && (
-              <div class="fallback-notice" role="alert">
-                <span class="fallback-icon">ℹ️</span>
-                <span class="fallback-text">
-                  Loading from fallback data - CMS may be temporarily
-                  unavailable
-                </span>
-              </div>
-            )
-          }
-        </div>
-
-        <!-- Animated background particles -->
-        <canvas
-          id="services-particles"
-          class="hero-particles"
-          aria-hidden="true"></canvas>
+      <!-- Hero Section - Floating Glass Style -->
+      <section class="hero-section">
+        <h1 class="hero-title">
+          <span class="title-main">What I Can</span>
+          <span class="title-accent">Build For You</span>
+        </h1>
+        <p class="hero-subtitle">
+          Strategic technology leadership and hands-on expertise to transform
+          your business. From vision to execution, I deliver results that
+          matter.
+        </p>
+        {
+          usingFallback && (
+            <div class="fallback-notice" role="alert">
+              <span class="fallback-icon">ℹ️</span>
+              <span class="fallback-text">
+                Loading from fallback data - CMS may be temporarily unavailable
+              </span>
+            </div>
+          )
+        }
       </section>
 
       <!-- Filter Section -->
@@ -190,34 +181,34 @@ const pageDescription =
 </Layout>
 
 <style>
+  /* Services Page Styles */
   .services-page {
     min-height: 100vh;
-    padding-top: 100px;
-    padding-bottom: 100px;
+    background: var(--background-gradient);
   }
 
   .services-container {
+    min-height: 100vh;
+    padding-top: 120px;
+    padding-bottom: 120px;
+    padding-left: 1rem;
+    padding-right: 1rem;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 2rem;
   }
 
-  /* Hero Section */
-  .services-hero {
-    position: relative;
+  /* Hero Section - Floating Glass Style (matching I Am page) */
+  .hero-section {
     background: var(--glass-bg-primary);
     backdrop-filter: blur(var(--glass-blur-navigation));
     border: 1px solid var(--glass-border-light);
     border-radius: var(--glass-radius-xl);
     padding: 4rem 2rem;
-    margin-bottom: 4rem;
+    margin: 2rem auto 4rem auto;
     text-align: center;
-    overflow: hidden;
-  }
-
-  .hero-content {
     position: relative;
-    z-index: 2;
+    overflow: hidden;
+    max-width: 1200px;
   }
 
   .hero-title {
@@ -231,17 +222,17 @@ const pageDescription =
   }
 
   .title-main {
-    color: var(--text-primary);
+    color: var(--color-text-primary);
   }
 
   .title-accent {
-    color: var(--accent-primary);
+    color: var(--color-accent-primary);
     transform: rotate(-1deg);
   }
 
-  .hero-description {
+  .hero-subtitle {
     font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     max-width: 600px;
     margin: 0 auto 2rem auto;
     line-height: 1.6;
@@ -249,13 +240,13 @@ const pageDescription =
 
   .fallback-notice {
     background: var(--glass-bg-tertiary);
-    border: 1px solid var(--accent-primary);
+    border: 1px solid var(--color-accent-primary);
     border-radius: var(--glass-radius-md);
     padding: 1rem;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--accent-primary);
+    color: var(--color-accent-primary);
     font-size: 0.875rem;
     font-weight: 600;
   }
@@ -456,12 +447,15 @@ const pageDescription =
   /* Responsive Design */
   @media (max-width: 768px) {
     .services-container {
-      padding: 0 1rem;
+      padding-top: 100px;
+      padding-bottom: 100px;
+      padding-left: var(--space-md);
+      padding-right: var(--space-md);
     }
 
-    .services-hero,
-    .services-cta {
+    .hero-section {
       padding: 3rem 1.5rem;
+      margin: 1rem auto 3rem auto;
     }
 
     .services-grid {
@@ -488,6 +482,14 @@ const pageDescription =
   }
 
   @media (max-width: 480px) {
+    .services-container {
+      padding-top: 110px;
+    }
+
+    .hero-section {
+      padding: 2rem 1rem;
+    }
+
     .services-grid {
       gap: 1rem;
       max-width: 100%;

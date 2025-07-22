@@ -56,194 +56,187 @@ const description =
 
 <Layout title={title} description={description}>
   <main class="portfolio-page">
-    <!-- Hero Section -->
-    <section class="portfolio-hero" aria-labelledby="portfolio-title">
-      <div class="container">
-        <header class="portfolio-hero__content">
-          <h1 id="portfolio-title" class="portfolio-hero__title">
-            I Did<span class="portfolio-hero__accent">.</span>
-          </h1>
-          <p class="portfolio-hero__description">
-            {
-              portfolioItems.length > 0
-                ? `A curated collection of ${portfolioItems.length} projects spanning ${availableMediaTypes.join(', ')} and more. Each piece tells a story of problem-solving, creativity, and technical execution.`
-                : 'A curated collection of creative and technical projects. Currently building this dynamic showcase - check back soon for the full experience!'
-            }
-          </p>
-        </header>
-      </div>
-    </section>
+    <div class="portfolio-container">
+      <!-- Hero Section - Floating Glass Style -->
+      <section class="hero-section">
+        <h1 class="hero-title">
+          I Did<span class="hero-accent">.</span>
+        </h1>
+        <p class="hero-subtitle">
+          {
+            portfolioItems.length > 0
+              ? `A curated collection of ${portfolioItems.length} projects spanning ${availableMediaTypes.join(', ')} and more. Each piece tells a story of problem-solving, creativity, and technical execution.`
+              : 'A curated collection of creative and technical projects. Currently building this dynamic showcase - check back soon for the full experience!'
+          }
+        </p>
+      </section>
 
-    <!-- Main Content -->
-    <section class="portfolio-main" aria-labelledby="portfolio-grid-title">
-      <div class="container">
-        {
-          portfolioItems.length > 0 ? (
-            <>
-              {/* Horizontal Filter Bar */}
-              <div class="portfolio-filter-container">
-                <PortfolioFilter
-                  availableMediaTypes={availableMediaTypes}
-                  availableTags={availableTags}
-                  class="portfolio-filter--horizontal"
-                />
-              </div>
+      {
+        portfolioItems.length > 0 ? (
+          <>
+            {/* Horizontal Filter Bar */}
+            <div class="portfolio-filter-container">
+              <PortfolioFilter
+                availableMediaTypes={availableMediaTypes}
+                availableTags={availableTags}
+                class="portfolio-filter--horizontal"
+              />
+            </div>
 
-              {/* Portfolio Content */}
-              <div class="portfolio-content">
-                {/* Grid Container with Lazy Loading */}
-                <div class="portfolio-grid" id="portfolio-grid">
-                  <LazyGrid
-                    variant="standard"
-                    gap="gap-6"
-                    class="portfolio-lazy-grid"
-                    loadingStrategy="priority"
-                    batchSize={6}
-                    rootMargin="150px"
-                  >
-                    {portfolioItems.map((item) => (
-                      <PortfolioCard
-                        item={item}
-                        variant={item.featured ? 'featured' : 'standard'}
-                        class="portfolio-grid__item"
-                        data-media-type={item.mediaType}
-                        data-featured={item.featured ? 'true' : 'false'}
-                      />
-                    ))}
-                  </LazyGrid>
-                </div>
-
-                {/* Empty State (hidden initially, shown when no results) */}
-                <div
-                  class="portfolio-empty"
-                  id="portfolio-empty"
-                  aria-hidden="true"
+            {/* Portfolio Content */}
+            <div class="portfolio-content">
+              {/* Grid Container with Lazy Loading */}
+              <div class="portfolio-grid" id="portfolio-grid">
+                <LazyGrid
+                  variant="standard"
+                  gap="gap-6"
+                  class="portfolio-lazy-grid"
+                  loadingStrategy="priority"
+                  batchSize={6}
+                  rootMargin="150px"
                 >
-                  <div class="portfolio-empty__content">
-                    <div class="portfolio-empty__icon">
-                      <svg
-                        width="48"
-                        height="48"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.35-4.35" />
-                      </svg>
-                    </div>
-                    <h3 class="portfolio-empty__title">No Projects Found</h3>
-                    <p class="portfolio-empty__description">
-                      Try adjusting your filters or search terms to find more
-                      projects.
-                    </p>
-                    <button
-                      type="button"
-                      class="portfolio-empty__reset"
-                      onclick="document.querySelector('#reset-filters')?.click()"
-                    >
-                      Reset Filters
-                    </button>
-                  </div>
-                </div>
+                  {portfolioItems.map((item) => (
+                    <PortfolioCard
+                      item={item}
+                      variant={item.featured ? 'featured' : 'standard'}
+                      class="portfolio-grid__item"
+                      data-media-type={item.mediaType}
+                      data-featured={item.featured ? 'true' : 'false'}
+                    />
+                  ))}
+                </LazyGrid>
               </div>
-            </>
-          ) : (
-            <div class="portfolio-coming-soon">
-              <div class="portfolio-coming-soon__content">
-                <div class="portfolio-coming-soon__icon">
-                  <svg
-                    width="64"
-                    height="64"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
+
+              {/* Empty State (hidden initially, shown when no results) */}
+              <div
+                class="portfolio-empty"
+                id="portfolio-empty"
+                aria-hidden="true"
+              >
+                <div class="portfolio-empty__content">
+                  <div class="portfolio-empty__icon">
+                    <svg
+                      width="48"
+                      height="48"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="11" cy="11" r="8" />
+                      <path d="m21 21-4.35-4.35" />
+                    </svg>
+                  </div>
+                  <h3 class="portfolio-empty__title">No Projects Found</h3>
+                  <p class="portfolio-empty__description">
+                    Try adjusting your filters or search terms to find more
+                    projects.
+                  </p>
+                  <button
+                    type="button"
+                    class="portfolio-empty__reset"
+                    onclick="document.querySelector('#reset-filters')?.click()"
                   >
-                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-                  </svg>
-                </div>
-                <h2 class="portfolio-coming-soon__title">
-                  Portfolio Coming Soon
-                </h2>
-                <p class="portfolio-coming-soon__description">
-                  I'm currently setting up the dynamic portfolio system with
-                  Strapi CMS. This will feature filterable project galleries,
-                  detailed case studies, and interactive media presentations.
-                  Check back soon for the full experience!
-                </p>
-                <div class="portfolio-coming-soon__features">
-                  <div class="feature-card">
-                    <div class="feature-card__icon">
-                      <svg
-                        width="32"
-                        height="32"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v11z" />
-                      </svg>
-                    </div>
-                    <h3 class="feature-card__title">Multi-Media</h3>
-                    <p class="feature-card__description">
-                      Code, design, video, audio, and more
-                    </p>
-                  </div>
-                  <div class="feature-card">
-                    <div class="feature-card__icon">
-                      <svg
-                        width="32"
-                        height="32"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.35-4.35" />
-                      </svg>
-                    </div>
-                    <h3 class="feature-card__title">Smart Filtering</h3>
-                    <p class="feature-card__description">
-                      Find projects by type, tech, or tags
-                    </p>
-                  </div>
-                  <div class="feature-card">
-                    <div class="feature-card__icon">
-                      <svg
-                        width="32"
-                        height="32"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                      </svg>
-                    </div>
-                    <h3 class="feature-card__title">Dynamic Content</h3>
-                    <p class="feature-card__description">
-                      Real-time updates from CMS
-                    </p>
-                  </div>
-                </div>
-                <div class="portfolio-coming-soon__actions">
-                  <a href="/services" class="cta-primary">
-                    View My Services
-                  </a>
-                  <a href="/i-am" class="cta-secondary">
-                    Learn About Me
-                  </a>
+                    Reset Filters
+                  </button>
                 </div>
               </div>
             </div>
-          )
-        }
-      </div>
-    </section>
+          </>
+        ) : (
+          <div class="portfolio-coming-soon">
+            <div class="portfolio-coming-soon__content">
+              <div class="portfolio-coming-soon__icon">
+                <svg
+                  width="64"
+                  height="64"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                </svg>
+              </div>
+              <h2 class="portfolio-coming-soon__title">
+                Portfolio Coming Soon
+              </h2>
+              <p class="portfolio-coming-soon__description">
+                I'm currently setting up the dynamic portfolio system with
+                Strapi CMS. This will feature filterable project galleries,
+                detailed case studies, and interactive media presentations.
+                Check back soon for the full experience!
+              </p>
+              <div class="portfolio-coming-soon__features">
+                <div class="feature-card">
+                  <div class="feature-card__icon">
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v11z" />
+                    </svg>
+                  </div>
+                  <h3 class="feature-card__title">Multi-Media</h3>
+                  <p class="feature-card__description">
+                    Code, design, video, audio, and more
+                  </p>
+                </div>
+                <div class="feature-card">
+                  <div class="feature-card__icon">
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="11" cy="11" r="8" />
+                      <path d="m21 21-4.35-4.35" />
+                    </svg>
+                  </div>
+                  <h3 class="feature-card__title">Smart Filtering</h3>
+                  <p class="feature-card__description">
+                    Find projects by type, tech, or tags
+                  </p>
+                </div>
+                <div class="feature-card">
+                  <div class="feature-card__icon">
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                    </svg>
+                  </div>
+                  <h3 class="feature-card__title">Dynamic Content</h3>
+                  <p class="feature-card__description">
+                    Real-time updates from CMS
+                  </p>
+                </div>
+              </div>
+              <div class="portfolio-coming-soon__actions">
+                <a href="/services" class="cta-primary">
+                  View My Services
+                </a>
+                <a href="/i-am" class="cta-secondary">
+                  Learn About Me
+                </a>
+              </div>
+            </div>
+          </div>
+        )
+      }
+    </div>
   </main>
 </Layout>
 
@@ -254,52 +247,64 @@ const description =
     background: var(--background-gradient);
   }
 
-  /* Hero Section */
-  .portfolio-hero {
-    padding: calc(var(--space-xl) * 2) 0 var(--space-xl) 0;
+  /* Main Container */
+  .portfolio-container {
+    min-height: 100vh;
+    padding-top: 120px;
+    padding-bottom: 120px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 100vw;
+  }
+
+  /* Hero Section - Floating Glass Style (matching I Am page) */
+  .hero-section {
     background: var(--glass-bg-primary);
-    backdrop-filter: blur(var(--glass-blur-container));
-    border-bottom: 1px solid var(--glass-border-medium);
-  }
-
-  .portfolio-hero__content {
+    backdrop-filter: blur(var(--glass-blur-navigation));
+    border: 1px solid var(--glass-border-light);
+    border-radius: var(--glass-radius-xl);
+    padding: 4rem 2rem;
+    margin: 2rem auto 4rem auto;
     text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    max-width: 1200px;
   }
 
-  .portfolio-hero__title {
+  .hero-title {
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 800;
     color: var(--color-text-primary);
-    margin-bottom: var(--space-md);
+    margin: 0 0 1rem 0;
     line-height: 1.1;
   }
 
-  .portfolio-hero__accent {
+  .hero-accent {
     color: var(--color-accent-primary);
   }
 
-  .portfolio-hero__description {
-    font-size: 1.25rem;
+  .hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
     color: var(--color-text-secondary);
     line-height: 1.6;
-  }
-
-  /* Main Layout */
-  .portfolio-main {
-    padding: var(--space-xl) 0;
+    margin: 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   /* Container override to ensure proper margins */
-  .portfolio-main .container {
-    padding-left: var(--space-lg);
-    padding-right: var(--space-lg);
+  .portfolio-container {
+    max-width: 1400px;
+    margin: 0 auto;
   }
 
   /* Horizontal Filter Container */
   .portfolio-filter-container {
     margin-bottom: var(--space-xl);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   /* Portfolio Grid Enhancements */
@@ -308,6 +313,8 @@ const description =
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
     gap: var(--space-lg) !important;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .portfolio-grid__item {
@@ -507,22 +514,31 @@ const description =
   }
 
   @media (max-width: 768px) {
-    .portfolio-hero {
-      padding: var(--space-xl) 0;
+    .portfolio-container {
+      padding-top: 100px;
+      padding-bottom: 100px;
+      padding-left: var(--space-md);
+      padding-right: var(--space-md);
     }
 
-    .portfolio-main {
-      padding: var(--space-lg) 0;
+    .hero-section {
+      padding: 3rem 1.5rem;
+      margin: 1rem auto 3rem auto;
     }
 
     .portfolio-lazy-grid {
       grid-template-columns: 1fr !important;
       gap: var(--space-md) !important;
     }
+  }
 
-    .portfolio-main .container {
-      padding-left: var(--space-md);
-      padding-right: var(--space-md);
+  @media (max-width: 480px) {
+    .portfolio-container {
+      padding-top: 110px;
+    }
+
+    .hero-section {
+      padding: 2rem 1rem;
     }
   }
 
