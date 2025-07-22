@@ -63,105 +63,110 @@ const hasDetailPage = item.slug && item.slug.trim() !== '';
 ---
 
 <article class={cardClasses} data-media-type={item.mediaType}>
-  <div class="portfolio-card__content">
-    <!-- Media/Image Section - Only show if we have an image -->
-    {
-      hasImage && (
-        <div class="portfolio-card__media">
-          <LazyImage
-            src={imageUrl}
-            alt={imageAlt}
-            class="portfolio-card__image"
-            aspectRatio="16/9"
-            placeholder="skeleton"
-            priority={item.featured}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-          />
+  {
+    item.featured && (
+      <div class="pin-indicator" aria-label="Featured project">
+        <span class="pin-text">[ FEATURED ]</span>
+      </div>
+    )
+  }
 
-          {/* Media type badge */}
-          <div class="portfolio-card__type-badge">
-            <span class="portfolio-card__type-label">
-              {getMediaTypeLabel(item.mediaType)}
-            </span>
-          </div>
-
-          {/* Featured badge */}
-          {item.featured && (
-            <div class="portfolio-card__featured-badge">Featured</div>
-          )}
-        </div>
-      )
-    }
-
-    <!-- Content Section -->
-    <div
-      class={`portfolio-card__info ${!hasImage ? 'portfolio-card__info--no-image' : ''}`}
-    >
-      <!-- Media type for cards without images -->
+  <!-- Always visible preview content -->
+  <div class="portfolio-preview">
+    <header class="portfolio-header">
+      <h3 class="portfolio-title">{item.title}</h3>
       {
-        !hasImage && (
-          <div class="portfolio-card__media-type">
-            <span class="portfolio-card__media-type-label">
-              {getMediaTypeLabel(item.mediaType)}
-            </span>
+        item.client && (
+          <span class="portfolio-client">// {item.client.toUpperCase()}</span>
+        )
+      }
+      <div class="portfolio-type-badge">
+        <span class="type-label">{getMediaTypeLabel(item.mediaType)}</span>
+      </div>
+    </header>
+
+    <p class="portfolio-description-preview">
+      {
+        item.description.length > 120
+          ? item.description.substring(0, 120) + '...'
+          : item.description
+      }
+    </p>
+
+    <!-- Details Toggle Button -->
+    <button
+      class="details-toggle"
+      aria-expanded="false"
+      aria-label={`Toggle details for ${item.title}`}
+    >
+      <span class="toggle-text">Show Details</span>
+      <span class="toggle-arrow">↓</span>
+    </button>
+  </div>
+
+  <!-- Expandable content -->
+  <div class="portfolio-expanded" aria-hidden="true">
+    <div class="portfolio-content">
+      {
+        hasImage && (
+          <div class="portfolio-media">
+            <LazyImage
+              src={imageUrl}
+              alt={imageAlt}
+              class="portfolio-image"
+              aspectRatio="16/9"
+              placeholder="skeleton"
+              priority={item.featured}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
           </div>
         )
       }
 
-      <header class="portfolio-card__header">
-        <h3 class="portfolio-card__title">{item.title}</h3>
-        {item.client && <p class="portfolio-card__client">for {item.client}</p>}
-        {
-          item.featured && !hasImage && (
-            <span class="portfolio-card__featured-indicator">
-              Featured Project
-            </span>
-          )
-        }
-      </header>
+      <p class="portfolio-description">{item.description}</p>
 
-      <p class="portfolio-card__description">{item.description}</p>
-
-      <!-- Technologies -->
       {
         technologies.length > 0 && (
-          <div class="portfolio-card__technologies">
-            {technologies.slice(0, 4).map((tech) => (
-              <span class="portfolio-card__tech-tag">{tech}</span>
+          <div class="portfolio-technologies">
+            <h4 class="tech-title">[ TECHNOLOGIES ]</h4>
+            <div class="tech-list">
+              {technologies.slice(0, 6).map((tech) => (
+                <span class="tech-tag">{tech}</span>
+              ))}
+              {technologies.length > 6 && (
+                <span class="tech-more">+{technologies.length - 6} more</span>
+              )}
+            </div>
+          </div>
+        )
+      }
+
+      {
+        tags.length > 0 && (
+          <div class="portfolio-tags">
+            {tags.slice(0, 4).map((tag) => (
+              <span class="tag">#{tag}</span>
             ))}
-            {technologies.length > 4 && (
-              <span class="portfolio-card__tech-more">
-                +{technologies.length - 4} more
-              </span>
+            {tags.length > 4 && (
+              <span class="tag-more">+{tags.length - 4} more</span>
             )}
           </div>
         )
       }
+    </div>
 
-      <!-- Action Links -->
-      <div class="portfolio-card__actions">
+    <footer class="portfolio-footer">
+      <div class="portfolio-actions">
         {
           item.demoUrl && (
             <a
               href={item.demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="portfolio-card__action portfolio-card__action--demo"
-              aria-label={`View live demo of ${item.title}`}
+              class="portfolio-action portfolio-action--demo"
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                <polyline points="15,3 21,3 21,9" />
-                <line x1="10" y1="14" x2="21" y2="3" />
-              </svg>
-              Live Demo
+              <span>LIVE DEMO</span>
+              <span>↗</span>
             </a>
           )
         }
@@ -171,247 +176,104 @@ const hasDetailPage = item.slug && item.slug.trim() !== '';
               href={item.repositoryUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="portfolio-card__action portfolio-card__action--repo"
-              aria-label={`View source code of ${item.title}`}
+              class="portfolio-action portfolio-action--repo"
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-              </svg>
-              Source
+              <span>SOURCE</span>
+              <span>↗</span>
             </a>
           )
         }
-        {/* Link to detail page - only show if slug exists */}
         {
           hasDetailPage && (
             <a
               href={`/portfolio/${item.slug}`}
-              class="portfolio-card__action portfolio-card__action--detail"
-              aria-label={`View details of ${item.title}`}
+              class="portfolio-action portfolio-action--detail"
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14,2 14,8 20,8" />
-                <line x1="16" y1="13" x2="8" y2="13" />
-                <line x1="16" y1="17" x2="8" y2="17" />
-                <polyline points="10,9 9,9 8,9" />
-              </svg>
-              Details
+              <span>DETAILS</span>
+              <span>→</span>
             </a>
           )
         }
       </div>
-
-      <!-- Tags -->
-      {
-        tags.length > 0 && (
-          <div class="portfolio-card__tags">
-            {tags.slice(0, 3).map((tag) => (
-              <span class="portfolio-card__tag">#{tag}</span>
-            ))}
-            {tags.length > 3 && (
-              <span class="portfolio-card__tag-more">
-                +{tags.length - 3} more
-              </span>
-            )}
-          </div>
-        )
-      }
-    </div>
+    </footer>
   </div>
 </article>
 
 <style>
-  /* Base Card Styles with Glassmorphism */
+  /* Base Card Styles - Matching ServiceCard */
   .portfolio-card {
-    position: relative;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 24px;
-    box-shadow:
-      0 4px 20px rgba(0, 0, 0, 0.1),
-      0 1px 3px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 1.5rem;
+    position: relative;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    min-height: 480px;
-    width: 100%;
+    cursor: pointer;
+    min-height: 200px;
+    height: auto;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   /* Dark theme glass styling */
   [data-theme='dark'] .portfolio-card {
-    background: rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-  }
-
-  .portfolio-card:hover {
-    transform: translateY(-6px);
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.15),
-      0 4px 16px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2),
-      0 0 0 1px rgba(184, 134, 154, 0.1);
-  }
-
-  /* Dark theme hover state */
-  [data-theme='dark'] .portfolio-card:hover {
     background: rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .portfolio-card.expanded {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    border-color: var(--color-accent-primary);
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  [data-theme='dark'] .portfolio-card.expanded {
+    background: rgba(0, 0, 0, 0.25);
   }
 
   .portfolio-card:focus-within {
-    border-color: var(--color-accent-primary);
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.2),
-      0 0 0 2px var(--color-accent-primary);
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
   }
 
-  /* Featured Cards */
+  /* Featured/Pinned styling */
   .portfolio-card--featured {
-    border-color: var(--color-accent-secondary);
-    box-shadow:
-      var(--glass-shadow-medium),
-      0 0 20px rgba(247, 144, 9, 0.2);
+    border-color: var(--color-accent-primary);
+    box-shadow: 0 0 20px rgba(184, 134, 154, 0.2);
   }
 
-  .portfolio-card--featured:hover {
-    box-shadow:
-      var(--glass-shadow-heavy),
-      0 0 30px rgba(247, 144, 9, 0.3);
+  .pin-indicator {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    background: var(--color-accent-primary);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border-radius: 0 24px 0 12px;
+    z-index: 10;
   }
 
-  /* Content Layout */
-  .portfolio-card__content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  /* Media Section */
-  .portfolio-card__media {
+  /* Always visible preview content */
+  .portfolio-preview {
     position: relative;
-    aspect-ratio: 16/9;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.1);
-    flex-shrink: 0;
-  }
-
-  .portfolio-card__image {
-    width: 100%;
-    height: 100%;
-  }
-
-  /* LazyImage integration */
-  .portfolio-card__media :global(.lazy-image-container) {
-    border-radius: 0;
-    aspect-ratio: inherit;
-  }
-
-  .portfolio-card:hover .portfolio-card__media :global(.lazy-image) {
-    transform: scale(1.05);
-    transition: transform 0.3s ease;
-  }
-
-  /* Type Badge */
-  .portfolio-card__type-badge {
-    position: absolute;
-    top: 1.5rem;
-    left: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.375rem 0.75rem;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  /* Featured Badge */
-  .portfolio-card__featured-badge {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    padding: 0.375rem 0.75rem;
-    background: var(--color-accent-secondary);
-    color: white;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(0, 212, 255, 0.3);
-  }
-
-  /* Info Section */
-  .portfolio-card__info {
-    padding: 2rem;
-    flex: 1;
+    z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
-  .portfolio-card__info--no-image {
-    padding-top: 3rem;
+  .portfolio-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  /* Media Type for no-image cards */
-  .portfolio-card__media-type {
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .portfolio-card__media-type-label {
-    display: inline-block;
-    padding: 0.375rem 0.75rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  /* Header */
-  .portfolio-card__header {
-    margin-bottom: var(--spacing-xs);
-  }
-
-  .portfolio-card__title {
+  .portfolio-title {
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-text-primary);
@@ -419,45 +281,124 @@ const hasDetailPage = item.slug && item.slug.trim() !== '';
     line-height: 1.3;
   }
 
-  .portfolio-card__client {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    margin: var(--spacing-xs) 0 0 0;
-    font-style: italic;
+  .portfolio-client {
+    font-size: 0.75rem;
+    color: var(--color-accent-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
-  .portfolio-card__featured-indicator {
+  .portfolio-type-badge {
+    align-self: flex-start;
+  }
+
+  .type-label {
     display: inline-block;
-    margin-top: var(--spacing-xs);
-    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    font-size: 0.65rem;
     font-weight: 600;
-    color: var(--color-accent-secondary);
+    color: var(--color-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
-  /* Description */
-  .portfolio-card__description {
+  .portfolio-description-preview {
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .details-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: var(--color-text-primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .details-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--color-accent-primary);
+  }
+
+  .toggle-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .portfolio-card.expanded .toggle-arrow {
+    transform: rotate(180deg);
+  }
+
+  /* Expandable content */
+  .portfolio-expanded {
+    display: none;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .portfolio-card.expanded .portfolio-expanded {
+    display: block;
+  }
+
+  .portfolio-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .portfolio-media {
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+  }
+
+  .portfolio-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .portfolio-description {
     color: var(--color-text-secondary);
     line-height: 1.6;
     margin: 0;
-    font-size: 0.9375rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    flex-grow: 1;
   }
 
-  /* Technologies */
-  .portfolio-card__technologies {
+  .portfolio-technologies {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .tech-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-accent-primary);
+    margin: 0;
+    letter-spacing: 0.05em;
+  }
+
+  .tech-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.375rem;
+    gap: 0.5rem;
   }
 
-  .portfolio-card__tech-tag,
-  .portfolio-card__tech-more {
+  .tech-tag,
+  .tech-more {
     font-size: 0.75rem;
     padding: 0.25rem 0.5rem;
     background: rgba(255, 255, 255, 0.1);
@@ -467,80 +408,76 @@ const hasDetailPage = item.slug && item.slug.trim() !== '';
     font-weight: 500;
   }
 
-  .portfolio-card__tech-more {
+  .tech-more {
     background: rgba(255, 255, 255, 0.15);
     color: var(--color-text-primary);
     font-weight: 600;
   }
 
-  /* Actions */
-  .portfolio-card__actions {
+  .portfolio-tags {
     display: flex;
-    gap: var(--spacing-xs);
-    margin-top: auto;
     flex-wrap: wrap;
-  }
-
-  .portfolio-card__action {
-    display: inline-flex;
-    align-items: center;
     gap: 0.375rem;
-    padding: 0.5rem 0.875rem;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    text-decoration: none;
-    border-radius: 12px;
-    transition: all 0.2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--color-text-primary);
-    flex: 1;
-    justify-content: center;
-    min-height: 36px;
   }
 
-  .portfolio-card__action:hover {
-    transform: translateY(-1px);
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.25);
-  }
-
-  .portfolio-card__action--demo:hover {
-    background: var(--color-accent-primary);
-    color: white;
-    border-color: var(--color-accent-primary);
-  }
-
-  .portfolio-card__action--repo:hover {
-    background: var(--color-accent-secondary);
-    color: white;
-    border-color: var(--color-accent-secondary);
-  }
-
-  .portfolio-card__action svg {
-    flex-shrink: 0;
-  }
-
-  /* Tags */
-  .portfolio-card__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: auto;
-  }
-
-  .portfolio-card__tag,
-  .portfolio-card__tag-more {
+  .tag,
+  .tag-more {
     font-size: 0.75rem;
     color: var(--color-text-tertiary);
     font-weight: 500;
   }
 
-  .portfolio-card__tag-more {
+  .tag-more {
     color: var(--color-text-secondary);
     font-weight: 600;
+  }
+
+  .portfolio-footer {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .portfolio-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .portfolio-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-text-primary);
+    min-width: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .portfolio-action:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--color-accent-primary);
+  }
+
+  .portfolio-action--demo:hover {
+    background: var(--color-accent-primary);
+    color: white;
+    border-color: var(--color-accent-primary);
+  }
+
+  .portfolio-action--repo:hover {
+    background: var(--color-accent-secondary);
+    color: white;
+    border-color: var(--color-accent-secondary);
   }
 
   /* Responsive Adjustments */
@@ -585,20 +522,75 @@ const hasDetailPage = item.slug && item.slug.trim() !== '';
       page-break-inside: avoid;
     }
 
-    .portfolio-card__action {
+    .portfolio-action {
       display: none;
     }
   }
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .portfolio-card:hover,
-    .portfolio-card:focus-within {
-      transform: none;
+    .portfolio-card,
+    .details-toggle,
+    .toggle-arrow {
+      transition: none;
     }
 
-    .portfolio-card:hover .portfolio-card__media :global(.lazy-image) {
+    .portfolio-card.expanded {
       transform: none;
     }
   }
 </style>
+
+<script>
+  // Portfolio card expand/collapse functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const portfolioCards = document.querySelectorAll('.portfolio-card');
+
+    portfolioCards.forEach((card) => {
+      const toggleButton = card.querySelector('.details-toggle');
+      const toggleText = toggleButton?.querySelector('.toggle-text');
+      const toggleArrow = toggleButton?.querySelector('.toggle-arrow');
+
+      toggleButton?.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        const isExpanded = card.classList.contains('expanded');
+        const expandedContent = card.querySelector('.portfolio-expanded');
+
+        if (!isExpanded) {
+          // Expand
+          card.classList.add('expanded');
+          toggleButton.setAttribute('aria-expanded', 'true');
+          expandedContent?.setAttribute('aria-hidden', 'false');
+
+          if (toggleText) toggleText.textContent = 'Show Less';
+          if (toggleArrow) toggleArrow.textContent = '↑';
+
+          // Smooth scroll to show expanded content
+          setTimeout(() => {
+            expandedContent?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest',
+            });
+          }, 150);
+        } else {
+          // Collapse
+          card.classList.remove('expanded');
+          toggleButton.setAttribute('aria-expanded', 'false');
+          expandedContent?.setAttribute('aria-hidden', 'true');
+
+          if (toggleText) toggleText.textContent = 'Show Details';
+          if (toggleArrow) toggleArrow.textContent = '↓';
+
+          // Smooth scroll back to card top
+          setTimeout(() => {
+            card.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest',
+            });
+          }, 150);
+        }
+      });
+    });
+  });
+</script>
