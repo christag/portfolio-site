@@ -21,18 +21,40 @@ export interface Props {
 
 const { service, index = 0 } = Astro.props;
 
+// Helper function to parse JSON strings back to arrays (for Strapi data)
+const parseArrayField = (field: any): string[] => {
+  if (!field) return [];
+  if (Array.isArray(field)) return field; // Already an array (mock data)
+  if (typeof field === 'string') {
+    try {
+      const parsed = JSON.parse(field);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return []; // Invalid JSON, return empty array
+    }
+  }
+  return [];
+};
+
+// Parse JSON string fields back to arrays (for Strapi data compatibility)
+const featureHighlights = parseArrayField(service.featureHighlights);
+const parsedTiers = service.tiers?.map((tier) => ({
+  ...tier,
+  deliverables: parseArrayField(tier.deliverables),
+}));
+
 // Determine pricing display
 const getLowestPrice = () => {
-  if (!service.tiers || service.tiers.length === 0) return null;
-  const prices = service.tiers
+  if (!parsedTiers || parsedTiers.length === 0) return null;
+  const prices = parsedTiers
     .filter((tier) => tier.priceLow)
     .map((tier) => tier.priceLow!);
   return prices.length > 0 ? Math.min(...prices) : null;
 };
 
 const getHighestPrice = () => {
-  if (!service.tiers || service.tiers.length === 0) return null;
-  const prices = service.tiers
+  if (!parsedTiers || parsedTiers.length === 0) return null;
+  const prices = parsedTiers
     .filter((tier) => tier.priceHigh)
     .map((tier) => tier.priceHigh!);
   return prices.length > 0 ? Math.max(...prices) : null;
@@ -109,16 +131,16 @@ const misalignmentClass =
       </p>
 
       {
-        service.featureHighlights && service.featureHighlights.length > 0 && (
+        featureHighlights && featureHighlights.length > 0 && (
           <div class="feature-highlights">
             <h4 class="features-title">[ HIGHLIGHTS ]</h4>
             <ul class="features-list" role="list">
-              {service.featureHighlights.slice(0, 4).map((feature) => (
+              {featureHighlights.slice(0, 4).map((feature) => (
                 <li class="feature-item">▸ {feature}</li>
               ))}
-              {service.featureHighlights.length > 4 && (
+              {featureHighlights.length > 4 && (
                 <li class="feature-more">
-                  + {service.featureHighlights.length - 4} more
+                  + {featureHighlights.length - 4} more
                 </li>
               )}
             </ul>
