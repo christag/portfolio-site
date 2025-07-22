@@ -1,0 +1,483 @@
+---
+// LazyImage.astro - Advanced lazy loading image component
+export interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  sizes?: string;
+  loading?: 'lazy' | 'eager';
+  quality?: number;
+  format?: 'webp' | 'avif' | 'auto';
+  placeholder?: 'skeleton' | 'blur' | 'color';
+  placeholderColor?: string;
+  aspectRatio?: string;
+  objectFit?: 'cover' | 'contain' | 'fill' | 'scale-down';
+  priority?: boolean;
+  onLoad?: string;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  class: className = '',
+  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
+  loading = 'lazy',
+  quality = 85,
+  format = 'auto',
+  placeholder = 'skeleton',
+  placeholderColor = 'rgba(255, 255, 255, 0.1)',
+  aspectRatio = '16/10',
+  objectFit = 'cover',
+  priority = false,
+  onLoad,
+} = Astro.props;
+
+// Generate responsive image URLs
+const generateImageUrl = (src: string, width?: number, quality?: number) => {
+  if (!src.startsWith('http') || !width) return src;
+
+  const url = new URL(src);
+  if (width) url.searchParams.set('w', width.toString());
+  if (quality) url.searchParams.set('q', quality.toString());
+  if (format !== 'auto') url.searchParams.set('f', format);
+
+  return url.toString();
+};
+
+// Generate srcset for responsive images
+const generateSrcSet = (src: string) => {
+  if (!src.startsWith('http')) return undefined;
+
+  const widths = [320, 640, 768, 1024, 1280, 1920];
+  return widths
+    .map((w) => `${generateImageUrl(src, w, quality)} ${w}w`)
+    .join(', ');
+};
+
+const srcSet = generateSrcSet(src);
+const optimizedSrc = generateImageUrl(src, width, quality);
+
+// Generate unique ID for this image
+const imageId = `lazy-img-${Math.random().toString(36).substr(2, 9)}`;
+
+// Determine loading strategy
+const shouldUseLazyLoading = !priority && loading === 'lazy';
+const actualLoading = priority ? 'eager' : loading;
+
+// Generate classes
+const imageClasses = [
+  'lazy-image',
+  shouldUseLazyLoading ? 'lazy-image--lazy' : 'lazy-image--eager',
+  `lazy-image--placeholder-${placeholder}`,
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<div
+  class="lazy-image-container"
+  style={`aspect-ratio: ${aspectRatio};`}
+  data-lazy-container
+  data-placeholder={placeholder}
+>
+  <!-- Placeholder/Skeleton -->
+  <div
+    class="lazy-image-placeholder"
+    style={placeholder === 'color'
+      ? `background-color: ${placeholderColor};`
+      : ''}
+    data-lazy-placeholder
+  >
+    {
+      placeholder === 'skeleton' && (
+        <div class="lazy-image-skeleton">
+          <div class="lazy-image-skeleton__shimmer" />
+        </div>
+      )
+    }
+    {placeholder === 'blur' && <div class="lazy-image-blur-placeholder" />}
+  </div>
+
+  <!-- Actual Image -->
+  <img
+    id={imageId}
+    src={shouldUseLazyLoading ? undefined : optimizedSrc}
+    data-src={shouldUseLazyLoading ? optimizedSrc : undefined}
+    srcset={shouldUseLazyLoading ? undefined : srcSet}
+    data-srcset={shouldUseLazyLoading ? srcSet : undefined}
+    alt={alt}
+    width={width}
+    height={height}
+    sizes={sizes}
+    loading={actualLoading}
+    decoding="async"
+    class={imageClasses}
+    style={`object-fit: ${objectFit};`}
+    onload={onLoad}
+    data-lazy-image
+  />
+
+  <!-- Loading indicator -->
+  {
+    shouldUseLazyLoading && (
+      <div class="lazy-image-loading" data-lazy-loading>
+        <div class="lazy-image-spinner" />
+      </div>
+    )
+  }
+</div>
+
+{priority && <link rel="preload" as="image" href={optimizedSrc} />}
+
+<style>
+  .lazy-image-container {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-glass-bg-light);
+    border-radius: var(--glass-radius-small);
+  }
+
+  .lazy-image-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-glass-bg-medium);
+    transition: opacity 0.3s ease;
+    z-index: 1;
+  }
+
+  .lazy-image-container[data-loaded] .lazy-image-placeholder {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Skeleton placeholder */
+  .lazy-image-skeleton {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      var(--color-glass-bg-light) 25%,
+      var(--color-glass-bg-medium) 50%,
+      var(--color-glass-bg-light) 75%
+    );
+    background-size: 200% 100%;
+    overflow: hidden;
+  }
+
+  .lazy-image-skeleton__shimmer {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+
+  /* Blur placeholder */
+  .lazy-image-blur-placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--color-glass-bg-medium);
+    filter: blur(20px);
+    transform: scale(1.1);
+  }
+
+  /* Actual image */
+  .lazy-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 2;
+  }
+
+  .lazy-image.loaded {
+    opacity: 1;
+  }
+
+  .lazy-image--eager {
+    opacity: 1;
+  }
+
+  /* Loading indicator */
+  .lazy-image-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .lazy-image-container[data-loaded] .lazy-image-loading {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .lazy-image-spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--color-glass-border-medium);
+    border-top: 2px solid var(--color-accent-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Error state */
+  .lazy-image-container[data-error] .lazy-image-placeholder {
+    background: var(--color-glass-bg-heavy);
+    color: var(--color-text-tertiary);
+  }
+
+  .lazy-image-container[data-error]::after {
+    content: '🖼️ Failed to load';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.875rem;
+    z-index: 4;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .lazy-image-skeleton__shimmer {
+      animation: none;
+    }
+
+    .lazy-image-spinner {
+      animation: none;
+      border: 2px solid var(--color-accent-primary);
+    }
+
+    .lazy-image,
+    .lazy-image-placeholder,
+    .lazy-image-loading {
+      transition: none;
+    }
+  }
+
+  /* High contrast mode */
+  @media (prefers-contrast: high) {
+    .lazy-image-placeholder {
+      background: Canvas;
+      border: 1px solid CanvasText;
+    }
+  }
+
+  /* Print styles */
+  @media print {
+    .lazy-image-placeholder,
+    .lazy-image-loading {
+      display: none;
+    }
+
+    .lazy-image {
+      opacity: 1 !important;
+    }
+  }
+</style>
+
+<script>
+  // Enhanced lazy loading with Intersection Observer
+  class LazyImageLoader {
+    private observer: IntersectionObserver | null = null;
+    private loadedImages = new Set<string>();
+
+    constructor() {
+      this.initializeObserver();
+      this.observeImages();
+    }
+
+    private initializeObserver() {
+      if (!('IntersectionObserver' in window)) {
+        // Fallback for unsupported browsers
+        this.loadAllImages();
+        return;
+      }
+
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.loadImage(entry.target as HTMLElement);
+            }
+          });
+        },
+        {
+          rootMargin: '50px',
+          threshold: 0.1,
+        }
+      );
+    }
+
+    private observeImages() {
+      const lazyImages = document.querySelectorAll('[data-lazy-image]');
+      lazyImages.forEach((img) => {
+        const container = img.closest('[data-lazy-container]') as HTMLElement;
+        if (container && this.observer) {
+          this.observer.observe(container);
+        }
+      });
+    }
+
+    private async loadImage(container: HTMLElement) {
+      const img = container.querySelector(
+        '[data-lazy-image]'
+      ) as HTMLImageElement;
+      if (!img || this.loadedImages.has(img.id)) return;
+
+      this.loadedImages.add(img.id);
+
+      try {
+        // Show loading indicator
+        this.setLoadingState(container, true);
+
+        // Load the image
+        const src = img.dataset.src;
+        const srcset = img.dataset.srcset;
+
+        if (src) {
+          await this.preloadImage(src);
+          img.src = src;
+          img.removeAttribute('data-src');
+        }
+
+        if (srcset) {
+          img.srcset = srcset;
+          img.removeAttribute('data-srcset');
+        }
+
+        // Wait for image to actually load
+        await this.waitForImageLoad(img);
+
+        // Mark as loaded
+        img.classList.add('loaded');
+        container.setAttribute('data-loaded', 'true');
+        this.setLoadingState(container, false);
+
+        // Stop observing this image
+        if (this.observer) {
+          this.observer.unobserve(container);
+        }
+      } catch (error) {
+        console.warn('Failed to load lazy image:', error);
+        container.setAttribute('data-error', 'true');
+        this.setLoadingState(container, false);
+      }
+    }
+
+    private preloadImage(src: string): Promise<void> {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve();
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+
+    private waitForImageLoad(img: HTMLImageElement): Promise<void> {
+      return new Promise((resolve) => {
+        if (img.complete) {
+          resolve();
+        } else {
+          img.addEventListener('load', () => resolve(), { once: true });
+          img.addEventListener('error', () => resolve(), { once: true });
+        }
+      });
+    }
+
+    private setLoadingState(container: HTMLElement, loading: boolean) {
+      const loadingEl = container.querySelector(
+        '[data-lazy-loading]'
+      ) as HTMLElement;
+      if (loadingEl) {
+        loadingEl.style.opacity = loading ? '1' : '0';
+      }
+    }
+
+    private loadAllImages() {
+      // Fallback for browsers without IntersectionObserver
+      const lazyImages = document.querySelectorAll(
+        '[data-lazy-image]'
+      ) as NodeListOf<HTMLImageElement>;
+      lazyImages.forEach((img) => {
+        const src = img.dataset.src;
+        const srcset = img.dataset.srcset;
+
+        if (src) {
+          img.src = src;
+          img.removeAttribute('data-src');
+        }
+
+        if (srcset) {
+          img.srcset = srcset;
+          img.removeAttribute('data-srcset');
+        }
+
+        img.classList.add('loaded');
+        const container = img.closest('[data-lazy-container]');
+        if (container) {
+          container.setAttribute('data-loaded', 'true');
+        }
+      });
+    }
+
+    public refresh() {
+      // Re-observe any new images that might have been added
+      this.observeImages();
+    }
+  }
+
+  // Initialize lazy loading when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      new LazyImageLoader();
+    });
+  } else {
+    new LazyImageLoader();
+  }
+
+  // Export for use by other scripts
+  (window as any).LazyImageLoader = LazyImageLoader;
+</script>

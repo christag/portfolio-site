@@ -489,6 +489,12 @@ const currentPath = Astro.url.pathname;
         );
       });
     </script>
+
+    <!-- Initialize Animation System -->
+    <script type="module">
+      import { initializeAnimations } from '../lib/animations';
+      initializeAnimations();
+    </script>
   </body>
 </html>
 <style is:global>

@@ -1,6 +1,7 @@
 ---
 // PortfolioCard.astro - Dynamic media card for portfolio items
-import { Portfolio } from '../lib/strapi';
+import type { Portfolio } from '../lib/strapi';
+import LazyImage from './LazyImage.astro';
 
 export interface Props {
   item: Portfolio;
@@ -61,11 +62,14 @@ const imageAlt =
     <div class="portfolio-card__media">
       {
         imageUrl ? (
-          <img
+          <LazyImage
             src={imageUrl}
             alt={imageAlt}
-            loading="lazy"
             class="portfolio-card__image"
+            aspectRatio="16/10"
+            placeholder="skeleton"
+            priority={item.featured}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
           />
         ) : (
           <div class="portfolio-card__placeholder">
@@ -237,12 +241,17 @@ const imageAlt =
   .portfolio-card__image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
   }
 
-  .portfolio-card:hover .portfolio-card__image {
+  /* LazyImage integration */
+  .portfolio-card__media :global(.lazy-image-container) {
+    border-radius: 0;
+    aspect-ratio: inherit;
+  }
+
+  .portfolio-card:hover .portfolio-card__media :global(.lazy-image) {
     transform: scale(1.05);
+    transition: transform 0.3s ease;
   }
 
   .portfolio-card__placeholder {
@@ -473,6 +482,19 @@ const imageAlt =
 
     .portfolio-card__action {
       display: none;
+    }
+  }
+
+  /* Glitch animation */
+  .portfolio-card:hover,
+  .portfolio-card:focus-within {
+    animation: glitch 0.3s steps(2, end);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portfolio-card:hover,
+    .portfolio-card:focus-within {
+      animation: none;
     }
   }
 </style>
