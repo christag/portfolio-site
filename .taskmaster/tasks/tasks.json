@@ -570,7 +570,7 @@
             "id": 1,
             "title": "Design Asymmetric Grid Layout System",
             "description": "Develop a visually striking, punk/brutalist-inspired grid layout using modern CSS (CSS Grid, masonry, and glassmorphism effects) to support dynamic, misaligned arrangements of media cards.",
-            "status": "pending",
+            "status": "done",
             "dependencies": [],
             "details": "Implement CSS Grid with custom row/column spans and intentional misalignment. Use glassmorphism (backdrop-filter, semi-transparent backgrounds, border-radius) for card backgrounds. Ensure the grid supports dynamic content and adapts to various screen sizes. Test with real and placeholder content for visual consistency.",
             "testStrategy": ""
@@ -579,7 +579,7 @@
             "id": 2,
             "title": "Create Media Card Components",
             "description": "Design reusable, glassmorphic media card components displaying images, titles, metadata, and interactive elements, supporting various media types from Strapi.",
-            "status": "pending",
+            "status": "done",
             "dependencies": [1],
             "details": "Implement cards with semantic HTML, alt text for images, and support for video/audio if needed. Use CSS for glassmorphism and punk/brutalist accents. Ensure cards are focusable and interactive elements are accessible. Test with different media types and content lengths.",
             "testStrategy": ""
@@ -588,7 +588,7 @@
             "id": 3,
             "title": "Integrate Strapi 5 API with Astro 5",
             "description": "Set up secure, efficient data fetching from Strapi 5 CMS using Astro's Content Loader API and/or Axios, supporting media, metadata, and filter categories.",
-            "status": "pending",
+            "status": "done",
             "dependencies": [2],
             "details": "Configure Strapi 5 with the Media Library plugin and expose necessary endpoints. In Astro, create utility functions for fetching collections and single items, using environment variables for API URLs. Ensure support for media population and filtering. Test with mock and live data for reliability and error handling.",
             "testStrategy": ""
@@ -1651,7 +1651,7 @@
     ],
     "metadata": {
       "created": "2025-07-08T18:36:06.074Z",
-      "updated": "2025-07-22T05:21:53.281Z",
+      "updated": "2025-07-22T05:30:35.658Z",
       "description": "Tasks for master context"
     }
   }

@@ -1,33 +1,220 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { strapiAPI } from '../lib/strapi';
+import type { Portfolio } from '../lib/strapi';
+import PortfolioCard from '../components/PortfolioCard.astro';
+import PortfolioFilter from '../components/PortfolioFilter.astro';
+import AsymmetricGrid from '../components/grids/AsymmetricGrid.astro';
+
+// Fetch portfolio items from Strapi
+let portfolioItems: Portfolio[] = [];
+let availableMediaTypes: string[] = [];
+let availableTags: string[] = [];
+
+try {
+  console.log('🎯 Portfolio page: Fetching portfolio items from Strapi...');
+  portfolioItems = await strapiAPI.getPortfolioItems();
+
+  if (portfolioItems.length > 0) {
+    // Extract available media types
+    availableMediaTypes = [
+      ...new Set(portfolioItems.map((item) => item.mediaType)),
+    ];
+
+    // Extract and flatten tags
+    const allTags = portfolioItems
+      .map((item) => item.tags || '')
+      .join(',')
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
+    availableTags = [...new Set(allTags)].sort();
+
+    console.log(
+      `✅ Portfolio: Loaded ${portfolioItems.length} items with ${availableMediaTypes.length} media types and ${availableTags.length} unique tags`
+    );
+  } else {
+    console.log('⚠️ Portfolio: No portfolio items found in Strapi');
+  }
+} catch (error) {
+  console.error('❌ Portfolio: Error fetching portfolio items:', error);
+}
+
+// SEO and page metadata
+const title = 'Portfolio - I Did';
+const description =
+  portfolioItems.length > 0
+    ? `Explore ${portfolioItems.length} projects showcasing ${availableMediaTypes.join(', ')} work across various technologies and creative endeavors.`
+    : 'Portfolio showcase of creative and technical projects - coming soon with dynamic content.';
 ---
 
-<Layout
-  title="Portfolio - Coming Soon"
-  description="Portfolio showcase coming soon"
->
-  <main>
-    <section class="coming-soon-section">
+<Layout title={title} description={description}>
+  <main class="portfolio-page">
+    <!-- Hero Section -->
+    <section class="portfolio-hero" aria-labelledby="portfolio-title">
       <div class="container">
-        <div class="coming-soon-content">
-          <div class="coming-soon-icon">🚧</div>
-          <h1 class="coming-soon-title">Portfolio Coming Soon</h1>
-          <p class="coming-soon-description">
-            I'm currently curating my best work to showcase here. In the
-            meantime, feel free to connect with me to discuss your project
-            needs.
+        <header class="portfolio-hero__content">
+          <h1 id="portfolio-title" class="portfolio-hero__title">
+            I Did<span class="portfolio-hero__accent">.</span>
+          </h1>
+          <p class="portfolio-hero__description">
+            {
+              portfolioItems.length > 0
+                ? `A curated collection of ${portfolioItems.length} projects spanning ${availableMediaTypes.join(', ')} and more. Each piece tells a story of problem-solving, creativity, and technical execution.`
+                : 'A curated collection of creative and technical projects. Currently building this dynamic showcase - check back soon for the full experience!'
+            }
           </p>
-          <div class="coming-soon-actions">
-            <a
-              href="https://booking.christagliaferro.com"
-              class="cta-primary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Let's Talk About Your Project
-            </a>
-            <a href="/services" class="cta-secondary"> View My Services </a>
-          </div>
+
+          {
+            portfolioItems.length > 0 && (
+              <div class="portfolio-hero__stats">
+                <div class="portfolio-stat">
+                  <span class="portfolio-stat__number">
+                    {portfolioItems.length}
+                  </span>
+                  <span class="portfolio-stat__label">Projects</span>
+                </div>
+                <div class="portfolio-stat">
+                  <span class="portfolio-stat__number">
+                    {availableMediaTypes.length}
+                  </span>
+                  <span class="portfolio-stat__label">Media Types</span>
+                </div>
+                <div class="portfolio-stat">
+                  <span class="portfolio-stat__number">
+                    {portfolioItems.filter((item) => item.featured).length}
+                  </span>
+                  <span class="portfolio-stat__label">Featured</span>
+                </div>
+              </div>
+            )
+          }
+        </header>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="portfolio-main" aria-labelledby="portfolio-grid-title">
+      <div class="container">
+        <div class="portfolio-layout">
+          {
+            portfolioItems.length > 0 ? (
+              <>
+                {/* Filter Sidebar */}
+                <aside class="portfolio-sidebar" aria-label="Portfolio filters">
+                  <PortfolioFilter
+                    availableMediaTypes={availableMediaTypes}
+                    availableTags={availableTags}
+                    class="portfolio-filter--sidebar"
+                  />
+                </aside>
+
+                {/* Portfolio Grid */}
+                <div class="portfolio-content">
+                  <header class="portfolio-content__header">
+                    <h2
+                      id="portfolio-grid-title"
+                      class="portfolio-content__title"
+                    >
+                      Project Gallery
+                    </h2>
+                    <p class="portfolio-content__subtitle">
+                      Use the filters to explore by media type, status, or
+                      technology stack.
+                    </p>
+                  </header>
+
+                  {/* Grid Container with Masonry Layout */}
+                  <div class="portfolio-grid" id="portfolio-grid">
+                    <AsymmetricGrid
+                      variant="chaos"
+                      gap="gap-8"
+                      class="portfolio-asymmetric-grid"
+                    >
+                      {portfolioItems.map((item) => (
+                        <PortfolioCard
+                          item={item}
+                          variant={item.featured ? 'featured' : 'standard'}
+                          class="portfolio-grid__item"
+                          data-media-type={item.mediaType}
+                          data-featured={item.featured ? 'true' : 'false'}
+                        />
+                      ))}
+                    </AsymmetricGrid>
+                  </div>
+
+                  {/* Empty State (hidden initially, shown when no results) */}
+                  <div
+                    class="portfolio-empty"
+                    id="portfolio-empty"
+                    aria-hidden="true"
+                  >
+                    <div class="portfolio-empty__content">
+                      <div class="portfolio-empty__icon">🔍</div>
+                      <h3 class="portfolio-empty__title">No Projects Found</h3>
+                      <p class="portfolio-empty__description">
+                        Try adjusting your filters or search terms to find more
+                        projects.
+                      </p>
+                      <button
+                        type="button"
+                        class="portfolio-empty__reset"
+                        onclick="document.querySelector('#reset-filters')?.click()"
+                      >
+                        🔄 Reset Filters
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div class="portfolio-coming-soon">
+                <div class="portfolio-coming-soon__content">
+                  <div class="portfolio-coming-soon__icon">🚧</div>
+                  <h2 class="portfolio-coming-soon__title">
+                    Portfolio Coming Soon
+                  </h2>
+                  <p class="portfolio-coming-soon__description">
+                    I'm currently setting up the dynamic portfolio system with
+                    Strapi CMS. This will feature filterable project galleries,
+                    detailed case studies, and interactive media presentations.
+                    Check back soon for the full experience!
+                  </p>
+                  <div class="portfolio-coming-soon__features">
+                    <div class="feature-card">
+                      <div class="feature-card__icon">📂</div>
+                      <h3 class="feature-card__title">Multi-Media</h3>
+                      <p class="feature-card__description">
+                        Code, design, video, audio, and more
+                      </p>
+                    </div>
+                    <div class="feature-card">
+                      <div class="feature-card__icon">🔍</div>
+                      <h3 class="feature-card__title">Smart Filtering</h3>
+                      <p class="feature-card__description">
+                        Find projects by type, tech, or tags
+                      </p>
+                    </div>
+                    <div class="feature-card">
+                      <div class="feature-card__icon">⚡</div>
+                      <h3 class="feature-card__title">Dynamic Content</h3>
+                      <p class="feature-card__description">
+                        Real-time updates from CMS
+                      </p>
+                    </div>
+                  </div>
+                  <div class="portfolio-coming-soon__actions">
+                    <a href="/services" class="cta-primary">
+                      View My Services
+                    </a>
+                    <a href="/i-am" class="cta-secondary">
+                      Learn About Me
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )
+          }
         </div>
       </div>
     </section>
@@ -35,53 +222,255 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
-  .coming-soon-section {
-    min-height: 80vh;
+  /* Portfolio Page Styles */
+  .portfolio-page {
+    min-height: 100vh;
+    background: var(--background-gradient);
+  }
+
+  /* Hero Section */
+  .portfolio-hero {
+    padding: calc(var(--spacing-xl) * 2) 0 var(--spacing-xl) 0;
+    background: var(--color-glass-bg-light);
+    backdrop-filter: blur(var(--glass-blur-light));
+    border-bottom: 1px solid var(--color-glass-border-light);
+  }
+
+  .portfolio-hero__content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .portfolio-hero__title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.1;
+  }
+
+  .portfolio-hero__accent {
+    color: var(--color-accent-primary);
+  }
+
+  .portfolio-hero__description {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  /* Stats */
+  .portfolio-hero__stats {
     display: flex;
-    align-items: center;
     justify-content: center;
+    gap: var(--spacing-xl);
+    flex-wrap: wrap;
+  }
+
+  .portfolio-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  .portfolio-stat__number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-accent-primary);
+  }
+
+  .portfolio-stat__label {
+    font-size: 0.875rem;
+    color: var(--color-text-tertiary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Main Layout */
+  .portfolio-main {
     padding: var(--spacing-xl) 0;
   }
 
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
+  .portfolio-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: var(--spacing-xl);
+    align-items: start;
   }
 
-  .coming-soon-content {
+  /* Sidebar */
+  .portfolio-sidebar {
+    position: sticky;
+    top: var(--spacing-lg);
+  }
+
+  /* Content Area */
+  .portfolio-content__header {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .portfolio-content__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .portfolio-content__subtitle {
+    color: var(--color-text-secondary);
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  /* Portfolio Grid Enhancements */
+  .portfolio-asymmetric-grid {
+    min-height: 400px;
+  }
+
+  .portfolio-grid__item {
+    /* Items will inherit their styling from PortfolioCard */
+    transition: all 0.3s ease;
+  }
+
+  .portfolio-grid__item[data-hidden='true'] {
+    display: none;
+  }
+
+  /* Empty State */
+  .portfolio-empty {
+    display: none;
+    padding: var(--spacing-xl) 0;
     text-align: center;
+  }
+
+  .portfolio-empty[aria-hidden='false'] {
+    display: block;
+  }
+
+  .portfolio-empty__content {
     background: var(--color-glass-bg-light);
     backdrop-filter: blur(var(--glass-blur-light));
     border: 1px solid var(--color-glass-border-light);
     border-radius: var(--glass-radius);
     padding: var(--spacing-xl);
-    box-shadow: var(--glass-shadow-light);
+    max-width: 500px;
+    margin: 0 auto;
   }
 
-  .coming-soon-icon {
+  .portfolio-empty__icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.6;
+  }
+
+  .portfolio-empty__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .portfolio-empty__description {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.6;
+  }
+
+  .portfolio-empty__reset {
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--color-accent-primary);
+    color: white;
+    border: none;
+    border-radius: calc(var(--glass-radius) * 0.5);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .portfolio-empty__reset:hover {
+    background: var(--color-accent-secondary);
+    transform: translateY(-2px);
+  }
+
+  /* Coming Soon State */
+  .portfolio-coming-soon {
+    grid-column: 1 / -1;
+    padding: var(--spacing-xl) 0;
+  }
+
+  .portfolio-coming-soon__content {
+    text-align: center;
+    background: var(--color-glass-bg-light);
+    backdrop-filter: blur(var(--glass-blur-light));
+    border: 1px solid var(--color-glass-border-light);
+    border-radius: var(--glass-radius);
+    box-shadow: var(--glass-shadow-light);
+    padding: var(--spacing-xl);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .portfolio-coming-soon__icon {
     font-size: 4rem;
     margin-bottom: var(--spacing-lg);
   }
 
-  .coming-soon-title {
+  .portfolio-coming-soon__title {
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--color-text-primary);
     margin-bottom: var(--spacing-md);
   }
 
-  .coming-soon-description {
+  .portfolio-coming-soon__description {
     font-size: 1.125rem;
     color: var(--color-text-secondary);
     line-height: 1.6;
     margin-bottom: var(--spacing-xl);
-    max-width: 600px;
+    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
   }
 
-  .coming-soon-actions {
+  /* Feature Cards */
+  .portfolio-coming-soon__features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .feature-card {
+    background: var(--color-glass-bg-medium);
+    border: 1px solid var(--color-glass-border-medium);
+    border-radius: var(--glass-radius);
+    padding: var(--spacing-lg);
+    text-align: center;
+  }
+
+  .feature-card__icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .feature-card__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .feature-card__description {
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  /* Action Buttons */
+  .portfolio-coming-soon__actions {
     display: flex;
     gap: var(--spacing-md);
     justify-content: center;
@@ -123,12 +512,43 @@ import Layout from '../layouts/Layout.astro';
     transform: translateY(-2px);
   }
 
-  @media (max-width: 640px) {
-    .coming-soon-title {
-      font-size: 2rem;
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .portfolio-layout {
+      grid-template-columns: 1fr;
     }
 
-    .coming-soon-actions {
+    .portfolio-sidebar {
+      position: static;
+      order: -1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .portfolio-hero {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .portfolio-hero__stats {
+      gap: var(--spacing-lg);
+    }
+
+    .portfolio-main {
+      padding: var(--spacing-lg) 0;
+    }
+
+    .portfolio-layout {
+      gap: var(--spacing-lg);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .portfolio-hero__stats {
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+
+    .portfolio-coming-soon__actions {
       flex-direction: column;
       align-items: center;
     }
@@ -139,5 +559,195 @@ import Layout from '../layouts/Layout.astro';
       max-width: 280px;
       text-align: center;
     }
+
+    .portfolio-coming-soon__features {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Print Styles */
+  @media print {
+    .portfolio-sidebar {
+      display: none;
+    }
+
+    .portfolio-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .portfolio-coming-soon__actions {
+      display: none;
+    }
+  }
+
+  /* Loading and Animation States */
+  .portfolio-grid {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .portfolio-grid[data-loading='true'] {
+    opacity: 0.7;
+  }
+
+  /* Focus and Accessibility */
+  .portfolio-page:focus-within .portfolio-grid__item:not(:focus-within) {
+    opacity: 0.8;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portfolio-grid__item,
+    .cta-primary,
+    .cta-secondary,
+    .portfolio-empty__reset {
+      transition: none;
+    }
+
+    .cta-primary:hover,
+    .cta-secondary:hover,
+    .portfolio-empty__reset:hover {
+      transform: none;
+    }
   }
 </style>
+
+<script is:inline>
+  // Portfolio Grid JavaScript for filtering and interactions
+  document.addEventListener('DOMContentLoaded', function () {
+    const portfolioGrid = document.getElementById('portfolio-grid');
+    const portfolioEmpty = document.getElementById('portfolio-empty');
+    const portfolioItems = document.querySelectorAll('.portfolio-grid__item');
+
+    if (!portfolioGrid || !portfolioItems.length) return;
+
+    // Listen for filter events from PortfolioFilter component
+    document.addEventListener('portfolio-filter-change', function (event) {
+      const filterData = event.detail;
+      filterPortfolioItems(filterData);
+    });
+
+    document.addEventListener('portfolio-search', function (event) {
+      const { searchTerm } = event.detail;
+      searchPortfolioItems(searchTerm);
+    });
+
+    document.addEventListener('portfolio-filter-reset', function () {
+      showAllItems();
+    });
+
+    function filterPortfolioItems(filterData) {
+      const { mediaType, status, sort } = filterData;
+      let visibleItems = Array.from(portfolioItems);
+
+      // Filter by media type
+      if (mediaType !== 'all') {
+        visibleItems = visibleItems.filter(
+          (item) => item.getAttribute('data-media-type') === mediaType
+        );
+      }
+
+      // Filter by status
+      if (status === 'featured') {
+        visibleItems = visibleItems.filter(
+          (item) => item.getAttribute('data-featured') === 'true'
+        );
+      }
+
+      // Hide/show items
+      portfolioItems.forEach((item) => {
+        const shouldShow = visibleItems.includes(item);
+        item.setAttribute('data-hidden', shouldShow ? 'false' : 'true');
+        item.style.display = shouldShow ? '' : 'none';
+      });
+
+      // Update empty state
+      updateEmptyState(visibleItems.length);
+
+      // Update results count
+      updateResultsCount(visibleItems.length);
+
+      // Apply sorting if needed
+      if (sort && sort !== 'priority') {
+        applySorting(visibleItems, sort);
+      }
+    }
+
+    function searchPortfolioItems(searchTerm) {
+      if (!searchTerm) {
+        showAllItems();
+        return;
+      }
+
+      const visibleItems = [];
+
+      portfolioItems.forEach((item) => {
+        const title =
+          item
+            .querySelector('.portfolio-card__title')
+            ?.textContent?.toLowerCase() || '';
+        const description =
+          item
+            .querySelector('.portfolio-card__description')
+            ?.textContent?.toLowerCase() || '';
+        const technologies = Array.from(
+          item.querySelectorAll('.portfolio-card__tech-tag')
+        )
+          .map((tech) => tech.textContent?.toLowerCase() || '')
+          .join(' ');
+
+        const searchContent = `${title} ${description} ${technologies}`;
+        const matches = searchContent.includes(searchTerm);
+
+        item.setAttribute('data-hidden', matches ? 'false' : 'true');
+        item.style.display = matches ? '' : 'none';
+
+        if (matches) {
+          visibleItems.push(item);
+        }
+      });
+
+      updateEmptyState(visibleItems.length);
+      updateResultsCount(visibleItems.length);
+    }
+
+    function showAllItems() {
+      portfolioItems.forEach((item) => {
+        item.setAttribute('data-hidden', 'false');
+        item.style.display = '';
+      });
+
+      updateEmptyState(portfolioItems.length);
+      updateResultsCount(portfolioItems.length);
+    }
+
+    function updateEmptyState(visibleCount) {
+      if (portfolioEmpty) {
+        portfolioEmpty.setAttribute(
+          'aria-hidden',
+          visibleCount === 0 ? 'false' : 'true'
+        );
+      }
+    }
+
+    function updateResultsCount(count) {
+      const resultsCount = document.querySelector('#results-count');
+      if (resultsCount) {
+        const totalCount = portfolioItems.length;
+        if (count === totalCount) {
+          resultsCount.textContent = `Showing all ${count} project${count !== 1 ? 's' : ''}`;
+        } else {
+          resultsCount.textContent = `Showing ${count} of ${totalCount} project${totalCount !== 1 ? 's' : ''}`;
+        }
+      }
+    }
+
+    function applySorting(items, sortType) {
+      // This would implement different sorting algorithms
+      // For now, we'll keep the default priority-based ordering
+      console.log(`Sorting by: ${sortType}`);
+    }
+
+    // Initialize results count
+    updateResultsCount(portfolioItems.length);
+  });
+</script>

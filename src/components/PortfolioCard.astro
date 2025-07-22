@@ -1,0 +1,479 @@
+---
+// PortfolioCard.astro - Dynamic media card for portfolio items
+import { Portfolio } from '../lib/strapi';
+
+export interface Props {
+  item: Portfolio;
+  class?: string;
+  variant?: 'standard' | 'featured' | 'compact';
+}
+
+const { item, class: className = '', variant = 'standard' } = Astro.props;
+
+// Parse tags and technologies
+const tags = item.tags ? item.tags.split(',').map((tag) => tag.trim()) : [];
+const technologies = item.technologies
+  ? item.technologies.split(',').map((tech) => tech.trim())
+  : [];
+
+// Get media type icon
+const getMediaTypeIcon = (mediaType: string) => {
+  switch (mediaType) {
+    case 'code':
+      return '💻';
+    case 'video':
+      return '📹';
+    case 'blog':
+      return '📝';
+    case 'audio':
+      return '🎧';
+    case 'image':
+      return '🖼️';
+    case 'design':
+      return '🎨';
+    case 'presentation':
+      return '📊';
+    default:
+      return '📁';
+  }
+};
+
+// Generate card classes
+const cardClasses = [
+  'portfolio-card',
+  `portfolio-card--${variant}`,
+  item.featured ? 'portfolio-card--featured' : '',
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+
+// Get image URL
+const imageUrl =
+  item.featuredImage?.data?.attributes?.url || item.featuredImage?.url;
+const imageAlt =
+  item.featuredImage?.data?.attributes?.alternativeText || item.title;
+---
+
+<article class={cardClasses} data-media-type={item.mediaType}>
+  <div class="portfolio-card__content">
+    <!-- Media/Image Section -->
+    <div class="portfolio-card__media">
+      {
+        imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={imageAlt}
+            loading="lazy"
+            class="portfolio-card__image"
+          />
+        ) : (
+          <div class="portfolio-card__placeholder">
+            <span class="portfolio-card__icon">
+              {getMediaTypeIcon(item.mediaType)}
+            </span>
+          </div>
+        )
+      }
+
+      <!-- Media type overlay -->
+      <div class="portfolio-card__type-badge">
+        <span class="portfolio-card__type-icon"
+          >{getMediaTypeIcon(item.mediaType)}</span
+        >
+        <span class="portfolio-card__type-label">{item.mediaType}</span>
+      </div>
+
+      <!-- Featured badge -->
+      {
+        item.featured && (
+          <div class="portfolio-card__featured-badge">⭐ Featured</div>
+        )
+      }
+    </div>
+
+    <!-- Content Section -->
+    <div class="portfolio-card__info">
+      <header class="portfolio-card__header">
+        <h3 class="portfolio-card__title">{item.title}</h3>
+        {item.client && <p class="portfolio-card__client">for {item.client}</p>}
+      </header>
+
+      <p class="portfolio-card__description">{item.description}</p>
+
+      <!-- Technologies -->
+      {
+        technologies.length > 0 && (
+          <div class="portfolio-card__technologies">
+            {technologies.slice(0, 4).map((tech) => (
+              <span class="portfolio-card__tech-tag">{tech}</span>
+            ))}
+            {technologies.length > 4 && (
+              <span class="portfolio-card__tech-more">
+                +{technologies.length - 4}
+              </span>
+            )}
+          </div>
+        )
+      }
+
+      <!-- Action Links -->
+      <div class="portfolio-card__actions">
+        {
+          item.demoUrl && (
+            <a
+              href={item.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="portfolio-card__action portfolio-card__action--demo"
+              aria-label={`View live demo of ${item.title}`}
+            >
+              🚀 Live Demo
+            </a>
+          )
+        }
+        {
+          item.repositoryUrl && (
+            <a
+              href={item.repositoryUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="portfolio-card__action portfolio-card__action--repo"
+              aria-label={`View source code of ${item.title}`}
+            >
+              📝 Source
+            </a>
+          )
+        }
+        <!-- Link to detail page -->
+        <a
+          href={`/portfolio/${item.slug}`}
+          class="portfolio-card__action portfolio-card__action--detail"
+          aria-label={`View details of ${item.title}`}
+        >
+          📋 Details
+        </a>
+      </div>
+
+      <!-- Tags -->
+      {
+        tags.length > 0 && (
+          <div class="portfolio-card__tags">
+            {tags.slice(0, 3).map((tag) => (
+              <span class="portfolio-card__tag">#{tag}</span>
+            ))}
+            {tags.length > 3 && (
+              <span class="portfolio-card__tag-more">+{tags.length - 3}</span>
+            )}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  /* Base Card Styles with Glassmorphism */
+  .portfolio-card {
+    position: relative;
+    background: var(--color-glass-bg-light);
+    backdrop-filter: blur(var(--glass-blur-light));
+    border: 1px solid var(--color-glass-border-light);
+    border-radius: var(--glass-radius);
+    box-shadow: var(--glass-shadow-light);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .portfolio-card:hover {
+    transform: translateY(-4px) rotate(0.5deg);
+    background: var(--color-glass-bg-medium);
+    border-color: var(--color-glass-border-medium);
+    box-shadow:
+      var(--glass-shadow-medium),
+      0 16px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .portfolio-card:focus-within {
+    border-color: var(--color-accent-primary);
+    box-shadow:
+      var(--glass-shadow-heavy),
+      0 0 0 2px var(--color-accent-primary);
+  }
+
+  /* Featured Cards */
+  .portfolio-card--featured {
+    border-color: var(--color-accent-secondary);
+    box-shadow:
+      var(--glass-shadow-medium),
+      0 0 20px rgba(247, 144, 9, 0.2);
+  }
+
+  .portfolio-card--featured:hover {
+    box-shadow:
+      var(--glass-shadow-heavy),
+      0 0 30px rgba(247, 144, 9, 0.3);
+  }
+
+  /* Content Layout */
+  .portfolio-card__content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  /* Media Section */
+  .portfolio-card__media {
+    position: relative;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    background: var(--color-glass-bg-medium);
+  }
+
+  .portfolio-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .portfolio-card:hover .portfolio-card__image {
+    transform: scale(1.05);
+  }
+
+  .portfolio-card__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      var(--color-glass-bg-light),
+      var(--color-glass-bg-medium)
+    );
+  }
+
+  .portfolio-card__icon {
+    font-size: 3rem;
+    opacity: 0.6;
+  }
+
+  /* Type Badge */
+  .portfolio-card__type-badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--color-glass-bg-heavy);
+    backdrop-filter: blur(var(--glass-blur-heavy));
+    border: 1px solid var(--color-glass-border-heavy);
+    border-radius: calc(var(--glass-radius) * 0.5);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+  }
+
+  .portfolio-card__type-icon {
+    font-size: 1rem;
+  }
+
+  /* Featured Badge */
+  .portfolio-card__featured-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--color-accent-secondary);
+    color: white;
+    border-radius: calc(var(--glass-radius) * 0.5);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Info Section */
+  .portfolio-card__info {
+    padding: var(--spacing-lg);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  /* Header */
+  .portfolio-card__header {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .portfolio-card__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .portfolio-card__client {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin: 0.25rem 0 0 0;
+    font-style: italic;
+  }
+
+  /* Description */
+  .portfolio-card__description {
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Technologies */
+  .portfolio-card__technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: var(--spacing-sm) 0;
+  }
+
+  .portfolio-card__tech-tag,
+  .portfolio-card__tech-more {
+    font-size: 0.75rem;
+    padding: 0.125rem 0.375rem;
+    background: var(--color-glass-bg-medium);
+    border: 1px solid var(--color-glass-border-medium);
+    border-radius: calc(var(--glass-radius) * 0.25);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+  }
+
+  .portfolio-card__tech-more {
+    background: var(--color-glass-bg-heavy);
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  /* Actions */
+  .portfolio-card__actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: var(--spacing-sm);
+    flex-wrap: wrap;
+  }
+
+  .portfolio-card__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: calc(var(--glass-radius) * 0.5);
+    transition: all 0.2s ease;
+    border: 1px solid var(--color-glass-border-medium);
+    background: var(--color-glass-bg-light);
+    color: var(--color-text-primary);
+  }
+
+  .portfolio-card__action:hover {
+    transform: translateY(-1px);
+    background: var(--color-glass-bg-medium);
+    border-color: var(--color-glass-border-heavy);
+  }
+
+  .portfolio-card__action--demo:hover {
+    background: var(--color-accent-primary);
+    color: white;
+    border-color: var(--color-accent-primary);
+  }
+
+  .portfolio-card__action--repo:hover {
+    background: var(--color-accent-secondary);
+    color: white;
+    border-color: var(--color-accent-secondary);
+  }
+
+  /* Tags */
+  .portfolio-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding-top: var(--spacing-xs);
+    border-top: 1px solid var(--color-glass-border-light);
+  }
+
+  .portfolio-card__tag,
+  .portfolio-card__tag-more {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+    font-weight: 500;
+  }
+
+  .portfolio-card__tag-more {
+    color: var(--color-text-secondary);
+    font-weight: 600;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 640px) {
+    .portfolio-card__info {
+      padding: var(--spacing-md);
+    }
+
+    .portfolio-card__actions {
+      flex-direction: column;
+    }
+
+    .portfolio-card__action {
+      justify-content: center;
+      text-align: center;
+    }
+  }
+
+  /* Variant: Compact */
+  .portfolio-card--compact {
+    margin-bottom: 1rem;
+  }
+
+  .portfolio-card--compact .portfolio-card__info {
+    padding: var(--spacing-md);
+  }
+
+  .portfolio-card--compact .portfolio-card__description {
+    -webkit-line-clamp: 2;
+  }
+
+  .portfolio-card--compact .portfolio-card__media {
+    aspect-ratio: 16/9;
+  }
+
+  /* Print Styles */
+  @media print {
+    .portfolio-card {
+      background: white !important;
+      border: 1px solid #ddd !important;
+      box-shadow: none !important;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .portfolio-card__action {
+      display: none;
+    }
+  }
+</style>
+
