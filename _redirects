@@ -8,4 +8,4 @@ http://www.christagliaferro.com/* https://www.christagliaferro.com/:splat 301
 # https://christagliaferro.com/* https://www.christagliaferro.com/:splat 301
 
 # SPA fallback for client-side routing
-/* /404.html 404 
+/* /404 404 
