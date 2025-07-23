@@ -9,7 +9,7 @@
  * - Background sync for data updates
  */
 
-const CACHE_VERSION = 'v1.3.0'; // Updated version to force cache refresh
+const CACHE_VERSION = 'v1.3.3'; // Complete bypass of image caching on pages.dev
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;
 const IMAGE_CACHE = `images-${CACHE_VERSION}`;
@@ -113,6 +113,14 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Debug logging for icon requests
+  if (
+    url.pathname.includes('favicon') ||
+    url.pathname.includes('apple-touch-icon')
+  ) {
+    console.log('[SW] Icon request intercepted:', url.pathname);
+  }
+
   // Skip caching for _astro files during development to prevent corruption
   if (
     url.pathname.startsWith('/_astro/') &&
@@ -129,13 +137,46 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // For all images on pages.dev, bypass service worker completely to debug issues
+  if (url.hostname.includes('pages.dev') && isImageRequest(url)) {
+    console.log(
+      '[SW] Bypassing all image caching for pages.dev:',
+      url.pathname
+    );
+    event.respondWith(
+      fetch(request, { cache: 'no-cache' })
+        .then((response) => {
+          console.log(
+            '[SW] Image fetch response:',
+            url.pathname,
+            response.status,
+            response.statusText
+          );
+          return response;
+        })
+        .catch((error) => {
+          console.warn('[SW] Image fetch failed:', url.pathname, error);
+          // Return a proper 404 response
+          return new Response('Image not found', {
+            status: 404,
+            statusText: 'Not Found',
+            headers: { 'Content-Type': 'text/plain' },
+          });
+        })
+    );
+    return;
+  }
+
   // Handle different types of requests
   if (isStaticAsset(url)) {
     event.respondWith(handleStaticAsset(request));
   } else if (isAPIRequest(url)) {
     event.respondWith(handleAPIRequest(request));
   } else if (isImageRequest(url)) {
-    event.respondWith(handleImageRequest(request));
+    // Only handle images for non-pages.dev domains (already handled above for pages.dev)
+    if (!url.hostname.includes('pages.dev')) {
+      event.respondWith(handleImageRequest(request));
+    }
   } else if (isNavigationRequest(request)) {
     event.respondWith(handleNavigationRequest(request));
   }
@@ -239,32 +280,46 @@ async function handleAPIRequest(request) {
 async function handleImageRequest(request) {
   const cache = await caches.open(IMAGE_CACHE);
 
-  // Try cache first
-  const cachedResponse = await cache.match(request);
-  if (cachedResponse && !isExpired(cachedResponse, CACHE_TTL.IMAGES)) {
-    return cachedResponse;
-  }
-
   try {
-    // Fetch from network
+    // Try network first for images to ensure they load properly
     const networkResponse = await fetch(request);
 
     if (networkResponse.ok) {
-      // Cache images
+      // Cache successful image responses
       const responseToCache = networkResponse.clone();
       addTimestamp(responseToCache);
       cache.put(request, responseToCache).catch((error) => {
         console.warn('[SW] Failed to cache image:', error);
       });
+      return networkResponse;
+    } else {
+      console.warn(
+        '[SW] Image request failed with status:',
+        networkResponse.status,
+        request.url
+      );
+      // Try cache if network request failed
+      const cachedResponse = await cache.match(request);
+      if (cachedResponse && !isExpired(cachedResponse, CACHE_TTL.IMAGES)) {
+        return cachedResponse;
+      }
+      // Return the failed network response instead of a custom 503
+      return networkResponse;
     }
-
-    return networkResponse;
   } catch (error) {
     console.warn('[SW] Image fetch failed:', request.url, error);
-    return (
-      cachedResponse ||
-      new Response('Image not available offline', { status: 503 })
-    );
+
+    // Try cache as fallback
+    const cachedResponse = await cache.match(request);
+    if (cachedResponse && !isExpired(cachedResponse, CACHE_TTL.IMAGES)) {
+      return cachedResponse;
+    }
+
+    // Let the browser handle the error naturally
+    return new Response('', {
+      status: 503,
+      statusText: 'Image temporarily unavailable',
+    });
   }
 }
 
