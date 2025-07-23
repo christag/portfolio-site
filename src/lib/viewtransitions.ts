@@ -216,7 +216,7 @@ class ViewTransitionsManager {
    */
   public async navigateWithTransition(
     url: string,
-    options: ViewTransitionOptions = {}
+    _options: ViewTransitionOptions = {}
   ): Promise<void> {
     // Don't use transitions for external links
     if (url.startsWith('http') && !url.includes(window.location.origin)) {
@@ -224,13 +224,9 @@ class ViewTransitionsManager {
       return;
     }
 
-    await this.startTransition(async () => {
-      // For SPA navigation, you would update the route here
-      // For now, we'll use standard navigation
-      if (url !== window.location.pathname) {
-        window.location.href = url;
-      }
-    }, options);
+    // For static sites, always use standard navigation
+    // View transitions can cause routing issues with static site generators
+    window.location.href = url;
   }
 
   /**
@@ -338,15 +334,18 @@ class ViewTransitionsManager {
 
   /**
    * Setup automatic transitions for links
+   * Disabled for static sites to prevent routing issues
    */
   public setupAutoTransitions(_selector: string = 'a[href^="/"]'): void {
     if (typeof document === 'undefined') return;
 
-    // Remove existing listeners
+    // Remove existing listeners to prevent interference
     document.removeEventListener('click', this.handleLinkClick);
 
-    // Add new listener
-    document.addEventListener('click', this.handleLinkClick.bind(this));
+    // Don't add new listener for static sites - let browser handle navigation naturally
+    console.log(
+      'View transitions auto-setup disabled for static site compatibility'
+    );
   }
 
   /**

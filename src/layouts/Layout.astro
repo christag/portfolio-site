@@ -504,37 +504,11 @@ const currentPath = Astro.url.pathname;
       });
     </script>
 
-    <!-- View Transitions API initialization -->
+    <!-- View Transitions API initialization - DISABLED for static site compatibility -->
     <script>
-      // Import and initialize View Transitions
-      import {
-        setupAutoTransitions,
-        isViewTransitionsSupported,
-      } from '../lib/viewtransitions';
-
-      // Initialize automatic transitions for internal links
+      // View transitions disabled to prevent routing issues with static sites
       document.addEventListener('DOMContentLoaded', () => {
-        if (isViewTransitionsSupported()) {
-          console.log(
-            'View Transitions API supported - enabling smooth transitions'
-          );
-        } else {
-          console.log(
-            'View Transitions API not supported - using fallback transitions'
-          );
-        }
-
-        // Setup automatic transitions for all internal links
-        setupAutoTransitions(
-          'a[href^="/"], a[href*="' + window.location.origin + '"]'
-        );
-      });
-
-      // Re-initialize on Astro page loads (for SPA-like behavior)
-      document.addEventListener('astro:page-load', () => {
-        setupAutoTransitions(
-          'a[href^="/"], a[href*="' + window.location.origin + '"]'
-        );
+        console.log('View Transitions disabled for static site compatibility');
       });
     </script>
 
