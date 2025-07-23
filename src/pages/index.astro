@@ -3,159 +3,54 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Christopher Tagliaferro - Technology Consultant & Virtual CIO">
-  <main class="index-page">
-    <div class="index-container">
-      <!-- Hero Section - Floating Glass Style -->
-      <section class="hero-section">
-        <h1 class="hero-title">
-          christopher<span class="hero-accent">.</span>
-        </h1>
-        <h2 class="hero-subtitle">Technology Consultant & Virtual CIO</h2>
-        <p class="hero-description">
-          Building systems that scale with your vision. Transforming ideas into
-          reality through strategic technology partnership.
-        </p>
+  <!-- Hero Section with Glassmorphism Background -->
+  <section class="hero-section flex items-center justify-center relative">
+    <div class="content-wrapper relative z-10 px-4 py-4 md:py-8">
+      <!-- Main Content Container - Enhanced Glassmorphism Panel for Text Content -->
+      <div
+        class="text-center glassmorphism-content-panel p-2xl space-y-lg mx-auto max-w-4xl"
+      >
+        <!-- Main heading with proper spacing and subtle text shadows -->
+        <div class="space-y-md">
+          <h1
+            class="display-responsive font-bold misalign-accessible misalign-right"
+            style="color: var(--color-text-primary); font-family: var(--font-heading); text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);"
+          >
+            christopher<span style="color: var(--color-accent-primary);">.</span
+            >
+          </h1>
 
-        <!-- Call-to-action -->
-        <div class="hero-cta">
+          <h2
+            class="heading-responsive misalign-left"
+            style="color: var(--color-text-secondary); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);"
+          >
+            Technology Consultant & Virtual CIO
+          </h2>
+
+          <p
+            class="text-responsive max-w-2xl mx-auto"
+            style="color: var(--color-text-tertiary); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);"
+          >
+            Building systems that scale with your vision. Transforming ideas
+            into reality through strategic technology partnership.
+          </p>
+        </div>
+
+        <!-- Call-to-action with enhanced glassmorphism - Increased spacing for better visual hierarchy -->
+        <div class="pt-2xl">
           <a
             href="https://booking.christagliaferro.com"
             target="_blank"
             rel="noopener noreferrer"
-            class="cta-button"
+            class="inline-block px-2xl py-lg text-xl font-semibold bg-glass-bg-medium hover:bg-glass-bg-heavy backdrop-blur-glass-button border border-glass-border-medium rounded-glass-radius transition-all duration-300 hover:scale-105 hover:shadow-glass-shadow-medium misalign-accessible misalign-diagonal cta-button-enhanced"
+            style="color: var(--color-text-primary); text-decoration: none; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); min-height: 44px; min-width: 200px;"
           >
             Let's Talk
           </a>
         </div>
-      </section>
+      </div>
     </div>
-  </main>
-
-  <style>
-    /* Index Page Styles */
-    .index-page {
-      min-height: 100vh;
-      background: var(--background-gradient);
-    }
-
-    .index-container {
-      min-height: 100vh;
-      padding-top: 120px;
-      padding-bottom: 120px;
-      padding-left: 1rem;
-      padding-right: 1rem;
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Hero Section - Floating Glass Style (matching I Am page) */
-    .hero-section {
-      background: var(--glass-bg-primary);
-      backdrop-filter: blur(var(--glass-blur-navigation));
-      border: 1px solid var(--glass-border-light);
-      border-radius: var(--glass-radius-xl);
-      padding: 4rem 2rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      max-width: 1200px;
-      width: 100%;
-    }
-
-    .hero-title {
-      font-size: clamp(3rem, 8vw, 8rem);
-      font-weight: 900;
-      line-height: 0.8;
-      margin: 0 0 1rem 0;
-      color: var(--color-text-primary);
-      text-transform: lowercase;
-      letter-spacing: -0.05em;
-    }
-
-    .hero-accent {
-      color: var(--color-accent-primary);
-    }
-
-    .hero-subtitle {
-      font-size: clamp(1.2rem, 3vw, 2rem);
-      font-weight: 600;
-      margin: 0 0 1.5rem 0;
-      color: var(--color-text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    .hero-description {
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
-      color: var(--color-text-tertiary);
-      line-height: 1.6;
-      margin: 0 0 2rem 0;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .hero-cta {
-      margin-top: 2rem;
-    }
-
-    .cta-button {
-      display: inline-block;
-      padding: 1rem 2rem;
-      background: var(--color-accent-primary);
-      color: white;
-      text-decoration: none;
-      border-radius: var(--glass-radius);
-      font-weight: 600;
-      font-size: 1.125rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(184, 134, 154, 0.25);
-      min-height: 48px;
-      min-width: 200px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .cta-button:hover {
-      background: var(--color-accent-secondary);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .index-container {
-        padding-top: 100px;
-        padding-bottom: 100px;
-        padding-left: var(--space-md);
-        padding-right: var(--space-md);
-      }
-
-      .hero-section {
-        padding: 3rem 1.5rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .index-container {
-        padding-top: 110px;
-      }
-
-      .hero-section {
-        padding: 2rem 1rem;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .cta-button:hover {
-        transform: none;
-      }
-    }
-  </style>
+  </section>
 
   <!-- Services Preview Section -->
   <section class="py-3xl">
