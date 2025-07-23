@@ -9,7 +9,7 @@
  * - Background sync for data updates
  */
 
-const CACHE_VERSION = 'v1.3.3'; // Complete bypass of image caching on pages.dev
+const CACHE_VERSION = 'v1.3.4'; // Fixed Headers immutable bug causing 404s
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;
 const IMAGE_CACHE = `images-${CACHE_VERSION}`;
@@ -193,8 +193,7 @@ async function handleStaticAsset(request) {
     if (networkResponse.ok) {
       // Only cache successful responses
       const cache = await caches.open(STATIC_CACHE);
-      const responseToCache = networkResponse.clone();
-      addTimestamp(responseToCache);
+      const responseToCache = addTimestamp(networkResponse.clone());
       cache.put(request, responseToCache).catch((error) => {
         console.warn('[SW] Failed to cache static asset:', request.url, error);
       });
@@ -244,8 +243,7 @@ async function handleAPIRequest(request) {
 
     if (networkResponse.ok && request.method === 'GET') {
       // Cache successful GET responses
-      const responseToCache = networkResponse.clone();
-      addTimestamp(responseToCache);
+      const responseToCache = addTimestamp(networkResponse.clone());
       cache.put(request, responseToCache).catch((error) => {
         console.warn('[SW] Failed to cache API response:', error);
       });
@@ -286,8 +284,7 @@ async function handleImageRequest(request) {
 
     if (networkResponse.ok) {
       // Cache successful image responses
-      const responseToCache = networkResponse.clone();
-      addTimestamp(responseToCache);
+      const responseToCache = addTimestamp(networkResponse.clone());
       cache.put(request, responseToCache).catch((error) => {
         console.warn('[SW] Failed to cache image:', error);
       });
@@ -332,8 +329,7 @@ async function handleNavigationRequest(request) {
     if (networkResponse.ok) {
       // Cache successful navigation responses
       const cache = await caches.open(STATIC_CACHE);
-      const responseToCache = networkResponse.clone();
-      addTimestamp(responseToCache);
+      const responseToCache = addTimestamp(networkResponse.clone());
       cache.put(request, responseToCache).catch((error) => {
         console.warn('[SW] Failed to cache navigation response:', error);
       });
@@ -362,8 +358,7 @@ async function updateAPICache(request, cache) {
   try {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
-      const responseToCache = networkResponse.clone();
-      addTimestamp(responseToCache);
+      const responseToCache = addTimestamp(networkResponse.clone());
       cache.put(request, responseToCache);
     }
   } catch (error) {
@@ -404,8 +399,19 @@ function isNavigationRequest(request) {
 }
 
 function addTimestamp(response) {
-  if (response.headers) {
-    response.headers.set('sw-cached-at', Date.now().toString());
+  // Cannot modify response headers directly as they are immutable
+  // Instead, create a new response with modified headers
+  try {
+    const newHeaders = new Headers(response.headers);
+    newHeaders.set('sw-cached-at', Date.now().toString());
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: newHeaders,
+    });
+  } catch (error) {
+    console.warn('[SW] Failed to add timestamp to response:', error);
+    return response; // Return original response if modification fails
   }
 }
 
@@ -435,8 +441,7 @@ async function syncPortfolioData() {
     const response = await fetch('/api/portfolios?populate=*');
 
     if (response.ok) {
-      const responseToCache = response.clone();
-      addTimestamp(responseToCache);
+      const responseToCache = addTimestamp(response.clone());
       cache.put('/api/portfolios?populate=*', responseToCache);
       console.log('[SW] Portfolio data synced');
     }
@@ -452,8 +457,7 @@ async function syncServicesData() {
     const response = await fetch('/api/services?populate=*');
 
     if (response.ok) {
-      const responseToCache = response.clone();
-      addTimestamp(responseToCache);
+      const responseToCache = addTimestamp(response.clone());
       cache.put('/api/services?populate=*', responseToCache);
       console.log('[SW] Services data synced');
     }
