@@ -65,17 +65,4 @@ export default [
       'no-console': 'warn',
     },
   },
-
-  // Scripts directory - allow console statements
-  {
-    files: ['scripts/**/*.{js,mjs,cjs}'],
-    languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-    },
-    rules: {
-      'no-unused-vars': 'warn',
-      'no-console': 'off', // Allow console statements in scripts
-    },
-  },
 ];
