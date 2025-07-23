@@ -96,4 +96,8 @@ export default defineConfig({
       },
     },
   },
+  // Experimental features for better performance
+  experimental: {
+    contentCollectionCache: true, // Enable content collection caching
+  },
 });
