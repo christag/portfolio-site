@@ -646,17 +646,6 @@ const description =
   .portfolio-lazy-grid > .portfolio-grid__item {
     grid-column: auto !important;
   }
-
-  /* GLOBAL override for grid columns */
-  :global(.portfolio-lazy-grid) {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-xl);
-  }
-
-  :global(.portfolio-lazy-grid > .portfolio-grid__item) {
-    grid-column: auto;
-  }
 </style>
 
 <script>
