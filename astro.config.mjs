@@ -90,11 +90,18 @@ export default defineConfig({
         type: 'string',
         default: 'http://localhost:1337',
       },
+      PUBLIC_STRAPI_URL: {
+        context: 'client',
+        access: 'public',
+        type: 'string',
+        default: 'http://localhost:1337',
+      },
       STRAPI_API_TOKEN: {
         context: 'server',
         access: 'secret',
         type: 'string',
       },
+
       STRAPI_CACHE_TTL_MS: {
         context: 'server',
         access: 'public',

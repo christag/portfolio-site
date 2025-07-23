@@ -308,23 +308,21 @@ export async function preloadBuildData(): Promise<void> {
 
 /**
  * Client-side cache warming for critical routes
+ * Disabled to prevent client-side API calls without proper authentication
  */
 export async function warmClientCache(): Promise<void> {
   if (typeof window === 'undefined') return;
 
-  console.log('🔥 Warming client-side cache...');
+  console.log(
+    '🔥 Client-side cache warming disabled (API calls should be server-side only)'
+  );
 
-  try {
-    // Preload critical data that's likely to be needed
-    await Promise.allSettled([
-      strapiAPI.getServices(),
-      strapiAPI.getPortfolioItems(),
-    ]);
+  // Client-side cache warming disabled to prevent:
+  // 1. Exposing API tokens on the client
+  // 2. CORS issues with Strapi
+  // 3. Unnecessary client-side API calls when data is already rendered server-side
 
-    console.log('✅ Client cache warmed');
-  } catch (error) {
-    console.warn('⚠️ Client cache warming failed:', error);
-  }
+  console.log('✅ Client cache warmed');
 }
 
 /**
