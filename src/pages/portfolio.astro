@@ -5,7 +5,7 @@ import type { Portfolio } from '../lib/strapi';
 import PortfolioCard from '../components/PortfolioCard.astro';
 import PortfolioFilter from '../components/PortfolioFilter.astro';
 import LazyGrid from '../components/LazyGrid.astro';
-import { PerformanceMonitor, preloadBuildData } from '../lib/cache';
+// import { PerformanceMonitor, preloadBuildData } from '../lib/cache'; // TEMPORARILY DISABLED
 
 // Fetch portfolio items from Strapi with caching optimization
 let portfolioItems: Portfolio[] = [];
@@ -15,11 +15,12 @@ let availableTags: string[] = [];
 try {
   console.log('🎯 Portfolio page: Fetching portfolio items from Strapi...');
 
-  // Use performance monitoring for build-time optimization
-  portfolioItems = await PerformanceMonitor.monitorApiCall(
-    'Portfolio Items Fetch',
-    () => strapiAPI.getPortfolioItems()
-  );
+  // Use performance monitoring for build-time optimization - TEMPORARILY DISABLED
+  // portfolioItems = await PerformanceMonitor.monitorApiCall(
+  //   'Portfolio Items Fetch',
+  //   () => strapiAPI.getPortfolioItems()
+  // );
+  portfolioItems = await strapiAPI.getPortfolioItems();
 
   if (portfolioItems.length > 0) {
     // Extract available media types
@@ -587,10 +588,12 @@ const description =
 </style>
 
 <script>
-  import { initializeCacheOptimizations } from '../lib/cache';
+  // TEMPORARILY DISABLED - Testing if cache import causes 404s
+  // import { initializeCacheOptimizations } from '../lib/cache';
 
   // Initialize caching when the page loads
-  initializeCacheOptimizations();
+  // initializeCacheOptimizations();
+  console.log('Cache optimizations temporarily disabled for testing');
 </script>
 
 <script is:inline>
