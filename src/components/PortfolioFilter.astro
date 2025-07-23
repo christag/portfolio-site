@@ -425,38 +425,13 @@ const sortFieldId = 'portfolio-sort';
     font-size: 0.875rem;
     cursor: pointer;
     transition: all 0.2s ease;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.875rem center;
-    padding-right: 2.5rem;
-  }
-
-  .portfolio-filter__select:hover {
-    background-color: var(--color-glass-bg-medium);
-    border-color: var(--color-glass-border-heavy);
   }
 
   .portfolio-filter__select:focus {
     outline: none;
     border-color: var(--color-accent-primary);
     box-shadow: 0 0 0 2px rgba(var(--color-accent-primary-rgb), 0.2);
-    background-color: var(--color-glass-bg-medium);
-  }
-
-  /* Fix select option styles for dark mode */
-  .portfolio-filter__select option {
-    background: var(--color-background-primary);
-    color: var(--color-text-primary);
-    padding: 0.5rem;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .portfolio-filter__select {
-      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23ccc' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    }
+    background: var(--color-glass-bg-medium);
   }
 
   /* Tag Cloud */
