@@ -691,48 +691,21 @@ const description =
     });
 
     function filterPortfolioItems(filterData) {
-      const { mediaTypes, statuses, sort, search } = filterData;
+      const { mediaType, status, sort } = filterData;
       let visibleItems = Array.from(portfolioItems);
 
-      // Filter by media types
-      if (mediaTypes && !mediaTypes.includes('all')) {
-        visibleItems = visibleItems.filter((item) => {
-          const itemMediaType = item.getAttribute('data-media-type');
-          return mediaTypes.includes(itemMediaType);
-        });
+      // Filter by media type
+      if (mediaType !== 'all') {
+        visibleItems = visibleItems.filter(
+          (item) => item.getAttribute('data-media-type') === mediaType
+        );
       }
 
-      // Filter by statuses
-      if (statuses && !statuses.includes('all')) {
-        visibleItems = visibleItems.filter((item) => {
-          if (statuses.includes('featured')) {
-            return item.getAttribute('data-featured') === 'true';
-          }
-          // Add more status conditions as needed
-          return true;
-        });
-      }
-
-      // Apply search filter if present
-      if (search && search.trim()) {
-        visibleItems = visibleItems.filter((item) => {
-          const title =
-            item
-              .querySelector('.portfolio-card__title')
-              ?.textContent?.toLowerCase() || '';
-          const description =
-            item
-              .querySelector('.portfolio-card__description')
-              ?.textContent?.toLowerCase() || '';
-          const technologies = Array.from(
-            item.querySelectorAll('.portfolio-card__tech-tag')
-          )
-            .map((tech) => tech.textContent?.toLowerCase() || '')
-            .join(' ');
-
-          const searchContent = `${title} ${description} ${technologies}`;
-          return searchContent.includes(search.toLowerCase());
-        });
+      // Filter by status
+      if (status === 'featured') {
+        visibleItems = visibleItems.filter(
+          (item) => item.getAttribute('data-featured') === 'true'
+        );
       }
 
       // Hide/show items

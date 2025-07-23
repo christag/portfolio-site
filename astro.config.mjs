@@ -56,7 +56,7 @@ export default defineConfig({
     syntaxHighlight: false, // Disable syntax highlighting
   },
   build: {
-    format: 'directory', // Generate clean URLs without .html extension
+    format: 'file', // Generate .html files for better compatibility
     assets: '_astro', // Asset directory
     // Enable asset inlining for small assets to reduce requests
     inlineStylesheets: 'auto',

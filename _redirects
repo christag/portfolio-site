@@ -1,19 +1,14 @@
 # Cloudflare Pages Redirects Configuration
 
+# Redirect old paths (if any)
+# /old-path/* /new-path/:splat 301
+
+# SPA fallback for 404s (if needed)
+/* /404.html 404
+
 # Force HTTPS
 http://christagliaferro.com/* https://christagliaferro.com/:splat 301
 http://www.christagliaferro.com/* https://www.christagliaferro.com/:splat 301
 
 # Redirect non-www to www (if preferred)
-# https://christagliaferro.com/* https://www.christagliaferro.com/:splat 301
-
-# Handle trailing slashes for clean URLs
-/services/ /services 301
-/portfolio/ /portfolio 301
-/i-am/ /i-am 301
-
-# Dynamic service pages (preserve existing routes)
-/services/* /services/:splat 200
-
-# 404 fallback - MUST be last rule
-/* /404 404 
+# https://christagliaferro.com/* https://www.christagliaferro.com/:splat 301 

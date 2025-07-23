@@ -11,9 +11,6 @@ export interface Props {
 
 const { item, class: className = '', variant = 'standard' } = Astro.props;
 
-// Get Strapi base URL
-const strapiUrl = import.meta.env.STRAPI_URL || 'http://localhost:1337';
-
 // Parse tags and technologies
 const tags = item.tags ? item.tags.split(',').map((tag) => tag.trim()) : [];
 const technologies = item.technologies
@@ -52,21 +49,17 @@ const cardClasses = [
   .filter(Boolean)
   .join(' ');
 
-// Get image URL and ensure it has the full path
-let imageUrl =
-  item.featuredImage?.data?.attributes?.url || item.featuredImage?.url || '';
-if (imageUrl && !imageUrl.startsWith('http')) {
-  imageUrl = `${strapiUrl}${imageUrl}`;
-}
-
+// Get image URL
+const imageUrl =
+  item.featuredImage?.data?.attributes?.url || item.featuredImage?.url;
 const imageAlt =
   item.featuredImage?.data?.attributes?.alternativeText || item.title;
 
 // Check if we have a valid image URL
 const hasImage = imageUrl && imageUrl.trim() !== '';
 
-// We'll remove the detail page functionality since there's no [slug].astro in portfolio folder
-const hasDetailPage = false;
+// Check if we have a slug for the detail page
+const hasDetailPage = item.slug && item.slug.trim() !== '';
 ---
 
 <article class={cardClasses} data-media-type={item.mediaType}>
@@ -187,6 +180,17 @@ const hasDetailPage = false;
             >
               <span>SOURCE</span>
               <span>↗</span>
+            </a>
+          )
+        }
+        {
+          hasDetailPage && (
+            <a
+              href={`/portfolio/${item.slug}`}
+              class="portfolio-action portfolio-action--detail"
+            >
+              <span>DETAILS</span>
+              <span>→</span>
             </a>
           )
         }
