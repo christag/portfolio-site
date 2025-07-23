@@ -69,18 +69,18 @@ export default defineConfig({
     syntaxHighlight: false, // Disable syntax highlighting
   },
   build: {
-    format: 'directory', // Generate clean URLs with index.html files
+    format: 'file', // Generate .html files for better compatibility - RESTORED to match main
     assets: '_astro', // Asset directory
     // Enable asset inlining for small assets to reduce requests
     inlineStylesheets: 'auto',
     // Split CSS for better caching
     split: true,
   },
-  // Prefetch configuration for better performance
-  prefetch: {
-    prefetchAll: true, // Prefetch all internal links
-    defaultStrategy: 'viewport', // Prefetch when links enter viewport
-  },
+  // Prefetch configuration for better performance - TEMPORARILY DISABLED
+  // prefetch: {
+  //   prefetchAll: true, // Prefetch all internal links
+  //   defaultStrategy: 'viewport', // Prefetch when links enter viewport
+  // },
   // Environment variable configuration for build-time data fetching
   env: {
     schema: {

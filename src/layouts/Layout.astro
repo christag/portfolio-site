@@ -372,7 +372,8 @@ const currentPath = Astro.url.pathname;
       });
 
       // iOS Safari specific enhancements
-      if ('serviceWorker' in navigator) {
+      // TEMPORARILY DISABLED - Testing if SW causes 404s
+      if (false && 'serviceWorker' in navigator) {
         // Register service worker for PWA functionality with better error handling
         navigator.serviceWorker
           .register('/sw.js', {
