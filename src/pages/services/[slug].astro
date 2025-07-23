@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import SEO from '../../components/SEO.astro';
 import DynamicBackground from '../../components/DynamicBackground.astro';
+import LazyImage from '../../components/LazyImage.astro';
 import { strapiAPI } from '../../lib/strapi';
 import type { Service } from '../../lib/strapi';
 
@@ -183,9 +184,40 @@ const seoDescription =
   service.description.length > 160
     ? service.description.substring(0, 157) + '...'
     : service.description;
+
+// Get Strapi base URL
+const strapiUrl = import.meta.env.STRAPI_URL || 'http://localhost:1337';
+
+// Get image URLs
+let primaryImageUrl = '';
+if (service.primaryImage?.data?.attributes?.url || service.primaryImage?.url) {
+  primaryImageUrl =
+    service.primaryImage?.data?.attributes?.url || service.primaryImage?.url;
+  if (!primaryImageUrl.startsWith('http')) {
+    primaryImageUrl = `${strapiUrl}${primaryImageUrl}`;
+  }
+}
+
+// Get gallery images
+const galleryImages =
+  service.gallery
+    ?.map((img: any) => {
+      let url = img?.data?.attributes?.url || img?.url || '';
+      if (url && !url.startsWith('http')) {
+        url = `${strapiUrl}${url}`;
+      }
+      return {
+        url,
+        alt:
+          img?.data?.attributes?.alternativeText ||
+          img?.alternativeText ||
+          service.title,
+      };
+    })
+    .filter((img: any) => img.url) || [];
 ---
 
-<Layout>
+<Layout title={seoTitle}>
   <SEO
     slot="head"
     title={seoTitle}
@@ -198,12 +230,9 @@ const seoDescription =
       'IT Strategy',
       'Digital Transformation',
     ]}
-    openGraph={{
-      title: seoTitle,
-      description: seoDescription,
-      type: 'service',
-      url: `https://christagliaferro.com/services/${service.slug}`,
-    }}
+    openGraphTitle={seoTitle}
+    openGraphDescription={seoDescription}
+    type="website"
     structuredData={{
       '@context': 'https://schema.org',
       '@type': 'Service',
@@ -252,6 +281,22 @@ const seoDescription =
       <p class="service-description">{service.description}</p>
     </header>
 
+    <!-- Primary Image -->
+    {
+      primaryImageUrl && (
+        <section class="service-image">
+          <LazyImage
+            src={primaryImageUrl}
+            alt={service.title}
+            class="primary-image"
+            aspectRatio="16/9"
+            placeholder="skeleton"
+            sizes="(max-width: 1200px) 100vw, 1200px"
+          />
+        </section>
+      )
+    }
+
     <!-- Feature Highlights -->
     {
       service.featureHighlights && service.featureHighlights.length > 0 && (
@@ -265,6 +310,56 @@ const seoDescription =
               </li>
             ))}
           </ul>
+        </section>
+      )
+    }
+
+    <!-- Image Gallery/Carousel -->
+    {
+      galleryImages.length > 0 && (
+        <section class="gallery-section">
+          <h2 class="gallery-title">[ PROJECT GALLERY ]</h2>
+          <div class="gallery-container">
+            <div class="gallery-wrapper" data-gallery>
+              {galleryImages.map((img, index) => (
+                <div class="gallery-item" data-index={index}>
+                  <LazyImage
+                    src={img.url}
+                    alt={img.alt}
+                    class="gallery-image"
+                    aspectRatio="16/9"
+                    placeholder="skeleton"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                  />
+                </div>
+              ))}
+            </div>
+            {galleryImages.length > 1 && (
+              <>
+                <button
+                  class="gallery-nav gallery-nav--prev"
+                  aria-label="Previous image"
+                >
+                  <span>←</span>
+                </button>
+                <button
+                  class="gallery-nav gallery-nav--next"
+                  aria-label="Next image"
+                >
+                  <span>→</span>
+                </button>
+                <div class="gallery-dots">
+                  {galleryImages.map((_, index) => (
+                    <button
+                      class="gallery-dot"
+                      data-index={index}
+                      aria-label={`Go to image ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </section>
       )
     }
@@ -395,6 +490,7 @@ const seoDescription =
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 800;
     margin-bottom: 1.5rem;
+    color: var(--text-primary); /* Fallback color */
     background: linear-gradient(
       135deg,
       var(--text-primary),
@@ -406,12 +502,43 @@ const seoDescription =
     line-height: 1.2;
   }
 
+  /* Fallback for browsers that don't support text gradients */
+  @supports not (-webkit-background-clip: text) {
+    .service-title {
+      background: none;
+      color: var(--text-primary);
+    }
+  }
+
+  /* Additional fallback for color values */
+  :root {
+    --text-primary: var(--color-text-primary, #1a1a1a);
+    --accent-primary: var(--color-accent-primary, #b8869a);
+  }
+
+  [data-theme='dark'] {
+    --text-primary: var(--color-text-primary, #ffffff);
+  }
+
   .service-description {
     font-size: 1.2rem;
     line-height: 1.6;
     color: var(--text-secondary);
     max-width: 600px;
     margin: 0 auto;
+  }
+
+  /* Service Primary Image */
+  .service-image {
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+  }
+
+  .primary-image {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   }
 
   /* Features Section */
@@ -552,6 +679,105 @@ const seoDescription =
   .deliverable-text {
     color: var(--text-secondary);
     line-height: 1.5;
+  }
+
+  /* Gallery Section */
+  .gallery-section {
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+  }
+
+  .gallery-title {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    text-align: center;
+    margin-bottom: 2rem;
+    letter-spacing: 0.1em;
+  }
+
+  .gallery-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .gallery-wrapper {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .gallery-item {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+
+  .gallery-nav:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .gallery-nav--prev {
+    left: 1rem;
+  }
+
+  .gallery-nav--next {
+    right: 1rem;
+  }
+
+  .gallery-dots {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+  }
+
+  .gallery-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .gallery-dot:hover {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .gallery-dot.active {
+    background: var(--accent-primary);
+    transform: scale(1.2);
   }
 
   /* Contact Section */
@@ -695,3 +921,84 @@ const seoDescription =
     }
   }
 </style>
+
+<script>
+  // Gallery carousel functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const gallery = document.querySelector('[data-gallery]') as HTMLElement;
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const prevBtn = document.querySelector(
+      '.gallery-nav--prev'
+    ) as HTMLButtonElement;
+    const nextBtn = document.querySelector(
+      '.gallery-nav--next'
+    ) as HTMLButtonElement;
+    const dots = document.querySelectorAll('.gallery-dot');
+
+    if (!gallery || galleryItems.length <= 1) return;
+
+    let currentIndex = 0;
+
+    // Update gallery position
+    const updateGallery = () => {
+      gallery.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      // Update dots
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    };
+
+    // Navigation functions
+    const goToNext = () => {
+      currentIndex = (currentIndex + 1) % galleryItems.length;
+      updateGallery();
+    };
+
+    const goToPrev = () => {
+      currentIndex =
+        (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+      updateGallery();
+    };
+
+    const goToSlide = (index: number) => {
+      currentIndex = index;
+      updateGallery();
+    };
+
+    // Event listeners
+    prevBtn?.addEventListener('click', goToPrev);
+    nextBtn?.addEventListener('click', goToNext);
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => goToSlide(index));
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') goToPrev();
+      if (e.key === 'ArrowRight') goToNext();
+    });
+
+    // Touch/swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    gallery.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    gallery.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+
+    const handleSwipe = () => {
+      if (touchEndX < touchStartX - 50) goToNext();
+      if (touchEndX > touchStartX + 50) goToPrev();
+    };
+
+    // Initialize
+    updateGallery();
+  });
+</script>

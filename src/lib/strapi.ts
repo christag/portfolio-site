@@ -119,6 +119,8 @@ interface Service {
   contactMethod?: string;
   isPinned?: boolean;
   slug: string;
+  primaryImage?: any;
+  gallery?: any[];
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
