@@ -4,22 +4,16 @@ import { strapiAPI } from '../lib/strapi';
 import type { Portfolio } from '../lib/strapi';
 import PortfolioCard from '../components/PortfolioCard.astro';
 import PortfolioFilter from '../components/PortfolioFilter.astro';
-import LazyGrid from '../components/LazyGrid.astro';
-import { PerformanceMonitor, preloadBuildData } from '../lib/cache';
+import AsymmetricGrid from '../components/grids/AsymmetricGrid.astro';
 
-// Fetch portfolio items from Strapi with caching optimization
+// Fetch portfolio items from Strapi
 let portfolioItems: Portfolio[] = [];
 let availableMediaTypes: string[] = [];
 let availableTags: string[] = [];
 
 try {
   console.log('🎯 Portfolio page: Fetching portfolio items from Strapi...');
-
-  // Use performance monitoring for build-time optimization
-  portfolioItems = await PerformanceMonitor.monitorApiCall(
-    'Portfolio Items Fetch',
-    () => strapiAPI.getPortfolioItems()
-  );
+  portfolioItems = await strapiAPI.getPortfolioItems();
 
   if (portfolioItems.length > 0) {
     // Extract available media types
@@ -130,15 +124,12 @@ const description =
                     </p>
                   </header>
 
-                  {/* Grid Container with Lazy Loading */}
+                  {/* Grid Container with Masonry Layout */}
                   <div class="portfolio-grid" id="portfolio-grid">
-                    <LazyGrid
+                    <AsymmetricGrid
                       variant="chaos"
                       gap="gap-8"
-                      class="portfolio-lazy-grid"
-                      loadingStrategy="priority"
-                      batchSize={6}
-                      rootMargin="150px"
+                      class="portfolio-asymmetric-grid"
                     >
                       {portfolioItems.map((item) => (
                         <PortfolioCard
@@ -149,7 +140,7 @@ const description =
                           data-featured={item.featured ? 'true' : 'false'}
                         />
                       ))}
-                    </LazyGrid>
+                    </AsymmetricGrid>
                   </div>
 
                   {/* Empty State (hidden initially, shown when no results) */}
@@ -239,10 +230,10 @@ const description =
 
   /* Hero Section */
   .portfolio-hero {
-    padding: calc(var(--space-xl) * 2) 0 var(--space-xl) 0;
-    background: var(--glass-bg-primary);
-    backdrop-filter: blur(var(--glass-blur-container));
-    border-bottom: 1px solid var(--glass-border-medium);
+    padding: calc(var(--spacing-xl) * 2) 0 var(--spacing-xl) 0;
+    background: var(--color-glass-bg-light);
+    backdrop-filter: blur(var(--glass-blur-light));
+    border-bottom: 1px solid var(--color-glass-border-light);
   }
 
   .portfolio-hero__content {
@@ -255,7 +246,7 @@ const description =
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 800;
     color: var(--color-text-primary);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--spacing-md);
     line-height: 1.1;
   }
 
@@ -267,14 +258,14 @@ const description =
     font-size: 1.25rem;
     color: var(--color-text-secondary);
     line-height: 1.6;
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--spacing-xl);
   }
 
   /* Stats */
   .portfolio-hero__stats {
     display: flex;
     justify-content: center;
-    gap: var(--space-xl);
+    gap: var(--spacing-xl);
     flex-wrap: wrap;
   }
 
@@ -282,7 +273,7 @@ const description =
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-xs);
+    gap: var(--spacing-xs);
   }
 
   .portfolio-stat__number {
@@ -301,32 +292,32 @@ const description =
 
   /* Main Layout */
   .portfolio-main {
-    padding: var(--space-xl) 0;
+    padding: var(--spacing-xl) 0;
   }
 
   .portfolio-layout {
     display: grid;
     grid-template-columns: 300px 1fr;
-    gap: var(--space-xl);
+    gap: var(--spacing-xl);
     align-items: start;
   }
 
   /* Sidebar */
   .portfolio-sidebar {
     position: sticky;
-    top: var(--space-lg);
+    top: var(--spacing-lg);
   }
 
   /* Content Area */
   .portfolio-content__header {
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--spacing-lg);
   }
 
   .portfolio-content__title {
     font-size: 2rem;
     font-weight: 700;
     color: var(--color-text-primary);
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--spacing-sm);
   }
 
   .portfolio-content__subtitle {
@@ -336,7 +327,7 @@ const description =
   }
 
   /* Portfolio Grid Enhancements */
-  .portfolio-lazy-grid {
+  .portfolio-asymmetric-grid {
     min-height: 400px;
   }
 
@@ -349,16 +340,10 @@ const description =
     display: none;
   }
 
-  /* Lazy loading integration */
-  .portfolio-grid :global([data-lazy-item]) {
-    break-inside: avoid;
-    margin-bottom: 1.5rem;
-  }
-
   /* Empty State */
   .portfolio-empty {
     display: none;
-    padding: var(--space-xl) 0;
+    padding: var(--spacing-xl) 0;
     text-align: center;
   }
 
@@ -367,18 +352,18 @@ const description =
   }
 
   .portfolio-empty__content {
-    background: var(--glass-bg-primary);
-    backdrop-filter: blur(var(--glass-blur-container));
-    border: 1px solid var(--glass-border-medium);
+    background: var(--color-glass-bg-light);
+    backdrop-filter: blur(var(--glass-blur-light));
+    border: 1px solid var(--color-glass-border-light);
     border-radius: var(--glass-radius);
-    padding: var(--space-xl);
+    padding: var(--spacing-xl);
     max-width: 500px;
     margin: 0 auto;
   }
 
   .portfolio-empty__icon {
     font-size: 4rem;
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--spacing-lg);
     opacity: 0.6;
   }
 
@@ -386,17 +371,17 @@ const description =
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--color-text-primary);
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--spacing-sm);
   }
 
   .portfolio-empty__description {
     color: var(--color-text-secondary);
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--spacing-lg);
     line-height: 1.6;
   }
 
   .portfolio-empty__reset {
-    padding: var(--space-md) var(--space-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
     background: var(--color-accent-primary);
     color: white;
     border: none;
@@ -414,38 +399,38 @@ const description =
   /* Coming Soon State */
   .portfolio-coming-soon {
     grid-column: 1 / -1;
-    padding: var(--space-xl) 0;
+    padding: var(--spacing-xl) 0;
   }
 
   .portfolio-coming-soon__content {
     text-align: center;
-    background: var(--glass-bg-primary);
-    backdrop-filter: blur(var(--glass-blur-container));
-    border: 1px solid var(--glass-border-medium);
+    background: var(--color-glass-bg-light);
+    backdrop-filter: blur(var(--glass-blur-light));
+    border: 1px solid var(--color-glass-border-light);
     border-radius: var(--glass-radius);
-    box-shadow: 0 8px 32px var(--glass-shadow-light);
-    padding: var(--space-xl);
+    box-shadow: var(--glass-shadow-light);
+    padding: var(--spacing-xl);
     max-width: 900px;
     margin: 0 auto;
   }
 
   .portfolio-coming-soon__icon {
     font-size: 4rem;
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--spacing-lg);
   }
 
   .portfolio-coming-soon__title {
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--color-text-primary);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--spacing-md);
   }
 
   .portfolio-coming-soon__description {
     font-size: 1.125rem;
     color: var(--color-text-secondary);
     line-height: 1.6;
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--spacing-xl);
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
@@ -455,28 +440,28 @@ const description =
   .portfolio-coming-soon__features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-lg);
-    margin-bottom: var(--space-xl);
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
   }
 
   .feature-card {
-    background: var(--glass-bg-secondary);
-    border: 1px solid var(--glass-border-medium);
+    background: var(--color-glass-bg-medium);
+    border: 1px solid var(--color-glass-border-medium);
     border-radius: var(--glass-radius);
-    padding: var(--space-lg);
+    padding: var(--spacing-lg);
     text-align: center;
   }
 
   .feature-card__icon {
     font-size: 2.5rem;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--spacing-md);
   }
 
   .feature-card__title {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--color-text-primary);
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--spacing-sm);
   }
 
   .feature-card__description {
@@ -487,7 +472,7 @@ const description =
   /* Action Buttons */
   .portfolio-coming-soon__actions {
     display: flex;
-    gap: var(--space-md);
+    gap: var(--spacing-md);
     justify-content: center;
     flex-wrap: wrap;
   }
@@ -495,45 +480,36 @@ const description =
   .cta-primary,
   .cta-secondary {
     display: inline-block;
-    padding: var(--space-md) var(--space-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
     border-radius: var(--glass-radius);
     font-weight: 600;
     text-decoration: none;
     transition: all 0.3s ease;
-    min-height: 48px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .cta-primary {
     background: var(--color-accent-primary);
     color: white;
     border: 1px solid var(--color-accent-primary);
-    box-shadow: 0 4px 20px rgba(184, 134, 154, 0.25);
   }
 
   .cta-primary:hover {
     background: var(--color-accent-secondary);
     border-color: var(--color-accent-secondary);
     transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   }
 
   .cta-secondary {
-    background: var(--glass-bg-primary);
-    backdrop-filter: blur(var(--glass-blur-button));
+    background: transparent;
     color: var(--color-text-primary);
-    border: 1px solid var(--glass-border-medium);
-    box-shadow: 0 4px 16px var(--glass-shadow-light);
+    border: 1px solid var(--color-glass-border-medium);
   }
 
   .cta-secondary:hover {
-    background: var(--glass-bg-secondary);
-    backdrop-filter: blur(calc(var(--glass-blur-button) + 4px));
-    border-color: var(--glass-border-light);
+    background: var(--color-glass-bg-medium);
+    border-color: var(--color-glass-border-heavy);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px var(--glass-shadow-medium);
   }
 
   /* Responsive Design */
@@ -550,26 +526,26 @@ const description =
 
   @media (max-width: 768px) {
     .portfolio-hero {
-      padding: var(--space-xl) 0;
+      padding: var(--spacing-xl) 0;
     }
 
     .portfolio-hero__stats {
-      gap: var(--space-lg);
+      gap: var(--spacing-lg);
     }
 
     .portfolio-main {
-      padding: var(--space-lg) 0;
+      padding: var(--spacing-lg) 0;
     }
 
     .portfolio-layout {
-      gap: var(--space-lg);
+      gap: var(--spacing-lg);
     }
   }
 
   @media (max-width: 640px) {
     .portfolio-hero__stats {
       flex-direction: column;
-      gap: var(--space-md);
+      gap: var(--spacing-md);
     }
 
     .portfolio-coming-soon__actions {
@@ -634,13 +610,6 @@ const description =
     }
   }
 </style>
-
-<script>
-  import { initializeCacheOptimizations } from '../lib/cache';
-
-  // Initialize caching when the page loads
-  initializeCacheOptimizations();
-</script>
 
 <script is:inline>
   // Portfolio Grid JavaScript for filtering and interactions

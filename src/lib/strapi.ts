@@ -178,16 +178,8 @@ interface Portfolio {
 class StrapiAPI {
   private baseURL: string;
   private apiToken?: string;
-
-  /** Simple in-memory cache: key -> { expiry: epochMs, data: any, etag?: string } */
-  private cache: Map<string, { expiry: number; data: any; etag?: string }> =
-    new Map();
-
-  /** Persistent cache for build-time data */
-  private buildCache: Map<
-    string,
-    { expiry: number; data: any; etag?: string }
-  > = new Map();
+  /** Simple in-memory cache: key -> { expiry: epochMs, data: any } */
+  private cache: Map<string, { expiry: number; data: any }> = new Map();
 
   /**
    * Default cache TTL in milliseconds. Can be overridden with env STRAPI_CACHE_TTL_MS.
@@ -197,87 +189,23 @@ class StrapiAPI {
   private cacheTTL: number =
     Number(import.meta.env.STRAPI_CACHE_TTL_MS) || 5 * 60 * 1000; // 5 minutes
 
-  /** Extended cache TTL for build-time operations (longer for static generation) */
-  private buildCacheTTL: number =
-    Number(import.meta.env.BUILD_CACHE_TTL_MS) || 60 * 60 * 1000; // 1 hour
-
-  /** Whether to use build-time caching */
-  private enableBuildCache: boolean =
-    import.meta.env.ENABLE_BUILD_CACHE !== 'false';
-
   constructor() {
     // Use environment variables with fallbacks
     this.baseURL = import.meta.env.STRAPI_URL || 'http://localhost:1337';
     this.apiToken = import.meta.env.STRAPI_API_TOKEN;
-
-    // Initialize persistent cache if in build environment
-    if (
-      this.enableBuildCache &&
-      typeof process !== 'undefined' &&
-      process.env.NODE_ENV === 'production'
-    ) {
-      this.initializePersistentCache();
-    }
-  }
-
-  /**
-   * Initialize persistent cache for build-time optimization
-   */
-  private async initializePersistentCache(): Promise<void> {
-    try {
-      // In a real implementation, you might load from file system or Redis
-      // For now, we'll use the in-memory cache with longer TTL for build
-      console.log('🏗️ Build-time cache initialized');
-    } catch (error) {
-      console.warn('Failed to initialize persistent cache:', error);
-    }
-  }
-
-  /**
-   * Generate cache key with query parameters for better cache granularity
-   */
-  private generateCacheKey(endpoint: string, options?: RequestInit): string {
-    const url = new URL(`${this.baseURL}/api${endpoint}`);
-    const params = url.searchParams.toString();
-    const method = options?.method || 'GET';
-    return `${method}:${endpoint}${params ? '?' + params : ''}`;
-  }
-
-  /**
-   * Check if we're in build context for extended caching
-   */
-  private isBuildContext(): boolean {
-    return (
-      (this.enableBuildCache &&
-        typeof process !== 'undefined' &&
-        process.env.NODE_ENV === 'production') ||
-      (typeof import.meta.env !== 'undefined' && import.meta.env.BUILD)
-    );
-  }
-
-  /**
-   * Get appropriate cache and TTL based on context
-   */
-  private getCacheConfig(): { cache: Map<string, any>; ttl: number } {
-    if (this.isBuildContext()) {
-      return { cache: this.buildCache, ttl: this.buildCacheTTL };
-    }
-    return { cache: this.cache, ttl: this.cacheTTL };
   }
 
   private async fetchAPI<T>(
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
+    // Only cache GET requests without custom headers/body to keep it simple
     const isGet = !options.method || options.method === 'GET';
-    const cacheKey = this.generateCacheKey(endpoint, options);
-    const { cache, ttl } = this.getCacheConfig();
+    const cacheKey = isGet ? endpoint : null;
 
-    // Check cache for GET requests
-    if (isGet) {
-      const cached = cache.get(cacheKey);
+    if (isGet && cacheKey) {
+      const cached = this.cache.get(cacheKey);
       if (cached && cached.expiry > Date.now()) {
-        console.log(`🎯 Cache hit for: ${cacheKey}`);
         return cached.data as T;
       }
     }
@@ -294,33 +222,11 @@ class StrapiAPI {
       headers.Authorization = `Bearer ${this.apiToken}`;
     }
 
-    // Add conditional request headers if we have cached ETag
-    if (isGet) {
-      const cached = cache.get(cacheKey);
-      if (cached?.etag) {
-        headers['If-None-Match'] = cached.etag;
-      }
-    }
-
     try {
-      console.log(`🌐 Fetching: ${url}`);
       const response = await fetch(url, {
         ...options,
         headers,
       });
-
-      // Handle 304 Not Modified responses
-      if (response.status === 304) {
-        const cached = cache.get(cacheKey);
-        if (cached) {
-          console.log(
-            `♻️ Content not modified, using cached data for: ${cacheKey}`
-          );
-          // Extend cache expiry
-          cached.expiry = Date.now() + ttl;
-          return cached.data as T;
-        }
-      }
 
       if (!response.ok) {
         throw new Error(
@@ -331,95 +237,16 @@ class StrapiAPI {
       const json = (await response.json()) as T;
 
       // Store in cache if eligible
-      if (isGet) {
-        const etag = response.headers.get('ETag');
-        const newExpiry = Date.now() + ttl;
-        cache.set(cacheKey, {
-          expiry: newExpiry,
-          data: json,
-          etag: etag || undefined,
-        });
-
-        console.log(`💾 Cached response for: ${cacheKey} (TTL: ${ttl}ms)`);
+      if (isGet && cacheKey) {
+        const newExpiry = Date.now() + this.cacheTTL;
+        this.cache.set(cacheKey, { expiry: newExpiry, data: json });
       }
 
       return json;
     } catch (error) {
       console.error(`Failed to fetch from Strapi API: ${url}`, error);
-
-      // Return stale cache if available during errors
-      if (isGet) {
-        const cached = cache.get(cacheKey);
-        if (cached) {
-          console.warn(`⚠️ Using stale cache due to fetch error: ${cacheKey}`);
-          return cached.data as T;
-        }
-      }
-
       throw error;
     }
-  }
-
-  /**
-   * Invalidate cache for specific endpoints or patterns
-   */
-  public invalidateCache(pattern?: string): void {
-    const { cache } = this.getCacheConfig();
-
-    if (!pattern) {
-      // Clear all cache
-      cache.clear();
-      console.log('🗑️ All cache cleared');
-      return;
-    }
-
-    // Clear cache entries matching pattern
-    const keysToDelete: string[] = [];
-    for (const key of cache.keys()) {
-      if (key.includes(pattern)) {
-        keysToDelete.push(key);
-      }
-    }
-
-    keysToDelete.forEach((key) => cache.delete(key));
-    console.log(
-      `🗑️ Cleared ${keysToDelete.length} cache entries matching: ${pattern}`
-    );
-  }
-
-  /**
-   * Preload critical data during build time
-   */
-  public async preloadCriticalData(): Promise<void> {
-    if (!this.isBuildContext()) return;
-
-    console.log('🚀 Preloading critical data for build...');
-
-    try {
-      // Preload data that's needed across multiple pages
-      await Promise.allSettled([
-        this.getAuthorProfile(),
-        this.getSiteSettings(),
-        this.getServices(),
-        this.getPortfolioItems(),
-        this.getFeaturedBioArticle(),
-      ]);
-
-      console.log('✅ Critical data preloaded successfully');
-    } catch (error) {
-      console.warn('⚠️ Some critical data failed to preload:', error);
-    }
-  }
-
-  /**
-   * Get cache statistics for monitoring
-   */
-  public getCacheStats(): { size: number; hitRate?: number } {
-    const { cache } = this.getCacheConfig();
-    return {
-      size: cache.size,
-      // In a real implementation, you'd track hit/miss rates
-    };
   }
 
   // Get Author Profile (Single Type)
