@@ -9,29 +9,22 @@
  * - Background sync for data updates
  */
 
-const CACHE_VERSION = 'v1.2.0';
+const CACHE_VERSION = 'v1.3.0'; // Updated version to force cache refresh
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;
 const IMAGE_CACHE = `images-${CACHE_VERSION}`;
 const OFFLINE_CACHE = `offline-${CACHE_VERSION}`;
 
-// Cache TTL in milliseconds
+// Cache TTL in milliseconds - made less aggressive
 const CACHE_TTL = {
-  STATIC: 31536000000, // 1 year
+  STATIC: 86400000, // 1 day (reduced from 1 year)
   API: 300000, // 5 minutes
   IMAGES: 86400000, // 1 day
   OFFLINE: 604800000, // 1 week
 };
 
-// Assets to cache immediately
-const CRITICAL_ASSETS = [
-  '/',
-  '/portfolio',
-  '/services',
-  '/i-am',
-  '/manifest.json',
-  '/_astro/main.css', // This will be the actual generated CSS file
-];
+// Assets to cache immediately - reduced critical assets
+const CRITICAL_ASSETS = ['/', '/manifest.json'];
 
 // API endpoints to cache
 const CACHEABLE_APIS = [
@@ -51,19 +44,27 @@ self.addEventListener('install', (event) => {
       // Cache critical static assets
       caches.open(STATIC_CACHE).then((cache) => {
         console.log('[SW] Caching critical assets');
-        return cache.addAll(
-          CRITICAL_ASSETS.map(
-            (url) =>
-              new Request(url, {
-                credentials: 'same-origin',
-              })
+        return cache
+          .addAll(
+            CRITICAL_ASSETS.map(
+              (url) =>
+                new Request(url, {
+                  credentials: 'same-origin',
+                  cache: 'no-cache', // Don't use browser cache during SW installation
+                })
+            )
           )
-        );
+          .catch((error) => {
+            console.warn('[SW] Failed to cache some critical assets:', error);
+            // Don't fail installation if some assets can't be cached
+          });
       }),
 
       // Cache offline fallback page
       caches.open(OFFLINE_CACHE).then((cache) => {
-        return cache.add('/404'); // Use 404 page as offline fallback
+        return cache.add('/404').catch((error) => {
+          console.warn('[SW] Failed to cache offline fallback:', error);
+        });
       }),
     ])
       .then(() => {
@@ -112,6 +113,22 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Skip caching for _astro files during development to prevent corruption
+  if (
+    url.pathname.startsWith('/_astro/') &&
+    url.hostname.includes('pages.dev')
+  ) {
+    event.respondWith(
+      fetch(request, { cache: 'no-cache' }).catch(() => {
+        return new Response('Asset temporarily unavailable', {
+          status: 503,
+          headers: { 'Content-Type': 'text/plain' },
+        });
+      })
+    );
+    return;
+  }
+
   // Handle different types of requests
   if (isStaticAsset(url)) {
     event.respondWith(handleStaticAsset(request));
@@ -124,34 +141,45 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
-// Handle static assets (CSS, JS, fonts)
+// Handle static assets (CSS, JS, fonts) - less aggressive caching
 async function handleStaticAsset(request) {
-  const cache = await caches.open(STATIC_CACHE);
-
-  // Try cache first
-  const cachedResponse = await cache.match(request);
-  if (cachedResponse && !isExpired(cachedResponse, CACHE_TTL.STATIC)) {
-    return cachedResponse;
-  }
-
   try {
-    // Fetch from network
-    const networkResponse = await fetch(request);
+    // Try network first for better reliability
+    const networkResponse = await fetch(request, {
+      cache: 'no-cache', // Bypass browser cache for fresh content
+    });
 
     if (networkResponse.ok) {
-      // Add timestamp for TTL checking
+      // Only cache successful responses
+      const cache = await caches.open(STATIC_CACHE);
       const responseToCache = networkResponse.clone();
       addTimestamp(responseToCache);
-      cache.put(request, responseToCache);
+      cache.put(request, responseToCache).catch((error) => {
+        console.warn('[SW] Failed to cache static asset:', request.url, error);
+      });
     }
 
     return networkResponse;
   } catch (error) {
-    console.warn('[SW] Static asset fetch failed:', request.url, error);
-    return (
-      cachedResponse ||
-      new Response('Asset not available offline', { status: 503 })
+    console.warn(
+      '[SW] Static asset fetch failed, trying cache:',
+      request.url,
+      error
     );
+
+    // Fallback to cache
+    const cache = await caches.open(STATIC_CACHE);
+    const cachedResponse = await cache.match(request);
+
+    if (cachedResponse && !isExpired(cachedResponse, CACHE_TTL.STATIC)) {
+      return cachedResponse;
+    }
+
+    // Return error response if nothing works
+    return new Response('Asset not available', {
+      status: 503,
+      headers: { 'Content-Type': 'text/plain' },
+    });
   }
 }
 
@@ -177,7 +205,9 @@ async function handleAPIRequest(request) {
       // Cache successful GET responses
       const responseToCache = networkResponse.clone();
       addTimestamp(responseToCache);
-      cache.put(request, responseToCache);
+      cache.put(request, responseToCache).catch((error) => {
+        console.warn('[SW] Failed to cache API response:', error);
+      });
     }
 
     return networkResponse;
@@ -223,7 +253,9 @@ async function handleImageRequest(request) {
       // Cache images
       const responseToCache = networkResponse.clone();
       addTimestamp(responseToCache);
-      cache.put(request, responseToCache);
+      cache.put(request, responseToCache).catch((error) => {
+        console.warn('[SW] Failed to cache image:', error);
+      });
     }
 
     return networkResponse;
@@ -236,19 +268,20 @@ async function handleImageRequest(request) {
   }
 }
 
-// Handle navigation requests (HTML pages)
+// Handle navigation requests (HTML pages) - network first
 async function handleNavigationRequest(request) {
-  const cache = await caches.open(STATIC_CACHE);
-
   try {
-    // Try network first for navigation
-    const networkResponse = await fetch(request);
+    // Try network first for navigation - always get fresh content
+    const networkResponse = await fetch(request, { cache: 'no-cache' });
 
     if (networkResponse.ok) {
       // Cache successful navigation responses
+      const cache = await caches.open(STATIC_CACHE);
       const responseToCache = networkResponse.clone();
       addTimestamp(responseToCache);
-      cache.put(request, responseToCache);
+      cache.put(request, responseToCache).catch((error) => {
+        console.warn('[SW] Failed to cache navigation response:', error);
+      });
     }
 
     return networkResponse;
@@ -256,6 +289,7 @@ async function handleNavigationRequest(request) {
     console.warn('[SW] Navigation request failed:', request.url, error);
 
     // Try cached version
+    const cache = await caches.open(STATIC_CACHE);
     const cachedResponse = await cache.match(request);
     if (cachedResponse) {
       return cachedResponse;

@@ -98,11 +98,17 @@ const currentPath = Astro.url.pathname;
     <script is:inline>
       // Initialize theme immediately with minimal DOM manipulation
       (function () {
-        const theme = localStorage.getItem('theme') || 'light';
+        try {
+          const theme = localStorage.getItem('theme') || 'light';
 
-        // Set theme attribute immediately without DOM queries to prevent layout shift
-        if (theme === 'dark') {
-          document.documentElement.setAttribute('data-theme', 'dark');
+          // Set theme attribute immediately without DOM queries to prevent layout shift
+          if (theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+          }
+        } catch (error) {
+          console.warn('Theme initialization failed:', error);
+          // Fallback to light theme
+          document.documentElement.setAttribute('data-theme', 'light');
         }
       })();
     </script>
@@ -367,9 +373,12 @@ const currentPath = Astro.url.pathname;
 
       // iOS Safari specific enhancements
       if ('serviceWorker' in navigator) {
-        // Register service worker for PWA functionality
+        // Register service worker for PWA functionality with better error handling
         navigator.serviceWorker
-          .register('/sw.js')
+          .register('/sw.js', {
+            scope: '/',
+            updateViaCache: 'none', // Don't cache the service worker itself
+          })
           .then((registration) => {
             console.log(
               '✅ Service Worker registered successfully:',
@@ -379,12 +388,31 @@ const currentPath = Astro.url.pathname;
             // Check for updates on page focus
             document.addEventListener('visibilitychange', () => {
               if (!document.hidden) {
-                registration.update();
+                registration.update().catch((error) => {
+                  console.warn('SW update failed:', error);
+                });
+              }
+            });
+
+            // Handle service worker updates
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              if (newWorker) {
+                newWorker.addEventListener('statechange', () => {
+                  if (
+                    newWorker.state === 'installed' &&
+                    navigator.serviceWorker.controller
+                  ) {
+                    // New service worker is available
+                    console.log('🔄 New service worker available');
+                  }
+                });
               }
             });
           })
           .catch((error) => {
             console.error('❌ Service Worker registration failed:', error);
+            // Continue without service worker
           });
       } else {
         console.log('⚠️ Service Workers not supported in this browser');
@@ -454,6 +482,26 @@ const currentPath = Astro.url.pathname;
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
       }
+
+      // Global error handler for resource loading failures
+      window.addEventListener(
+        'error',
+        function (e) {
+          if (e.target) {
+            console.warn('Resource loading failed:', e.target);
+            // Don't let resource loading errors crash the page
+            e.preventDefault();
+          }
+        },
+        true
+      );
+
+      // Handle unhandled promise rejections (like failed module imports)
+      window.addEventListener('unhandledrejection', function (e) {
+        console.warn('Unhandled promise rejection:', e.reason);
+        // Prevent the error from crashing the page
+        e.preventDefault();
+      });
     </script>
 
     <!-- View Transitions API initialization -->
@@ -491,9 +539,64 @@ const currentPath = Astro.url.pathname;
     </script>
 
     <!-- Initialize Animation System -->
-    <script type="module">
-      import { initializeAnimations } from '../lib/animations';
-      initializeAnimations();
+    <script is:inline>
+      // Basic animation initialization without module imports
+      document.addEventListener('DOMContentLoaded', function () {
+        // Add global animation classes if not already present
+        if (!document.head.querySelector('#animation-styles')) {
+          const style = document.createElement('style');
+          style.id = 'animation-styles';
+          style.textContent = `
+            .animate-fade-in {
+              opacity: 0;
+              animation: fadeIn 0.3s ease-out forwards;
+            }
+            
+            .animate-slide-up {
+              transform: translateY(20px);
+              opacity: 0;
+              animation: slideUp 0.4s ease-out forwards;
+            }
+            
+            .animate-scale-in {
+              transform: scale(0.9);
+              opacity: 0;
+              animation: scaleIn 0.3s ease-out forwards;
+            }
+            
+            @keyframes fadeIn {
+              to { opacity: 1; }
+            }
+            
+            @keyframes slideUp {
+              to { 
+                transform: translateY(0);
+                opacity: 1;
+              }
+            }
+            
+            @keyframes scaleIn {
+              to { 
+                transform: scale(1);
+                opacity: 1;
+              }
+            }
+            
+            @media (prefers-reduced-motion: reduce) {
+              .animate-fade-in,
+              .animate-slide-up,
+              .animate-scale-in {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+              }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+
+        console.log('🎭 Basic animation system initialized');
+      });
     </script>
   </body>
 </html>

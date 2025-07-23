@@ -38,7 +38,7 @@ export default defineConfig({
       tailwindcss(), // Native Tailwind v4 Vite plugin handles everything
     ],
     build: {
-      // Optimize build for better caching
+      // Optimize build for better caching and module loading
       rollupOptions: {
         output: {
           // Create separate chunks for better caching
@@ -48,7 +48,20 @@ export default defineConfig({
             // Separate utilities for better cache efficiency
             utils: ['src/lib/strapi.ts', 'src/lib/content.ts'],
           },
+          // Ensure consistent file naming for better caching
+          entryFileNames: '_astro/[name].[hash].js',
+          chunkFileNames: '_astro/[name].[hash].js',
+          assetFileNames: '_astro/[name].[hash][extname]',
         },
+      },
+      // Improve module resolution
+      target: 'es2020',
+      minify: 'esbuild',
+    },
+    // Improve module resolution for development
+    resolve: {
+      alias: {
+        '@': new URL('./src', import.meta.url).pathname,
       },
     },
   },

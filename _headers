@@ -1,9 +1,10 @@
 # Cache-Control Headers for Performance Optimization
 
-# Static assets (long-term caching)
+# Static assets (shorter caching to prevent corruption issues)
 /_astro/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=86400, must-revalidate
   X-Content-Type-Options: nosniff
+  Vary: Accept-Encoding
 
 # Images and media (medium-term caching)
 /assets/*
@@ -71,13 +72,13 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
 
-# CSS and JS files (long-term caching)
+# CSS and JS files (shorter caching to prevent corruption)
 /*.css
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=86400, must-revalidate
   X-Content-Type-Options: nosniff
 
 /*.js
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=86400, must-revalidate
   X-Content-Type-Options: nosniff
 
 # Fonts (long-term caching)
