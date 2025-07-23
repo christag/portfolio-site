@@ -47,3 +47,11 @@ scripts/import-bio-articles.js
 scripts/import-services.js
 strapi-mcp-server.config.json
 website.code-workspace
+how main_redirects
+tatus
+astro_diff.txt
+layout_diff.txt
+.gitignore
+sw_diff.txt
+viewtransitions_diff.txt
+redirects_diff.txt
