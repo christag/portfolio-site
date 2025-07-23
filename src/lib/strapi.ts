@@ -178,16 +178,6 @@ interface Portfolio {
 class StrapiAPI {
   private baseURL: string;
   private apiToken?: string;
-  /** Simple in-memory cache: key -> { expiry: epochMs, data: any } */
-  private cache: Map<string, { expiry: number; data: any }> = new Map();
-
-  /**
-   * Default cache TTL in milliseconds. Can be overridden with env STRAPI_CACHE_TTL_MS.
-   * For build-time fetches this avoids repetitive calls; at runtime it keeps data
-   * reasonably fresh while limiting requests.
-   */
-  private cacheTTL: number =
-    Number(import.meta.env.STRAPI_CACHE_TTL_MS) || 5 * 60 * 1000; // 5 minutes
 
   constructor() {
     // Use environment variables with fallbacks
@@ -199,17 +189,6 @@ class StrapiAPI {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
-    // Only cache GET requests without custom headers/body to keep it simple
-    const isGet = !options.method || options.method === 'GET';
-    const cacheKey = isGet ? endpoint : null;
-
-    if (isGet && cacheKey) {
-      const cached = this.cache.get(cacheKey);
-      if (cached && cached.expiry > Date.now()) {
-        return cached.data as T;
-      }
-    }
-
     const url = `${this.baseURL}/api${endpoint}`;
 
     const headers: Record<string, string> = {
@@ -234,15 +213,7 @@ class StrapiAPI {
         );
       }
 
-      const json = (await response.json()) as T;
-
-      // Store in cache if eligible
-      if (isGet && cacheKey) {
-        const newExpiry = Date.now() + this.cacheTTL;
-        this.cache.set(cacheKey, { expiry: newExpiry, data: json });
-      }
-
-      return json;
+      return await response.json();
     } catch (error) {
       console.error(`Failed to fetch from Strapi API: ${url}`, error);
       throw error;

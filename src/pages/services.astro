@@ -364,7 +364,12 @@ const pageDescription =
   }
 
   .service-item.filtered-out {
-    display: none !important; /* Remove from grid flow to avoid gaps */
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+    max-height: 0;
+    margin: 0;
+    padding: 0;
   }
 
   .no-services {
@@ -541,13 +546,9 @@ const pageDescription =
           if (category === 'all' || itemCategory === category) {
             item.classList.remove('filtered-out');
             item.setAttribute('aria-hidden', 'false');
-            // reset display so grid reflows
-            (item as HTMLElement).style.display = '';
           } else {
             item.classList.add('filtered-out');
             item.setAttribute('aria-hidden', 'true');
-            // hide completely to allow grid re-ordering
-            (item as HTMLElement).style.display = 'none';
           }
         });
       });
