@@ -41,188 +41,189 @@ const sortFieldId = 'portfolio-sort';
         id="reset-filters"
         aria-label="Reset all filters"
       >
-        Reset
+        🔄 Reset
       </button>
     </header>
 
-    <!-- Filter Controls Container -->
-    <div class="portfolio-filter__controls">
-      <!-- Search Input -->
-      <div class="portfolio-filter__section portfolio-filter__section--search">
-        <label for="portfolio-search" class="portfolio-filter__label">
-          Search Projects
-        </label>
-        <input
-          type="search"
-          id="portfolio-search"
-          class="portfolio-filter__search"
-          placeholder="Search by title, description, or technology..."
-          aria-describedby="search-help"
-        />
-        <p id="search-help" class="portfolio-filter__help">
-          Start typing to filter projects in real-time
-        </p>
-      </div>
+    <!-- Search Input -->
+    <div class="portfolio-filter__section">
+      <label for="portfolio-search" class="portfolio-filter__label">
+        🔍 Search Projects
+      </label>
+      <input
+        type="search"
+        id="portfolio-search"
+        class="portfolio-filter__search"
+        placeholder="Search by title, description, or technology..."
+        aria-describedby="search-help"
+      />
+      <p id="search-help" class="portfolio-filter__help">
+        Start typing to filter projects in real-time
+      </p>
+    </div>
 
-      <!-- Media Type Filter -->
-      <fieldset
-        class="portfolio-filter__section portfolio-filter__section--media"
-        id={mediaTypeFieldsetId}
+    <!-- Media Type Filter -->
+    <fieldset class="portfolio-filter__section" id={mediaTypeFieldsetId}>
+      <legend class="portfolio-filter__legend">📂 Media Type</legend>
+      <div
+        class="portfolio-filter__options"
+        role="group"
+        aria-labelledby="media-type-legend"
       >
-        <legend class="portfolio-filter__legend">Media Type</legend>
-        <div
-          class="portfolio-filter__options"
-          role="group"
-          aria-labelledby="media-type-legend"
-        >
-          <label class="portfolio-filter__option">
-            <input
-              type="radio"
-              name="mediaType"
-              value="all"
-              class="portfolio-filter__radio"
-              checked
-              aria-describedby="media-all-desc"
-            />
-            <span class="portfolio-filter__option-label">All</span>
-          </label>
-
-          {
-            availableMediaTypes.map((mediaType) => (
-              <label class="portfolio-filter__option">
-                <input
-                  type="radio"
-                  name="mediaType"
-                  value={mediaType}
-                  class="portfolio-filter__radio"
-                  aria-describedby={`media-${mediaType}-desc`}
-                />
-                <span class="portfolio-filter__option-label">
-                  {mediaType.charAt(0).toUpperCase() + mediaType.slice(1)}
-                </span>
-              </label>
-            ))
-          }
-        </div>
-      </fieldset>
-
-      <!-- Status Filter -->
-      <fieldset
-        class="portfolio-filter__section portfolio-filter__section--status"
-      >
-        <legend class="portfolio-filter__legend">Project Status</legend>
-        <div class="portfolio-filter__options" role="group">
-          <label class="portfolio-filter__option">
-            <input
-              type="radio"
-              name="status"
-              value="all"
-              class="portfolio-filter__radio"
-              checked
-            />
-            <span class="portfolio-filter__option-label">All Projects</span>
-          </label>
-
-          <label class="portfolio-filter__option">
-            <input
-              type="radio"
-              name="status"
-              value="featured"
-              class="portfolio-filter__radio"
-            />
-            <span class="portfolio-filter__option-label">Featured</span>
-          </label>
-
-          <label class="portfolio-filter__option">
-            <input
-              type="radio"
-              name="status"
-              value="completed"
-              class="portfolio-filter__radio"
-            />
-            <span class="portfolio-filter__option-label">Completed</span>
-          </label>
-        </div>
-      </fieldset>
-
-      <!-- Sort Options -->
-      <div class="portfolio-filter__section portfolio-filter__section--sort">
-        <label for={sortFieldId} class="portfolio-filter__legend">
-          Sort By
-        </label>
-        <select
-          id={sortFieldId}
-          name="sort"
-          class="portfolio-filter__select"
-          aria-describedby="sort-help"
-        >
-          <option value="priority">Priority (Featured first)</option>
-          <option value="newest">Newest First</option>
-          <option value="oldest">Oldest First</option>
-          <option value="title">Title (A-Z)</option>
-          <option value="mediaType">Media Type</option>
-        </select>
-        <p id="sort-help" class="portfolio-filter__help">
-          Choose how to order the portfolio items
-        </p>
-      </div>
-
-      <!-- Tag Cloud (if tags available) -->
-      {
-        availableTags.length > 0 && (
-          <fieldset
-            class="portfolio-filter__section portfolio-filter__section--tags"
-            id={tagFieldsetId}
+        <label class="portfolio-filter__option">
+          <input
+            type="radio"
+            name="mediaType"
+            value="all"
+            class="portfolio-filter__radio"
+            checked
+            aria-describedby="media-all-desc"
+          />
+          <span class="portfolio-filter__option-label">All</span>
+          <span
+            id="media-all-desc"
+            class="portfolio-filter__option-count"
+            aria-hidden="true"
           >
-            <legend class="portfolio-filter__legend">Popular Tags</legend>
-            <div
-              class="portfolio-filter__tag-cloud"
-              role="group"
-              aria-labelledby="tag-legend"
-            >
-              {availableTags.slice(0, 8).map((tag) => (
+            {/* Count will be updated by JS */}
+          </span>
+        </label>
+
+        {
+          availableMediaTypes.map((mediaType) => (
+            <label class="portfolio-filter__option">
+              <input
+                type="radio"
+                name="mediaType"
+                value={mediaType}
+                class="portfolio-filter__radio"
+                aria-describedby={`media-${mediaType}-desc`}
+              />
+              <span class="portfolio-filter__option-label">
+                {mediaType.charAt(0).toUpperCase() + mediaType.slice(1)}
+              </span>
+              <span
+                id={`media-${mediaType}-desc`}
+                class="portfolio-filter__option-count"
+                aria-hidden="true"
+              >
+                {/* Count will be updated by JS */}
+              </span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    <!-- Status Filter -->
+    <fieldset class="portfolio-filter__section">
+      <legend class="portfolio-filter__legend">🎯 Project Status</legend>
+      <div class="portfolio-filter__options" role="group">
+        <label class="portfolio-filter__option">
+          <input
+            type="radio"
+            name="status"
+            value="all"
+            class="portfolio-filter__radio"
+            checked
+          />
+          <span class="portfolio-filter__option-label">All Projects</span>
+        </label>
+
+        <label class="portfolio-filter__option">
+          <input
+            type="radio"
+            name="status"
+            value="featured"
+            class="portfolio-filter__radio"
+          />
+          <span class="portfolio-filter__option-label">⭐ Featured</span>
+        </label>
+
+        <label class="portfolio-filter__option">
+          <input
+            type="radio"
+            name="status"
+            value="completed"
+            class="portfolio-filter__radio"
+          />
+          <span class="portfolio-filter__option-label">✅ Completed</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- Sort Options -->
+    <div class="portfolio-filter__section">
+      <label for={sortFieldId} class="portfolio-filter__legend">
+        📊 Sort By
+      </label>
+      <select
+        id={sortFieldId}
+        name="sort"
+        class="portfolio-filter__select"
+        aria-describedby="sort-help"
+      >
+        <option value="priority">Priority (Featured first)</option>
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+        <option value="title">Title (A-Z)</option>
+        <option value="mediaType">Media Type</option>
+      </select>
+      <p id="sort-help" class="portfolio-filter__help">
+        Choose how to order the portfolio items
+      </p>
+    </div>
+
+    <!-- Tag Cloud (if tags available) -->
+    {
+      availableTags.length > 0 && (
+        <fieldset class="portfolio-filter__section" id={tagFieldsetId}>
+          <legend class="portfolio-filter__legend">🏷️ Popular Tags</legend>
+          <div
+            class="portfolio-filter__tag-cloud"
+            role="group"
+            aria-labelledby="tag-legend"
+          >
+            {availableTags.slice(0, 12).map((tag) => (
+              <label class="portfolio-filter__tag">
+                <input
+                  type="checkbox"
+                  name="tags"
+                  value={tag}
+                  class="portfolio-filter__tag-input"
+                  aria-describedby={`tag-${tag.replace(/\s+/g, '-')}-desc`}
+                />
+                <span class="portfolio-filter__tag-label">#{tag}</span>
+              </label>
+            ))}
+          </div>
+          <details
+            class="portfolio-filter__tag-more"
+            aria-label="Show more tags"
+          >
+            <summary class="portfolio-filter__tag-toggle">
+              Show{' '}
+              {availableTags.length > 12
+                ? `${availableTags.length - 12} more tags`
+                : 'all tags'}
+            </summary>
+            <div class="portfolio-filter__tag-cloud">
+              {availableTags.slice(12).map((tag) => (
                 <label class="portfolio-filter__tag">
                   <input
                     type="checkbox"
                     name="tags"
                     value={tag}
                     class="portfolio-filter__tag-input"
-                    aria-describedby={`tag-${tag.replace(/\s+/g, '-')}-desc`}
                   />
                   <span class="portfolio-filter__tag-label">#{tag}</span>
                 </label>
               ))}
             </div>
-            {availableTags.length > 8 && (
-              <details
-                class="portfolio-filter__tag-more"
-                aria-label="Show more tags"
-              >
-                <summary class="portfolio-filter__tag-toggle">
-                  Show{' '}
-                  {availableTags.length > 8
-                    ? `${availableTags.length - 8} more tags`
-                    : 'all tags'}
-                </summary>
-                <div class="portfolio-filter__tag-cloud">
-                  {availableTags.slice(8).map((tag) => (
-                    <label class="portfolio-filter__tag">
-                      <input
-                        type="checkbox"
-                        name="tags"
-                        value={tag}
-                        class="portfolio-filter__tag-input"
-                      />
-                      <span class="portfolio-filter__tag-label">#{tag}</span>
-                    </label>
-                  ))}
-                </div>
-              </details>
-            )}
-          </fieldset>
-        )
-      }
-    </div>
+          </details>
+        </fieldset>
+      )
+    }
 
     <!-- Results Summary -->
     <div
@@ -247,11 +248,8 @@ const sortFieldId = 'portfolio-sort';
     box-shadow: var(--glass-shadow-light);
     padding: var(--spacing-lg);
     margin-bottom: var(--spacing-xl);
-  }
-
-  /* Horizontal Layout for Filter */
-  .portfolio-filter--horizontal {
-    position: static;
+    position: sticky;
+    top: var(--spacing-lg);
     z-index: 10;
   }
 
@@ -259,7 +257,7 @@ const sortFieldId = 'portfolio-sort';
   .portfolio-filter__form {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-lg);
   }
 
   /* Header */
@@ -268,11 +266,11 @@ const sortFieldId = 'portfolio-sort';
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--color-glass-border-light);
-    padding-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-md);
   }
 
   .portfolio-filter__title {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-text-primary);
     margin: 0;
@@ -301,14 +299,6 @@ const sortFieldId = 'portfolio-sort';
     outline-offset: 2px;
   }
 
-  /* Controls Container - Horizontal Layout */
-  .portfolio-filter__controls {
-    display: grid;
-    grid-template-columns: 1fr auto auto auto;
-    gap: var(--spacing-lg);
-    align-items: start;
-  }
-
   /* Sections */
   .portfolio-filter__section {
     border: none;
@@ -316,24 +306,13 @@ const sortFieldId = 'portfolio-sort';
     margin: 0;
   }
 
-  .portfolio-filter__section--search {
-    min-width: 250px;
-  }
-
-  .portfolio-filter__section--tags {
-    grid-column: 1 / -1;
-    margin-top: var(--spacing-sm);
-    padding-top: var(--spacing-sm);
-    border-top: 1px solid var(--color-glass-border-light);
-  }
-
   .portfolio-filter__legend,
   .portfolio-filter__label {
     display: block;
     font-weight: 600;
     color: var(--color-text-primary);
-    margin-bottom: var(--spacing-xs);
-    font-size: 0.875rem;
+    margin-bottom: var(--spacing-sm);
+    font-size: 1rem;
   }
 
   .portfolio-filter__legend {
@@ -344,12 +323,12 @@ const sortFieldId = 'portfolio-sort';
   /* Search Input */
   .portfolio-filter__search {
     width: 100%;
-    padding: 0.625rem 0.875rem;
+    padding: 0.75rem 1rem;
     background: var(--color-glass-bg-light);
     border: 1px solid var(--color-glass-border-medium);
     border-radius: calc(var(--glass-radius) * 0.5);
     color: var(--color-text-primary);
-    font-size: 0.875rem;
+    font-size: 1rem;
     transition: all 0.2s ease;
   }
 
@@ -364,65 +343,67 @@ const sortFieldId = 'portfolio-sort';
     color: var(--color-text-tertiary);
   }
 
-  /* Options - Horizontal Layout */
+  /* Options */
   .portfolio-filter__options {
     display: flex;
+    flex-direction: column;
     gap: var(--spacing-xs);
-    flex-wrap: wrap;
   }
 
   .portfolio-filter__option {
     display: flex;
     align-items: center;
-    gap: 0.375rem;
-    padding: 0.375rem 0.625rem;
+    gap: var(--spacing-sm);
+    padding: 0.5rem;
     border-radius: calc(var(--glass-radius) * 0.25);
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
-    background: var(--color-glass-bg-light);
-    border: 1px solid var(--color-glass-border-light);
-    white-space: nowrap;
   }
 
   .portfolio-filter__option:hover {
-    background: var(--color-glass-bg-medium);
-    border-color: var(--color-glass-border-medium);
+    background: var(--color-glass-bg-light);
   }
 
   .portfolio-filter__radio {
-    width: 0.875rem;
-    height: 0.875rem;
+    width: 1rem;
+    height: 1rem;
     accent-color: var(--color-accent-primary);
     cursor: pointer;
   }
 
   .portfolio-filter__option-label {
+    flex: 1;
     color: var(--color-text-secondary);
     font-weight: 500;
-    font-size: 0.875rem;
-  }
-
-  .portfolio-filter__option:has(.portfolio-filter__radio:checked) {
-    background: var(--color-accent-primary);
-    border-color: var(--color-accent-primary);
   }
 
   .portfolio-filter__option:has(.portfolio-filter__radio:checked)
     .portfolio-filter__option-label {
-    color: white;
+    color: var(--color-text-primary);
     font-weight: 600;
+  }
+
+  .portfolio-filter__option-count {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+    background: var(--color-glass-bg-medium);
+    padding: 0.125rem 0.375rem;
+    border-radius: calc(var(--glass-radius) * 0.25);
+    font-weight: 600;
+    min-width: 1.5rem;
+    text-align: center;
   }
 
   /* Select */
   .portfolio-filter__select {
-    min-width: 180px;
-    padding: 0.625rem 0.875rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
     background: var(--color-glass-bg-light);
     border: 1px solid var(--color-glass-border-medium);
     border-radius: calc(var(--glass-radius) * 0.5);
     color: var(--color-text-primary);
-    font-size: 0.875rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s ease;
   }
@@ -438,7 +419,7 @@ const sortFieldId = 'portfolio-sort';
   .portfolio-filter__tag-cloud {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.375rem;
+    gap: 0.5rem;
   }
 
   .portfolio-filter__tag {
@@ -454,12 +435,12 @@ const sortFieldId = 'portfolio-sort';
 
   .portfolio-filter__tag-label {
     display: inline-block;
-    padding: 0.25rem 0.5rem;
+    padding: 0.375rem 0.75rem;
     background: var(--color-glass-bg-light);
     border: 1px solid var(--color-glass-border-medium);
     border-radius: calc(var(--glass-radius) * 0.5);
     color: var(--color-text-secondary);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 500;
     transition: all 0.2s ease;
     user-select: none;
@@ -485,24 +466,22 @@ const sortFieldId = 'portfolio-sort';
 
   /* Tag More */
   .portfolio-filter__tag-more {
-    margin-top: var(--spacing-xs);
+    margin-top: var(--spacing-sm);
   }
 
   .portfolio-filter__tag-toggle {
     color: var(--color-text-secondary);
     cursor: pointer;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 600;
     list-style: none;
-    padding: 0.25rem 0.5rem;
+    padding: 0.5rem;
     border-radius: calc(var(--glass-radius) * 0.25);
     transition: all 0.2s ease;
-    background: var(--color-glass-bg-light);
-    border: 1px solid var(--color-glass-border-light);
   }
 
   .portfolio-filter__tag-toggle:hover {
-    background: var(--color-glass-bg-medium);
+    background: var(--color-glass-bg-light);
     color: var(--color-text-primary);
   }
 
@@ -512,9 +491,8 @@ const sortFieldId = 'portfolio-sort';
 
   .portfolio-filter__tag-toggle::before {
     content: '▶';
-    margin-right: 0.375rem;
+    margin-right: 0.5rem;
     transition: transform 0.2s ease;
-    font-size: 0.625rem;
   }
 
   .portfolio-filter__tag-more[open] .portfolio-filter__tag-toggle::before {
@@ -523,7 +501,7 @@ const sortFieldId = 'portfolio-sort';
 
   /* Results Summary */
   .portfolio-filter__results {
-    padding: var(--spacing-sm);
+    padding: var(--spacing-md);
     background: var(--color-glass-bg-medium);
     border: 1px solid var(--color-glass-border-medium);
     border-radius: calc(var(--glass-radius) * 0.5);
@@ -538,32 +516,17 @@ const sortFieldId = 'portfolio-sort';
 
   /* Help Text */
   .portfolio-filter__help {
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     color: var(--color-text-tertiary);
     margin: 0.25rem 0 0 0;
     line-height: 1.4;
   }
 
   /* Responsive Design */
-  @media (max-width: 1024px) {
-    .portfolio-filter__controls {
-      grid-template-columns: 1fr;
-      gap: var(--spacing-md);
-    }
-
-    .portfolio-filter__section--search {
-      min-width: auto;
-    }
-
-    .portfolio-filter__section--tags {
-      grid-column: 1;
-      margin-top: var(--spacing-sm);
-    }
-  }
-
   @media (max-width: 768px) {
     .portfolio-filter {
-      padding: var(--spacing-md);
+      position: static;
+      margin-bottom: var(--spacing-lg);
     }
 
     .portfolio-filter__header {
@@ -572,12 +535,8 @@ const sortFieldId = 'portfolio-sort';
       align-items: stretch;
     }
 
-    .portfolio-filter__controls {
-      gap: var(--spacing-sm);
-    }
-
     .portfolio-filter__options {
-      justify-content: center;
+      grid-template-columns: 1fr;
     }
 
     .portfolio-filter__tag-cloud {
@@ -586,17 +545,12 @@ const sortFieldId = 'portfolio-sort';
   }
 
   @media (max-width: 480px) {
+    .portfolio-filter {
+      padding: var(--spacing-md);
+    }
+
     .portfolio-filter__form {
-      gap: var(--spacing-sm);
-    }
-
-    .portfolio-filter__options {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    .portfolio-filter__option {
-      justify-content: center;
+      gap: var(--spacing-md);
     }
   }
 

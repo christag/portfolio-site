@@ -17,25 +17,25 @@ const technologies = item.technologies
   ? item.technologies.split(',').map((tech) => tech.trim())
   : [];
 
-// Get media type icon (using text labels instead of emojis)
-const getMediaTypeLabel = (mediaType: string) => {
+// Get media type icon
+const getMediaTypeIcon = (mediaType: string) => {
   switch (mediaType) {
     case 'code':
-      return 'Code';
+      return '💻';
     case 'video':
-      return 'Video';
+      return '📹';
     case 'blog':
-      return 'Blog';
+      return '📝';
     case 'audio':
-      return 'Audio';
+      return '🎧';
     case 'image':
-      return 'Image';
+      return '🖼️';
     case 'design':
-      return 'Design';
+      return '🎨';
     case 'presentation':
-      return 'Presentation';
+      return '📊';
     default:
-      return 'Project';
+      return '📁';
   }
 };
 
@@ -66,45 +66,32 @@ const imageAlt =
             src={imageUrl}
             alt={imageAlt}
             class="portfolio-card__image"
-            aspectRatio="16/9"
+            aspectRatio="16/10"
             placeholder="skeleton"
             priority={item.featured}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
           />
         ) : (
           <div class="portfolio-card__placeholder">
-            <div class="portfolio-card__placeholder-icon">
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <circle cx="9" cy="9" r="2" />
-                <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-              </svg>
-            </div>
-            <span class="portfolio-card__placeholder-text">
-              {getMediaTypeLabel(item.mediaType)}
+            <span class="portfolio-card__icon">
+              {getMediaTypeIcon(item.mediaType)}
             </span>
           </div>
         )
       }
 
-      <!-- Media type badge -->
+      <!-- Media type overlay -->
       <div class="portfolio-card__type-badge">
-        <span class="portfolio-card__type-label"
-          >{getMediaTypeLabel(item.mediaType)}</span
+        <span class="portfolio-card__type-icon"
+          >{getMediaTypeIcon(item.mediaType)}</span
         >
+        <span class="portfolio-card__type-label">{item.mediaType}</span>
       </div>
 
       <!-- Featured badge -->
       {
         item.featured && (
-          <div class="portfolio-card__featured-badge">Featured</div>
+          <div class="portfolio-card__featured-badge">⭐ Featured</div>
         )
       }
     </div>
@@ -127,7 +114,7 @@ const imageAlt =
             ))}
             {technologies.length > 4 && (
               <span class="portfolio-card__tech-more">
-                +{technologies.length - 4} more
+                +{technologies.length - 4}
               </span>
             )}
           </div>
@@ -145,19 +132,7 @@ const imageAlt =
               class="portfolio-card__action portfolio-card__action--demo"
               aria-label={`View live demo of ${item.title}`}
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                <polyline points="15,3 21,3 21,9" />
-                <line x1="10" y1="14" x2="21" y2="3" />
-              </svg>
-              Live Demo
+              🚀 Live Demo
             </a>
           )
         }
@@ -170,17 +145,7 @@ const imageAlt =
               class="portfolio-card__action portfolio-card__action--repo"
               aria-label={`View source code of ${item.title}`}
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-              </svg>
-              Source
+              📝 Source
             </a>
           )
         }
@@ -190,22 +155,7 @@ const imageAlt =
           class="portfolio-card__action portfolio-card__action--detail"
           aria-label={`View details of ${item.title}`}
         >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-            ></path>
-            <polyline points="14,2 14,8 20,8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10,9 9,9 8,9"></polyline>
-          </svg>
-          Details
+          📋 Details
         </a>
       </div>
 
@@ -217,9 +167,7 @@ const imageAlt =
               <span class="portfolio-card__tag">#{tag}</span>
             ))}
             {tags.length > 3 && (
-              <span class="portfolio-card__tag-more">
-                +{tags.length - 3} more
-              </span>
+              <span class="portfolio-card__tag-more">+{tags.length - 3}</span>
             )}
           </div>
         )
@@ -240,10 +188,9 @@ const imageAlt =
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     break-inside: avoid;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     display: inline-block;
     width: 100%;
-    min-height: 480px;
   }
 
   .portfolio-card:hover {
@@ -268,7 +215,6 @@ const imageAlt =
     box-shadow:
       var(--glass-shadow-medium),
       0 0 20px rgba(247, 144, 9, 0.2);
-    min-height: 520px;
   }
 
   .portfolio-card--featured:hover {
@@ -287,10 +233,9 @@ const imageAlt =
   /* Media Section */
   .portfolio-card__media {
     position: relative;
-    aspect-ratio: 16/9;
+    aspect-ratio: 16/10;
     overflow: hidden;
     background: var(--color-glass-bg-medium);
-    flex-shrink: 0;
   }
 
   .portfolio-card__image {
@@ -311,7 +256,6 @@ const imageAlt =
 
   .portfolio-card__placeholder {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -321,31 +265,22 @@ const imageAlt =
       var(--color-glass-bg-light),
       var(--color-glass-bg-medium)
     );
-    gap: var(--spacing-sm);
   }
 
-  .portfolio-card__placeholder-icon {
-    color: var(--color-text-tertiary);
+  .portfolio-card__icon {
+    font-size: 3rem;
     opacity: 0.6;
-  }
-
-  .portfolio-card__placeholder-text {
-    color: var(--color-text-secondary);
-    font-weight: 600;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
   }
 
   /* Type Badge */
   .portfolio-card__type-badge {
     position: absolute;
-    top: var(--spacing-md);
-    left: var(--spacing-md);
+    top: 0.75rem;
+    left: 0.75rem;
     display: flex;
     align-items: center;
     gap: 0.25rem;
-    padding: 0.375rem 0.75rem;
+    padding: 0.25rem 0.5rem;
     background: var(--color-glass-bg-heavy);
     backdrop-filter: blur(var(--glass-blur-heavy));
     border: 1px solid var(--color-glass-border-heavy);
@@ -354,32 +289,33 @@ const imageAlt =
     font-weight: 600;
     color: var(--color-text-primary);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+  }
+
+  .portfolio-card__type-icon {
+    font-size: 1rem;
   }
 
   /* Featured Badge */
   .portfolio-card__featured-badge {
     position: absolute;
-    top: var(--spacing-md);
-    right: var(--spacing-md);
-    padding: 0.375rem 0.75rem;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.25rem 0.5rem;
     background: var(--color-accent-secondary);
     color: white;
     border-radius: calc(var(--glass-radius) * 0.5);
     font-size: 0.75rem;
     font-weight: 600;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
   }
 
   /* Info Section */
   .portfolio-card__info {
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg);
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
   }
 
   /* Header */
@@ -388,7 +324,7 @@ const imageAlt =
   }
 
   .portfolio-card__title {
-    font-size: 1.375rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-text-primary);
     margin: 0;
@@ -398,16 +334,15 @@ const imageAlt =
   .portfolio-card__client {
     font-size: 0.875rem;
     color: var(--color-text-secondary);
-    margin: var(--spacing-xs) 0 0 0;
+    margin: 0.25rem 0 0 0;
     font-style: italic;
   }
 
   /* Description */
   .portfolio-card__description {
     color: var(--color-text-secondary);
-    line-height: 1.6;
+    line-height: 1.5;
     margin: 0;
-    font-size: 1rem;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -418,14 +353,14 @@ const imageAlt =
   .portfolio-card__technologies {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.375rem;
+    gap: 0.25rem;
     margin: var(--spacing-sm) 0;
   }
 
   .portfolio-card__tech-tag,
   .portfolio-card__tech-more {
     font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
+    padding: 0.125rem 0.375rem;
     background: var(--color-glass-bg-medium);
     border: 1px solid var(--color-glass-border-medium);
     border-radius: calc(var(--glass-radius) * 0.25);
@@ -442,17 +377,17 @@ const imageAlt =
   /* Actions */
   .portfolio-card__actions {
     display: flex;
-    gap: var(--spacing-sm);
+    gap: 0.5rem;
     margin-top: auto;
-    padding-top: var(--spacing-md);
+    padding-top: var(--spacing-sm);
     flex-wrap: wrap;
   }
 
   .portfolio-card__action {
     display: inline-flex;
     align-items: center;
-    gap: 0.375rem;
-    padding: 0.5rem 1rem;
+    gap: 0.25rem;
+    padding: 0.375rem 0.75rem;
     font-size: 0.875rem;
     font-weight: 600;
     text-decoration: none;
@@ -461,9 +396,6 @@ const imageAlt =
     border: 1px solid var(--color-glass-border-medium);
     background: var(--color-glass-bg-light);
     color: var(--color-text-primary);
-    flex: 1;
-    justify-content: center;
-    min-height: 40px;
   }
 
   .portfolio-card__action:hover {
@@ -484,16 +416,12 @@ const imageAlt =
     border-color: var(--color-accent-secondary);
   }
 
-  .portfolio-card__action svg {
-    flex-shrink: 0;
-  }
-
   /* Tags */
   .portfolio-card__tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.25rem;
-    padding-top: var(--spacing-sm);
+    padding-top: var(--spacing-xs);
     border-top: 1px solid var(--color-glass-border-light);
   }
 
@@ -511,47 +439,35 @@ const imageAlt =
 
   /* Responsive Adjustments */
   @media (max-width: 640px) {
-    .portfolio-card {
-      min-height: 420px;
-    }
-
     .portfolio-card__info {
-      padding: var(--spacing-lg);
-      gap: var(--spacing-sm);
-    }
-
-    .portfolio-card__title {
-      font-size: 1.25rem;
+      padding: var(--spacing-md);
     }
 
     .portfolio-card__actions {
       flex-direction: column;
-      gap: var(--spacing-xs);
     }
 
     .portfolio-card__action {
-      flex: none;
-      width: 100%;
+      justify-content: center;
+      text-align: center;
     }
   }
 
   /* Variant: Compact */
   .portfolio-card--compact {
-    margin-bottom: 1.5rem;
-    min-height: 360px;
+    margin-bottom: 1rem;
   }
 
   .portfolio-card--compact .portfolio-card__info {
-    padding: var(--spacing-lg);
-    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
   }
 
   .portfolio-card--compact .portfolio-card__description {
     -webkit-line-clamp: 2;
   }
 
-  .portfolio-card--compact .portfolio-card__title {
-    font-size: 1.25rem;
+  .portfolio-card--compact .portfolio-card__media {
+    aspect-ratio: 16/9;
   }
 
   /* Print Styles */
@@ -569,15 +485,16 @@ const imageAlt =
     }
   }
 
-  /* Reduced motion */
+  /* Glitch animation */
+  .portfolio-card:hover,
+  .portfolio-card:focus-within {
+    animation: glitch 0.3s steps(2, end);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .portfolio-card:hover,
     .portfolio-card:focus-within {
-      transform: none;
-    }
-
-    .portfolio-card:hover .portfolio-card__media :global(.lazy-image) {
-      transform: none;
+      animation: none;
     }
   }
 </style>
