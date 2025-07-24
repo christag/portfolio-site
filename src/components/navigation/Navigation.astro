@@ -8,9 +8,9 @@ const { currentPath = '/' } = Astro.props;
 ---
 
 <!-- Theme-aware responsive navigation - CLEAN GLASSMORPHISM -->
-<nav id="main-nav" class="nav-glassmorphism">
-  <div class="nav-inner">
-    <div class="nav-content">
+<nav id="main-nav" class="glass-nav fixed top-0 left-0 right-0 w-full z-50">
+  <div class="nav-inner max-w-7xl mx-auto px-8 relative">
+    <div class="nav-content flex justify-between items-center">
       <!-- Logo/Name -->
       <div>
         <a href="/" class="nav-logo" id="nav-logo"> christopher tagliaferro </a>
@@ -79,45 +79,12 @@ const { currentPath = '/' } = Astro.props;
 </nav>
 
 <style>
-  /* Beautiful Glassmorphism Navigation - CLEAN IMPLEMENTATION */
-  .nav-glassmorphism {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 9999;
+  @reference "../../styles/tailwind-theme.css";
 
-    /* Beautiful glassmorphism for light theme */
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  }
+  /* Navigation now uses .glass-nav utility from design-tokens.scss */
 
-  /* Dark theme glassmorphism - FROSTED GLASS WITH BETTER READABILITY */
-  html[data-theme='dark'] nav#main-nav.nav-glassmorphism {
-    /* Frosted glass with enough opacity for text readability */
-    background: rgba(0, 0, 0, 0.4) !important;
-    backdrop-filter: blur(20px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5) !important;
-  }
-
-  /* Inner container for proper spacing */
-  .nav-inner {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    position: relative; /* Add relative positioning for mobile menu dropdown */
-  }
-
+  /* Remaining styles not covered by Tailwind */
   .nav-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 1rem 0;
     min-height: 64px;
     /* MOBILE FIX: Reduce height on mobile */

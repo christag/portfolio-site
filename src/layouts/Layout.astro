@@ -4,7 +4,8 @@ import Footer from '../components/footer/Footer.astro';
 import DynamicBackground from '../components/DynamicBackground.astro';
 
 // Import styles properly through Astro
-import '../styles/variables.scss';
+import '../styles/tailwind-theme.css'; // NEW: Tailwind v4 CSS-first config
+import '../styles/design-tokens.scss'; // NEW: Streamlined variables (300 lines vs 1,527)
 import '../styles/global.css';
 import '../styles/utilities.scss';
 

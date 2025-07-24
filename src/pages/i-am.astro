@@ -73,6 +73,8 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
     }}
   />
   <style>
+    @reference "../styles/tailwind-theme.css";
+
     /* Bio page specific styles with punk/brutalist elements */
     .bio-container {
       min-height: 100vh;
@@ -130,8 +132,11 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
     }
 
     .hero-title {
+      /* Use Tailwind for common properties */
+      @apply font-bold text-center;
+
+      /* Use CSS variables for theme-specific properties */
       font-size: clamp(3rem, 8vw, 8rem);
-      font-weight: 900;
       line-height: 0.8;
       margin: 0;
       color: var(--color-text-primary);
@@ -139,6 +144,12 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
       letter-spacing: -0.05em;
       position: relative;
       z-index: 2;
+    }
+
+    .hero-accent {
+      color: var(--color-accent-primary);
+      transform: rotate(-1deg);
+      display: inline-block;
     }
 
     .hero-subtitle {
@@ -1277,7 +1288,10 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
       <!-- Hero Section -->
       <section class="hero-section">
         <canvas class="hero-particles" aria-hidden="true"></canvas>
-        <h1 class="hero-title">{data.hero.title}</h1>
+        <h1 class="hero-title">
+          <span>I</span>
+          <span class="hero-accent">Am</span>
+        </h1>
         <p class="hero-subtitle">{data.hero.subtitle}</p>
       </section>
 

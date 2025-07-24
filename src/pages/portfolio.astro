@@ -249,6 +249,8 @@ const description =
 </Layout>
 
 <style>
+  @reference "../styles/tailwind-theme.css";
+
   /* Portfolio Page Styles */
   .portfolio-page {
     min-height: 100vh;
@@ -270,8 +272,11 @@ const description =
   }
 
   .portfolio-hero__title {
+    /* Use Tailwind for common properties */
+    @apply font-bold text-center;
+
+    /* Use CSS variables for theme-specific properties */
     font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800;
     color: var(--color-text-primary);
     margin-bottom: var(--space-md);
     line-height: 1.1;
