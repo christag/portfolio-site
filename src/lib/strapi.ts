@@ -181,7 +181,11 @@ class StrapiAPI {
 
   constructor() {
     // Use environment variables with fallbacks
-    this.baseURL = import.meta.env.STRAPI_URL || 'http://localhost:1337';
+    // Use PUBLIC_ prefixed vars for client-side, regular vars for server-side
+    this.baseURL =
+      import.meta.env.PUBLIC_STRAPI_URL ||
+      import.meta.env.STRAPI_URL ||
+      'http://localhost:1337';
     this.apiToken = import.meta.env.STRAPI_API_TOKEN;
   }
 

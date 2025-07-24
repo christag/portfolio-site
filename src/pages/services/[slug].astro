@@ -56,7 +56,8 @@ const parseArrayField = (field: any): string[] => {
     try {
       const parsed = JSON.parse(field);
       return Array.isArray(parsed) ? parsed : [];
-    } catch {
+    } catch (error) {
+      console.warn('Failed to parse JSON field:', error);
       return []; // Invalid JSON, return empty array
     }
   }

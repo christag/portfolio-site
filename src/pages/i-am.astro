@@ -73,6 +73,8 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
     }}
   />
   <style>
+    @reference "../styles/tailwind-theme.css";
+
     /* Bio page specific styles with punk/brutalist elements */
     .bio-container {
       min-height: 100vh;
@@ -100,22 +102,23 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
     }
 
     .container-constrained {
-      max-width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
       padding-left: 1rem; /* Add padding to prevent drop shadow cutoff */
       padding-right: 1rem; /* Add padding to prevent drop shadow cutoff */
       /* Remove overflow-x: hidden to prevent drop shadow cutoff */
     }
 
-    /* Hero section with asymmetric layout */
+    /* Hero section - STANDARDIZED */
     .hero-section {
+      position: relative;
       background: var(--glass-bg-primary);
       backdrop-filter: blur(var(--glass-blur-navigation));
       border: 1px solid var(--glass-border-light);
-      border-radius: var(--glass-radius-xl);
-      padding: 4rem 2rem;
-      margin: 2rem 0 4rem 0;
+      border-radius: var(--glass-radius-2xl);
+      padding: 2.67rem 1.33rem;
+      margin: 1.33rem 0 2.67rem 0;
       text-align: center;
-      position: relative;
       overflow: hidden;
     }
 
@@ -130,24 +133,29 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
     }
 
     .hero-title {
-      font-size: clamp(3rem, 8vw, 8rem);
-      font-weight: 900;
-      line-height: 0.8;
-      margin: 0;
+      /* Use Tailwind for common properties */
+      @apply font-bold text-center;
+
+      /* Use CSS variables for theme-specific properties - STANDARDIZED */
+      font-size: clamp(1.67rem, 3.33vw, 2.67rem);
       color: var(--color-text-primary);
-      text-transform: uppercase;
-      letter-spacing: -0.05em;
+      margin-bottom: var(--space-sm);
+      line-height: 1.1;
       position: relative;
       z-index: 2;
     }
 
+    .hero-accent {
+      color: var(--color-accent-primary);
+      transform: rotate(-1deg);
+      display: inline-block;
+    }
+
     .hero-subtitle {
-      font-size: clamp(1.2rem, 3vw, 2rem);
-      font-weight: 600;
-      margin: 1rem 0 0 0;
+      font-size: 0.83rem;
       color: var(--color-text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
+      line-height: 1.6;
+      margin: 0;
     }
 
     /* Punk/brutalist profile section */
@@ -1277,7 +1285,10 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
       <!-- Hero Section -->
       <section class="hero-section">
         <canvas class="hero-particles" aria-hidden="true"></canvas>
-        <h1 class="hero-title">{data.hero.title}</h1>
+        <h1 class="hero-title">
+          <span>I</span>
+          <span class="hero-accent">Am</span>
+        </h1>
         <p class="hero-subtitle">{data.hero.subtitle}</p>
       </section>
 

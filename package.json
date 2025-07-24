@@ -38,7 +38,7 @@
     "astro": "^5.11.0",
     "framer-motion": "^12.23.1",
     "gsap": "^3.13.0",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.0.0"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",

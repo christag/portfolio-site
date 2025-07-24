@@ -1,0 +1,169 @@
+// =============================================================================
+// DESIGN TOKENS - Streamlined CSS Variables (Reduced from 1,527 lines)
+// =============================================================================
+
+:root {
+  // ---------------------------------------------------------------------------
+  // CORE BRAND COLORS
+  // ---------------------------------------------------------------------------
+  --color-accent-primary: #b8869a; // Dusty pink - primary brand
+  --color-accent-secondary: #00d4ff; // Electric blue - highlights
+  --color-accent-tertiary: #4ecdc4; // Mint green - accents
+
+  // ---------------------------------------------------------------------------
+  // THEME COLORS (Light theme defaults)
+  // ---------------------------------------------------------------------------
+  --color-bg-primary: #fafafa;
+  --color-bg-secondary: #f5f5f5;
+  --color-bg-tertiary: #e5e5e5;
+  --color-text-primary: #171717;
+  --color-text-secondary: #404040;
+  --color-text-tertiary: #737373;
+
+  // ---------------------------------------------------------------------------
+  // GLASSMORPHISM SYSTEM
+  // ---------------------------------------------------------------------------
+  --glass-bg-primary: rgba(255, 255, 255, 0.15);
+  --glass-bg-secondary: rgba(255, 255, 255, 0.2);
+  --glass-bg-tertiary: rgba(255, 255, 255, 0.25);
+
+  --glass-border-light: rgba(255, 255, 255, 0.5);
+  --glass-border-medium: rgba(255, 255, 255, 0.3);
+  --glass-border-heavy: rgba(255, 255, 255, 0.7);
+
+  --glass-blur-button: 16px;
+  --glass-blur-container: 20px;
+  --glass-blur-navigation: 24px;
+
+  --glass-radius: 24px;
+  --glass-radius-sm: 16px;
+  --glass-radius-lg: 32px;
+
+  --glass-shadow-light: rgba(0, 0, 0, 0.1);
+  --glass-shadow-medium: rgba(0, 0, 0, 0.15);
+  --glass-shadow-heavy: rgba(0, 0, 0, 0.2);
+
+  // ---------------------------------------------------------------------------
+  // SPACING SCALE
+  // ---------------------------------------------------------------------------
+  --space-xs: 0.5rem; // 8px
+  --space-sm: 1rem; // 16px
+  --space-md: 1.5rem; // 24px
+  --space-lg: 2rem; // 32px
+  --space-xl: 3rem; // 48px
+  --space-2xl: 4rem; // 64px
+
+  // ---------------------------------------------------------------------------
+  // TYPOGRAPHY
+  // ---------------------------------------------------------------------------
+  --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
+
+  // ---------------------------------------------------------------------------
+  // TRANSITIONS
+  // ---------------------------------------------------------------------------
+  --transition-fast: 0.15s ease-out;
+  --transition-normal: 0.3s ease-out;
+  --transition-slow: 0.5s ease-out;
+}
+
+// =============================================================================
+// DARK THEME OVERRIDES
+// =============================================================================
+
+[data-theme='dark'] {
+  // Theme colors
+  --color-bg-primary: #0a0a0a;
+  --color-bg-secondary: #171717;
+  --color-bg-tertiary: #262626;
+  --color-text-primary: #f5f5f0;
+  --color-text-secondary: #e0e0e0;
+  --color-text-tertiary: #a3a3a3;
+
+  // Glass system adjustments for dark theme
+  --glass-bg-primary: rgba(255, 255, 255, 0.05);
+  --glass-bg-secondary: rgba(255, 255, 255, 0.08);
+  --glass-bg-tertiary: rgba(255, 255, 255, 0.12);
+
+  --glass-border-light: rgba(255, 255, 255, 0.2);
+  --glass-border-medium: rgba(255, 255, 255, 0.15);
+  --glass-border-heavy: rgba(255, 255, 255, 0.25);
+
+  --glass-shadow-light: rgba(0, 0, 0, 0.4);
+  --glass-shadow-medium: rgba(0, 0, 0, 0.5);
+  --glass-shadow-heavy: rgba(0, 0, 0, 0.6);
+}
+
+// =============================================================================
+// GLASSMORPHISM UTILITY CLASSES
+// =============================================================================
+
+.glass-panel {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-primary),
+    rgba(255, 255, 255, 0.02)
+  );
+  backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
+  border: 1px solid var(--glass-border-medium);
+  border-radius: var(--glass-radius);
+  box-shadow: 0 8px 32px var(--glass-shadow-light);
+}
+
+.glass-button {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-primary),
+    rgba(255, 255, 255, 0.02)
+  );
+  backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
+  border: 1px solid var(--glass-border-medium);
+  border-radius: var(--glass-radius-sm);
+  box-shadow: 0 4px 16px var(--glass-shadow-light);
+  transition: all var(--transition-normal);
+}
+
+.glass-nav {
+  background: linear-gradient(
+    135deg,
+    var(--glass-bg-secondary),
+    rgba(255, 255, 255, 0.02)
+  );
+  backdrop-filter: blur(var(--glass-blur-navigation)) saturate(200%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-navigation)) saturate(200%);
+  border-bottom: 1px solid var(--glass-border-light);
+  box-shadow: 0 8px 32px var(--glass-shadow-light);
+}
+
+// =============================================================================
+// RESPONSIVE BREAKPOINTS
+// =============================================================================
+
+@media (max-width: 768px) {
+  :root {
+    --glass-blur-button: 12px;
+    --glass-blur-container: 16px;
+    --glass-blur-navigation: 20px;
+  }
+}
+
+// =============================================================================
+// PERFORMANCE OPTIMIZATIONS
+// =============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: none;
+    --transition-normal: none;
+    --transition-slow: none;
+  }
+
+  .glass-button,
+  .glass-panel,
+  .glass-nav {
+    transition: none;
+  }
+}
