@@ -109,8 +109,9 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
       /* Remove overflow-x: hidden to prevent drop shadow cutoff */
     }
 
-    /* Hero section with asymmetric layout */
+    /* Hero section - STANDARDIZED */
     .hero-section {
+      position: relative;
       background: var(--glass-bg-primary);
       backdrop-filter: blur(var(--glass-blur-navigation));
       border: 1px solid var(--glass-border-light);
@@ -118,7 +119,6 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
       padding: 4rem 2rem;
       margin: 2rem 0 4rem 0;
       text-align: center;
-      position: relative;
       overflow: hidden;
     }
 
@@ -136,13 +136,11 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
       /* Use Tailwind for common properties */
       @apply font-bold text-center;
 
-      /* Use CSS variables for theme-specific properties */
-      font-size: clamp(3rem, 8vw, 8rem);
-      line-height: 0.8;
-      margin: 0;
+      /* Use CSS variables for theme-specific properties - STANDARDIZED */
+      font-size: clamp(2.5rem, 5vw, 4rem);
       color: var(--color-text-primary);
-      text-transform: uppercase;
-      letter-spacing: -0.05em;
+      margin-bottom: var(--space-md);
+      line-height: 1.1;
       position: relative;
       z-index: 2;
     }
@@ -154,12 +152,10 @@ if (bioEntry.body && typeof bioEntry.body === 'string') {
     }
 
     .hero-subtitle {
-      font-size: clamp(1.2rem, 3vw, 2rem);
-      font-weight: 600;
-      margin: 1rem 0 0 0;
+      font-size: 1.25rem;
       color: var(--color-text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
+      line-height: 1.6;
+      margin: 0;
     }
 
     /* Punk/brutalist profile section */

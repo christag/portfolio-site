@@ -264,12 +264,17 @@ const description =
     padding: 0 2rem;
   }
 
-  /* Hero Section */
+  /* Hero Section - Standardized floating container */
   .portfolio-hero {
-    padding: calc(var(--space-xl) * 2) 0 var(--space-xl) 0;
+    position: relative;
     background: var(--glass-bg-primary);
-    backdrop-filter: blur(var(--glass-blur-container));
-    border-bottom: 1px solid var(--glass-border-medium);
+    backdrop-filter: blur(var(--glass-blur-navigation));
+    border: 1px solid var(--glass-border-light);
+    border-radius: var(--glass-radius-xl);
+    padding: 4rem 2rem;
+    margin: 2rem 0 4rem 0;
+    text-align: center;
+    overflow: hidden;
   }
 
   .portfolio-hero__content {
