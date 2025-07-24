@@ -1,5 +1,5 @@
 ---
-// PortfolioFilter.astro - Accessible filter bar for portfolio items
+// PortfolioFilter.astro - Horizontal filter bar for portfolio items
 export interface Props {
   availableMediaTypes?: string[];
   availableTags?: string[];
@@ -32,198 +32,208 @@ const sortFieldId = 'portfolio-sort';
     role="search"
     aria-label="Filter portfolio items"
   >
-    <!-- Filter Header -->
-    <header class="portfolio-filter__header">
-      <h2 class="portfolio-filter__title">Filter & Sort</h2>
-      <button
-        type="button"
-        class="portfolio-filter__reset"
-        id="reset-filters"
-        aria-label="Reset all filters"
-      >
-        🔄 Reset
-      </button>
-    </header>
-
-    <!-- Search Input -->
-    <div class="portfolio-filter__section">
-      <label for="portfolio-search" class="portfolio-filter__label">
-        🔍 Search Projects
-      </label>
-      <input
-        type="search"
-        id="portfolio-search"
-        class="portfolio-filter__search"
-        placeholder="Search by title, description, or technology..."
-        aria-describedby="search-help"
-      />
-      <p id="search-help" class="portfolio-filter__help">
-        Start typing to filter projects in real-time
-      </p>
-    </div>
-
-    <!-- Media Type Filter -->
-    <fieldset class="portfolio-filter__section" id={mediaTypeFieldsetId}>
-      <legend class="portfolio-filter__legend">📂 Media Type</legend>
-      <div
-        class="portfolio-filter__options"
-        role="group"
-        aria-labelledby="media-type-legend"
-      >
-        <label class="portfolio-filter__option">
-          <input
-            type="radio"
-            name="mediaType"
-            value="all"
-            class="portfolio-filter__radio"
-            checked
-            aria-describedby="media-all-desc"
-          />
-          <span class="portfolio-filter__option-label">All</span>
-          <span
-            id="media-all-desc"
-            class="portfolio-filter__option-count"
-            aria-hidden="true"
+    <!-- Horizontal Filter Layout -->
+    <div class="portfolio-filter__horizontal">
+      <!-- Media Type Filter -->
+      <div class="portfolio-filter__section">
+        <div class="portfolio-filter__dropdown">
+          <button
+            type="button"
+            class="portfolio-filter__dropdown-toggle"
+            aria-expanded="false"
+            aria-haspopup="true"
+            data-dropdown="media-types"
           >
-            {/* Count will be updated by JS */}
-          </span>
-        </label>
-
-        {
-          availableMediaTypes.map((mediaType) => (
-            <label class="portfolio-filter__option">
-              <input
-                type="radio"
-                name="mediaType"
-                value={mediaType}
-                class="portfolio-filter__radio"
-                aria-describedby={`media-${mediaType}-desc`}
-              />
-              <span class="portfolio-filter__option-label">
-                {mediaType.charAt(0).toUpperCase() + mediaType.slice(1)}
-              </span>
-              <span
-                id={`media-${mediaType}-desc`}
-                class="portfolio-filter__option-count"
-                aria-hidden="true"
-              >
-                {/* Count will be updated by JS */}
-              </span>
-            </label>
-          ))
-        }
-      </div>
-    </fieldset>
-
-    <!-- Status Filter -->
-    <fieldset class="portfolio-filter__section">
-      <legend class="portfolio-filter__legend">🎯 Project Status</legend>
-      <div class="portfolio-filter__options" role="group">
-        <label class="portfolio-filter__option">
-          <input
-            type="radio"
-            name="status"
-            value="all"
-            class="portfolio-filter__radio"
-            checked
-          />
-          <span class="portfolio-filter__option-label">All Projects</span>
-        </label>
-
-        <label class="portfolio-filter__option">
-          <input
-            type="radio"
-            name="status"
-            value="featured"
-            class="portfolio-filter__radio"
-          />
-          <span class="portfolio-filter__option-label">⭐ Featured</span>
-        </label>
-
-        <label class="portfolio-filter__option">
-          <input
-            type="radio"
-            name="status"
-            value="completed"
-            class="portfolio-filter__radio"
-          />
-          <span class="portfolio-filter__option-label">✅ Completed</span>
-        </label>
-      </div>
-    </fieldset>
-
-    <!-- Sort Options -->
-    <div class="portfolio-filter__section">
-      <label for={sortFieldId} class="portfolio-filter__legend">
-        📊 Sort By
-      </label>
-      <select
-        id={sortFieldId}
-        name="sort"
-        class="portfolio-filter__select"
-        aria-describedby="sort-help"
-      >
-        <option value="priority">Priority (Featured first)</option>
-        <option value="newest">Newest First</option>
-        <option value="oldest">Oldest First</option>
-        <option value="title">Title (A-Z)</option>
-        <option value="mediaType">Media Type</option>
-      </select>
-      <p id="sort-help" class="portfolio-filter__help">
-        Choose how to order the portfolio items
-      </p>
-    </div>
-
-    <!-- Tag Cloud (if tags available) -->
-    {
-      availableTags.length > 0 && (
-        <fieldset class="portfolio-filter__section" id={tagFieldsetId}>
-          <legend class="portfolio-filter__legend">🏷️ Popular Tags</legend>
+            <span class="portfolio-filter__dropdown-label">Media Type</span>
+            <span class="portfolio-filter__dropdown-arrow">▼</span>
+          </button>
           <div
-            class="portfolio-filter__tag-cloud"
-            role="group"
-            aria-labelledby="tag-legend"
+            class="portfolio-filter__dropdown-content"
+            data-dropdown-content="media-types"
           >
-            {availableTags.slice(0, 12).map((tag) => (
-              <label class="portfolio-filter__tag">
-                <input
-                  type="checkbox"
-                  name="tags"
-                  value={tag}
-                  class="portfolio-filter__tag-input"
-                  aria-describedby={`tag-${tag.replace(/\s+/g, '-')}-desc`}
-                />
-                <span class="portfolio-filter__tag-label">#{tag}</span>
-              </label>
-            ))}
-          </div>
-          <details
-            class="portfolio-filter__tag-more"
-            aria-label="Show more tags"
-          >
-            <summary class="portfolio-filter__tag-toggle">
-              Show{' '}
-              {availableTags.length > 12
-                ? `${availableTags.length - 12} more tags`
-                : 'all tags'}
-            </summary>
-            <div class="portfolio-filter__tag-cloud">
-              {availableTags.slice(12).map((tag) => (
-                <label class="portfolio-filter__tag">
+            <fieldset
+              class="portfolio-filter__fieldset"
+              id={mediaTypeFieldsetId}
+            >
+              <legend class="portfolio-filter__legend sr-only"
+                >Media Type</legend
+              >
+              <div class="portfolio-filter__options">
+                <label class="portfolio-filter__option">
                   <input
                     type="checkbox"
-                    name="tags"
-                    value={tag}
-                    class="portfolio-filter__tag-input"
+                    name="mediaType"
+                    value="all"
+                    class="portfolio-filter__checkbox"
+                    checked
+                    data-select-all="media-types"
                   />
-                  <span class="portfolio-filter__tag-label">#{tag}</span>
+                  <span class="portfolio-filter__option-label">All</span>
                 </label>
-              ))}
+
+                {
+                  availableMediaTypes.map((mediaType) => (
+                    <label class="portfolio-filter__option">
+                      <input
+                        type="checkbox"
+                        name="mediaType"
+                        value={mediaType}
+                        class="portfolio-filter__checkbox"
+                      />
+                      <span class="portfolio-filter__option-label">
+                        {mediaType.charAt(0).toUpperCase() + mediaType.slice(1)}
+                      </span>
+                    </label>
+                  ))
+                }
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Filter -->
+      <div class="portfolio-filter__section">
+        <div class="portfolio-filter__dropdown">
+          <button
+            type="button"
+            class="portfolio-filter__dropdown-toggle"
+            aria-expanded="false"
+            aria-haspopup="true"
+            data-dropdown="status"
+          >
+            <span class="portfolio-filter__dropdown-label">Status</span>
+            <span class="portfolio-filter__dropdown-arrow">▼</span>
+          </button>
+          <div
+            class="portfolio-filter__dropdown-content"
+            data-dropdown-content="status"
+          >
+            <fieldset class="portfolio-filter__fieldset">
+              <legend class="portfolio-filter__legend sr-only"
+                >Project Status</legend
+              >
+              <div class="portfolio-filter__options">
+                <label class="portfolio-filter__option">
+                  <input
+                    type="checkbox"
+                    name="status"
+                    value="all"
+                    class="portfolio-filter__checkbox"
+                    checked
+                    data-select-all="status"
+                  />
+                  <span class="portfolio-filter__option-label"
+                    >All Projects</span
+                  >
+                </label>
+
+                <label class="portfolio-filter__option">
+                  <input
+                    type="checkbox"
+                    name="status"
+                    value="featured"
+                    class="portfolio-filter__checkbox"
+                  />
+                  <span class="portfolio-filter__option-label">Featured</span>
+                </label>
+
+                <label class="portfolio-filter__option">
+                  <input
+                    type="checkbox"
+                    name="status"
+                    value="completed"
+                    class="portfolio-filter__checkbox"
+                  />
+                  <span class="portfolio-filter__option-label">Completed</span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tags Filter (if available) -->
+      {
+        availableTags.length > 0 && (
+          <div class="portfolio-filter__section">
+            <div class="portfolio-filter__dropdown">
+              <button
+                type="button"
+                class="portfolio-filter__dropdown-toggle"
+                aria-expanded="false"
+                aria-haspopup="true"
+                data-dropdown="tags"
+              >
+                <span class="portfolio-filter__dropdown-label">Tags</span>
+                <span class="portfolio-filter__dropdown-arrow">▼</span>
+              </button>
+              <div
+                class="portfolio-filter__dropdown-content"
+                data-dropdown-content="tags"
+              >
+                <fieldset class="portfolio-filter__fieldset" id={tagFieldsetId}>
+                  <legend class="portfolio-filter__legend sr-only">
+                    Popular Tags
+                  </legend>
+                  <div class="portfolio-filter__options portfolio-filter__options--tags">
+                    {availableTags.slice(0, 8).map((tag) => (
+                      <label class="portfolio-filter__option">
+                        <input
+                          type="checkbox"
+                          name="tags"
+                          value={tag}
+                          class="portfolio-filter__checkbox"
+                        />
+                        <span class="portfolio-filter__option-label">
+                          #{tag}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+              </div>
             </div>
-          </details>
-        </fieldset>
-      )
-    }
+          </div>
+        )
+      }
+
+      <!-- Sort Options -->
+      <div class="portfolio-filter__section">
+        <label for={sortFieldId} class="portfolio-filter__sort-label">
+          Sort By
+        </label>
+        <select id={sortFieldId} name="sort" class="portfolio-filter__select">
+          <option value="priority">Priority (Featured first)</option>
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="title">Title (A-Z)</option>
+          <option value="mediaType">Media Type</option>
+        </select>
+      </div>
+
+      <!-- Search Input -->
+      <div class="portfolio-filter__section portfolio-filter__section--search">
+        <input
+          type="search"
+          id="portfolio-search"
+          class="portfolio-filter__search"
+          placeholder="Search projects..."
+        />
+      </div>
+
+      <!-- Reset Button -->
+      <div class="portfolio-filter__section">
+        <button
+          type="button"
+          class="portfolio-filter__reset"
+          id="reset-filters"
+          aria-label="Reset all filters"
+        >
+          Reset
+        </button>
+      </div>
+    </div>
 
     <!-- Results Summary -->
     <div
@@ -239,133 +249,148 @@ const sortFieldId = 'portfolio-sort';
 </div>
 
 <style>
+  /* Screen reader only class */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   /* Filter Container */
   .portfolio-filter {
-    background: var(--color-glass-bg-light);
-    backdrop-filter: blur(var(--glass-blur-light));
-    border: 1px solid var(--color-glass-border-light);
+    background: var(--glass-bg-primary);
+    backdrop-filter: blur(var(--glass-blur-navigation));
+    border: 1px solid var(--glass-border-light);
     border-radius: var(--glass-radius);
-    box-shadow: var(--glass-shadow-light);
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-xl);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-xl);
     position: sticky;
-    top: var(--spacing-lg);
+    top: var(--space-lg);
     z-index: 10;
   }
 
-  /* Form Layout */
-  .portfolio-filter__form {
+  /* Horizontal Layout */
+  .portfolio-filter__horizontal {
     display: flex;
-    flex-direction: column;
-    gap: var(--spacing-lg);
-  }
-
-  /* Header */
-  .portfolio-filter__header {
-    display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-md);
     align-items: center;
-    border-bottom: 1px solid var(--color-glass-border-light);
-    padding-bottom: var(--spacing-md);
+    margin-bottom: var(--space-md);
   }
 
-  .portfolio-filter__title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    margin: 0;
+  .portfolio-filter__section {
+    position: relative;
   }
 
-  .portfolio-filter__reset {
-    padding: 0.5rem 1rem;
-    background: var(--color-glass-bg-medium);
-    border: 1px solid var(--color-glass-border-medium);
+  .portfolio-filter__section--search {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  /* Dropdown Styling */
+  .portfolio-filter__dropdown {
+    position: relative;
+  }
+
+  .portfolio-filter__dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--glass-bg-secondary);
+    border: 1px solid var(--glass-border-medium);
     border-radius: calc(var(--glass-radius) * 0.5);
     color: var(--color-text-primary);
     font-weight: 600;
     font-size: 0.875rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--transition-normal);
+    white-space: nowrap;
   }
 
-  .portfolio-filter__reset:hover {
-    background: var(--color-glass-bg-heavy);
-    border-color: var(--color-glass-border-heavy);
-    transform: translateY(-1px);
-  }
-
-  .portfolio-filter__reset:focus {
-    outline: 2px solid var(--color-accent-primary);
-    outline-offset: 2px;
-  }
-
-  /* Sections */
-  .portfolio-filter__section {
-    border: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .portfolio-filter__legend,
-  .portfolio-filter__label {
-    display: block;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-sm);
-    font-size: 1rem;
-  }
-
-  .portfolio-filter__legend {
-    border: none;
-    padding: 0;
-  }
-
-  /* Search Input */
-  .portfolio-filter__search {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background: var(--color-glass-bg-light);
-    border: 1px solid var(--color-glass-border-medium);
-    border-radius: calc(var(--glass-radius) * 0.5);
-    color: var(--color-text-primary);
-    font-size: 1rem;
-    transition: all 0.2s ease;
-  }
-
-  .portfolio-filter__search:focus {
-    outline: none;
+  .portfolio-filter__dropdown-toggle:hover {
+    background: var(--glass-bg-tertiary);
     border-color: var(--color-accent-primary);
-    box-shadow: 0 0 0 2px rgba(var(--color-accent-primary-rgb), 0.2);
-    background: var(--color-glass-bg-medium);
   }
 
-  .portfolio-filter__search::placeholder {
-    color: var(--color-text-tertiary);
+  .portfolio-filter__dropdown-toggle[aria-expanded='true'] {
+    background: var(--glass-bg-tertiary);
+    border-color: var(--color-accent-primary);
+  }
+
+  .portfolio-filter__dropdown-toggle[aria-expanded='true']
+    .portfolio-filter__dropdown-arrow {
+    transform: rotate(180deg);
+  }
+
+  .portfolio-filter__dropdown-arrow {
+    font-size: 0.75rem;
+    transition: transform var(--transition-normal);
+  }
+
+  .portfolio-filter__dropdown-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    background: var(--glass-bg-primary);
+    backdrop-filter: blur(var(--glass-blur-container));
+    border: 1px solid var(--glass-border-light);
+    border-radius: calc(var(--glass-radius) * 0.5);
+    box-shadow: 0 8px 32px var(--glass-shadow-medium);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all var(--transition-normal);
+    margin-top: 0.5rem;
+  }
+
+  .portfolio-filter__dropdown-content.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .portfolio-filter__fieldset {
+    border: none;
+    padding: var(--space-sm);
+    margin: 0;
   }
 
   /* Options */
   .portfolio-filter__options {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xs);
+    gap: 0.5rem;
+  }
+
+  .portfolio-filter__options--tags {
+    max-height: 200px;
+    overflow-y: auto;
   }
 
   .portfolio-filter__option {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: 0.5rem;
     padding: 0.5rem;
     border-radius: calc(var(--glass-radius) * 0.25);
     cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
+    transition: all var(--transition-fast);
   }
 
   .portfolio-filter__option:hover {
-    background: var(--color-glass-bg-light);
+    background: var(--glass-bg-secondary);
   }
 
-  .portfolio-filter__radio {
+  .portfolio-filter__checkbox {
     width: 1rem;
     height: 1rem;
     accent-color: var(--color-accent-primary);
@@ -373,137 +398,90 @@ const sortFieldId = 'portfolio-sort';
   }
 
   .portfolio-filter__option-label {
-    flex: 1;
     color: var(--color-text-secondary);
     font-weight: 500;
+    font-size: 0.875rem;
   }
 
-  .portfolio-filter__option:has(.portfolio-filter__radio:checked)
+  .portfolio-filter__option:has(.portfolio-filter__checkbox:checked)
     .portfolio-filter__option-label {
     color: var(--color-text-primary);
     font-weight: 600;
   }
 
-  .portfolio-filter__option-count {
-    font-size: 0.75rem;
-    color: var(--color-text-tertiary);
-    background: var(--color-glass-bg-medium);
-    padding: 0.125rem 0.375rem;
-    border-radius: calc(var(--glass-radius) * 0.25);
+  /* Sort Select */
+  .portfolio-filter__sort-label {
+    display: block;
     font-weight: 600;
-    min-width: 1.5rem;
-    text-align: center;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
   }
 
-  /* Select */
   .portfolio-filter__select {
-    width: 100%;
     padding: 0.75rem 1rem;
-    background: var(--color-glass-bg-light);
-    border: 1px solid var(--color-glass-border-medium);
+    background: var(--glass-bg-secondary);
+    border: 1px solid var(--glass-border-medium);
     border-radius: calc(var(--glass-radius) * 0.5);
     color: var(--color-text-primary);
-    font-size: 1rem;
+    font-size: 0.875rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--transition-normal);
+    min-width: 180px;
   }
 
   .portfolio-filter__select:focus {
     outline: none;
     border-color: var(--color-accent-primary);
-    box-shadow: 0 0 0 2px rgba(var(--color-accent-primary-rgb), 0.2);
-    background: var(--color-glass-bg-medium);
+    box-shadow: 0 0 0 2px rgba(var(--color-accent-primary), 0.2);
   }
 
-  /* Tag Cloud */
-  .portfolio-filter__tag-cloud {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .portfolio-filter__tag {
-    position: relative;
-    cursor: pointer;
-  }
-
-  .portfolio-filter__tag-input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .portfolio-filter__tag-label {
-    display: inline-block;
-    padding: 0.375rem 0.75rem;
-    background: var(--color-glass-bg-light);
-    border: 1px solid var(--color-glass-border-medium);
+  /* Search Input */
+  .portfolio-filter__search {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--glass-bg-secondary);
+    border: 1px solid var(--glass-border-medium);
     border-radius: calc(var(--glass-radius) * 0.5);
-    color: var(--color-text-secondary);
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    user-select: none;
-  }
-
-  .portfolio-filter__tag:hover .portfolio-filter__tag-label {
-    background: var(--color-glass-bg-medium);
-    border-color: var(--color-glass-border-heavy);
-  }
-
-  .portfolio-filter__tag-input:checked + .portfolio-filter__tag-label {
-    background: var(--color-accent-primary);
-    border-color: var(--color-accent-primary);
-    color: white;
-    font-weight: 600;
-    transform: translateY(-1px);
-  }
-
-  .portfolio-filter__tag-input:focus + .portfolio-filter__tag-label {
-    outline: 2px solid var(--color-accent-primary);
-    outline-offset: 2px;
-  }
-
-  /* Tag More */
-  .portfolio-filter__tag-more {
-    margin-top: var(--spacing-sm);
-  }
-
-  .portfolio-filter__tag-toggle {
-    color: var(--color-text-secondary);
-    cursor: pointer;
-    font-size: 0.875rem;
-    font-weight: 600;
-    list-style: none;
-    padding: 0.5rem;
-    border-radius: calc(var(--glass-radius) * 0.25);
-    transition: all 0.2s ease;
-  }
-
-  .portfolio-filter__tag-toggle:hover {
-    background: var(--color-glass-bg-light);
     color: var(--color-text-primary);
+    font-size: 0.875rem;
+    transition: all var(--transition-normal);
   }
 
-  .portfolio-filter__tag-toggle::marker {
-    display: none;
+  .portfolio-filter__search:focus {
+    outline: none;
+    border-color: var(--color-accent-primary);
+    box-shadow: 0 0 0 2px rgba(var(--color-accent-primary), 0.2);
   }
 
-  .portfolio-filter__tag-toggle::before {
-    content: '▶';
-    margin-right: 0.5rem;
-    transition: transform 0.2s ease;
+  .portfolio-filter__search::placeholder {
+    color: var(--color-text-tertiary);
   }
 
-  .portfolio-filter__tag-more[open] .portfolio-filter__tag-toggle::before {
-    transform: rotate(90deg);
+  /* Reset Button */
+  .portfolio-filter__reset {
+    padding: 0.75rem 1.5rem;
+    background: var(--glass-bg-secondary);
+    border: 1px solid var(--glass-border-medium);
+    border-radius: calc(var(--glass-radius) * 0.5);
+    color: var(--color-text-primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+  }
+
+  .portfolio-filter__reset:hover {
+    background: var(--color-accent-primary);
+    color: white;
+    border-color: var(--color-accent-primary);
   }
 
   /* Results Summary */
   .portfolio-filter__results {
-    padding: var(--spacing-md);
-    background: var(--color-glass-bg-medium);
-    border: 1px solid var(--color-glass-border-medium);
+    padding: var(--space-sm);
+    background: var(--glass-bg-secondary);
+    border: 1px solid var(--glass-border-light);
     border-radius: calc(var(--glass-radius) * 0.5);
     text-align: center;
   }
@@ -514,209 +492,232 @@ const sortFieldId = 'portfolio-sort';
     font-size: 0.875rem;
   }
 
-  /* Help Text */
-  .portfolio-filter__help {
-    font-size: 0.75rem;
-    color: var(--color-text-tertiary);
-    margin: 0.25rem 0 0 0;
-    line-height: 1.4;
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .portfolio-filter__horizontal {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-sm);
+    }
+
+    .portfolio-filter__section {
+      width: 100%;
+    }
+
+    .portfolio-filter__dropdown-content {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      margin-top: 0.5rem;
+      box-shadow: none;
+      border: 1px solid var(--glass-border-light);
+    }
+
+    .portfolio-filter__dropdown-toggle {
+      justify-content: space-between;
+      width: 100%;
+    }
   }
 
-  /* Responsive Design */
   @media (max-width: 768px) {
     .portfolio-filter {
       position: static;
-      margin-bottom: var(--spacing-lg);
+      padding: var(--space-md);
     }
 
-    .portfolio-filter__header {
-      flex-direction: column;
-      gap: var(--spacing-sm);
-      align-items: stretch;
-    }
-
-    .portfolio-filter__options {
-      grid-template-columns: 1fr;
-    }
-
-    .portfolio-filter__tag-cloud {
-      justify-content: center;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .portfolio-filter {
-      padding: var(--spacing-md);
-    }
-
-    .portfolio-filter__form {
-      gap: var(--spacing-md);
-    }
-  }
-
-  /* High Contrast Mode */
-  @media (prefers-contrast: high) {
-    .portfolio-filter {
-      border-width: 2px;
-    }
-
-    .portfolio-filter__radio,
-    .portfolio-filter__tag-input:checked + .portfolio-filter__tag-label {
-      outline: 2px solid currentColor;
-      outline-offset: 2px;
+    .portfolio-filter__options--tags {
+      max-height: 150px;
     }
   }
 
   /* Reduced Motion */
   @media (prefers-reduced-motion: reduce) {
-    .portfolio-filter__reset,
-    .portfolio-filter__option,
-    .portfolio-filter__tag-label,
-    .portfolio-filter__search,
-    .portfolio-filter__select {
+    .portfolio-filter__dropdown-content,
+    .portfolio-filter__dropdown-arrow,
+    .portfolio-filter__option {
       transition: none;
-    }
-
-    .portfolio-filter__tag-input:checked + .portfolio-filter__tag-label {
-      transform: none;
-    }
-  }
-
-  /* Print Styles */
-  @media print {
-    .portfolio-filter {
-      display: none;
     }
   }
 </style>
 
 <script is:inline>
   // Portfolio Filter JavaScript
-  class PortfolioFilter extends HTMLElement {
-    constructor() {
-      super();
-      this.initializeFilter();
-    }
+  document.addEventListener('DOMContentLoaded', function () {
+    const filterContainer = document.getElementById('portfolio-filter');
+    if (!filterContainer) return;
 
-    initializeFilter() {
-      const form = this.querySelector('.portfolio-filter__form');
-      const resetButton = this.querySelector('.portfolio-filter__reset');
-      const searchInput = this.querySelector('.portfolio-filter__search');
-      const resultsCount = this.querySelector('#results-count');
+    const form = filterContainer.querySelector('.portfolio-filter__form');
+    const resetButton = filterContainer.querySelector(
+      '.portfolio-filter__reset'
+    );
+    const searchInput = filterContainer.querySelector(
+      '.portfolio-filter__search'
+    );
+    const resultsCount = filterContainer.querySelector('#results-count');
 
-      // Add event listeners
-      form?.addEventListener('input', this.handleFilterChange.bind(this));
-      form?.addEventListener('change', this.handleFilterChange.bind(this));
-      resetButton?.addEventListener('click', this.resetFilters.bind(this));
-      searchInput?.addEventListener(
-        'input',
-        this.debounce(this.handleSearch.bind(this), 300)
-      );
+    // Dropdown functionality
+    const dropdownToggles = filterContainer.querySelectorAll(
+      '.portfolio-filter__dropdown-toggle'
+    );
 
-      // Initialize counts
-      this.updateCounts();
+    dropdownToggles.forEach((toggle) => {
+      toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        const dropdownId = this.getAttribute('data-dropdown');
+        const content = filterContainer.querySelector(
+          `[data-dropdown-content="${dropdownId}"]`
+        );
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
 
-      // Announce filter readiness to screen readers
-      if (resultsCount) {
-        resultsCount.textContent =
-          'Portfolio filter ready. Use the controls above to filter projects.';
+        // Close all other dropdowns
+        dropdownToggles.forEach((otherToggle) => {
+          if (otherToggle !== this) {
+            otherToggle.setAttribute('aria-expanded', 'false');
+            const otherContent = filterContainer.querySelector(
+              `[data-dropdown-content="${otherToggle.getAttribute('data-dropdown')}"]`
+            );
+            if (otherContent) {
+              otherContent.classList.remove('show');
+            }
+          }
+        });
+
+        // Toggle current dropdown
+        this.setAttribute('aria-expanded', !isExpanded);
+        if (content) {
+          content.classList.toggle('show', !isExpanded);
+        }
+      });
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function (e) {
+      if (!filterContainer.contains(e.target)) {
+        dropdownToggles.forEach((toggle) => {
+          toggle.setAttribute('aria-expanded', 'false');
+          const dropdownId = toggle.getAttribute('data-dropdown');
+          const content = filterContainer.querySelector(
+            `[data-dropdown-content="${dropdownId}"]`
+          );
+          if (content) {
+            content.classList.remove('show');
+          }
+        });
       }
-    }
+    });
 
-    handleFilterChange(event) {
-      // Filter logic will be handled by the portfolio grid component
-      // This dispatches custom events for the grid to listen to
-      const filterData = this.getFilterData();
+    // Handle "Select All" checkboxes
+    const selectAllCheckboxes =
+      filterContainer.querySelectorAll('[data-select-all]');
+    selectAllCheckboxes.forEach((selectAll) => {
+      selectAll.addEventListener('change', function () {
+        const group = this.getAttribute('data-select-all');
+        const groupCheckboxes = filterContainer.querySelectorAll(
+          `input[name="${group === 'media-types' ? 'mediaType' : 'status'}"]`
+        );
 
-      this.dispatchEvent(
+        if (this.checked) {
+          groupCheckboxes.forEach((checkbox) => {
+            if (checkbox !== this) {
+              checkbox.checked = false;
+            }
+          });
+        }
+      });
+    });
+
+    // Handle individual checkboxes
+    const individualCheckboxes = filterContainer.querySelectorAll(
+      'input[type="checkbox"]:not([data-select-all])'
+    );
+    individualCheckboxes.forEach((checkbox) => {
+      checkbox.addEventListener('change', function () {
+        const name = this.name;
+        const selectAll = filterContainer.querySelector(
+          `[data-select-all][name="${name}"]`
+        );
+
+        if (this.checked && selectAll) {
+          selectAll.checked = false;
+        }
+      });
+    });
+
+    // Filter change handling
+    form.addEventListener('input', handleFilterChange);
+    form.addEventListener('change', handleFilterChange);
+    resetButton.addEventListener('click', resetFilters);
+    searchInput.addEventListener('input', debounce(handleSearch, 300));
+
+    function handleFilterChange(event) {
+      const filterData = getFilterData();
+
+      // Dispatch custom event for portfolio grid
+      document.dispatchEvent(
         new CustomEvent('portfolio-filter-change', {
           detail: filterData,
-          bubbles: true,
         })
       );
-
-      this.updateResults(filterData);
     }
 
-    handleSearch(event) {
-      const target = event.target;
-      const searchTerm = target.value.trim().toLowerCase();
+    function handleSearch(event) {
+      const searchTerm = event.target.value.trim().toLowerCase();
 
-      this.dispatchEvent(
+      document.dispatchEvent(
         new CustomEvent('portfolio-search', {
           detail: { searchTerm },
-          bubbles: true,
         })
       );
     }
 
-    getFilterData() {
-      const form = this.querySelector('.portfolio-filter__form');
-      if (!form) return {};
-
+    function getFilterData() {
       const formData = new FormData(form);
 
       return {
-        mediaType: formData.get('mediaType') || 'all',
-        status: formData.get('status') || 'all',
-        sort: formData.get('sort') || 'priority',
+        mediaTypes: formData
+          .getAll('mediaType')
+          .filter((type) => type !== 'all'),
+        statuses: formData
+          .getAll('status')
+          .filter((status) => status !== 'all'),
         tags: formData.getAll('tags'),
+        sort: formData.get('sort') || 'priority',
         search: formData.get('search') || '',
       };
     }
 
-    resetFilters() {
-      const form = this.querySelector('.portfolio-filter__form');
+    function resetFilters() {
+      form.reset();
 
-      // Reset form
-      form?.reset();
+      // Reset all dropdowns
+      dropdownToggles.forEach((toggle) => {
+        toggle.setAttribute('aria-expanded', 'false');
+        const dropdownId = toggle.getAttribute('data-dropdown');
+        const content = filterContainer.querySelector(
+          `[data-dropdown-content="${dropdownId}"]`
+        );
+        if (content) {
+          content.classList.remove('show');
+        }
+      });
 
-      // Reset search
-      const searchInput = this.querySelector('.portfolio-filter__search');
-      if (searchInput) {
-        searchInput.value = '';
-      }
+      // Check "All" options
+      const allCheckboxes =
+        filterContainer.querySelectorAll('[data-select-all]');
+      allCheckboxes.forEach((checkbox) => {
+        checkbox.checked = true;
+      });
 
-      // Dispatch reset event
-      this.dispatchEvent(
-        new CustomEvent('portfolio-filter-reset', {
-          bubbles: true,
-        })
-      );
+      document.dispatchEvent(new CustomEvent('portfolio-filter-reset'));
 
-      // Update counts
-      this.updateCounts();
-
-      // Announce reset to screen readers
-      const resultsCount = this.querySelector('#results-count');
       if (resultsCount) {
         resultsCount.textContent =
           'Filters reset. Showing all portfolio items.';
       }
     }
 
-    updateCounts() {
-      // This would be called by the portfolio grid to update filter counts
-      // For now, we'll set placeholder values
-      const countElements = this.querySelectorAll(
-        '.portfolio-filter__option-count'
-      );
-      countElements.forEach((el) => {
-        if (el.textContent && !el.textContent.trim()) {
-          el.textContent = '0';
-        }
-      });
-    }
-
-    updateResults(filterData) {
-      const resultsCount = this.querySelector('#results-count');
-      if (resultsCount) {
-        // This will be updated by the portfolio grid component
-        resultsCount.textContent = 'Filtering portfolio items...';
-      }
-    }
-
-    debounce(func, wait) {
+    function debounce(func, wait) {
       let timeout;
       return function executedFunction(...args) {
         const later = () => {
@@ -727,8 +728,11 @@ const sortFieldId = 'portfolio-sort';
         timeout = setTimeout(later, wait);
       };
     }
-  }
 
-  // Register the custom element
-  customElements.define('portfolio-filter', PortfolioFilter);
+    // Initialize
+    if (resultsCount) {
+      resultsCount.textContent =
+        'Portfolio filter ready. Use the controls above to filter projects.';
+    }
+  });
 </script>

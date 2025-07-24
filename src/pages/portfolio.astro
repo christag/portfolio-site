@@ -80,126 +80,104 @@ const description =
     <!-- Main Content -->
     <section class="portfolio-main" aria-labelledby="portfolio-grid-title">
       <div class="container">
-        <div class="portfolio-layout">
-          {
-            portfolioItems.length > 0 ? (
-              <>
-                {/* Filter Sidebar */}
-                <aside class="portfolio-sidebar" aria-label="Portfolio filters">
-                  <PortfolioFilter
-                    availableMediaTypes={availableMediaTypes}
-                    availableTags={availableTags}
-                    class="portfolio-filter--sidebar"
-                  />
-                </aside>
+        {
+          portfolioItems.length > 0 ? (
+            <>
+              {/* Horizontal Filter Bar */}
+              <PortfolioFilter
+                availableMediaTypes={availableMediaTypes}
+                availableTags={availableTags}
+                class="portfolio-filter--horizontal"
+              />
 
-                {/* Portfolio Grid */}
-                <div class="portfolio-content">
-                  <header class="portfolio-content__header">
-                    <h2
-                      id="portfolio-grid-title"
-                      class="portfolio-content__title"
-                    >
-                      Project Gallery
-                    </h2>
-                    <p class="portfolio-content__subtitle">
-                      Use the filters to explore by media type, status, or
-                      technology stack.
-                    </p>
-                  </header>
-
-                  {/* Grid Container with Masonry Layout */}
-                  <div class="portfolio-grid" id="portfolio-grid">
-                    <AsymmetricGrid
-                      variant="chaos"
-                      gap="gap-8"
-                      class="portfolio-asymmetric-grid"
-                    >
-                      {portfolioItems.map((item) => (
-                        <PortfolioCard
-                          item={item}
-                          variant={item.featured ? 'featured' : 'standard'}
-                          class="portfolio-grid__item"
-                          data-media-type={item.mediaType}
-                          data-featured={item.featured ? 'true' : 'false'}
-                        />
-                      ))}
-                    </AsymmetricGrid>
-                  </div>
-
-                  {/* Empty State (hidden initially, shown when no results) */}
-                  <div
-                    class="portfolio-empty"
-                    id="portfolio-empty"
-                    aria-hidden="true"
+              {/* Portfolio Grid */}
+              <div class="portfolio-content">
+                {/* Grid Container with Masonry Layout */}
+                <div class="portfolio-grid" id="portfolio-grid">
+                  <AsymmetricGrid
+                    variant="chaos"
+                    gap="gap-8"
+                    class="portfolio-asymmetric-grid"
                   >
-                    <div class="portfolio-empty__content">
-                      <div class="portfolio-empty__icon">🔍</div>
-                      <h3 class="portfolio-empty__title">No Projects Found</h3>
-                      <p class="portfolio-empty__description">
-                        Try adjusting your filters or search terms to find more
-                        projects.
-                      </p>
-                      <button
-                        type="button"
-                        class="portfolio-empty__reset"
-                        onclick="document.querySelector('#reset-filters')?.click()"
-                      >
-                        🔄 Reset Filters
-                      </button>
-                    </div>
-                  </div>
+                    {portfolioItems.map((item) => (
+                      <PortfolioCard
+                        item={item}
+                        variant={item.featured ? 'featured' : 'standard'}
+                        class="portfolio-grid__item"
+                        data-media-type={item.mediaType}
+                        data-featured={item.featured ? 'true' : 'false'}
+                      />
+                    ))}
+                  </AsymmetricGrid>
                 </div>
-              </>
-            ) : (
-              <div class="portfolio-coming-soon">
-                <div class="portfolio-coming-soon__content">
-                  <div class="portfolio-coming-soon__icon">🚧</div>
-                  <h2 class="portfolio-coming-soon__title">
-                    Portfolio Coming Soon
-                  </h2>
-                  <p class="portfolio-coming-soon__description">
-                    I'm currently setting up the dynamic portfolio system with
-                    Strapi CMS. This will feature filterable project galleries,
-                    detailed case studies, and interactive media presentations.
-                    Check back soon for the full experience!
-                  </p>
-                  <div class="portfolio-coming-soon__features">
-                    <div class="feature-card">
-                      <div class="feature-card__icon">📂</div>
-                      <h3 class="feature-card__title">Multi-Media</h3>
-                      <p class="feature-card__description">
-                        Code, design, video, audio, and more
-                      </p>
-                    </div>
-                    <div class="feature-card">
-                      <div class="feature-card__icon">🔍</div>
-                      <h3 class="feature-card__title">Smart Filtering</h3>
-                      <p class="feature-card__description">
-                        Find projects by type, tech, or tags
-                      </p>
-                    </div>
-                    <div class="feature-card">
-                      <div class="feature-card__icon">⚡</div>
-                      <h3 class="feature-card__title">Dynamic Content</h3>
-                      <p class="feature-card__description">
-                        Real-time updates from CMS
-                      </p>
-                    </div>
-                  </div>
-                  <div class="portfolio-coming-soon__actions">
-                    <a href="/services" class="cta-primary">
-                      View My Services
-                    </a>
-                    <a href="/i-am" class="cta-secondary">
-                      Learn About Me
-                    </a>
+
+                {/* Empty State (hidden initially, shown when no results) */}
+                <div
+                  class="portfolio-empty"
+                  id="portfolio-empty"
+                  aria-hidden="true"
+                >
+                  <div class="portfolio-empty__content">
+                    <h3 class="portfolio-empty__title">No Projects Found</h3>
+                    <p class="portfolio-empty__description">
+                      Try adjusting your filters or search terms to find more
+                      projects.
+                    </p>
+                    <button
+                      type="button"
+                      class="portfolio-empty__reset"
+                      onclick="document.querySelector('#reset-filters')?.click()"
+                    >
+                      Reset Filters
+                    </button>
                   </div>
                 </div>
               </div>
-            )
-          }
-        </div>
+            </>
+          ) : (
+            <div class="portfolio-coming-soon">
+              <div class="portfolio-coming-soon__content">
+                <h2 class="portfolio-coming-soon__title">
+                  Portfolio Coming Soon
+                </h2>
+                <p class="portfolio-coming-soon__description">
+                  I'm currently setting up the dynamic portfolio system with
+                  Strapi CMS. This will feature filterable project galleries,
+                  detailed case studies, and interactive media presentations.
+                  Check back soon for the full experience!
+                </p>
+                <div class="portfolio-coming-soon__features">
+                  <div class="feature-card">
+                    <h3 class="feature-card__title">Multi-Media</h3>
+                    <p class="feature-card__description">
+                      Code, design, video, audio, and more
+                    </p>
+                  </div>
+                  <div class="feature-card">
+                    <h3 class="feature-card__title">Smart Filtering</h3>
+                    <p class="feature-card__description">
+                      Find projects by type, tech, or tags
+                    </p>
+                  </div>
+                  <div class="feature-card">
+                    <h3 class="feature-card__title">Dynamic Content</h3>
+                    <p class="feature-card__description">
+                      Real-time updates from CMS
+                    </p>
+                  </div>
+                </div>
+                <div class="portfolio-coming-soon__actions">
+                  <a href="/services" class="cta-primary">
+                    View My Services
+                  </a>
+                  <a href="/i-am" class="cta-secondary">
+                    Learn About Me
+                  </a>
+                </div>
+              </div>
+            </div>
+          )
+        }
       </div>
     </section>
   </main>
@@ -293,38 +271,12 @@ const description =
 
   /* Main Layout */
   .portfolio-main {
-    padding: var(--spacing-xl) 0;
-  }
-
-  .portfolio-layout {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: var(--spacing-xl);
-    align-items: start;
-  }
-
-  /* Sidebar */
-  .portfolio-sidebar {
-    position: sticky;
-    top: var(--spacing-lg);
+    padding: var(--space-xl) 0;
   }
 
   /* Content Area */
-  .portfolio-content__header {
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .portfolio-content__title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .portfolio-content__subtitle {
-    color: var(--color-text-secondary);
-    font-size: 1.125rem;
-    line-height: 1.6;
+  .portfolio-content {
+    width: 100%;
   }
 
   /* Portfolio Grid Enhancements */
@@ -344,7 +296,7 @@ const description =
   /* Empty State */
   .portfolio-empty {
     display: none;
-    padding: var(--spacing-xl) 0;
+    padding: var(--space-xl) 0;
     text-align: center;
   }
 
@@ -353,36 +305,30 @@ const description =
   }
 
   .portfolio-empty__content {
-    background: var(--color-glass-bg-light);
-    backdrop-filter: blur(var(--glass-blur-light));
-    border: 1px solid var(--color-glass-border-light);
+    background: var(--glass-bg-secondary);
+    backdrop-filter: blur(var(--glass-blur-container));
+    border: 1px solid var(--glass-border-light);
     border-radius: var(--glass-radius);
-    padding: var(--spacing-xl);
+    padding: var(--space-xl);
     max-width: 500px;
     margin: 0 auto;
-  }
-
-  .portfolio-empty__icon {
-    font-size: 4rem;
-    margin-bottom: var(--spacing-lg);
-    opacity: 0.6;
   }
 
   .portfolio-empty__title {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--color-text-primary);
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--space-sm);
   }
 
   .portfolio-empty__description {
     color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--space-lg);
     line-height: 1.6;
   }
 
   .portfolio-empty__reset {
-    padding: var(--spacing-md) var(--spacing-lg);
+    padding: var(--space-md) var(--space-lg);
     background: var(--color-accent-primary);
     color: white;
     border: none;
@@ -514,39 +460,24 @@ const description =
   }
 
   /* Responsive Design */
-  @media (max-width: 1024px) {
-    .portfolio-layout {
-      grid-template-columns: 1fr;
-    }
-
-    .portfolio-sidebar {
-      position: static;
-      order: -1;
-    }
-  }
-
   @media (max-width: 768px) {
     .portfolio-hero {
-      padding: var(--spacing-xl) 0;
-    }
-
-    .portfolio-hero__stats {
-      gap: var(--spacing-lg);
+      padding: var(--space-xl) 0;
     }
 
     .portfolio-main {
-      padding: var(--spacing-lg) 0;
+      padding: var(--space-lg) 0;
     }
 
-    .portfolio-layout {
-      gap: var(--spacing-lg);
+    .container {
+      padding: 0 1rem;
     }
   }
 
   @media (max-width: 640px) {
     .portfolio-hero__stats {
       flex-direction: column;
-      gap: var(--spacing-md);
+      gap: var(--space-md);
     }
 
     .portfolio-coming-soon__actions {
@@ -646,21 +577,38 @@ const description =
     });
 
     function filterPortfolioItems(filterData) {
-      const { mediaType, status, sort } = filterData;
+      const { mediaTypes, statuses, tags, sort } = filterData;
       let visibleItems = Array.from(portfolioItems);
 
-      // Filter by media type
-      if (mediaType !== 'all') {
-        visibleItems = visibleItems.filter(
-          (item) => item.getAttribute('data-media-type') === mediaType
-        );
+      // Filter by media types (if any selected)
+      if (mediaTypes && mediaTypes.length > 0) {
+        visibleItems = visibleItems.filter((item) => {
+          const itemMediaType = item.getAttribute('data-media-type');
+          return mediaTypes.includes(itemMediaType);
+        });
       }
 
-      // Filter by status
-      if (status === 'featured') {
-        visibleItems = visibleItems.filter(
-          (item) => item.getAttribute('data-featured') === 'true'
-        );
+      // Filter by statuses (if any selected)
+      if (statuses && statuses.length > 0) {
+        visibleItems = visibleItems.filter((item) => {
+          if (statuses.includes('featured')) {
+            return item.getAttribute('data-featured') === 'true';
+          }
+          if (statuses.includes('completed')) {
+            // Assuming all items are completed for now
+            return true;
+          }
+          return true;
+        });
+      }
+
+      // Filter by tags (if any selected)
+      if (tags && tags.length > 0) {
+        visibleItems = visibleItems.filter((item) => {
+          // This would need to be implemented based on how tags are stored in the item
+          // For now, we'll assume all items match
+          return true;
+        });
       }
 
       // Hide/show items
@@ -692,16 +640,13 @@ const description =
 
       portfolioItems.forEach((item) => {
         const title =
-          item
-            .querySelector('.portfolio-card__title')
-            ?.textContent?.toLowerCase() || '';
+          item.querySelector('.portfolio-title')?.textContent?.toLowerCase() ||
+          '';
         const description =
           item
-            .querySelector('.portfolio-card__description')
+            .querySelector('.portfolio-description')
             ?.textContent?.toLowerCase() || '';
-        const technologies = Array.from(
-          item.querySelectorAll('.portfolio-card__tech-tag')
-        )
+        const technologies = Array.from(item.querySelectorAll('.tech-tag'))
           .map((tech) => tech.textContent?.toLowerCase() || '')
           .join(' ');
 
