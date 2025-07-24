@@ -7,9 +7,11 @@
  * - Image optimization and caching
  * - Offline fallbacks
  * - Background sync for data updates
+ *
+ * v1.3.5 - FOUC fix: static assets now use cache-first (stale-while-revalidate) to prevent CSS flash
  */
 
-const CACHE_VERSION = 'v1.3.4'; // Fixed Headers immutable bug causing 404s
+const CACHE_VERSION = 'v1.3.5'; // Bump version to force update after FOUC fix
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;
 const IMAGE_CACHE = `images-${CACHE_VERSION}`;
@@ -182,40 +184,33 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
-// Handle static assets (CSS, JS, fonts) - less aggressive caching
+// Handle static assets (CSS, JS, fonts) - switch to cache-first (stale-while-revalidate)
 async function handleStaticAsset(request) {
+  const cache = await caches.open(STATIC_CACHE);
+  const cachedResponse = await cache.match(request);
+
+  if (cachedResponse && !isExpired(cachedResponse, CACHE_TTL.STATIC)) {
+    // Update cache in background
+    fetch(request, { cache: 'no-cache' })
+      .then((networkResponse) => {
+        if (networkResponse.ok) {
+          cache.put(request, addTimestamp(networkResponse.clone()));
+        }
+      })
+      .catch(() => {});
+    return cachedResponse;
+  }
+
+  // Not in cache or expired, fetch from network
   try {
-    // Try network first for better reliability
-    const networkResponse = await fetch(request, {
-      cache: 'no-cache', // Bypass browser cache for fresh content
-    });
-
+    const networkResponse = await fetch(request, { cache: 'no-cache' });
     if (networkResponse.ok) {
-      // Only cache successful responses
-      const cache = await caches.open(STATIC_CACHE);
-      const responseToCache = addTimestamp(networkResponse.clone());
-      cache.put(request, responseToCache).catch((error) => {
-        console.warn('[SW] Failed to cache static asset:', request.url, error);
-      });
+      cache.put(request, addTimestamp(networkResponse.clone()));
     }
-
     return networkResponse;
   } catch (error) {
-    console.warn(
-      '[SW] Static asset fetch failed, trying cache:',
-      request.url,
-      error
-    );
-
-    // Fallback to cache
-    const cache = await caches.open(STATIC_CACHE);
-    const cachedResponse = await cache.match(request);
-
-    if (cachedResponse && !isExpired(cachedResponse, CACHE_TTL.STATIC)) {
-      return cachedResponse;
-    }
-
-    // Return error response if nothing works
+    // Fallback to cache if available, even if expired
+    if (cachedResponse) return cachedResponse;
     return new Response('Asset not available', {
       status: 503,
       headers: { 'Content-Type': 'text/plain' },
