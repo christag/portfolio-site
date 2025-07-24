@@ -68,17 +68,12 @@ const {
     height: 100%;
     z-index: -1;
     overflow: hidden;
-    background: var(--glassmorphism-bg-light);
-
-    // Dark mode: much darker background closer to black
-    [data-theme='dark'] & {
-      background: linear-gradient(
-        135deg,
-        #030303 0%,
-        #080808 50%,
-        #0d0d0d 100%
-      ) !important;
-    }
+    background: linear-gradient(
+      135deg,
+      var(--color-bg-primary) 0%,
+      var(--color-bg-secondary) 50%,
+      var(--color-bg-tertiary) 100%
+    );
 
     // Performance optimizations
     will-change: auto;
