@@ -200,16 +200,36 @@ const sortFieldId = 'portfolio-sort';
 
       <!-- Sort Options -->
       <div class="portfolio-filter__section">
-        <label for={sortFieldId} class="portfolio-filter__sort-label">
-          Sort By
-        </label>
-        <select id={sortFieldId} name="sort" class="portfolio-filter__select">
-          <option value="priority">Priority (Featured first)</option>
-          <option value="newest">Newest First</option>
-          <option value="oldest">Oldest First</option>
-          <option value="title">Title (A-Z)</option>
-          <option value="mediaType">Media Type</option>
-        </select>
+        <div class="portfolio-filter__dropdown">
+          <button
+            type="button"
+            class="portfolio-filter__dropdown-toggle"
+            aria-expanded="false"
+            aria-haspopup="true"
+            data-dropdown="sort"
+          >
+            <span class="portfolio-filter__dropdown-label">Sort By</span>
+            <span class="portfolio-filter__dropdown-arrow">▼</span>
+          </button>
+          <div
+            class="portfolio-filter__dropdown-content"
+            data-dropdown-content="sort"
+          >
+            <div class="portfolio-filter__sort-wrapper">
+              <select
+                id={sortFieldId}
+                name="sort"
+                class="portfolio-filter__select"
+              >
+                <option value="priority">Priority (Featured first)</option>
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="title">Title (A-Z)</option>
+                <option value="mediaType">Media Type</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Search Input -->
@@ -410,15 +430,12 @@ const sortFieldId = 'portfolio-sort';
   }
 
   /* Sort Select */
-  .portfolio-filter__sort-label {
-    display: block;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin-bottom: 0.5rem;
-    font-size: 0.875rem;
+  .portfolio-filter__sort-wrapper {
+    padding: var(--space-sm);
   }
 
   .portfolio-filter__select {
+    width: 100%;
     padding: 0.75rem 1rem;
     background: var(--glass-bg-secondary);
     border: 1px solid var(--glass-border-medium);
@@ -427,7 +444,7 @@ const sortFieldId = 'portfolio-sort';
     font-size: 0.875rem;
     cursor: pointer;
     transition: all var(--transition-normal);
-    min-width: 180px;
+    min-width: 200px;
   }
 
   .portfolio-filter__select:focus {
@@ -727,6 +744,65 @@ const sortFieldId = 'portfolio-sort';
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
       };
+    }
+
+    // Handle sort dropdown separately since it contains a select
+    const sortDropdown = filterContainer.querySelector(
+      '[data-dropdown="sort"]'
+    );
+    if (sortDropdown) {
+      const sortSelect = filterContainer.querySelector(
+        '.portfolio-filter__select'
+      );
+
+      // Handle sort dropdown toggle
+      sortDropdown.addEventListener('click', function (e) {
+        e.preventDefault();
+        const content = filterContainer.querySelector(
+          '[data-dropdown-content="sort"]'
+        );
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+        // Close all other dropdowns
+        dropdownToggles.forEach((otherToggle) => {
+          if (otherToggle !== this) {
+            otherToggle.setAttribute('aria-expanded', 'false');
+            const otherContent = filterContainer.querySelector(
+              `[data-dropdown-content="${otherToggle.getAttribute('data-dropdown')}"]`
+            );
+            if (otherContent) {
+              otherContent.classList.remove('show');
+            }
+          }
+        });
+
+        // Toggle current dropdown
+        this.setAttribute('aria-expanded', !isExpanded);
+        if (content) {
+          content.classList.toggle('show', !isExpanded);
+        }
+      });
+
+      // Handle select change
+      sortSelect?.addEventListener('change', function () {
+        handleFilterChange({ target: this });
+        // Close the dropdown after selection
+        sortDropdown.setAttribute('aria-expanded', 'false');
+        const content = filterContainer.querySelector(
+          '[data-dropdown-content="sort"]'
+        );
+        if (content) {
+          content.classList.remove('show');
+        }
+      });
+
+      // Prevent dropdown from closing when clicking on select
+      const sortContent = filterContainer.querySelector(
+        '[data-dropdown-content="sort"]'
+      );
+      sortContent?.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
     }
 
     // Initialize
