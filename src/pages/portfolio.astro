@@ -58,20 +58,22 @@ const description =
 <Layout title={title} description={description}>
   <main class="portfolio-page">
     <!-- Hero Section -->
-    <section class="portfolio-hero" aria-labelledby="portfolio-title">
+    <section aria-labelledby="portfolio-title">
       <div class="container">
-        <header class="portfolio-hero__content">
-          <h1 id="portfolio-title" class="portfolio-hero__title">
-            I Did<span class="portfolio-hero__accent">.</span>
-          </h1>
-          <p class="portfolio-hero__description">
-            {
-              portfolioItems.length > 0
-                ? `A curated collection of ${portfolioItems.length} projects spanning ${availableMediaTypes.join(', ')} and more. Each piece tells a story of problem-solving, creativity, and technical execution.`
-                : 'A curated collection of creative and technical projects. Currently building this dynamic showcase - check back soon for the full experience!'
-            }
-          </p>
-        </header>
+        <div class="portfolio-hero">
+          <header class="portfolio-hero__content">
+            <h1 id="portfolio-title" class="portfolio-hero__title">
+              I Did<span class="portfolio-hero__accent">.</span>
+            </h1>
+            <p class="portfolio-hero__description">
+              {
+                portfolioItems.length > 0
+                  ? `A curated collection of ${portfolioItems.length} projects spanning ${availableMediaTypes.join(', ')} and more. Each piece tells a story of problem-solving, creativity, and technical execution.`
+                  : 'A curated collection of creative and technical projects. Currently building this dynamic showcase - check back soon for the full experience!'
+              }
+            </p>
+          </header>
+        </div>
       </div>
     </section>
 
