@@ -228,7 +228,7 @@ const misalignmentClass =
     border-radius: var(--glass-radius-lg);
     padding: 1.5rem;
     position: relative;
-    overflow: hidden;
+    overflow: visible; /* Changed from hidden to show expanded content */
     cursor: pointer;
 
     /* Auto height that expands as needed */
@@ -495,11 +495,23 @@ const misalignmentClass =
   @media (max-width: 768px) {
     .service-card {
       padding: 1.2rem;
-      height: 160px;
+      /* Remove fixed height - let content determine height */
+      min-height: 140px;
+      height: auto;
     }
 
+    /* On mobile, only expand on click, not hover */
     .service-card:hover {
-      height: 280px;
+      height: auto;
+      transform: none;
+    }
+
+    /* Expanded state on mobile */
+    .service-card.expanded {
+      height: auto;
+      max-height: none;
+      overflow: visible;
+      transform: translateY(-2px);
     }
 
     .misalign-left,
@@ -508,23 +520,35 @@ const misalignmentClass =
       margin: 0;
     }
 
-    .misalign-left:hover,
-    .misalign-right:hover {
-      transform: translateY(-6px);
+    .service-card.expanded.misalign-left,
+    .service-card.expanded.misalign-right {
+      transform: translateY(-2px);
     }
 
     .service-title {
       font-size: 1.1rem;
     }
+
+    /* Ensure expanded content is fully visible */
+    .service-expanded {
+      position: relative;
+      width: 100%;
+    }
+
+    /* Adjust footer spacing on mobile */
+    .service-footer {
+      padding-top: 0.75rem;
+    }
   }
 
   @media (max-width: 480px) {
     .service-card {
-      height: 140px;
+      padding: 1rem;
+      min-height: 120px;
     }
 
-    .service-card:hover {
-      height: 260px;
+    .service-title {
+      font-size: 1rem;
     }
   }
 

@@ -27,10 +27,23 @@ const sortFieldId = 'portfolio-sort';
 ---
 
 <div class={`portfolio-filter ${className}`} id="portfolio-filter">
+  <!-- Mobile Filter Toggle Button -->
+  <button
+    class="portfolio-filter__mobile-toggle"
+    type="button"
+    aria-label="Toggle filters"
+    aria-expanded="false"
+    id="mobile-filter-toggle"
+  >
+    <span class="mobile-toggle-text">Filters</span>
+    <span class="mobile-toggle-arrow">▼</span>
+  </button>
+
   <form
     class="portfolio-filter__form"
     role="search"
     aria-label="Filter portfolio items"
+    id="portfolio-filter-form"
   >
     <!-- Horizontal Filter Layout -->
     <div class="portfolio-filter__horizontal">
@@ -509,6 +522,38 @@ const sortFieldId = 'portfolio-sort';
     font-size: 0.875rem;
   }
 
+  /* Mobile Filter Toggle Button */
+  .portfolio-filter__mobile-toggle {
+    display: none;
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: var(--glass-bg-secondary);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid var(--glass-border-medium);
+    border-radius: var(--glass-radius);
+    color: var(--color-text-primary);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    margin-bottom: 1rem;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .portfolio-filter__mobile-toggle:hover {
+    background: var(--glass-bg-tertiary);
+    border-color: var(--color-accent-primary);
+  }
+
+  .mobile-toggle-arrow {
+    transition: transform var(--transition-normal);
+  }
+
+  .portfolio-filter__mobile-toggle[aria-expanded='true'] .mobile-toggle-arrow {
+    transform: rotate(180deg);
+  }
+
   /* Responsive Design */
   @media (max-width: 1024px) {
     .portfolio-filter__horizontal {
@@ -543,6 +588,27 @@ const sortFieldId = 'portfolio-sort';
       padding: var(--space-md);
     }
 
+    /* Show mobile toggle on small screens */
+    .portfolio-filter__mobile-toggle {
+      display: flex;
+    }
+
+    /* Hide form by default on mobile */
+    .portfolio-filter__form {
+      display: none;
+      background: var(--glass-bg-secondary);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border-medium);
+      border-radius: var(--glass-radius);
+      padding: 1rem;
+      margin-top: 0;
+    }
+
+    /* Show form when toggle is active */
+    .portfolio-filter__form.show {
+      display: block;
+    }
+
     .portfolio-filter__options--tags {
       max-height: 150px;
     }
@@ -572,6 +638,24 @@ const sortFieldId = 'portfolio-sort';
       '.portfolio-filter__search'
     );
     const resultsCount = filterContainer.querySelector('#results-count');
+
+    // Mobile filter toggle functionality
+    const mobileToggle = document.getElementById('mobile-filter-toggle');
+    const filterForm = document.getElementById('portfolio-filter-form');
+
+    if (mobileToggle && filterForm) {
+      mobileToggle.addEventListener('click', function () {
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+        if (isExpanded) {
+          this.setAttribute('aria-expanded', 'false');
+          filterForm.classList.remove('show');
+        } else {
+          this.setAttribute('aria-expanded', 'true');
+          filterForm.classList.add('show');
+        }
+      });
+    }
 
     // Dropdown functionality
     const dropdownToggles = filterContainer.querySelectorAll(
