@@ -1,4 +1,4 @@
-# Cache Control Headers for AWS CloudFront Optimization
+# Cache Control Headers for Cloudflare Pages Edge Optimization
 
 # Static assets - Long term caching with immutable flag
 /_astro/*
