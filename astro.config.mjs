@@ -19,7 +19,7 @@ export default defineConfig({
             // Separate vendor code for long-term caching
             vendor: ['astro/runtime'],
             // Separate utilities for better cache efficiency
-            utils: ['src/lib/strapi.ts', 'src/lib/content.ts'],
+            utils: ['src/lib/strapi.ts', 'src/lib/content.ts', 'src/lib/cache.ts'],
           },
           // Ensure consistent file naming for better caching
           entryFileNames: '_astro/[name].[hash].js',
@@ -49,11 +49,11 @@ export default defineConfig({
     // Split CSS for better caching
     split: true,
   },
-  // Prefetch configuration for better performance - TEMPORARILY DISABLED
-  // prefetch: {
-  //   prefetchAll: true, // Prefetch all internal links
-  //   defaultStrategy: 'viewport', // Prefetch when links enter viewport
-  // },
+  // Prefetch configuration for better performance - RE-ENABLED
+  prefetch: {
+    prefetchAll: true, // Prefetch all internal links
+    defaultStrategy: 'viewport', // Prefetch when links enter viewport
+  },
   // Environment variable configuration for build-time data fetching
   env: {
     schema: {

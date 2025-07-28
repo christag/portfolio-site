@@ -1,89 +1,78 @@
-# Cloudflare Pages Headers Configuration
+# Cache Control Headers for AWS CloudFront Optimization
 
-# Static assets (shorter caching to prevent corruption issues)
+# Static assets - Long term caching with immutable flag
 /_astro/*
-  Cache-Control: public, max-age=86400, must-revalidate
-  X-Content-Type-Options: nosniff
+  Cache-Control: public, max-age=31536000, immutable
   Vary: Accept-Encoding
 
-# Cache HTML files for 1 hour with revalidation
-/*.html
-  Cache-Control: public, max-age=3600, must-revalidate
+# Images - Medium term caching with stale-while-revalidate
+/*.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=43200
+  Vary: Accept-Encoding
 
-# Cache root and pages for 1 hour
-/
-  Cache-Control: public, max-age=3600, must-revalidate
+/*.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=43200
+  Vary: Accept-Encoding
 
-/portfolio
-  Cache-Control: public, max-age=600, stale-while-revalidate=300
-  X-Content-Type-Options: nosniff
-  X-Frame-Options: DENY
+/*.jpeg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=43200
+  Vary: Accept-Encoding
 
-/services
-  Cache-Control: public, max-age=600, stale-while-revalidate=300
-  X-Content-Type-Options: nosniff
-  X-Frame-Options: DENY
+/*.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=43200
+  Vary: Accept-Encoding
 
-/i-am
-  Cache-Control: public, max-age=1200, stale-while-revalidate=600
-  X-Content-Type-Options: nosniff
-  X-Frame-Options: DENY
+/*.avif
+  Cache-Control: public, max-age=86400, stale-while-revalidate=43200
+  Vary: Accept-Encoding
 
-# Service detail pages (longer caching)
-/services/*
-  Cache-Control: public, max-age=1800, stale-while-revalidate=900
-  X-Content-Type-Options: nosniff
-  X-Frame-Options: DENY
+/*.svg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=43200
+  Vary: Accept-Encoding
 
-# CSS and JS files (shorter caching to prevent corruption)
-/*.css
-  Cache-Control: public, max-age=86400, must-revalidate
-  X-Content-Type-Options: nosniff
-
-/*.js
-  Cache-Control: public, max-age=86400, must-revalidate
-  X-Content-Type-Options: nosniff
-
-# Fonts (long-term caching)
+# Fonts - Long term caching
 /*.woff2
   Cache-Control: public, max-age=31536000, immutable
-  Access-Control-Allow-Origin: *
+  Vary: Accept-Encoding
 
 /*.woff
   Cache-Control: public, max-age=31536000, immutable
-  Access-Control-Allow-Origin: *
+  Vary: Accept-Encoding
 
-/*.ttf
-  Cache-Control: public, max-age=31536000, immutable
-  Access-Control-Allow-Origin: *
+# HTML pages - Short term caching with revalidation
+/*.html
+  Cache-Control: public, max-age=300, stale-while-revalidate=600
+  Vary: Accept-Encoding
 
-# Manifest and service worker files
+# Root page
+/
+  Cache-Control: public, max-age=300, stale-while-revalidate=600
+  Vary: Accept-Encoding
+
+# Portfolio page - Medium caching due to dynamic content
+/portfolio
+  Cache-Control: public, max-age=600, stale-while-revalidate=300
+  Vary: Accept-Encoding
+
+# Services page - Longer caching
+/services
+  Cache-Control: public, max-age=1800, stale-while-revalidate=900
+  Vary: Accept-Encoding
+
+# Manifest and service worker - Short term caching
 /manifest.json
   Cache-Control: public, max-age=86400
-  X-Content-Type-Options: nosniff
+  Content-Type: application/manifest+json
 
 /sw.js
   Cache-Control: public, max-age=0, must-revalidate
-  X-Content-Type-Options: nosniff
+  Content-Type: application/javascript
 
-# Sitemap and robots
-/sitemap*.xml
-  Cache-Control: public, max-age=3600
-  X-Content-Type-Options: nosniff
-
-/robots.txt
-  Cache-Control: public, max-age=86400
-  X-Content-Type-Options: nosniff
-
-# Security headers for all content
+# Security headers for all routes
 /*
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-
-# API routes (if any)
-/api/*
-  Cache-Control: no-cache, no-store, must-revalidate 
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; 

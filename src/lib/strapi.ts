@@ -175,9 +175,42 @@ interface Portfolio {
   publishedAt: string;
 }
 
+interface CacheEntry<T> {
+  data: T;
+  timestamp: number;
+  ttl: number;
+  key: string;
+}
+
+interface CacheStats {
+  hits: number;
+  misses: number;
+  size: number;
+  hitRate: number;
+  totalRequests: number;
+}
+
+// Cache configuration for different content types
+const CACHE_TTL = {
+  PORTFOLIO: parseInt(import.meta.env.STRAPI_CACHE_TTL_MS || '600000'), // 10 minutes default
+  SERVICES: parseInt(import.meta.env.STRAPI_CACHE_TTL_MS || '1800000'), // 30 minutes default
+  BIO_ARTICLES: parseInt(import.meta.env.STRAPI_CACHE_TTL_MS || '900000'), // 15 minutes default
+  PROFILE: parseInt(import.meta.env.STRAPI_CACHE_TTL_MS || '1200000'), // 20 minutes default
+  SETTINGS: parseInt(import.meta.env.STRAPI_CACHE_TTL_MS || '3600000'), // 1 hour default
+} as const;
+
 class StrapiAPI {
   private baseURL: string;
   private apiToken?: string;
+  private cache: Map<string, CacheEntry<any>> = new Map();
+  private cacheStats: CacheStats = {
+    hits: 0,
+    misses: 0,
+    size: 0,
+    hitRate: 0,
+    totalRequests: 0,
+  };
+  private cacheEnabled: boolean;
 
   constructor() {
     // Use environment variables with fallbacks
@@ -187,12 +220,182 @@ class StrapiAPI {
       import.meta.env.STRAPI_URL ||
       'http://localhost:1337';
     this.apiToken = import.meta.env.STRAPI_API_TOKEN;
+    this.cacheEnabled = import.meta.env.ENABLE_BUILD_CACHE !== 'false';
+
+    // Initialize cache cleanup interval (run every 5 minutes)
+    if (this.cacheEnabled && typeof setInterval !== 'undefined') {
+      setInterval(() => this.cleanupExpiredCache(), 5 * 60 * 1000);
+    }
+  }
+
+  /**
+   * Generate cache key from endpoint and options
+   */
+  private generateCacheKey(endpoint: string, options?: RequestInit): string {
+    const method = options?.method || 'GET';
+    const body = options?.body || '';
+    return `${method}:${endpoint}:${body}`;
+  }
+
+  /**
+   * Check if cache entry is expired
+   */
+  private isCacheEntryExpired(entry: CacheEntry<any>): boolean {
+    return Date.now() - entry.timestamp > entry.ttl;
+  }
+
+  /**
+   * Get data from cache if available and not expired
+   */
+  private getCachedData<T>(key: string): T | null {
+    if (!this.cacheEnabled) return null;
+
+    const entry = this.cache.get(key);
+    if (!entry) {
+      this.cacheStats.misses++;
+      this.cacheStats.totalRequests++;
+      this.updateHitRate();
+      return null;
+    }
+
+    if (this.isCacheEntryExpired(entry)) {
+      this.cache.delete(key);
+      this.cacheStats.misses++;
+      this.cacheStats.totalRequests++;
+      this.updateHitRate();
+      return null;
+    }
+
+    this.cacheStats.hits++;
+    this.cacheStats.totalRequests++;
+    this.updateHitRate();
+    console.log(`🎯 Cache HIT for: ${key}`);
+    return entry.data;
+  }
+
+  /**
+   * Store data in cache with TTL
+   */
+  private setCachedData<T>(key: string, data: T, ttl: number): void {
+    if (!this.cacheEnabled) return;
+
+    const entry: CacheEntry<T> = {
+      data,
+      timestamp: Date.now(),
+      ttl,
+      key,
+    };
+
+    this.cache.set(key, entry);
+    this.cacheStats.size = this.cache.size;
+    console.log(`💾 Cached data for: ${key} (TTL: ${ttl}ms)`);
+  }
+
+  /**
+   * Update cache hit rate
+   */
+  private updateHitRate(): void {
+    this.cacheStats.hitRate =
+      this.cacheStats.totalRequests > 0
+        ? (this.cacheStats.hits / this.cacheStats.totalRequests) * 100
+        : 0;
+  }
+
+  /**
+   * Clean up expired cache entries
+   */
+  private cleanupExpiredCache(): void {
+    if (!this.cacheEnabled) return;
+
+    const now = Date.now();
+    let cleanedCount = 0;
+
+    for (const [key, entry] of this.cache.entries()) {
+      if (now - entry.timestamp > entry.ttl) {
+        this.cache.delete(key);
+        cleanedCount++;
+      }
+    }
+
+    if (cleanedCount > 0) {
+      this.cacheStats.size = this.cache.size;
+      console.log(`🧹 Cleaned up ${cleanedCount} expired cache entries`);
+    }
+  }
+
+  /**
+   * Invalidate cache by pattern or specific key
+   */
+  public invalidateCache(pattern?: string): void {
+    if (!this.cacheEnabled) return;
+
+    if (!pattern) {
+      // Clear all cache
+      const size = this.cache.size;
+      this.cache.clear();
+      this.cacheStats.size = 0;
+      console.log(`🗑️ Cleared all cache (${size} entries)`);
+      return;
+    }
+
+    // Clear cache entries matching pattern
+    let deletedCount = 0;
+    for (const [key] of this.cache.entries()) {
+      if (key.includes(pattern)) {
+        this.cache.delete(key);
+        deletedCount++;
+      }
+    }
+
+    this.cacheStats.size = this.cache.size;
+    console.log(
+      `🗑️ Invalidated ${deletedCount} cache entries matching: ${pattern}`
+    );
+  }
+
+  /**
+   * Get cache statistics
+   */
+  public getCacheStats(): CacheStats {
+    return { ...this.cacheStats };
+  }
+
+  /**
+   * Preload critical data for build-time optimization
+   */
+  public async preloadCriticalData(): Promise<void> {
+    if (!this.cacheEnabled) return;
+
+    console.log('🚀 Preloading critical data for build-time optimization...');
+
+    try {
+      await Promise.all([
+        this.getPortfolioItems(),
+        this.getServices(),
+        this.getSiteSettings(),
+        this.getAuthorProfile(),
+      ]);
+      console.log('✅ Critical data preloaded successfully');
+    } catch (error) {
+      console.warn('⚠️ Some critical data failed to preload:', error);
+    }
   }
 
   private async fetchAPI<T>(
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
+    // Generate cache key
+    const cacheKey = this.generateCacheKey(endpoint, options);
+
+    // Try to get from cache first (only for GET requests)
+    if (!options.method || options.method === 'GET') {
+      const cachedData = this.getCachedData<T>(cacheKey);
+      if (cachedData) {
+        return cachedData;
+      }
+    }
+
     const url = `${this.baseURL}/api${endpoint}`;
 
     const headers: Record<string, string> = {
@@ -206,6 +409,7 @@ class StrapiAPI {
     }
 
     try {
+      console.log(`🌐 Fetching from API: ${endpoint}`);
       const response = await fetch(url, {
         ...options,
         headers,
@@ -217,7 +421,29 @@ class StrapiAPI {
         );
       }
 
-      return await response.json();
+      const data = await response.json();
+
+      // Cache successful GET responses with appropriate TTL
+      if (!options.method || options.method === 'GET') {
+        let ttl = CACHE_TTL.PORTFOLIO; // Default TTL
+
+        // Set TTL based on endpoint
+        if (endpoint.includes('/portfolios')) {
+          ttl = CACHE_TTL.PORTFOLIO;
+        } else if (endpoint.includes('/services')) {
+          ttl = CACHE_TTL.SERVICES;
+        } else if (endpoint.includes('/bio-articles')) {
+          ttl = CACHE_TTL.BIO_ARTICLES;
+        } else if (endpoint.includes('/profile')) {
+          ttl = CACHE_TTL.PROFILE;
+        } else if (endpoint.includes('/settings')) {
+          ttl = CACHE_TTL.SETTINGS;
+        }
+
+        this.setCachedData(cacheKey, data, ttl);
+      }
+
+      return data;
     } catch (error) {
       console.error(`Failed to fetch from Strapi API: ${url}`, error);
       throw error;

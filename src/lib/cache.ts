@@ -204,7 +204,7 @@ export class CacheManager {
    * Invalidate all portfolio-related cache
    */
   static invalidatePortfolioCache(): void {
-    strapiAPI.invalidateCache('portfolio');
+    strapiAPI.invalidateCache('/portfolios');
     console.log('🗑️ Portfolio cache invalidated');
   }
 
@@ -212,7 +212,7 @@ export class CacheManager {
    * Invalidate services cache
    */
   static invalidateServicesCache(): void {
-    strapiAPI.invalidateCache('services');
+    strapiAPI.invalidateCache('/services');
     console.log('🗑️ Services cache invalidated');
   }
 
@@ -220,8 +220,8 @@ export class CacheManager {
    * Invalidate bio content cache
    */
   static invalidateBioCache(): void {
-    strapiAPI.invalidateCache('bio-articles');
-    strapiAPI.invalidateCache('profile');
+    strapiAPI.invalidateCache('/bio-articles');
+    strapiAPI.invalidateCache('/profile');
     console.log('🗑️ Bio content cache invalidated');
   }
 
@@ -238,6 +238,34 @@ export class CacheManager {
    */
   static getCacheStats() {
     return strapiAPI.getCacheStats();
+  }
+
+  /**
+   * Preload critical data for build-time optimization
+   */
+  static async preloadCriticalData(): Promise<void> {
+    console.log('🚀 Starting critical data preload...');
+
+    try {
+      await strapiAPI.preloadCriticalData();
+      console.log('✅ Critical data preload completed');
+    } catch (error) {
+      console.warn('⚠️ Critical data preload failed:', error);
+    }
+  }
+
+  /**
+   * Log current cache performance
+   */
+  static logCachePerformance(): void {
+    const stats = strapiAPI.getCacheStats();
+    console.log('📊 Cache Performance Stats:', {
+      hitRate: `${stats.hitRate.toFixed(2)}%`,
+      totalRequests: stats.totalRequests,
+      hits: stats.hits,
+      misses: stats.misses,
+      cacheSize: stats.size,
+    });
   }
 }
 
@@ -297,12 +325,16 @@ export async function preloadBuildData(): Promise<void> {
 
   try {
     await PerformanceMonitor.monitorApiCall('Build Data Preload', () =>
-      strapiAPI.preloadCriticalData()
+      CacheManager.preloadCriticalData()
     );
+
+    // Log cache performance after preloading
+    CacheManager.logCachePerformance();
 
     console.log('✅ Build-time data preload completed');
   } catch (error) {
     console.warn('⚠️ Build-time data preload failed:', error);
+    // Don't throw error to prevent build failures
   }
 }
 
