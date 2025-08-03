@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git fetch:*)",
+      "mcp__taskmaster__get_tasks",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_resize",
+      "mcp__strapi-mcp__list_content_types",
+      "mcp__playwright__browser_click",
+      "Bash(git add:*)",
+      "Bash(rm:*)",
+      "Bash(git commit:*)",
+      "Bash(npx prettier:*)",
+      "mcp__railway__project_list",
+      "mcp__railway__service_info",
+      "mcp__railway__service_restart",
+      "mcp__railway__domain_list"
+    ],
+    "deny": [],
+    "additionalDirectories": [
+      "C:\\Users\\Christopher\\dev\\website-cms"
+    ]
+  }
+}

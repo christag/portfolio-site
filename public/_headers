@@ -1,0 +1,31 @@
+/*
+  # Content Security Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://website-cms-production-96f5.up.railway.app https://booking.christagliaferro.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://booking.christagliaferro.com; upgrade-insecure-requests;
+  
+  # Security Headers
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  
+  # Performance Headers
+  Cache-Control: public, max-age=31536000, immutable
+
+# Static assets with longer cache
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML files with shorter cache
+/*.html
+  Cache-Control: public, max-age=300
+
+# Service Worker
+/sw.js
+  Cache-Control: public, max-age=0

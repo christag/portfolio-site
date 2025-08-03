@@ -90,19 +90,20 @@ const { currentPath = '/' } = Astro.props;
     /* MOBILE FIX: Reduce height on mobile */
   }
 
-  /* Mobile-specific height reduction */
+  /* Mobile-specific height reduction and touch improvements */
   @media (max-width: 767px) {
     .nav-content {
-      padding: 0.75rem 0;
-      min-height: 56px;
+      padding: 0.5rem 0;
+      min-height: 48px; /* Reduced from 56px */
     }
 
     .nav-inner {
-      padding: 0 1rem; /* Reduce horizontal padding on mobile */
+      padding: 0 0.75rem; /* Reduced padding */
     }
 
     .nav-logo {
-      font-size: 1.125rem; /* Slightly smaller on mobile */
+      font-size: 1rem; /* Smaller on mobile */
+      line-height: 1.2;
     }
   }
 
@@ -176,23 +177,29 @@ const { currentPath = '/' } = Astro.props;
     border-color: var(--color-accent-primary);
   }
 
-  /* Mobile Toggle */
+  /* Mobile Toggle - Improved touch target */
   .mobile-toggle {
     display: block;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    padding: 0.5rem;
+    border: none; /* Remove border for cleaner look */
+    border-radius: 10px;
+    padding: 0.625rem; /* Increased for better touch target (44x44px min) */
     cursor: pointer;
     color: var(--color-text-primary);
     transition: all 0.3s ease;
+    /* Ensure minimum touch target size */
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .mobile-toggle:hover {
-    background: rgba(184, 134, 154, 0.1);
-    border-color: var(--color-accent-primary);
+    background: rgba(184, 134, 154, 0.15);
+    transform: scale(1.05);
   }
 
   .mobile-toggle svg {
@@ -207,41 +214,47 @@ const { currentPath = '/' } = Astro.props;
     }
   }
 
-  /* Mobile Menu - Beautiful Glassmorphism with proper dark mode */
+  /* Mobile Menu - Clean Glassmorphism without problematic borders */
   .mobile-menu {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    /* Fix positioning and width to prevent full-width background */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    /* Remove problematic border that causes rendering issues */
+    border: none;
+    /* Cleaner shadow without artifacts */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    /* Improved positioning to prevent background issues */
     position: absolute;
     top: 100%;
     right: 0;
     z-index: 1000;
-    min-width: 260px;
-    max-width: 320px;
+    min-width: 280px;
+    max-width: 340px;
     width: max-content;
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
-    /* Remove any problematic positioning */
-    margin: 0.5rem 1rem 0 0 !important;
-    transform: none !important;
-    left: auto !important;
+    /* Clean positioning */
+    margin: 0.75rem 1rem 0 0;
+    /* Add subtle inner border for definition */
+    outline: 1px solid rgba(255, 255, 255, 0.3);
+    outline-offset: -1px;
   }
 
-  /* Dark theme mobile menu - FROSTED GLASS WITH BETTER READABILITY */
+  /* Dark theme mobile menu - Clean glassmorphism */
   html[data-theme='dark'] .mobile-menu {
-    /* Frosted glass with enough opacity for text readability */
-    background: rgba(0, 0, 0, 0.5) !important;
-    backdrop-filter: blur(20px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.6) !important;
+    background: rgba(0, 0, 0, 0.7) !important;
+    backdrop-filter: blur(16px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+    /* Remove border completely for clean look */
+    border: none !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    /* Dark theme outline */
+    outline: 1px solid rgba(255, 255, 255, 0.15) !important;
+    outline-offset: -1px !important;
   }
 
   .mobile-menu-content {
-    padding: 0.5rem;
+    padding: 0.75rem;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -249,13 +262,13 @@ const { currentPath = '/' } = Astro.props;
 
   .mobile-link {
     display: block;
-    padding: 0.625rem 1rem; /* Reduced padding to maintain same total height */
-    font-weight: 700; /* Bolder font */
-    font-size: 1.125rem; /* Bigger font - 18px */
+    padding: 0.875rem 1.25rem; /* Increased padding for better touch targets */
+    font-weight: 600; /* Reduced from 700 for better readability */
+    font-size: 1.125rem; /* 18px */
     text-decoration: none;
     color: var(--color-text-primary);
     font-family: var(--font-body);
-    border-radius: 12px;
+    border-radius: 14px;
     transition: all 0.3s ease;
     background: none;
     border: none;
@@ -264,6 +277,10 @@ const { currentPath = '/' } = Astro.props;
     cursor: pointer;
     margin: 0.125rem 0;
     position: relative;
+    /* Ensure minimum touch target */
+    min-height: 44px;
+    display: flex;
+    align-items: center;
   }
 
   /* Ensure text is visible in dark mode - soft white instead of pure white */
@@ -297,17 +314,25 @@ const { currentPath = '/' } = Astro.props;
 
   .mobile-theme-button {
     font-size: inherit;
-    font-weight: 500;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    background: rgba(184, 134, 154, 0.1);
+    border: none;
     margin-top: 0.25rem;
     color: var(--color-text-primary);
+    border-radius: 14px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
   }
 
   [data-theme='dark'] .mobile-theme-button {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
+    background: rgba(184, 134, 154, 0.15) !important;
     color: #f5f5f0 !important;
+  }
+
+  .mobile-theme-button:hover {
+    background: rgba(184, 134, 154, 0.2);
+    transform: scale(1.02);
   }
 
   /* Utility */

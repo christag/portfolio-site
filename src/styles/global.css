@@ -221,8 +221,11 @@
     -webkit-overflow-scrolling: touch;
     /* Prevent text scaling on orientation change */
     -webkit-text-size-adjust: 100%;
-    /* Improve touch responsiveness */
-    touch-action: manipulation;
+    /* Enhanced touch controls for mobile */
+    touch-action: pan-y pinch-zoom;
+    /* Prevent overscroll bounce on mobile */
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: auto;
   }
 
   /* Brutalist heading styles */
