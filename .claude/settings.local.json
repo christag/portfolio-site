@@ -15,11 +15,14 @@
       "mcp__railway__project_list",
       "mcp__railway__service_info",
       "mcp__railway__service_restart",
-      "mcp__railway__domain_list"
+      "mcp__railway__domain_list",
+      "Bash(git push:*)",
+      "mcp__github__list_commits",
+      "Bash(npm run dev:*)",
+      "Bash(git reset:*)",
+      "Bash(npx lint-staged:*)"
     ],
     "deny": [],
-    "additionalDirectories": [
-      "C:\\Users\\Christopher\\dev\\website-cms"
-    ]
+    "additionalDirectories": ["C:\\Users\\Christopher\\dev\\website-cms"]
   }
 }

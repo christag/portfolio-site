@@ -23,13 +23,14 @@
   // ---------------------------------------------------------------------------
   // GLASSMORPHISM SYSTEM
   // ---------------------------------------------------------------------------
-  --glass-bg-primary: rgba(255, 255, 255, 0.15);
-  --glass-bg-secondary: rgba(255, 255, 255, 0.2);
-  --glass-bg-tertiary: rgba(255, 255, 255, 0.25);
+  // Light mode: Use darker tints for better contrast on light backgrounds
+  --glass-bg-primary: rgba(248, 244, 246, 0.45); // Subtle pink-tinted glass
+  --glass-bg-secondary: rgba(240, 235, 238, 0.55); // Slightly stronger
+  --glass-bg-tertiary: rgba(235, 230, 233, 0.65); // Even stronger
 
-  --glass-border-light: rgba(255, 255, 255, 0.5);
-  --glass-border-medium: rgba(255, 255, 255, 0.3);
-  --glass-border-heavy: rgba(255, 255, 255, 0.7);
+  --glass-border-light: rgba(184, 134, 154, 0.25); // Pink-tinted borders
+  --glass-border-medium: rgba(184, 134, 154, 0.35); // More visible
+  --glass-border-heavy: rgba(184, 134, 154, 0.5); // Strong accent
 
   --glass-blur-button: 16px;
   --glass-blur-container: 20px;
@@ -39,9 +40,9 @@
   --glass-radius-sm: 16px;
   --glass-radius-lg: 32px;
 
-  --glass-shadow-light: rgba(0, 0, 0, 0.1);
-  --glass-shadow-medium: rgba(0, 0, 0, 0.15);
-  --glass-shadow-heavy: rgba(0, 0, 0, 0.2);
+  --glass-shadow-light: rgba(184, 134, 154, 0.08); // Pink-tinted shadows
+  --glass-shadow-medium: rgba(184, 134, 154, 0.12);
+  --glass-shadow-heavy: rgba(184, 134, 154, 0.18);
 
   // ---------------------------------------------------------------------------
   // SPACING SCALE
@@ -103,39 +104,45 @@
   background: linear-gradient(
     135deg,
     var(--glass-bg-primary),
-    rgba(255, 255, 255, 0.02)
+    var(--glass-bg-secondary)
   );
   backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
   -webkit-backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
   border: 1px solid var(--glass-border-medium);
   border-radius: var(--glass-radius);
-  box-shadow: 0 8px 32px var(--glass-shadow-light);
+  box-shadow:
+    0 8px 32px var(--glass-shadow-light),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .glass-button {
   background: linear-gradient(
     135deg,
     var(--glass-bg-primary),
-    rgba(255, 255, 255, 0.02)
+    var(--glass-bg-secondary)
   );
   backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
   -webkit-backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
   border: 1px solid var(--glass-border-medium);
   border-radius: var(--glass-radius-sm);
-  box-shadow: 0 4px 16px var(--glass-shadow-light);
+  box-shadow:
+    0 4px 16px var(--glass-shadow-light),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transition: all var(--transition-normal);
 }
 
 .glass-nav {
   background: linear-gradient(
-    135deg,
+    to bottom,
     var(--glass-bg-secondary),
-    rgba(255, 255, 255, 0.02)
+    var(--glass-bg-primary)
   );
   backdrop-filter: blur(var(--glass-blur-navigation)) saturate(200%);
   -webkit-backdrop-filter: blur(var(--glass-blur-navigation)) saturate(200%);
   border-bottom: 1px solid var(--glass-border-light);
-  box-shadow: 0 8px 32px var(--glass-shadow-light);
+  box-shadow:
+    0 8px 32px var(--glass-shadow-medium),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
 // =============================================================================

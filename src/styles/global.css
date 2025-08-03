@@ -947,4 +947,45 @@
   .section-wrapper {
     padding: var(--section-spacing) 0;
   }
+
+  /* ==========================================================================
+     MOBILE SPACING FIXES
+     ========================================================================== */
+
+  /* Account for fixed footer on all pages */
+  main {
+    padding-bottom: 4rem; /* Space for fixed footer */
+  }
+
+  /* Mobile-specific adjustments */
+  @media (max-width: 768px) {
+    main {
+      padding-bottom: 3.5rem; /* Slightly less on mobile */
+    }
+
+    /* Reduce vertical spacing between sections on mobile */
+    section {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+
+    /* Compact hero sections on mobile */
+    .hero-section,
+    [class*='hero'] {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+  }
+
+  /* Very small screens */
+  @media (max-width: 480px) {
+    main {
+      padding-bottom: 3rem; /* Even less for tiny screens */
+    }
+
+    section {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+  }
 }
