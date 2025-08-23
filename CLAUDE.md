@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Context & Transition Notes
 
-### Current Situation (as of 2025-08-03)
+### Current Situation (as of 2025-08-23)
 
 - **Previous Development**: Project was developed using Claude API via Cursor
 - **Task Management**: Initially set up with Taskmaster, but frequent direction changes have made the current PRD and task list potentially outdated
@@ -88,16 +88,13 @@ This implementation breaks from typical "frosted glass" approaches with **breakt
 - **Adaptive Tinting**: Dynamic color overlays responding to background content
 - **Spatial Depth**: Proper layering hierarchy with soft shadows and inner highlights
 
-### Background Animation Systems (IMPORTANT)
+### Background Animation System
 
-There are **4 distinct background systems** - be specific when discussing modifications:
+The site uses a unified background animation system with glassmorphism effects:
 
-1. **Primary System**: `src/components/DynamicBackground.astro` (main glassmorphism background)
-2. **Services Canvas**: `src/pages/services.astro` (line ~818, canvas-based particles)
-3. **Test Component**: `src/components/TestBackground.astro` (development only)
-4. **Static Assets**: `src/assets/background.svg` (file-based backgrounds)
-
-When modifying backgrounds, always specify which system to avoid confusion.
+- **Primary Component**: `src/components/DynamicBackground.astro` - Main animated background with glassmorphism
+- **Services Enhancement**: The services page includes additional canvas-based particle effects for visual interest
+- **Development Testing**: `src/components/TestBackground.astro` available for experimentation (not used in production)
 
 ### Content Management Architecture
 

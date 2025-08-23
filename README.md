@@ -271,15 +271,12 @@ npm run task-master  # Access task management CLI
 - **TypeScript to JavaScript**: Resolved compilation issues
 - **Schema Validation**: Fixed plural name conflicts with Strapi built-ins
 
-## 🎨 Background Animation Systems
+## 🎨 Background Animation System
 
-> **⚠️ Important for AI Assistant Interactions**: This website has **4 distinct background systems**. When discussing background animations, please be specific about which system you're referencing to avoid confusion.
-
-### 1. **Primary System: `DynamicBackground.astro`** 🎯
+### **Primary Background: `DynamicBackground.astro`** 🎯
 
 **Location**: `src/components/DynamicBackground.astro`
-**Usage**: Main animated background component used site-wide
-**Deployed on**: All pages via `Layout.astro`
+**Usage**: Main animated background component used site-wide via `Layout.astro`
 
 **Active Elements**:
 
@@ -288,7 +285,7 @@ npm run task-master  # Access task management CLI
 - ✅ **Color Sparkles**: Small pink accent dots (light mode only)
 - ✅ **Contrast Elements**: 4 pulsing circular elements for depth
 - ✅ **Glitch Overlay**: Occasional sweep effect across the screen
-- ❌ **Floating Particles**: DISABLED (were small circular elements - removed per user request)
+- ❌ **Floating Particles**: DISABLED (removed per user preference)
 
 **Configuration**:
 
@@ -319,84 +316,42 @@ npm run task-master  # Access task management CLI
 - Disabled on devices with < 1GB RAM
 - Mobile optimization with reduced opacity
 
-### 2. **Services Page Particle System** 🌟
+### **Services Page Enhancement** 🌟
 
-**Location**: `src/pages/services.astro` (lines 818-890)
-**Usage**: Canvas-based particle animation specific to services page only
-**Technology**: HTML5 Canvas with JavaScript animation loop
-
-**Features**:
+The services page includes additional canvas-based particle effects for visual interest:
 
 - 20 small circular particles floating across canvas
 - Uses CSS `--accent-primary` color
 - Wraps around edges
 - Respects `prefers-reduced-motion`
-- Independent of `DynamicBackground.astro`
+- Works alongside the main `DynamicBackground` component
 
-### 3. **Test Background Component** 🧪
+### 🔧 **How to Modify Background Animation**
 
-**Location**: `src/components/TestBackground.astro`
-**Usage**: Debug/development component - NOT used in production
-**Purpose**: Quick testing of background rendering issues
-
-**What it does**:
-
-- Rainbow gradient background (red/green/blue)
-- Yellow pulsing dot in top-left
-- "BACKGROUND TEST" text overlay
-- **Note**: This is for debugging only, not part of the main site
-
-### 4. **Static Background Assets** 🖼️
-
-**Location**: `src/assets/background.svg`
-**Usage**: Static SVG background (if used)
-**Type**: Non-animated, file-based background
-
----
-
-### 🔧 **How to Modify Each System**
-
-#### **To modify the main glassmorphism background**:
+#### **To modify the main background**:
 
 ```bash
-# Edit the primary background system
+# Edit the primary background component
 vim src/components/DynamicBackground.astro
 ```
 
-#### **To modify services page particles**:
+#### **To adjust services page particles**:
 
 ```bash
 # Edit the canvas animation in services page
-vim src/pages/services.astro  # Look for line ~818
+vim src/pages/services.astro  # Look around line ~560-630
 ```
 
-#### **To disable/enable background systems**:
+#### **To toggle background features**:
 
 ```astro
-<!-- In Layout.astro, comment/uncomment: -->
+<!-- In Layout.astro, adjust props: -->
 <DynamicBackground
   intensity="medium"
   colorAccents={true}
   glitchEffects={true}
 />
 ```
-
----
-
-### 🎯 **Quick Reference for AI Assistants**
-
-When discussing background modifications, please specify:
-
-| **Request Example**                | **Correct System**      | **File to Modify**                       |
-| ---------------------------------- | ----------------------- | ---------------------------------------- |
-| "Remove the floating blue circles" | DynamicBackground.astro | `src/components/DynamicBackground.astro` |
-| "Make glitch lines thinner"        | DynamicBackground.astro | `src/components/DynamicBackground.astro` |
-| "Change services page particles"   | Services Canvas System  | `src/pages/services.astro`               |
-| "Debug background rendering"       | TestBackground.astro    | `src/components/TestBackground.astro`    |
-| "The main animated background"     | DynamicBackground.astro | `src/components/DynamicBackground.astro` |
-
-**✅ Good**: "Can we reduce the opacity of the glitch lines in the DynamicBackground component?"
-**❌ Confusing**: "Can we change the background animation?" (Which system?)
 
 ## 🎯 Project Management with Taskmaster AI
 
