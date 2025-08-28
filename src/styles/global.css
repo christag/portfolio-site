@@ -653,7 +653,7 @@
     padding-right: var(--container-padding, 1rem);
   }
 
-  /* Ensure all glass components respect boundaries */
+  /* Ensure all glass components respect boundaries and use proper styling */
   .glass-primary,
   .glass-secondary,
   .glass-tertiary,
@@ -663,8 +663,21 @@
     box-sizing: border-box;
     word-wrap: break-word;
     hyphens: auto;
-    /* Remove overflow-x: hidden to prevent drop shadow cutoff */
-    /* overflow-x: hidden; */
+    /* Apply enhanced glassmorphism styling */
+    @apply glass-panel;
+  }
+
+  /* Legacy glass utility classes mapped to new design tokens */
+  .glass-primary {
+    @apply glass-panel;
+  }
+
+  .glass-secondary {
+    @apply glass-subtle;
+  }
+
+  .glass-tertiary {
+    @apply glass-card;
   }
 
   /* Prevent any element from creating horizontal overflow */

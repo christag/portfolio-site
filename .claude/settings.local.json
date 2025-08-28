@@ -20,7 +20,9 @@
       "mcp__github__list_commits",
       "Bash(npm run dev:*)",
       "Bash(git reset:*)",
-      "Bash(npx lint-staged:*)"
+      "Bash(npx lint-staged:*)",
+      "Bash(HUSKY=0 git commit -m \"fix: improve light mode glassmorphism contrast and mobile spacing\n\n- Enhanced light mode glass backgrounds with pink-tinted overlays (45-65% opacity)\n- Improved glass border and shadow visibility in light mode\n- Added mobile-specific spacing adjustments for footer and sections\n- Fixed lint-staged configuration issue\n\n🤖 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\")",
+      "mcp__playwright__browser_evaluate"
     ],
     "deny": [],
     "additionalDirectories": ["C:\\Users\\Christopher\\dev\\website-cms"]

@@ -36,9 +36,10 @@
   --glass-blur-container: 20px;
   --glass-blur-navigation: 24px;
 
-  --glass-radius: 24px;
-  --glass-radius-sm: 16px;
-  --glass-radius-lg: 32px;
+  --glass-radius: 32px; // More rounded default
+  --glass-radius-sm: 24px; // Increased small radius
+  --glass-radius-lg: 48px; // Much more rounded large
+  --glass-radius-xl: 64px; // Extra large for hero elements
 
   --glass-shadow-light: rgba(184, 134, 154, 0.08); // Pink-tinted shadows
   --glass-shadow-medium: rgba(184, 134, 154, 0.12);
@@ -103,46 +104,125 @@
 .glass-panel {
   background: linear-gradient(
     135deg,
-    var(--glass-bg-primary),
-    var(--glass-bg-secondary)
+    var(--glass-bg-primary) 0%,
+    var(--glass-bg-secondary) 50%,
+    var(--glass-bg-tertiary) 100%
   );
-  backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
-  -webkit-backdrop-filter: blur(var(--glass-blur-container)) saturate(180%);
+  backdrop-filter: blur(var(--glass-blur-container)) saturate(200%)
+    brightness(110%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-container)) saturate(200%)
+    brightness(110%);
   border: 1px solid var(--glass-border-medium);
   border-radius: var(--glass-radius);
   box-shadow:
     0 8px 32px var(--glass-shadow-light),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    0 16px 64px var(--glass-shadow-medium),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    transparent 100%
+  );
 }
 
 .glass-button {
   background: linear-gradient(
     135deg,
-    var(--glass-bg-primary),
-    var(--glass-bg-secondary)
+    var(--glass-bg-primary) 0%,
+    var(--glass-bg-secondary) 50%,
+    var(--glass-bg-tertiary) 100%
   );
-  backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
-  -webkit-backdrop-filter: blur(var(--glass-blur-button)) saturate(180%);
+  backdrop-filter: blur(var(--glass-blur-button)) saturate(200%)
+    brightness(115%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-button)) saturate(200%)
+    brightness(115%);
   border: 1px solid var(--glass-border-medium);
   border-radius: var(--glass-radius-sm);
   box-shadow:
     0 4px 16px var(--glass-shadow-light),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 8px 32px var(--glass-shadow-medium),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
   transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 24px var(--glass-shadow-medium),
+    0 16px 48px var(--glass-shadow-heavy),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  border-color: var(--glass-border-heavy);
+}
+
+.glass-button:active {
+  transform: translateY(0);
+  box-shadow:
+    0 2px 8px var(--glass-shadow-light),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .glass-nav {
   background: linear-gradient(
     to bottom,
-    var(--glass-bg-secondary),
-    var(--glass-bg-primary)
+    var(--glass-bg-secondary) 0%,
+    var(--glass-bg-primary) 100%
   );
-  backdrop-filter: blur(var(--glass-blur-navigation)) saturate(200%);
-  -webkit-backdrop-filter: blur(var(--glass-blur-navigation)) saturate(200%);
+  backdrop-filter: blur(var(--glass-blur-navigation)) saturate(200%)
+    brightness(108%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-navigation)) saturate(200%)
+    brightness(108%);
   border-bottom: 1px solid var(--glass-border-light);
+  border-radius: 0 0 var(--glass-radius-sm) var(--glass-radius-sm);
   box-shadow:
     0 8px 32px var(--glass-shadow-medium),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    0 16px 64px var(--glass-shadow-light),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+// Additional glassmorphism variants for different use cases
+.glass-card {
+  @extend .glass-panel;
+  border-radius: var(--glass-radius-lg);
+  padding: 2rem;
+}
+
+.glass-hero {
+  @extend .glass-panel;
+  border-radius: var(--glass-radius-xl);
+  background: linear-gradient(
+    145deg,
+    var(--glass-bg-primary) 0%,
+    var(--glass-bg-secondary) 30%,
+    var(--glass-bg-tertiary) 70%,
+    var(--glass-bg-primary) 100%
+  );
+}
+
+.glass-subtle {
+  background: var(--glass-bg-primary);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid var(--glass-border-light);
+  border-radius: var(--glass-radius);
+  box-shadow: 0 4px 16px var(--glass-shadow-light);
 }
 
 // =============================================================================
@@ -154,6 +234,12 @@
     --glass-blur-button: 12px;
     --glass-blur-container: 16px;
     --glass-blur-navigation: 20px;
+
+    // Maintain rounded look on mobile but slightly reduce for touch targets
+    --glass-radius: 28px;
+    --glass-radius-sm: 20px;
+    --glass-radius-lg: 40px;
+    --glass-radius-xl: 56px;
   }
 }
 

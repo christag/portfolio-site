@@ -63,7 +63,12 @@
     "sharp": "^0.34.3"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,astro}": "prettier --write",
-    "*.{json,md,css,scss}": "prettier --write"
+    "*.{js,jsx,ts,tsx,astro}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css,scss}": [
+      "prettier --write"
+    ]
   }
 }
